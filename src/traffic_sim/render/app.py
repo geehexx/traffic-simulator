@@ -104,9 +104,18 @@ class TrafficSimWindow(arcade.Window):
 
     def _draw_vehicles(self) -> None:
         scale = self._scale_px()
-        for x_m, y_m, theta, length_m, width_m in self.sim.vehicle_draw_data():
+        for idx, (x_m, y_m, theta, length_m, width_m) in enumerate(self.sim.vehicle_draw_data()):
             x, y = self._world_to_screen(x_m, y_m)
-            arcade.draw_rectangle_filled(x, y, width_m * scale, length_m * scale, arcade.color.SKY_BLUE, angle=-(theta * 180.0 / 3.141592653589793))
+            # Use per-vehicle color
+            color = self.sim.vehicles[idx].color_rgb
+            arcade.draw_rectangle_filled(
+                x,
+                y,
+                width_m * scale,
+                length_m * scale,
+                color,
+                angle=-(theta * 180.0 / 3.141592653589793),
+            )
 
 
 def main(cfg_path: Optional[str] = None) -> None:

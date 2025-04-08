@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
+import random
 
 from traffic_sim.core.track import StadiumTrack
 from traffic_sim.config.loader import get_nested
@@ -32,6 +33,7 @@ class Simulation:
             get_nested(cfg, "track.safety_design_speed_kmh", 120.0)
         )
         self.vehicles: List[Vehicle] = []
+        self.speed_factor = float(get_nested(cfg, "physics.speed_factor", 1.0))
         self._spawn_initial_vehicles()
 
     def compute_safety_panel(self) -> Dict[str, float | bool]:
@@ -48,6 +50,8 @@ class Simulation:
     # --- Spawning and updates (very simple scaffold) ---
     def _spawn_initial_vehicles(self) -> None:
         count = int(get_nested(self.cfg, "vehicles.count", 20))
+        color_seed = get_nested(self.cfg, "vehicles.color_random_seed", None)
+        rng = random.Random(color_seed) if color_seed is not None else random.Random()
         L = self.track.total_length
         spacing = L / max(1, count)
         # Use a subset of catalog entries, cycle if needed
@@ -60,12 +64,15 @@ class Simulation:
                 mass_kg=entry.mass_kg,
             )
             state = VehicleState(s_m=i * spacing, v_mps=20.0, a_mps2=0.0)
-            self.vehicles.append(Vehicle(spec, state))
+            color = (rng.randint(40, 230), rng.randint(40, 230), rng.randint(40, 230))
+            self.vehicles.append(Vehicle(spec, state, color_rgb=color))
 
     def step(self, dt_s: float) -> None:
         # Temporary scaffold: uniform motion around the loop
+        sf = max(0.0, float(self.speed_factor))
+        eff_dt = dt_s * sf
         for v in self.vehicles:
-            v.state.s_m = (v.state.s_m + v.state.v_mps * dt_s) % self.track.total_length
+            v.state.s_m = (v.state.s_m + v.state.v_mps * eff_dt) % self.track.total_length
 
     def vehicle_draw_data(self) -> List[Tuple[float, float, float, float, float]]:
         """Return list of (x,y,theta,length,width) for drawing."""
