@@ -35,7 +35,14 @@ def test_safety_flag_toggles_with_length():
     sim_short = Simulation(cfg)
     assert sim_short.compute_safety_panel()["unsafe"] is True
     # Longer length should move toward safe
-    cfg["track"]["length_m"] = 4000.0
+    # Compute required length using the same formula: L_needed = 2π R_min / (1 - r)
+    r = cfg["track"].get("straight_fraction", 0.30)
+    V = cfg["track"]["safety_design_speed_kmh"]
+    e = cfg["track"]["superelevation_e"]
+    f = cfg["track"]["side_friction_f"]
+    R_min = (V * V) / (127.0 * (e + f))
+    L_needed = (2.0 * 3.141592653589793 * R_min) / (1.0 - r)
+    cfg["track"]["length_m"] = L_needed + 1.0
     sim_long = Simulation(cfg)
     assert sim_long.compute_safety_panel()["unsafe"] is False
 
