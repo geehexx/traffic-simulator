@@ -1,0 +1,37 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: Create/refresh environment with uv and install dev deps
+    cmds:
+      - uv sync --dev
+
+  test:
+    desc: Run test suite with coverage
+    cmds:
+      - uv run pytest --cov=traffic_sim --cov-report=term-missing
+
+  run:
+    desc: Run the simulator
+    cmds:
+      - uv run python -m traffic_sim
+
+  lint:
+    desc: Run ruff
+    cmds:
+      - uv run ruff check src tests
+
+  format:
+    desc: Run black in check mode (remove --check to autoformat)
+    cmds:
+      - uv run black --check src tests
+
+  precommit:install:
+    desc: Install pre-commit hooks
+    cmds:
+      - uv run pre-commit install
+
+  precommit:run:
+    desc: Run pre-commit on all files
+    cmds:
+      - uv run pre-commit run --all-files

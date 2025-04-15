@@ -16,15 +16,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Sync env
+        run: uv sync --dev
       - name: Run tests with coverage
-        run: |
-          pytest --cov=traffic_sim --cov-report=term-missing -q
+        run: uv run pytest --cov=traffic_sim --cov-report=term-missing -q
 
 

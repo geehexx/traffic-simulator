@@ -1,3 +1,41 @@
+[project]
+name = "traffic-simulator"
+version = "0.1.0"
+description = "2D traffic simulation with arcade+pymunk, statistical drivers, safety analytics"
+authors = [{ name = "Project Authors" }]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { file = "LICENSE" }
+
+dependencies = [
+	"arcade>=3.0.0",
+	"pymunk>=6.5.0",
+	"pyyaml>=6.0",
+	"numpy>=1.26",
+]
+
+[project.optional-dependencies]
+_dev = [
+	"pytest>=8.3.2",
+	"pytest-cov>=5.0.0",
+	"hypothesis>=6.111.0",
+	"pre-commit>=3.8.0",
+	"ruff>=0.6.0",
+	"black>=24.8.0",
+]
+
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.uv]
+# uv will read project metadata and manage lock/sync
+
+[tool.pytest.ini_options]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+
+[tool.black]
+line-length = 100
