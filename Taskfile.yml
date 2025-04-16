@@ -4,12 +4,12 @@ tasks:
   setup:
     desc: Create/refresh environment with uv and install dev deps
     cmds:
-      - uv sync --dev
+      - uv sync --extra dev
 
   test:
     desc: Run test suite with coverage
     cmds:
-      - uv run pytest --cov=traffic_sim --cov-report=term-missing
+      - uv run python -m pytest --cov=traffic_sim --cov-report=term-missing
 
   run:
     desc: Run the simulator

@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-_dev = [
+dev = [
 	"pytest>=8.3.2",
 	"pytest-cov>=5.0.0",
 	"hypothesis>=6.111.0",
