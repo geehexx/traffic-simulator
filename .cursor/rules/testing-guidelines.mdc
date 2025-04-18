@@ -1,0 +1,19 @@
+---
+globs: tests/**/*.py
+description: Testing guidance for geometry, simulation, and safety
+---
+# Testing Guidelines
+
+- Property tests should cover:
+  - Stadium length reconstruction: `L ≈ 2πR + 2S` within tolerance.
+  - Safe speed/radius inverse consistency across ranges of `V, e, f`.
+- Simulation tests should cover:
+  - `speed_factor` effects on arc-length advancement.
+  - Seeded color generation determinism.
+  - Safety flag toggling when `length_m` varies for fixed `V, e, f`.
+- Add tests for any changes in `position_heading` to ensure continuity and no NaNs.
+
+Execution:
+- Run via `uv run python -m pytest` or `task test`.
+- Keep coverage ≥ 80% for `traffic_sim/core` modules.
+

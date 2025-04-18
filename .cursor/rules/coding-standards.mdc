@@ -1,0 +1,18 @@
+---
+globs: *.py
+description: Python coding standards and constraints
+---
+# Python Coding Standards
+
+- Prefer clear, descriptive names; avoid 1–2 character variables.
+- Keep units explicit in identifiers or docstrings where relevant (e.g., `_m`, `_kmh`).
+- Maintain deterministic behavior in core simulation; randomness must be seedable via config.
+- Do not hard-code pixel coordinates in core logic; convert world meters to pixels in the renderer.
+- Use early returns for clarity and shallow nesting.
+- Avoid catching exceptions without handling.
+- Write tests for geometry/safety invariants when changing `track.py` or `simulation.py`.
+
+Formatting/tools:
+- Run `ruff` for lint checks and `black` for formatting via pre-commit.
+- Keep line length at 100.
+
