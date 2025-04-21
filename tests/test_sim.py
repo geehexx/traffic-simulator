@@ -60,6 +60,7 @@ def test_vehicle_colors_bounds_with_seed():
 def test_speed_factor_applied_to_motion():
     cfg = load_config()
     cfg["vehicles"]["count"] = 1
+    cfg.setdefault("physics", {})
     cfg["physics"]["speed_factor"] = 2.0
     sim = Simulation(cfg)
     s0 = sim.vehicles[0].state.s_m

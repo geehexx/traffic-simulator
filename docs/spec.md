@@ -88,6 +88,8 @@ Date: 2025-09-20
 - Deterministic given fixed random seed(s). Speed factor up to 10× via multiple fixed substeps per frame while keeping Δt constant.
 - Performance: pre-sort vehicles by arc length each tick (or maintain order with minimal swaps), cache occlusion relationships, vectorize state updates, use branchless clamps, prefer float32 where acceptable, and introduce fast approximations (e.g., cached inverse sqrt) only if profiling indicates benefit.
 
+Implementation note (current): using Arcade 3.3.x, rotated vehicle rectangles are rendered via `draw_polygon_filled` for compatibility.
+
 ### 10) HUD and analytics
 - Minimal HUD (default):
   - Speed histogram (km/h) with mean/percentiles

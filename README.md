@@ -45,6 +45,13 @@ uv run python -m traffic_sim
 task -l
 ```
 
+### Controls
+- H: Toggle full HUD info.
+
+### Troubleshooting
+- On WSL2/Linux you may see PipeWire/ALSA warnings; visuals still work.
+- Arcade 3.3.x: we draw vehicles using `draw_polygon_filled` for rotation support; a performance warning about `draw_text` is expected until HUD is migrated to Text objects.
+
 ## Configuration
 Edit `config/config.yaml` to adjust:
 - Track: `length_m`, `straight_fraction`, `superelevation_e`, `side_friction_f`, `safety_design_speed_kmh`, `speed_limit_kmh`
