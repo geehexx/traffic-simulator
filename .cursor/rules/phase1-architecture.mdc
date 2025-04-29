@@ -1,0 +1,60 @@
+---
+description: Phase 1 architecture and implementation overview
+---
+
+# Phase 1 Architecture: Enhanced Longitudinal Control
+
+## Core Components
+
+### Driver System ([driver.py](mdc:src/traffic_sim/core/driver.py))
+- **DriverParams**: `reaction_time_s`, `headway_T_s`, `comfort_brake_mps2`, `jerk_limit_mps3`, `aggression_z`, `rule_adherence`
+- **Driver Class**: Markov chain speeding behavior, Gaussian copula parameter sampling
+- **Speeding Integration**: Effective speed limits considering driver behavior
+
+### Vehicle Dynamics ([vehicle.py](mdc:src/traffic_sim/core/vehicle.py))
+- **VehicleInternalState**: Commanded vs actual acceleration, jerk limiting, drivetrain lag
+- **Realistic Constraints**: Jerk limiting prevents unrealistic acceleration changes
+- **Response Delays**: First-order filters for throttle/brake response
+
+### IDM Controller ([simulation.py](mdc:src/traffic_sim/core/simulation.py))
+- **Per-Driver Parameters**: Individual T, b_comf, v0 for each vehicle
+- **Enhanced IDM**: Realistic following behavior with driver characteristics
+- **Deterministic**: Fixed seeds for reproducible results
+
+## Data Flow
+```
+Driver Sampling → Driver Creation → Vehicle Creation → Simulation Step:
+1. Update speeding state
+2. Calculate effective speed limit  
+3. IDM controller (per-driver params)
+4. Set commanded acceleration
+5. Update internal state (jerk/lag)
+6. Update position/velocity
+```
+
+## Configuration ([config.yaml](mdc:config/config.yaml))
+```yaml
+drivers:
+  distributions: {reaction_time_s: {mean: 2.5, std: 0.6, min: 0.8, max: 4.0}}
+  correlations: {A_T: -0.5, A_b_comf: 0.3, R_A: -0.4}
+  overspeed_model: {percent_time_speeding: {baseline: 0.15}}
+```
+
+## Design Principles
+- **Realistic**: Correlated parameters, jerk limiting, drivetrain lag
+- **Deterministic**: Fixed seeds, reproducible results
+- **Configurable**: YAML configuration for all parameters
+- **Performant**: 30+ FPS, minimal allocations
+
+## Testing ([test_idm.py](mdc:tests/test_idm.py))
+- Parameter variation and validation
+- Speeding behavior and Markov chains
+- Jerk limiting and drivetrain lag
+- Stability and deterministic behavior
+- Integration testing
+
+## Performance
+- 30+ FPS maintained
+- 20+ vehicles stable
+- Deterministic fixed-step simulation
+- Minimal runtime allocations

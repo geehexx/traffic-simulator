@@ -1,0 +1,93 @@
+---
+globs: tests/*.py
+description: Testing patterns and guidelines for the traffic simulator
+---
+
+# Testing Patterns
+
+## Test Organization
+- `test_idm.py` - IDM controller and vehicle dynamics
+- `test_sim.py` - Simulation integration  
+- `test_track.py` - Track geometry and safety
+- `test_track_properties.py` - Track property validation
+
+## Key Test Patterns
+
+### Parameter Variation
+```python
+def test_per_driver_parameters():
+    drivers = [Driver(sample_driver_params(cfg, rng), rng) for _ in range(10)]
+    headways = [d.params.headway_T_s for d in drivers]
+    assert len(set(headways)) > 1  # Should vary
+    # Check parameter ranges
+    for driver in drivers:
+        assert 0.6 <= driver.params.headway_T_s <= 3.0
+```
+
+### Deterministic Behavior
+```python
+def test_deterministic_behavior():
+    cfg["random"]["master_seed"] = 12345
+    sim1, sim2 = Simulation(cfg), Simulation(cfg)
+    for _ in range(50):
+        sim1.step(0.02)
+        sim2.step(0.02)
+    # Results should be identical
+    for v1, v2 in zip(sim1.vehicles, sim2.vehicles):
+        assert abs(v1.state.s_m - v2.state.s_m) < 1e-6
+```
+
+### Stability Testing
+```python
+def test_enhanced_idm_stability():
+    cfg["vehicles"]["count"] = 5
+    sim = Simulation(cfg)
+    # Setup vehicles with varying speeds
+    for i, vehicle in enumerate(sim.vehicles):
+        vehicle.state.s_m = i * 50.0
+        vehicle.state.v_mps = 20.0 + i * 2.0
+    # Run simulation
+    for _ in range(100):
+        sim.step(0.02)
+    # Check reasonable bounds
+    for vehicle in sim.vehicles:
+        assert 0.0 <= vehicle.state.v_mps <= 50.0
+        assert -10.0 <= vehicle.state.a_mps2 <= 5.0
+```
+
+## Test Requirements
+
+### Coverage Areas
+- **Geometry**: Stadium length reconstruction, safe speed/radius consistency
+- **Simulation**: Speed factor effects, seeded determinism, safety flag toggling
+- **Dynamics**: Parameter variation, jerk limiting, drivetrain lag, speeding behavior
+- **Integration**: End-to-end simulation stability
+
+### Naming Conventions
+- `test_*_behavior()` - Behavior patterns
+- `test_*_stability()` - System stability  
+- `test_*_deterministic()` - Reproducible behavior
+- `test_*_parameters()` - Parameter validation
+- `test_*_limits()` - Constraint enforcement
+
+### Configuration
+```python
+def test_with_config():
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 3
+    cfg["random"]["master_seed"] = 42
+    sim = Simulation(cfg)
+```
+
+## Running Tests
+```bash
+uv run python -m pytest tests/ -v
+uv run python -m pytest tests/test_idm.py::test_jerk_limiting -v
+uv run python -m pytest --cov=traffic_sim --cov-report=term-missing
+```
+
+## Test Guidelines
+- Use deterministic seeds for reproducibility
+- Test edge cases (single vehicle, extreme parameters)
+- Maintain ≥80% coverage for `traffic_sim/core` modules
+- Test with various vehicle counts (1, 2, 5, 20)

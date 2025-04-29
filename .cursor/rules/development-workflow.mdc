@@ -1,0 +1,60 @@
+---
+alwaysApply: true
+---
+
+# Development Workflow
+
+## Quick Start
+```bash
+uv sync --extra dev && uv run python -m traffic_sim
+uv run python -m pytest tests/ -v
+```
+
+## Commands
+- `task setup` - Sync environment
+- `task run` - Run simulator  
+- `task test` - Run tests with coverage
+- `task lint` / `task format` - Static checks/formatting
+
+## Code Organization
+- **Core**: [driver.py](mdc:src/traffic_sim/core/driver.py), [vehicle.py](mdc:src/traffic_sim/core/vehicle.py), [simulation.py](mdc:src/traffic_sim/core/simulation.py)
+- **Config**: [config.yaml](mdc:config/config.yaml), [loader.py](mdc:src/traffic_sim/config/loader.py)
+- **Tests**: [test_idm.py](mdc:tests/test_idm.py), [test_sim.py](mdc:tests/test_sim.py)
+
+## Key Patterns
+```python
+# Driver sampling
+params = sample_driver_params(cfg, rng)
+driver = Driver(params, rng)
+driver.update_speeding_state(dt_s, speed_limit_mps)
+
+# Vehicle dynamics  
+vehicle = Vehicle(spec, state, driver, color_rgb)
+vehicle.set_commanded_acceleration(accel_mps2)
+vehicle.update_internal_state(dt_s)
+```
+
+## Testing
+- **Unit**: Individual components
+- **Integration**: End-to-end simulation
+- **Deterministic**: Fixed seeds for reproducibility
+- See [testing-patterns.mdc](mdc:.cursor/rules/testing-patterns.mdc) for detailed patterns
+
+## Configuration
+Driver parameters in [config.yaml](mdc:config/config.yaml):
+```yaml
+drivers:
+  distributions: {reaction_time_s: {mean: 2.5, std: 0.6, min: 0.8, max: 4.0}}
+  correlations: {A_T: -0.5, A_b_comf: 0.3}
+```
+
+## Performance
+- 30+ FPS target maintained
+- Deterministic fixed-step simulation
+- Minimal runtime allocations
+
+## Commits
+- `feat:` - New features
+- `test:` - Test additions  
+- `docs:` - Documentation
+- Keep commits small and focused

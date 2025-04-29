@@ -1,0 +1,74 @@
+---
+globs: src/traffic_sim/core/simulation.py
+description: Intelligent Driver Model (IDM) controller implementation
+---
+
+# IDM Controller Implementation
+
+## Enhanced IDM with Per-Driver Parameters
+
+The simulation uses an **enhanced Intelligent Driver Model** with individual driver characteristics:
+
+### Core IDM Equation
+```
+a = a_max * [1 - (v/v0)^δ - (s*/s)^2]
+s* = s0 + v*T + (v*Δv) / (2*√(a_max*b_comf))
+```
+
+### Per-Driver Parameters
+- **T**: `driver.params.headway_T_s` - Desired time headway
+- **b_comf**: `driver.params.comfort_brake_mps2` - Comfortable deceleration
+- **v0**: `driver.params.desired_speed_mps` - Desired speed (with speeding behavior)
+- **s0**: Standstill buffer (currently 2.0m, could be per-vehicle)
+
+### Implementation in Simulation.step()
+
+```python
+# Single vehicle: maintain desired speed
+if n == 1:
+    v0 = vehicle.driver.params.desired_speed_mps
+    a = a_max * (1.0 - (v/v0)^δ)
+
+# Multi-vehicle: IDM following behavior
+else:
+    T = vehicle.driver.params.headway_T_s
+    b_comf = vehicle.driver.params.comfort_brake_mps2
+    v0 = min(vehicle.driver.params.desired_speed_mps, effective_speed_limit)
+    
+    # Calculate gap and relative velocity
+    s_gap = (leader.state.s_m - vehicle.state.s_m) % L
+    delta_v = vehicle.state.v_mps - leader.state.v_mps
+    
+    # IDM desired gap
+    s_star = s0 + v*T + (v*delta_v) / (2*√(a_max*b_comf))
+    
+    # IDM acceleration
+    a = a_max * (1.0 - (v/v0)^δ - (s_star/s_gap)^2)
+```
+
+## Speed Limit Integration
+
+- **Speed Limit**: Read from `track.speed_limit_kmh` configuration
+- **Effective Limit**: Considers driver speeding behavior via `driver.get_effective_speed_limit()`
+- **Speeding State**: Updated each step via `driver.update_speeding_state()`
+
+## Vehicle State Updates
+
+1. **Update Speeding State**: `driver.update_speeding_state(dt_s, speed_limit_mps)`
+2. **Get Effective Speed Limit**: `effective_speed_limit = driver.get_effective_speed_limit(speed_limit_mps)`
+3. **Calculate IDM Acceleration**: Using per-driver parameters
+4. **Set Commanded Acceleration**: `vehicle.set_commanded_acceleration(a)`
+5. **Update Internal State**: `vehicle.update_internal_state(dt_s)` (jerk limiting, lag)
+6. **Update Position/Velocity**: Using final acceleration
+
+## Key Design Principles
+
+- **Per-Driver**: Each vehicle uses its own driver parameters
+- **Realistic Dynamics**: Jerk limiting and drivetrain lag prevent unrealistic behavior
+- **Deterministic**: Fixed seeds ensure reproducible behavior
+- **Configurable**: All parameters come from configuration files
+- **Stable**: Enhanced IDM maintains stability with proper parameter ranges
+
+## Testing
+
+See [testing-patterns.mdc](mdc:.cursor/rules/testing-patterns.mdc) for test patterns and [test_idm.py](mdc:tests/test_idm.py) for implementation.
