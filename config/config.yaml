@@ -95,6 +95,12 @@ physics:
   tire_friction_mu: 0.7
   brake_efficiency_eta: 0.9
 
+perception:
+  visual_range_m: 200.0
+  occlusion_check_resolution: 0.5  # meters between checks
+  ssd_safety_margin: 1.2  # multiplier for SSD calculations
+  min_ssd_m: 2.0  # minimum safe stopping distance
+
 render:
   target_fps: 60
   hud_mode: minimal   # minimal | full
@@ -131,5 +137,3 @@ logging:
   debug_high_rate_csv: false
   debug_rate_hz: 50
   output_path: runs/run_001.csv
-
-
