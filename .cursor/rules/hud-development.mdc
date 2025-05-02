@@ -5,17 +5,11 @@ description: HUD development patterns and rendering guidelines
 
 # HUD Development Patterns
 
-## HUD Architecture
-
-### Core HUD Functions
-- `draw_safety_panel()` - Track safety information display
-- `draw_perception_summary()` - Perception statistics overview
-- `draw_vehicle_perception_overlay()` - Per-vehicle perception details
+## Core Functions
+- `draw_safety_panel()` - Track safety information
+- `draw_perception_summary()` - Perception statistics
+- `draw_vehicle_perception_overlay()` - Per-vehicle details
 - `draw_perception_heatmap()` - Visual SSD representation
-
-### HUD Modes
-- **Minimal**: Essential information only
-- **Full**: Detailed analytics and overlays
 
 ## Rendering Best Practices
 
@@ -43,10 +37,6 @@ class OptimizedHUD:
     def __init__(self):
         self.text_objects = {}
         self._create_text_objects()
-    
-    def _create_text_objects(self):
-        # Pre-create Text objects for frequent updates
-        pass
 ```
 
 ### Rendering Order
@@ -55,7 +45,7 @@ class OptimizedHUD:
 3. Dynamic overlays
 4. Interactive elements
 
-## Integration with App
+## Integration
 
 ### App.py Integration
 - HUD functions called in `on_draw()` method
