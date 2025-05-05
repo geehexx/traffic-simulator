@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+globs: .cursor/rules/*.mdc
 description: Rule generation standards and quality metrics for Cursor rules
 ---
 
@@ -20,13 +20,13 @@ description: Rule generation standards and quality metrics for Cursor rules
 - **Structured Format**: Easy to scan and parse
 
 ### 3. Maintainability (20 points)
-- **No Temporary Info**: Avoid time-sensitive or project-specific details
+- **No Temporary Info**: Avoid time-sensitive, phase-based, or project-specific details
 - **Self-Updating References**: Use file references that auto-update
 - **Modular Structure**: Independent, composable rules
 - **Version Control Friendly**: Clear, trackable changes
 
 ### 4. Context Relevance (15 points)
-- **File-Specific**: Appropriate globs for target files
+- **File-Specific**: Appropriate globs for target files only
 - **Scope Appropriate**: Not too broad or narrow
 - **Cross-Rule References**: Link to related rules when needed
 - **Context-Aware**: Understands when to apply
@@ -47,7 +47,7 @@ description: Rule generation standards and quality metrics for Cursor rules
 
 ```markdown
 ---
-globs: <file-patterns> OR alwaysApply: true
+globs: <specific-file-patterns>
 description: <brief-description-for-fetching>
 ---
 
@@ -82,11 +82,12 @@ description: <brief-description-for-fetching>
 
 ### Don'ts
 - **Don't repeat** information from other rules
-- **Don't include** temporary or project-specific details
+- **Don't include** temporary, phase-based, or project-specific details
 - **Don't use** overly verbose explanations
 - **Don't duplicate** existing documentation
 - **Don't include** implementation details that change frequently
 - **Don't use** ambiguous language or unclear instructions
+- **Don't use** `alwaysApply: true` unless absolutely necessary
 
 ## Token Optimization Strategies
 
@@ -137,8 +138,28 @@ Use:
 ## IDM Controller
 - **Pattern**: Calculate gap → delta_v → s_star → acceleration
 - **Key**: Use perception data when available, fallback to standard IDM
-- **Reference**: [phase2-perception.mdc](mdc:phase2-perception.mdc) for integration details
+- **Reference**: [perception-system.mdc](mdc:perception-system.mdc) for integration details
 ```
+
+## Rule Targeting Guidelines
+
+### File-Specific Rules
+- **Target specific files** with precise glob patterns
+- **Avoid broad patterns** like `src/**/*.py` unless necessary
+- **Use multiple specific rules** instead of one broad rule
+- **Consider file purpose** when determining targeting
+
+### Always-Apply Rules
+- **Use sparingly** - only for truly universal principles
+- **Prefer specific rules** over always-apply
+- **Limit to 1-2 always-apply rules** maximum
+- **Focus on core principles** that apply everywhere
+
+### Rule Scope
+- **Single responsibility** - one concept per rule
+- **Appropriate granularity** - not too broad or narrow
+- **Clear boundaries** - when rule applies vs doesn't
+- **Minimal overlap** - avoid redundant rules
 
 ## Rule Maintenance
 
@@ -163,6 +184,8 @@ Use:
 - [ ] Appropriate scope and file targeting
 - [ ] Future-proof content (no temporary details)
 - [ ] Consistent formatting and structure
+- [ ] No phase-based or project-specific information
+- [ ] Minimal use of alwaysApply
 
 ## Rule Generation Process
 
@@ -177,12 +200,14 @@ Use:
 - Focus on patterns over implementation details
 - Include both positive and negative examples
 - Reference external sources when possible
+- Avoid temporary or phase-based information
 
 ### 3. Quality Review
 - Score against the 6 metrics (aim for 80+ points)
 - Check for redundancy with existing rules
 - Validate all references and examples
 - Ensure clarity and actionability
+- Verify no temporary content
 
 ### 4. Integration
 - Test rule applicability with target files

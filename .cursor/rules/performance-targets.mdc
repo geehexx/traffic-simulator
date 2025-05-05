@@ -1,99 +1,53 @@
 ---
-alwaysApply: true
+globs: src/traffic_sim/core/simulation.py,src/traffic_sim/core/vehicle.py,tests/test_*.py
 description: Performance targets and optimization guidelines
 ---
 
-# Performance Targets and Optimization
+# Performance Requirements
 
-## Core Requirements
+## Core Targets
+- **FPS**: 30+ FPS with 20 vehicles
+- **Memory**: Minimal runtime allocations
+- **Determinism**: Reproducible behavior with fixed seeds
 
-### FPS Target
-- **Minimum**: 30+ FPS with 20 vehicles
-- **Current**: 300+ FPS equivalent (well above target)
-- **Measurement**: Use performance test script for validation
-
-### Memory Management
-- **Allocation**: Minimal runtime allocations
-- **Pattern**: Pre-create objects, reuse when possible
-- **Cleanup**: Proper resource management in simulation loops
-
-## Performance Testing
-
-### Automated Testing
+## Performance Testing Pattern
 ```python
-# Performance validation pattern
 start_time = time.time()
 for i in range(1000):
     sim.step(0.02)
 end_time = time.time()
-fps_equivalent = 1000 / (end_time * 50)  # 50 steps per second = 1 FPS
+fps_equivalent = 1000 / (end_time * 50)
 assert fps_equivalent >= 30, f"Performance below target: {fps_equivalent:.1f} FPS"
 ```
 
-### Profiling Guidelines
-- Monitor simulation step time
-- Check memory usage patterns
-- Validate deterministic behavior
-- Test with maximum vehicle count
-
 ## Optimization Strategies
 
-### Rendering Optimization
+### Rendering
 - **Text**: Use `Text` objects instead of `draw_text` for frequent updates
 - **Rectangles**: Choose appropriate drawing function based on coordinate system
 - **Batching**: Group similar drawing operations
 - **Caching**: Pre-create commonly used objects
 
-### Simulation Optimization
+### Simulation
 - **Sorting**: Efficient vehicle sorting by position
 - **Perception**: Visual range limits prevent excessive computation
 - **IDM**: Optimized controller calculations
 - **Physics**: Fixed-step simulation for determinism
 
-### Memory Optimization
+### Memory
 - **Reuse**: Reuse objects where possible
 - **Pre-allocation**: Allocate arrays with known sizes
 - **Cleanup**: Proper resource cleanup
 - **Garbage Collection**: Minimize object creation in loops
 
-## Performance Monitoring
-
-### Key Metrics
+## Key Metrics
 - Simulation step time (target: < 33ms for 30 FPS)
 - Memory usage per vehicle
 - Rendering time per frame
 - Test execution time
 
-### Warning Signs
+## Warning Signs
 - FPS dropping below 30
 - Memory usage growing over time
 - Test execution time increasing
 - Non-deterministic behavior
-
-## Performance Regression Prevention
-
-### Automated Checks
-- Performance tests in CI/CD
-- Memory leak detection
-- Deterministic behavior validation
-- FPS monitoring in tests
-
-### Code Review Guidelines
-- Check for performance-impacting changes
-- Validate optimization patterns
-- Ensure test coverage for performance
-- Review memory allocation patterns
-
-## Future Optimization Opportunities
-
-### Phase 3 Optimizations
-- Advanced rendering techniques
-- Spatial partitioning for vehicles
-- LOD (Level of Detail) systems
-- Multi-threading for independent calculations
-
-### Monitoring Tools
-- Performance profiling integration
-- Real-time FPS display
-- Memory usage tracking
-- Automated performance regression detection
