@@ -12,13 +12,15 @@ class OptimizedHUD:
         self.text_objects = {}
         self._create_text_objects()
 
-    def _create_text_objects(self):
+    def _create_text_objects(self) -> None:
         """Pre-create Text objects to avoid recreation each frame."""
         # This would be implemented for high-frequency text updates
         pass
 
     @staticmethod
-    def draw_text_optimized(text: str, x: float, y: float, color, font_size: int = 12):
+    def draw_text_optimized(
+        text: str, x: float, y: float, color: Tuple[int, int, int], font_size: int = 12
+    ) -> None:
         """Use Text objects for better performance when possible."""
         # For now, fall back to draw_text but this could be optimized
         arcade.draw_text(text, x, y, color, font_size)
