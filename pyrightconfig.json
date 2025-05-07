@@ -1,0 +1,62 @@
+{
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.venv",
+    "**/venv",
+    "**/build",
+    "**/dist"
+  ],
+  "typeCheckingMode": "standard",
+  "useLibraryCodeForTypes": true,
+  "pythonVersion": "3.10",
+  "pythonPlatform": "Linux",
+  "executionEnvironments": [
+    {
+      "root": "src",
+      "pythonVersion": "3.10",
+      "pythonPlatform": "Linux"
+    }
+  ],
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "reportOptionalMemberAccess": true,
+  "reportOptionalSubscript": true,
+  "reportPrivateImportUsage": true,
+  "reportUnusedImport": true,
+  "reportUnusedClass": true,
+  "reportUnusedFunction": true,
+  "reportUnusedVariable": true,
+  "reportDuplicateImport": true,
+  "reportWildcardImportFromLibrary": true,
+  "reportAbstractUsage": true,
+  "reportUnsupportedDunderAll": true,
+  "reportUnusedCoroutine": true,
+  "reportUnnecessaryTypeIgnoreComment": true,
+  "reportImplicitStringConcatenation": true,
+  "reportUnnecessaryComparison": true,
+  "reportUnnecessaryContains": true,
+  "reportUnnecessaryIsInstance": true,
+  "reportImplicitOverride": true,
+  "reportShadowedImports": true,
+  "reportUninitializedInstanceVariable": true,
+  "reportCallInDefaultInitializer": true,
+  "reportUnnecessaryTypeIgnoreComment": true,
+  "reportImplicitStringConcatenation": true,
+  "reportUnnecessaryComparison": true,
+  "reportUnnecessaryContains": true,
+  "reportUnnecessaryIsInstance": true,
+  "reportImplicitOverride": true,
+  "reportShadowedImports": true,
+  "reportUninitializedInstanceVariable": true,
+  "reportCallInDefaultInitializer": true,
+  "strictListInference": true,
+  "strictDictionaryInference": true,
+  "strictSetInference": true,
+  "strictParameterNoneValue": true,
+  "enableTypeIgnoreComments": true,
+  "strict": []
+}
