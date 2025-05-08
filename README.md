@@ -112,6 +112,9 @@ perception:
 # Setup development environment
 uv sync --extra dev
 
+# Install pre-commit hooks
+uv run pre-commit install
+
 # Run simulator
 uv run python -m traffic_sim
 
@@ -120,7 +123,42 @@ uv run python -m pytest tests/ -v
 
 # Run with coverage
 uv run python -m pytest tests/ --cov=traffic_sim --cov-report=term-missing
+
+# Run quality gates
+uv run python scripts/quality_gates.py
 ```
+
+### Static Analysis & Quality Gates
+
+The project uses a comprehensive static analysis framework with automated quality gates:
+
+#### Tools
+- **MyPy & Pyright**: Type checking
+- **Ruff**: Linting and formatting
+- **Pylint**: Code quality analysis
+- **Bandit**: Security scanning
+- **Radon**: Complexity analysis
+
+#### Quality Gates
+- **Type Safety**: Comprehensive type checking
+- **Code Quality**: Pylint score ≥8.0/10
+- **Security**: No high/medium severity issues
+- **Complexity**: No high complexity functions
+- **Coverage**: ≥80% line coverage
+
+#### Usage
+```bash
+# Run all quality gates
+uv run python scripts/quality_gates.py
+
+# Run quality monitoring
+uv run python scripts/quality_monitor.py
+
+# Run comprehensive analysis
+uv run python scripts/static_analysis.py
+```
+
+For detailed information, see [Static Analysis Guide](docs/static-analysis.md) and [Development Guide](docs/development.md).
 
 ### Project Structure
 - **Core**: `src/traffic_sim/core/` - Simulation logic, vehicles, drivers
