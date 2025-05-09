@@ -1,0 +1,49 @@
+---
+description: Testing patterns and standards for the traffic simulator
+globs: tests/**
+alwaysApply: false
+---
+
+# Testing Standards and Patterns
+
+## Test Organization
+- Unit tests in [test_idm.py](mdc:tests/test_idm.py) for IDM controller
+- Integration tests in [test_sim.py](mdc:tests/test_sim.py) for simulation
+- Track tests in [test_track.py](mdc:tests/test_track.py) for geometry
+- Property tests for driver behavior validation
+
+## Test Structure
+- Use descriptive test names: `test_should_calculate_correct_acceleration_when_leading_vehicle_brakes`
+- Group related tests in classes
+- Use fixtures for common test data
+- Follow Arrange-Act-Assert pattern
+
+## Deterministic Testing
+- Use fixed random seeds for reproducible tests
+- Test with known inputs and expected outputs
+- Validate simulation determinism across runs
+- Use property-based testing for edge cases
+
+## Coverage Requirements
+- Maintain ≥80% line coverage
+- Test all public functions and methods
+- Cover error conditions and edge cases
+- Test both success and failure paths
+
+## Performance Testing
+- Verify 30+ FPS target with 20+ vehicles
+- Test memory usage and allocation patterns
+- Profile simulation performance
+- Validate deterministic behavior
+
+## Mocking and Fixtures
+- Use pytest fixtures for common setup
+- Mock external dependencies appropriately
+- Create realistic test data
+- Use hypothesis for property-based testing
+
+## Test Data
+- Use realistic vehicle and driver parameters
+- Test with various track configurations
+- Include edge cases and boundary conditions
+- Validate with real-world scenarios

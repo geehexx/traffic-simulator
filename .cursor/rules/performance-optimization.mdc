@@ -1,0 +1,55 @@
+---
+description: Performance optimization guidelines for the traffic simulator
+globs: src/traffic_sim/core/**,src/traffic_sim/render/**
+alwaysApply: false
+---
+
+# Performance Optimization Guidelines
+
+## Performance Targets
+- **Frame Rate**: 30+ FPS with 20+ vehicles
+- **Memory**: Minimal runtime allocations
+- **Deterministic**: Fixed-step simulation
+- **Scalability**: Support 50+ vehicles
+
+## Simulation Loop Optimization
+- Use fixed timestep for determinism
+- Minimize allocations in hot paths
+- Cache expensive calculations
+- Use numpy for vectorized operations
+
+## Rendering Optimization
+- Use Text objects for HUD elements
+- Minimize draw calls
+- Implement proper culling
+- Cache rendering calculations
+
+## Memory Management
+- Avoid allocations in simulation loop
+- Use object pools for frequently created objects
+- Reuse data structures where possible
+- Profile memory usage regularly
+
+## Numerical Computations
+- Use numpy for mathematical operations
+- Vectorize operations when possible
+- Cache trigonometric calculations
+- Use appropriate data types
+
+## Profiling and Monitoring
+- Profile hot paths regularly
+- Use `cProfile` for performance analysis
+- Monitor frame rates and memory usage
+- Set up performance regression tests
+
+## Algorithm Optimization
+- Use efficient data structures
+- Implement proper caching strategies
+- Optimize collision detection
+- Use spatial partitioning for large scenes
+
+## Best Practices
+- Measure before optimizing
+- Optimize bottlenecks, not everything
+- Maintain code readability
+- Document performance assumptions

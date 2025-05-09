@@ -1,0 +1,47 @@
+---
+description: Traffic simulator project overview and key components
+alwaysApply: true
+---
+
+# Traffic Simulator Project Overview
+
+## Project Structure
+- **Core Logic**: [src/traffic_sim/core/](mdc:src/traffic_sim/core/) - Simulation engine, vehicles, drivers
+- **Rendering**: [src/traffic_sim/render/](mdc:src/traffic_sim/render/) - Arcade-based visualization
+- **Configuration**: [config/](mdc:config/) - YAML configuration files
+- **Tests**: [tests/](mdc:tests/) - Comprehensive test suite
+- **Scripts**: [scripts/](mdc:scripts/) - Quality gates and analysis tools
+- **Documentation**: [docs/](mdc:docs/) - Static analysis and development guides
+
+## Key Features
+- **2D Traffic Simulation**: Stadium track with realistic vehicle behavior
+- **Statistical Drivers**: Gaussian copula sampling with correlations
+- **IDM Controller**: Intelligent Driver Model with jerk limiting
+- **Perception System**: Occlusion-based visibility and dynamic SSD
+- **Safety Analytics**: AASHTO/TxDOT-style curve speed calculations
+- **Live HUD**: Real-time safety panels and perception data
+
+## Quality Framework
+- **Static Analysis**: MyPy, Pyright, Ruff, Pylint, Bandit, Radon
+- **Quality Gates**: Automated enforcement with configurable thresholds
+- **CI/CD**: GitHub Actions with pre-commit hooks
+- **Coverage**: ≥80% test coverage requirement
+- **Documentation**: Comprehensive guides and API docs
+
+## Development Workflow
+1. **Setup**: `uv sync --extra dev && uv run pre-commit install`
+2. **Development**: Follow static analysis standards
+3. **Testing**: `uv run python -m pytest tests/ -v`
+4. **Quality**: `uv run python scripts/quality_gates.py`
+5. **Commit**: Pre-commit hooks run automatically
+
+## Configuration
+- **Main Config**: [config.yaml](mdc:config/config.yaml)
+- **Quality Gates**: [quality_gates.yaml](mdc:quality_gates.yaml)
+- **Tool Configs**: [mypy.ini](mdc:mypy.ini), [pylintrc](mdc:pylintrc), etc.
+
+## Performance
+- **Target**: 30+ FPS with 20+ vehicles
+- **Current**: 300+ FPS equivalent
+- **Memory**: Minimal runtime allocations
+- **Deterministic**: Fixed-step simulation with seeded RNGs
