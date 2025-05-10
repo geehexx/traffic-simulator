@@ -31,5 +31,3 @@ def get_nested(cfg: Dict[str, Any], path: str, default: Any = None) -> Any:
             return default
         node = node[part]
     return node
-
-

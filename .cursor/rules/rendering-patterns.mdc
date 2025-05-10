@@ -1,42 +1,31 @@
 ---
-description: Rendering and visualization patterns for Arcade-based graphics
 globs: src/traffic_sim/render/**
-alwaysApply: false
+description: Arcade rendering guidelines
 ---
 
-# Rendering and Visualization Patterns
+# Rendering Patterns
 
 ## Arcade Integration
-- Use [app.py](mdc:src/traffic_sim/render/app.py) as main window class
-- Inherit from `arcade.Window` for main application
-- Use type stubs in [stubs/arcade/](mdc:stubs/arcade/) for type safety
+- **Main Window**: [app.py](mdc:src/traffic_sim/render/app.py)
+- **Type Stubs**: [stubs/arcade/](mdc:stubs/arcade/) for type safety
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
 
 ## Rendering Performance
-- Use Text objects for HUD elements (see [hud.py](mdc:src/traffic_sim/core/hud.py))
-- Minimize draw calls in hot paths
-- Cache expensive rendering calculations
-- Target 30+ FPS with 20+ vehicles
+- **Pattern**: Use Text objects for HUD elements
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
 
 ## Coordinate Systems
-- Use meters for simulation coordinates
-- Convert to pixels for rendering
-- Implement proper scaling and transformation
-- Handle window resizing gracefully
+- **Pattern**: Meters for simulation, pixels for rendering
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
 
 ## HUD Design
-- Support minimal and full HUD modes
-- Use consistent color scheme and typography
-- Display safety panels and perception data
-- Implement toggle functionality (H key)
+- **Pattern**: Minimal and full modes, toggle with H key
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
 
 ## Drawing Functions
-- Use arcade drawing functions consistently
-- Handle missing functions with type stubs
-- Implement fallbacks for unsupported features
-- Use proper color constants
+- **Pattern**: Use appropriate function based on coordinate system
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
 
 ## State Management
-- Separate simulation state from rendering state
-- Use proper update loops with fixed timesteps
-- Handle user input appropriately
-- Maintain frame rate independence
+- **Pattern**: Separate simulation state from rendering state
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management)

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Optional, Tuple
-import random
 
 from traffic_sim.core.driver import Driver
 

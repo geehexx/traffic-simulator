@@ -158,7 +158,7 @@ uv run python scripts/quality_monitor.py
 uv run python scripts/static_analysis.py
 ```
 
-For detailed information, see [Static Analysis Guide](docs/static-analysis.md) and [Development Guide](docs/development.md).
+For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md) and [Development Guide](docs/DEVELOPMENT.md).
 
 ### Project Structure
 - **Core**: `src/traffic_sim/core/` - Simulation logic, vehicles, drivers

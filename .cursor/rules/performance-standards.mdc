@@ -1,0 +1,31 @@
+---
+globs: src/traffic_sim/core/**,src/traffic_sim/render/**
+description: Performance optimization guidelines
+---
+
+# Performance Standards
+
+## Performance Targets
+- **Frame Rate**: 30+ FPS with 20+ vehicles
+- **Memory**: Minimal runtime allocations
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-targets)
+
+## Simulation Optimization
+- **Pattern**: Fixed timestep, vectorized operations
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#simulation-optimization)
+
+## Rendering Optimization
+- **Pattern**: Text object caching, draw call batching
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
+
+## Memory Management
+- **Pattern**: Object pooling, pre-allocation
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#memory-management)
+
+## Algorithm Optimization
+- **Pattern**: Spatial partitioning, cached calculations
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#algorithm-optimization)
+
+## Performance Testing
+- **Pattern**: Automated performance tests
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)

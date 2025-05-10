@@ -9,5 +9,3 @@ class DriverDistribution:
     std: float
     min: float
     max: float
-
-
