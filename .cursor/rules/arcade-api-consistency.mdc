@@ -1,0 +1,43 @@
+---
+globs: stubs/arcade/**, docs/**, src/traffic_sim/render/**
+description: Arcade API consistency and validation rules
+---
+
+# Arcade API Consistency Rules
+
+## Function Validation
+- **Pattern**: Always verify arcade functions exist before using them
+- **Validation**: Run `uv run python -c "import arcade; print([f for f in dir(arcade) if 'rectangle' in f.lower()])"` to check available functions
+- **Reference**: [Arcade 3.3.2 Documentation](https://arcade.academy/)
+
+## Available Rectangle Functions (Arcade 3.3.2)
+- `draw_lrbt_rectangle_filled(left, right, bottom, top, color)` - Left, Right, Bottom, Top coordinates
+- `draw_lrbt_rectangle_outline(left, right, bottom, top, color, border_width)`
+- `draw_lbwh_rectangle_filled(left, bottom, width, height, color)` - Left, Bottom, Width, Height
+- `draw_lbwh_rectangle_outline(left, bottom, width, height, color, border_width)`
+
+## Deprecated/Non-existent Functions
+- ❌ `draw_rectangle_filled` - DOES NOT EXIST in Arcade 3.3.2
+- ❌ `draw_rectangle_outline` - DOES NOT EXIST in Arcade 3.3.2
+
+## Type Stub Maintenance
+- **Pattern**: Keep type stubs synchronized with actual arcade version
+- **Validation**: Run integration tests that actually call arcade functions
+- **Update Process**: When updating arcade, verify all functions in stubs exist in actual library
+
+## Documentation Consistency
+- **Pattern**: All code examples must use actual arcade functions
+- **Validation**: Documentation examples should be tested in integration tests
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md) examples must work
+
+## Testing Requirements
+- **Pattern**: Integration tests must actually call rendering functions
+- **Coverage**: Test both successful rendering and error conditions
+- **Validation**: Use `test_rendering_integration.py` to verify function existence
+
+## Prevention Checklist
+- [ ] Verify function exists: `hasattr(arcade, 'function_name')`
+- [ ] Check function signature: `inspect.signature(arcade.function_name)`
+- [ ] Update type stubs when arcade version changes
+- [ ] Run integration tests after any arcade-related changes
+- [ ] Validate documentation examples work

@@ -109,7 +109,7 @@ def draw_perception_heatmap(
         # Draw rectangle using left, right, bottom, top coordinates
         arcade.draw_lrbt_rectangle_filled(bar_x, bar_x + bar_width * 0.8, y, y + bar_height, color)
 
-        # OPTION 3: Using polygon for complex shapes (if needed)
+        # Using polygon for complex shapes (if needed)
         # corners = [
         #     (bar_x, y), (bar_x + bar_width * 0.8, y),
         #     (bar_x + bar_width * 0.8, y + bar_height), (bar_x, y + bar_height)

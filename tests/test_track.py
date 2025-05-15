@@ -33,7 +33,6 @@ def test_length_needed_formula_inverts_radius():
 
 def test_position_heading_continuity():
     track = StadiumTrack(total_length_m=1000.0, straight_fraction=0.30)
-    eps = 1e-4
     L = track.total_length
     # Check that small steps along s produce small spatial changes (no NaNs; finite)
     s_vals = [i * (L / 200.0) for i in range(201)]
@@ -48,3 +47,30 @@ def test_position_heading_continuity():
         prev = (x, y, th)
 
 
+def test_bbox_m():
+    """Test the bbox_m method."""
+    track = StadiumTrack(total_length_m=1000.0, straight_fraction=0.30)
+    width, height = track.bbox_m()
+
+    # Check that bbox dimensions are reasonable
+    assert width > 0
+    assert height > 0
+    assert width > height  # Stadium should be wider than tall
+    assert width == track.straight_length_m + 2.0 * track.radius_m
+    assert height == 2.0 * track.radius_m
+
+
+def test_safe_speed_kmh():
+    """Test the safe_speed_kmh method."""
+    track = StadiumTrack(total_length_m=1000.0, straight_fraction=0.30)
+    e, f = 0.08, 0.10
+
+    safe_speed = track.safe_speed_kmh(e, f)
+
+    # Check that safe speed is reasonable
+    assert safe_speed > 0
+    assert safe_speed < 200  # Should be reasonable for a track
+
+    # Check the formula: V_safe = sqrt(127 R (e + f))
+    expected = math.sqrt(127.0 * track.radius_m * (e + f))
+    assert pytest.approx(safe_speed, rel=1e-12) == expected

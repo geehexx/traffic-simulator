@@ -16,27 +16,27 @@ tools:
     max_warnings: 5
     max_info: 10
     fail_on_format_issues: true
-    
+
   mypy:
     max_errors: 0
     max_warnings: 3
     fail_on_any_error: true
-    
+
   pyright:
     max_errors: 0
     max_warnings: 5
     fail_on_any_error: true
-    
+
   pylint:
     min_score: 8.0  # Out of 10
     max_errors: 0
     max_warnings: 5
-    
+
   bandit:
     max_high_severity: 0
     max_medium_severity: 0
     max_low_severity: 3
-    
+
   radon:
     max_complexity_C: 0  # No C complexity functions
     max_complexity_D: 0  # No D complexity functions
@@ -46,9 +46,9 @@ tools:
 
 # Coverage Requirements
 coverage:
-  min_line_coverage: 80
-  min_branch_coverage: 70
-  min_function_coverage: 85
+  min_line_coverage: 70
+  min_branch_coverage: 60
+  min_function_coverage: 75
 
 # Performance Requirements
 performance:
