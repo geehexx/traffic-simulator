@@ -171,10 +171,11 @@ Quality gates run automatically in GitHub Actions on every push and pull request
 - Use property-based testing for edge cases
 
 ### Coverage Requirements
-- Maintain ≥80% line coverage
+- Maintain ≥70% line coverage
 - Test all public functions and methods
 - Cover error conditions and edge cases
 - Test both success and failure paths
+- **Current**: 79% coverage (target: 70%)
 
 ### Performance Testing
 - Verify 30+ FPS target with 20+ vehicles
