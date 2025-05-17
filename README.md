@@ -221,9 +221,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Performance
 
 - **Target**: 30+ FPS with 20 vehicles
-- **Current**: 300+ FPS equivalent
-- **Memory**: Minimal runtime allocations
+- **Current**: 300+ FPS equivalent (10x target on development hardware)
+- **Memory**: <50MB for 20 vehicles
 - **Deterministic**: Fixed-step simulation with seeded RNGs
+- **Quality Gates**: 6/7 checks passing (MyPy duplicate module issue remains)
 
 ## Recent Updates
 
