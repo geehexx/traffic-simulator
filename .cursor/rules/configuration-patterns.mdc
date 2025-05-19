@@ -29,3 +29,10 @@ description: Configuration management patterns
 ## Error Handling
 - **Pattern**: Clear error messages for invalid config
 - **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
+
+### HUD Occlusion Configuration {#id:hud-occlusion-config}
+- **Key**: Document the current, exact configuration key(s) used for HUD occlusion, confirming against repo config. If uncertain, ask for confirmation before inclusion.
+- **CLI Flag**: If CLI integration exists, document the exact flag spelling; otherwise omit.
+- **Default**: State the actual default from the repository config; do not assume.
+- **Validation**: Boolean or appropriate type; fail fast on invalid values; provide actionable messages.
+- **Cross-References**: See perception/rendering documentation in project docs for behavior; avoid linking from docs to rules.
