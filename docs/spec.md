@@ -102,6 +102,10 @@ Implementation note (current): using Arcade 3.3.x, rotated vehicle rectangles ar
   - Per-vehicle overlays (speed, accel, jerk, SSD, occlusion flag)
   - Incident log with Δv and location
 
+Implementation guidance for the occlusion HUD UI is covered by project documentation:
+[Architecture Guide – Rendering Architecture](mdc:docs/ARCHITECTURE.md#rendering-architecture) and
+[Performance Guide – Rendering Optimization](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
+
 ### 11) Configuration (restart to apply)
 - Stored in `config/config.yaml`. Key groups:
   - `track`: `length_m`, `straight_fraction`, `superelevation_e`, `side_friction_f`, `safety_design_speed_kmh`, `speed_limit_kmh`
@@ -132,5 +136,3 @@ Implementation note (current): using Arcade 3.3.x, rotated vehicle rectangles ar
 - Speeding prevalence and safety impact: NHTSA “Speeding” (2023) — `nhtsa.gov`
 - Aggressive driving correlation with acceleration variance and overspeeding: peer-reviewed study — `pmc.ncbi.nlm.nih.gov`
 - Car-following: Treiber & Kesting, Traffic Flow Dynamics, Springer, 2013
-
-

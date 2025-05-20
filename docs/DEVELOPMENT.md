@@ -303,6 +303,10 @@ For detailed performance guidelines, see [Performance Guide](mdc:docs/PERFORMANC
 - **State Management**: Immutable state objects where possible
 - **Rendering**: Arcade-based visualization with performance optimization
 
+For HUD occlusion UI guidance, see project documentation:
+[Architecture Guide – Rendering Architecture](mdc:docs/ARCHITECTURE.md#rendering-architecture) and
+[Performance Guide – Rendering Optimization](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
+
 For detailed architecture information, see [Architecture Guide](mdc:docs/ARCHITECTURE.md).
 
 ## Configuration Management
