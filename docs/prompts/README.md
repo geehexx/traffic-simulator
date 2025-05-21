@@ -3,12 +3,8 @@
 This directory contains specialized prompts and a repeatable methodology for optimizing, running, scoring, and iterating prompts that maintain the project’s documentation and rules.
 
 ## Contents
-
-### generate-docs.md
-Enterprise Documentation Maintainer prompt for accurate, consistent, up-to-date documentation with deterministic, idempotent edits.
-
-### generate-rules.md
-Enterprise Cursor Rules Maintainer prompt for accurate, concise, taxonomy-aligned rules with deterministic, idempotent edits. Prompts are exempt from the docs→rules link restriction (see Link Policy below).
+### generate-super.md
+Unified Docs & Rules Maintainer super‑prompt with modes (docs | rules | hybrid) and shared APE workflow. Prefer this for future maintenance.
 
 ## Purpose
 
@@ -44,7 +40,7 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 
 ## Evaluation Rubrics
 
-### Documentation generation (generate-docs.md)
+### Documentation generation (super-prompt docs mode)
 - PDQI‑9 (45): accuracy, thoroughness, clarity, consistency, relevance, organization, timeliness, efficiency, engagement
 - Workspace compliance (25): heading style (“###”), doc structure, terminology/glossary, Google-style docstrings when needed
 - Mechanical coverage (10): required sections, acceptance criteria, Gherkin scenarios, link hygiene
@@ -52,7 +48,7 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 - Consolidation/navigation (5): deduplication, internal nav updates
 - Security/redaction (5): no secrets; redact clearly
 
-### Rule generation (generate-rules.md)
+### Rule generation (super-prompt rules mode)
 - RGS score (100 total base):
   - Clarity & Actionability (25)
   - Token Efficiency (20): references over repetition; structured/scan-friendly
@@ -88,7 +84,7 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 ## Running APE Locally (manual, no CLI)
 1. Stage work-in-progress changes or stash them temporarily.
 2. Collect standardized inputs via Git commands listed above.
-3. Open the target prompt (generate-docs.md or generate-rules.md) and provide inputs.
+3. Open the target prompt (`generate-super.md`) and provide inputs.
 4. Capture outputs and score using the rubrics in this README.
 5. Iterate on the winner until scores plateau; re-run stability checks.
 6. Prepare diffs; review; then apply changes manually.
@@ -111,4 +107,4 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 
 ---
 
-If you need help running the APE loop for a particular change, start with generate-docs.md for documentation pages or generate-rules.md for rule updates, provide the standardized inputs above, and follow the Scoring & Selection process here.
+If you need help running the APE loop for a particular change, start with `generate-super.md` (docs, rules, or hybrid mode), provide the standardized inputs above, and follow the Scoring & Selection process here.
