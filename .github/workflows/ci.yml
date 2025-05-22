@@ -27,5 +27,3 @@ jobs:
           uv run python scripts/quality_gates.py
       - name: Run tests with coverage
         run: uv run pytest --cov=traffic_sim --cov-report=term-missing -q
-
-

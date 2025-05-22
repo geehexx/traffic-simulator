@@ -28,7 +28,9 @@ def test_length_reconstructs(L, r):
 def test_safe_speed_inverse(V, e, f):
     track = StadiumTrack(total_length_m=1000.0, straight_fraction=0.30)
     Rmin = track.safe_radius_min_m(V, e, f)
-    Vsafe = track.safe_speed_kmh(e, f) if abs(track.radius_m - Rmin) < 1e-9 else math.sqrt(127.0 * Rmin * (e + f))
+    Vsafe = (
+        track.safe_speed_kmh(e, f)
+        if abs(track.radius_m - Rmin) < 1e-9
+        else math.sqrt(127.0 * Rmin * (e + f))
+    )
     assert abs(Vsafe - V) <= 1e-8 * max(1.0, V)
-
-

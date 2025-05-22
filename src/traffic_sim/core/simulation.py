@@ -9,6 +9,10 @@ from traffic_sim.config.loader import get_nested
 from traffic_sim.core.vehicle import Vehicle, VehicleSpec, VehicleState
 from traffic_sim.models.vehicle_specs import DEFAULT_CATALOG
 from traffic_sim.core.driver import sample_driver_params, Driver
+from traffic_sim.core.perception import PerceptionData
+from traffic_sim.core.analytics import LiveAnalytics
+from traffic_sim.core.collision import CollisionSystem
+from traffic_sim.core.logging import DataLogger
 
 
 @dataclass
@@ -18,17 +22,6 @@ class SimulationConfig:
     e: float
     f: float
     safety_design_speed_kmh: float
-
-
-@dataclass
-class PerceptionData:
-    """Perception data for a vehicle including occlusion and SSD information."""
-
-    leader_vehicle: Optional[Vehicle]
-    leader_distance_m: float
-    is_occluded: bool
-    ssd_required_m: float
-    visual_range_m: float
 
 
 class Simulation:
@@ -54,7 +47,10 @@ class Simulation:
 
         self.vehicles: List[Vehicle] = []
         self.drivers: List[Driver] = []
-        self.perception_data: List[PerceptionData] = []
+        self.perception_data: List[Optional[PerceptionData]] = []
+        self.analytics = LiveAnalytics(cfg)
+        self.collision_system = CollisionSystem(cfg, self.track)
+        self.data_logger = DataLogger(cfg)
         self._spawn_initial_vehicles()
         self.idm_delta = 4.0
         self.a_max = 1.5  # m/s^2 (scaffold)
@@ -96,7 +92,11 @@ class Simulation:
             dparams = sample_driver_params(self.cfg, rng_driver)
             driver = Driver(dparams, rng_driver)
             self.drivers.append(driver)
-            self.vehicles.append(Vehicle(spec, state, driver, color_rgb=color))
+            vehicle = Vehicle(spec, state, driver, color_rgb=color)
+            self.vehicles.append(vehicle)
+
+            # Add vehicle to collision system
+            self.collision_system.add_vehicle(vehicle, i)
 
         # Initialize perception data
         self.perception_data = [
@@ -236,6 +236,30 @@ class Simulation:
                 visual_range_m=self.visual_range_m,
             )
 
+        # Update analytics
+        self.analytics.update_analytics(self.vehicles, self.perception_data, eff_dt)
+
+        # Check for collisions
+        collision_events = self.collision_system.check_collisions(self.vehicles)
+
+        # Log collision events
+        for event in collision_events:
+            self.analytics.log_incident(
+                event_type="collision",
+                vehicle_id=event.vehicle1_id,
+                location_m=event.location_m,
+                speed_mps=self.vehicles[event.vehicle1_id].state.v_mps,
+                acceleration_mps2=self.vehicles[event.vehicle1_id].state.a_mps2,
+                delta_v=event.delta_v,
+                ttc_at_impact=event.ttc_at_impact,
+            )
+            self.data_logger.log_collision(event)
+
+        # Log simulation step data
+        self.data_logger.log_simulation_step(
+            self.vehicles, self.perception_data, self.analytics, eff_dt
+        )
+
         # Update each vehicle
         for i, vehicle in enumerate(self.vehicles):
             # Update speeding state
@@ -255,7 +279,11 @@ class Simulation:
                 a = a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta)
             else:
                 # Multi-vehicle: IDM following behavior with perception
-                if perception.leader_vehicle is not None and not perception.is_occluded:
+                if (
+                    perception is not None
+                    and perception.leader_vehicle is not None
+                    and not perception.is_occluded
+                ):
                     # Use perceived leader and SSD
                     leader = perception.leader_vehicle
                     s_gap = perception.leader_distance_m
@@ -276,7 +304,11 @@ class Simulation:
 
                 # IDM desired gap - use SSD when available
                 delta_v = vehicle.state.v_mps - leader.state.v_mps
-                if perception.leader_vehicle is not None and not perception.is_occluded:
+                if (
+                    perception is not None
+                    and perception.leader_vehicle is not None
+                    and not perception.is_occluded
+                ):
                     # Use SSD-based desired gap
                     s_star = max(ssd_required, s0 + vehicle.state.v_mps * T)
                 else:
@@ -307,3 +339,17 @@ class Simulation:
 
             vehicle.state.s_m = s_new
             vehicle.state.v_mps = v_new
+
+            # Update collision system
+            self.collision_system.update_vehicle_position(vehicle, i)
+
+        # Step physics simulation
+        self.collision_system.step_physics(eff_dt)
+
+    def export_data(self, filename: Optional[str] = None) -> None:
+        """Export all simulation data to CSV files."""
+        self.data_logger.export_to_csv(filename)
+
+    def get_logging_summary(self) -> Dict[str, Any]:
+        """Get summary of logged data."""
+        return self.data_logger.get_summary_stats()

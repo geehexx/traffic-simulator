@@ -11,6 +11,8 @@ from traffic_sim.core.hud import (
     draw_perception_summary,
     draw_vehicle_perception_overlay,
     draw_perception_heatmap,
+    draw_live_analytics,
+    OptimizedHUD,
 )
 from traffic_sim.core.track import StadiumTrack
 
@@ -22,6 +24,7 @@ class TrafficSimWindow(arcade.Window):
         self.cfg = cfg
         self.hud_minimal: bool = get_nested(cfg, "render.hud_mode", "minimal") == "minimal"
         self.sim = Simulation(cfg)
+        self.hud = OptimizedHUD(cfg)
         # Fixed-step physics with accumulator
         self.fixed_dt = float(get_nested(cfg, "physics.delta_t_s", 0.02))
         self.accumulator = 0.0
@@ -51,6 +54,9 @@ class TrafficSimWindow(arcade.Window):
         # Draw perception summary
         if hasattr(self.sim, "perception_data") and self.sim.perception_data:
             draw_perception_summary(margin, self.height - 115, self.sim.perception_data)
+
+        # Draw live analytics
+        draw_live_analytics(margin, self.height - 140, self.hud.analytics_hud, self.hud_minimal)
 
         # Draw track and vehicles
         self._draw_track()
@@ -97,6 +103,9 @@ class TrafficSimWindow(arcade.Window):
             self.sim.step(self.fixed_dt)
             self.accumulator -= self.fixed_dt
             steps += 1
+
+        # Update HUD with current simulation state
+        self.hud.update(self.sim.vehicles, self.sim.perception_data, self.fixed_dt)
 
     # --- Drawing helpers ---
     def _scale_px(self) -> float:
