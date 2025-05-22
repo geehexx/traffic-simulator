@@ -363,15 +363,25 @@ def world_to_screen(self, world_pos: Tuple[float, float]) -> Tuple[float, float]
 ```
 
 ### 3. HUD System
-Optimized HUD with pre-created text objects:
+Optimized HUD with pre-created text objects and occlusion-aware panels:
 
-See HUD occlusion UI guidance in project docs:
-[Performance Guide – Rendering Optimization](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
+#### HUD Occlusion Panel Features
+The HUD system includes advanced occlusion-aware panels that provide real-time safety analytics:
 
+- **Occlusion Detection**: Sector-based visibility analysis for each vehicle
+- **SSD Metrics**: Dynamic Stopping Sight Distance calculations with occlusion factors
+- **Performance Optimization**: 10Hz refresh rate independent of physics simulation
+- **Deterministic Rendering**: Respects fixed-step simulation and seeded RNG requirements
+- **Configuration Integration**: Toggle-able via configuration settings
+
+#### HUD Rendering Architecture
 ```python
 class OptimizedHUD:
     def __init__(self) -> None:
         self.text_objects = {}
+        self.occlusion_data = None
+        self.refresh_rate = 0.1  # 10Hz
+        self.last_refresh = 0.0
         self._create_text_objects()
 
     def _create_text_objects(self) -> None:

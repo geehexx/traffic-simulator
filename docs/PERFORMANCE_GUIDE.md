@@ -21,10 +21,12 @@ This document provides comprehensive performance optimization guidelines, monito
 - **Scalability**: Support 50+ vehicles
 
 ### Current Performance
-- **Achieved**: 300+ FPS equivalent (10x target)
+- **Achieved**: 300+ FPS equivalent (10x target on development hardware)
 - **Memory**: <50MB for 20 vehicles
 - **Deterministic**: Fixed-step simulation with seeded RNGs
 - **Scalable**: Tested up to 100 vehicles
+- **Quality Gates**: 6/7 checks passing (MyPy duplicate module issue remains)
+- **Coverage**: 79% (above 70% target)
 
 ## Optimization Strategies
 
@@ -425,6 +427,35 @@ class CalculationCache:
 
         self.cache[key] = result
         self.access_count[key] = 0
+```
+
+## Quality Gates Integration
+
+### Performance Quality Gates
+The project integrates quality gates with performance monitoring to ensure consistent performance standards:
+
+```yaml
+# From quality_gates.yaml
+performance:
+  max_cyclomatic_complexity: 10
+  max_cognitive_complexity: 15
+  max_function_length: 50
+  max_class_length: 200
+```
+
+### Quality Gates Status
+- **Current Status**: 6/7 checks passing
+- **Coverage**: 79% (above 70% target)
+- **Known Issues**: MyPy duplicate module issue (priority for resolution)
+- **Performance Impact**: Quality gates run in <5 seconds
+
+### Running Quality Gates
+```bash
+# Run all quality gates including performance checks
+uv run python scripts/quality_gates.py
+
+# Run performance-specific quality checks
+uv run python scripts/quality_gates.py --performance-only
 ```
 
 ## Performance Testing
