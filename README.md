@@ -21,8 +21,10 @@ This project simulates vehicles circulating on a stadium-shaped track. Drivers a
 - 20+ vehicles with random colors; configurable mix
 - Parametric driver behavior; occlusion-based perception and dynamic SSD
 - Deterministic fixed-step physics; speed factor up to 10×
-- Collisions with lateral push and temporary disable
-- Live HUD: speed/headway/TTC, incident log, safe-curve panel, perception data
+- **Collision system with pymunk physics**: Lateral push effects and vehicle disable
+- **Live HUD Analytics**: Real-time speed histogram, headway distribution, near-miss counter
+- **Advanced Data Logging**: Incident tracking, performance metrics, CSV export
+- **Enhanced HUD**: Speed/headway/TTC, incident log, safe-curve panel, perception data
 
 ## Installation (uv)
 Requires Python 3.10+ and uv package manager.
@@ -55,8 +57,8 @@ TRAFFIC_SIM_CONFIG=config/my_config.yaml uv run python -m traffic_sim
 - **ESC**: Exit simulator
 
 ### HUD Modes
-- **Minimal**: Safety panel, perception summary
-- **Full**: Detailed vehicle overlays, perception heatmap, incident log
+- **Minimal**: Safety panel, perception summary, live analytics
+- **Full**: Detailed vehicle overlays, perception heatmap, incident log, performance metrics
 
 ## Configuration
 
@@ -105,6 +107,25 @@ perception:
   min_ssd_m: 2.0
 ```
 
+### Analytics Settings
+```yaml
+analytics:
+  speed_histogram_bins: 20
+  headway_dangerous_threshold: 1.0
+  headway_critical_threshold: 0.5
+  ttc_nearmiss_threshold: 1.5
+  data_retention_seconds: 300
+  performance_tracking: true
+```
+
+### Collision Settings
+```yaml
+collisions:
+  use_pymunk_impulse: true
+  disable_time_s: 5.0
+  lateral_push: true
+```
+
 ## Development
 
 ### Quick Start
@@ -126,6 +147,9 @@ uv run python -m pytest tests/ --cov=traffic_sim --cov-report=term-missing
 
 # Run quality gates
 uv run python scripts/quality_gates.py
+
+# Export simulation data
+uv run python -c "from traffic_sim.core.simulation import Simulation; from traffic_sim.config.loader import load_config; sim = Simulation(load_config()); [sim.step(0.02) for _ in range(1000)]; sim.export_data('my_simulation')"
 ```
 
 ### Static Analysis & Quality Gates
@@ -173,6 +197,9 @@ For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.m
 - **Vehicle**: Dynamics with jerk limiting and drivetrain lag
 - **Perception**: Occlusion detection and dynamic SSD calculation
 - **Track**: Stadium geometry with safety calculations
+- **Analytics**: Live data collection and real-time visualization
+- **Collision**: Pymunk physics integration for realistic crash dynamics
+- **Logging**: Comprehensive data export and incident tracking
 
 ## Testing & CI
 
@@ -227,6 +254,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Quality Gates**: 6/7 checks passing (MyPy duplicate module issue remains)
 
 ## Recent Updates
+
+### Phase 3 (Completed)
+- ✅ **Live HUD Analytics**: Real-time speed histogram, headway distribution, near-miss counter
+- ✅ **Crash Visualization**: Pymunk physics integration with lateral push effects and vehicle disable
+- ✅ **Advanced Data Logging**: Incident tracking, performance metrics, CSV export
+- ✅ **Enhanced Analytics HUD**: Performance monitoring and incident logging
+- ✅ **Comprehensive Test Suite**: Full coverage for new analytics and collision systems
 
 ### Phase 2 (Completed)
 - ✅ Occlusion-based perception system
