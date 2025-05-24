@@ -96,17 +96,28 @@ Implementation note (current): using Arcade 3.3.x, rotated vehicle rectangles ar
   - Headway summary (median; share < 1.0 s)
   - Near-miss counter (TTC < 1.5 s)
   - Safe-curve panel: display R, \( V_{\text{safe}} \), \( L_{\text{needed}} \), and the warning if unsafe
+  - Live analytics: real-time speed histogram, headway distribution, near-miss counter
 - Full HUD (toggle):
   - TTC histogram
   - Braking heatmap vs arc length
   - Per-vehicle overlays (speed, accel, jerk, SSD, occlusion flag)
   - Incident log with Δv and location
+  - Performance metrics panel with FPS and memory usage
+  - Advanced analytics with statistical measures
 
 Implementation guidance for the occlusion HUD UI is covered by project documentation:
 [Architecture Guide – Rendering Architecture](mdc:docs/ARCHITECTURE.md#rendering-architecture) and
 [Performance Guide – Rendering Optimization](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
 
-### 11) Configuration (restart to apply)
+### 11) Data logging and export
+- **Vehicle Snapshots**: Position, velocity, acceleration, jerk, driver parameters
+- **Simulation Aggregates**: Average speed, headway, near-miss counts, performance metrics
+- **Incident Logging**: Collision events, near-misses, with timestamps and locations
+- **CSV Export**: Structured data format with configurable logging rates
+- **Performance Tracking**: FPS, memory usage, simulation timing
+- **Data Retention**: Configurable rolling windows and retention periods
+
+### 12) Configuration (restart to apply)
 - Stored in `config/config.yaml`. Key groups:
   - `track`: `length_m`, `straight_fraction`, `superelevation_e`, `side_friction_f`, `safety_design_speed_kmh`, `speed_limit_kmh`
   - `vehicles`: `count`, `mix`, `color_random_seed`
@@ -117,20 +128,24 @@ Implementation guidance for the occlusion HUD UI is covered by project documenta
   - `random`: master seed (optional)
   - `logging`: aggregate rates, per-vehicle trace rate, rolling window, debug toggle/rate, output path
 
-### 12) Acceptance criteria (v0)
+### 13) Acceptance criteria (v0.4)
 - Window resizes maintain scaling; ≥ 30 FPS on target hardware.
 - 20 vehicles circulate stably with realistic spacing; statistical drivers produce measurable differences (headway, braking onset, overspeeding percent-time and episode durations).
 - Occlusion-based perception with dynamic SSD active.
 - Safety panel displays R, \( V_{\text{safe}} \), and \( L_{\text{needed}} \); warning appears when unsafe.
 - Deterministic replay under fixed seed; up to 10× speed factor stable.
 - Collisions create visual effect and disable the vehicle for 5 s.
+- Live analytics display real-time speed histogram, headway distribution, and near-miss counter.
+- Collision system uses pymunk physics with lateral push effects and vehicle disable.
+- Data logging exports comprehensive CSV data with configurable rates.
+- Performance metrics tracking shows FPS, memory usage, and simulation timing.
 
-### 13) Variable and unit glossary
+### 14) Variable and unit glossary
 - Geometry: L, R, S in meters; r unitless; e (m/m); f unitless.
 - Speeds: V (km/h) in formulas above; v, \( v_f \), \( v_\ell \) in m/s.
 - Dynamics: \( a \) (m/s²), \( j \) (m/s³), \( b_{\text{comf}} \), \( b_{\max} \) (m/s²), \( T \) (s), \( t_r \) (s), \( s_0 \) (m).
 
-### 14) References
+### 15) References
 - Curve radius vs design speed and superelevation (AASHTO-aligned): TxDOT, “Curve Radius” — `txdot.gov`
 - Stopping Sight Distance (SSD) formulation and design reaction time: AASHTO “Green Book” (2018)
 - Speeding prevalence and safety impact: NHTSA “Speeding” (2023) — `nhtsa.gov`

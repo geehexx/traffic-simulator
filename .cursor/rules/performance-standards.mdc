@@ -29,3 +29,18 @@ description: Performance optimization guidelines
 ## Performance Testing
 - **Pattern**: Automated performance tests
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
+
+## Analytics Performance
+- **Pattern**: Bounded collections, batch processing, statistical caching
+- **Key**: Use deque for rolling windows, update at configurable intervals
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#analytics-performance-optimization)
+
+## Collision Performance
+- **Pattern**: Spatial partitioning, collision filtering, physics stepping
+- **Key**: Use pymunk spatial hash, filter unnecessary checks, reuse shapes
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#collision-system-performance)
+
+## Data Logging Performance
+- **Pattern**: Asynchronous logging, batch writes, selective data collection
+- **Key**: Background threads for CSV writing, configurable logging rates
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#data-logging-performance)

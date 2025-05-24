@@ -9,10 +9,16 @@ description: Core simulation architecture patterns
 - **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
 - **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py)
 - **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
+- **Analytics**: [analytics.py](mdc:src/traffic_sim/core/analytics.py)
+- **Collision**: [collision.py](mdc:src/traffic_sim/core/collision.py)
+- **Logging**: [logging.py](mdc:src/traffic_sim/core/logging.py)
 
 ## Design Patterns
 - **IDM Controller**: Per-driver parameters with Gaussian copula
 - **Perception System**: Occlusion-based detection with dynamic SSD
+- **Analytics System**: Real-time data collection with bounded history
+- **Collision System**: Pymunk physics with spatial partitioning
+- **Data Logging**: Asynchronous CSV export with configurable rates
 - **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components)
 
 ## State Management
@@ -30,3 +36,18 @@ description: Core simulation architecture patterns
 ## Perception System
 - **Pattern**: Line-of-sight calculations, dynamic SSD
 - **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#design-patterns)
+
+## Analytics System
+- **Pattern**: Bounded collections, batch processing, statistical caching
+- **Key**: Use deque for rolling windows, update at configurable intervals
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#analytics-performance-optimization)
+
+## Collision System
+- **Pattern**: Spatial partitioning, collision filtering, physics stepping
+- **Key**: Use pymunk spatial hash, filter unnecessary checks, reuse shapes
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#collision-system-performance)
+
+## Data Logging
+- **Pattern**: Asynchronous logging, batch writes, selective data collection
+- **Key**: Background threads for CSV writing, configurable logging rates
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#data-logging-performance)
