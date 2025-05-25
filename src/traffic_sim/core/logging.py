@@ -116,6 +116,56 @@ class DataLogger:
         if len(self.memory_usage) > 1000:
             self.memory_usage = self.memory_usage[-500:]
 
+    def _calculate_average_speed(self, vehicles: List[Vehicle]) -> float:
+        """Calculate average speed of vehicles."""
+        speeds = [v.state.v_mps * 3.6 for v in vehicles]  # Convert to km/h
+        return sum(speeds) / len(speeds) if speeds else 0.0
+
+    def _calculate_average_headway(
+        self, vehicles: List[Vehicle], perception_data: List[Optional[PerceptionData]]
+    ) -> float:
+        """Calculate average headway from perception data."""
+        headways = []
+        for perception in perception_data:
+            if self._is_valid_perception_for_headway(perception):
+                # At this point we know perception is not None
+                assert perception is not None
+                headway = self._find_vehicle_headway(vehicles, perception)
+                if headway is not None:
+                    headways.append(headway)
+        return sum(headways) / len(headways) if headways else 0.0
+
+    def _is_valid_perception_for_headway(self, perception: Optional[PerceptionData]) -> bool:
+        """Check if perception data is valid for headway calculation."""
+        return (
+            perception is not None
+            and perception.leader_vehicle is not None
+            and perception.leader_distance_m > 0
+        )
+
+    def _find_vehicle_headway(
+        self, vehicles: List[Vehicle], perception: PerceptionData
+    ) -> Optional[float]:
+        """Find headway for a vehicle based on perception data."""
+        for vehicle in vehicles:
+            if hasattr(vehicle, "driver") and vehicle.state.v_mps > 0.1:
+                return perception.leader_distance_m / vehicle.state.v_mps
+        return None
+
+    def _calculate_aggregate_stats(
+        self, vehicles: List[Vehicle], perception_data: List[Optional[PerceptionData]]
+    ) -> tuple[float, float]:
+        """Calculate aggregate speed and headway statistics."""
+        avg_speed = self._calculate_average_speed(vehicles)
+        avg_headway = self._calculate_average_headway(vehicles, perception_data)
+        return avg_speed, avg_headway
+
+    def _calculate_performance_metrics(self) -> tuple[float, float]:
+        """Calculate performance metrics."""
+        fps = 1.0 / (sum(self.frame_times) / len(self.frame_times)) if self.frame_times else 0.0
+        memory_mb = sum(self.memory_usage) / len(self.memory_usage) if self.memory_usage else 0.0
+        return fps, memory_mb
+
     def _log_aggregate_data(
         self,
         vehicles: List[Vehicle],
@@ -124,32 +174,12 @@ class DataLogger:
         timestamp: float,
     ) -> None:
         """Log aggregate simulation data."""
-        # Calculate aggregate statistics
-        speeds = [v.state.v_mps * 3.6 for v in vehicles]  # Convert to km/h
-        avg_speed = sum(speeds) / len(speeds) if speeds else 0.0
-
-        headways = []
-        for perception in perception_data:
-            if (
-                perception is not None
-                and perception.leader_vehicle is not None
-                and perception.leader_distance_m > 0
-            ):
-                for vehicle in vehicles:
-                    if hasattr(vehicle, "driver") and vehicle.state.v_mps > 0.1:
-                        headway = perception.leader_distance_m / vehicle.state.v_mps
-                        headways.append(headway)
-                        break
-
-        avg_headway = sum(headways) / len(headways) if headways else 0.0
+        avg_speed, avg_headway = self._calculate_aggregate_stats(vehicles, perception_data)
+        fps, memory_mb = self._calculate_performance_metrics()
 
         # Get analytics data
         near_miss_count = analytics.get_near_miss_count()
         collision_count = len(self.collision_events)
-
-        # Performance metrics
-        fps = 1.0 / (sum(self.frame_times) / len(self.frame_times)) if self.frame_times else 0.0
-        memory_mb = sum(self.memory_usage) / len(self.memory_usage) if self.memory_usage else 0.0
 
         snapshot = SimulationSnapshot(
             timestamp=timestamp,

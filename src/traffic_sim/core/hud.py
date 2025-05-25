@@ -52,6 +52,25 @@ def draw_safety_panel(x: float, y: float, panel: Dict[str, float | bool]) -> Non
         arcade.draw_text(warn, x, y - 18, arcade.color.DARK_RED, 12)
 
 
+def _calculate_perception_stats(
+    perception_data: List[Optional[PerceptionData]],
+) -> tuple[int, int, float, float, float]:
+    """Calculate perception statistics."""
+    total_vehicles = len(perception_data)
+    occluded_count = sum(1 for p in perception_data if p is not None and p.is_occluded)
+    valid_perceptions = [p for p in perception_data if p is not None]
+
+    if not valid_perceptions:
+        return total_vehicles, occluded_count, 0.0, 0.0, 0.0
+
+    ssd_values = [p.ssd_required_m for p in valid_perceptions]
+    avg_ssd = sum(ssd_values) / len(ssd_values)
+    max_ssd = max(ssd_values)
+    min_ssd = min(ssd_values)
+
+    return total_vehicles, occluded_count, avg_ssd, max_ssd, min_ssd
+
+
 def draw_perception_summary(
     x: float, y: float, perception_data: List[Optional[PerceptionData]]
 ) -> None:
@@ -59,16 +78,9 @@ def draw_perception_summary(
     if not perception_data:
         return
 
-    # Calculate statistics
-    total_vehicles = len(perception_data)
-    occluded_count = sum(1 for p in perception_data if p is not None and p.is_occluded)
-    valid_perceptions = [p for p in perception_data if p is not None]
-    if valid_perceptions:
-        avg_ssd = sum(p.ssd_required_m for p in valid_perceptions) / len(valid_perceptions)
-        max_ssd = max(p.ssd_required_m for p in valid_perceptions)
-        min_ssd = min(p.ssd_required_m for p in valid_perceptions)
-    else:
-        avg_ssd = max_ssd = min_ssd = 0.0
+    total_vehicles, occluded_count, avg_ssd, max_ssd, min_ssd = _calculate_perception_stats(
+        perception_data
+    )
 
     # Draw summary
     text = f"Perception: {occluded_count}/{total_vehicles} occluded, SSD: {avg_ssd:.1f}m (range: {min_ssd:.1f}-{max_ssd:.1f}m)"

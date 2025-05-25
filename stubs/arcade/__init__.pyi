@@ -13,6 +13,11 @@ class Window:
     def run(self) -> None: ...
     def close(self) -> None: ...
     def set_update_rate(self, rate: float) -> None: ...
+    def clear(self) -> None: ...
+    @property
+    def width(self) -> int: ...
+    @property
+    def height(self) -> int: ...
 
 class Sprite:
     def __init__(
@@ -64,6 +69,8 @@ class color:
     RED: Tuple[int, int, int]
     GREEN: Tuple[int, int, int]
     BLUE: Tuple[int, int, int]
+    YELLOW: Tuple[int, int, int]
+    ORANGE: Tuple[int, int, int]
     ASH_GREY: Tuple[int, int, int]
     DARK_SLATE_GRAY: Tuple[int, int, int]
     DARK_RED: Tuple[int, int, int]

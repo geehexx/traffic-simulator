@@ -206,6 +206,114 @@ class Simulation:
         # Ensure minimum SSD
         return float(max(g_req, self.min_ssd_m))
 
+    def _update_perception_data(self, eff_dt: float) -> None:
+        """Update perception data for all vehicles."""
+        for i, vehicle in enumerate(self.vehicles):
+            leader, distance, is_occluded = self._find_first_unobstructed_leader(i)
+            ssd_required = self._calculate_dynamic_ssd(vehicle, leader, distance)
+
+            self.perception_data[i] = PerceptionData(
+                leader_vehicle=leader,
+                leader_distance_m=distance,
+                is_occluded=is_occluded,
+                ssd_required_m=ssd_required,
+                visual_range_m=self.visual_range_m,
+            )
+
+    def _handle_collision_events(self, collision_events: List[Any]) -> None:
+        """Handle collision events by logging them."""
+        for event in collision_events:
+            self.analytics.log_incident(
+                event_type="collision",
+                vehicle_id=event.vehicle1_id,
+                location_m=event.location_m,
+                speed_mps=self.vehicles[event.vehicle1_id].state.v_mps,
+                acceleration_mps2=self.vehicles[event.vehicle1_id].state.a_mps2,
+                delta_v=event.delta_v,
+                ttc_at_impact=event.ttc_at_impact,
+            )
+            self.data_logger.log_collision(event)
+
+    def _calculate_idm_acceleration(
+        self,
+        vehicle: Vehicle,
+        perception: Optional[PerceptionData],
+        effective_speed_limit: float,
+        n: int,
+        L: float,
+    ) -> float:
+        """Calculate IDM acceleration for a vehicle."""
+        if n == 1:
+            # Single vehicle: maintain desired speed
+            v0 = vehicle.driver.params.desired_speed_mps
+            a_max = self.a_max
+            return float(a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta))
+
+        # Multi-vehicle: IDM following behavior with perception
+        if (
+            perception is not None
+            and perception.leader_vehicle is not None
+            and not perception.is_occluded
+        ):
+            # Use perceived leader and SSD
+            leader = perception.leader_vehicle
+            s_gap = perception.leader_distance_m
+            ssd_required = perception.ssd_required_m
+        else:
+            # Fallback to simple following (next vehicle in line)
+            vehicle_idx = self.vehicles.index(vehicle)
+            leader_idx = (vehicle_idx + 1) % n
+            leader = self.vehicles[leader_idx]
+            s_gap = (leader.state.s_m - vehicle.state.s_m) % L
+            ssd_required = self.min_ssd_m
+
+        # Per-driver parameters
+        T = vehicle.driver.params.headway_T_s
+        s0 = 2.0  # Standstill buffer
+        b_comf = vehicle.driver.params.comfort_brake_mps2
+        v0 = min(vehicle.driver.params.desired_speed_mps, effective_speed_limit)
+        a_max = self.a_max
+
+        # IDM desired gap - use SSD when available
+        delta_v = vehicle.state.v_mps - leader.state.v_mps
+        if (
+            perception is not None
+            and perception.leader_vehicle is not None
+            and not perception.is_occluded
+        ):
+            # Use SSD-based desired gap
+            s_star = max(ssd_required, s0 + vehicle.state.v_mps * T)
+        else:
+            # Standard IDM desired gap
+            s_star = (
+                s0
+                + vehicle.state.v_mps * T
+                + (vehicle.state.v_mps * delta_v) / (2.0 * (a_max**0.5) * (b_comf**0.5) + 1e-6)
+            )
+
+        # IDM acceleration
+        return float(
+            a_max
+            * (
+                1.0
+                - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta
+                - (s_star / max(0.1, s_gap)) ** 2
+            )
+        )
+
+    def _update_vehicle_physics(self, vehicle: Vehicle, eff_dt: float, L: float) -> None:
+        """Update vehicle physics (position, velocity, collision system)."""
+        # Update position and velocity
+        v_new = max(0.0, vehicle.state.v_mps + vehicle.state.a_mps2 * eff_dt)
+        s_new = (vehicle.state.s_m + v_new * eff_dt) % L
+
+        vehicle.state.s_m = s_new
+        vehicle.state.v_mps = v_new
+
+        # Update collision system
+        vehicle_idx = self.vehicles.index(vehicle)
+        self.collision_system.update_vehicle_position(vehicle, vehicle_idx)
+
     def step(self, dt_s: float) -> None:
         """Enhanced IDM controller with per-driver parameters, jerk limiting, drivetrain lag, and occlusion-based perception."""
         n = len(self.vehicles)
@@ -223,37 +331,14 @@ class Simulation:
         speed_limit_mps = speed_limit_kmh / 3.6
 
         # Update perception data for all vehicles
-        for i, vehicle in enumerate(self.vehicles):
-            leader, distance, is_occluded = self._find_first_unobstructed_leader(i)
-            ssd_required = self._calculate_dynamic_ssd(vehicle, leader, distance)
-
-            # Update perception data
-            self.perception_data[i] = PerceptionData(
-                leader_vehicle=leader,
-                leader_distance_m=distance,
-                is_occluded=is_occluded,
-                ssd_required_m=ssd_required,
-                visual_range_m=self.visual_range_m,
-            )
+        self._update_perception_data(eff_dt)
 
         # Update analytics
         self.analytics.update_analytics(self.vehicles, self.perception_data, eff_dt)
 
         # Check for collisions
         collision_events = self.collision_system.check_collisions(self.vehicles)
-
-        # Log collision events
-        for event in collision_events:
-            self.analytics.log_incident(
-                event_type="collision",
-                vehicle_id=event.vehicle1_id,
-                location_m=event.location_m,
-                speed_mps=self.vehicles[event.vehicle1_id].state.v_mps,
-                acceleration_mps2=self.vehicles[event.vehicle1_id].state.a_mps2,
-                delta_v=event.delta_v,
-                ttc_at_impact=event.ttc_at_impact,
-            )
-            self.data_logger.log_collision(event)
+        self._handle_collision_events(collision_events)
 
         # Log simulation step data
         self.data_logger.log_simulation_step(
@@ -271,61 +356,8 @@ class Simulation:
             # Get perception data for this vehicle
             perception = self.perception_data[i]
 
-            # IDM controller with per-driver parameters and perception
-            if n == 1:
-                # Single vehicle: maintain desired speed
-                v0 = vehicle.driver.params.desired_speed_mps
-                a_max = self.a_max
-                a = a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta)
-            else:
-                # Multi-vehicle: IDM following behavior with perception
-                if (
-                    perception is not None
-                    and perception.leader_vehicle is not None
-                    and not perception.is_occluded
-                ):
-                    # Use perceived leader and SSD
-                    leader = perception.leader_vehicle
-                    s_gap = perception.leader_distance_m
-                    ssd_required = perception.ssd_required_m
-                else:
-                    # Fallback to simple following (next vehicle in line)
-                    leader_idx = (i + 1) % n
-                    leader = self.vehicles[leader_idx]
-                    s_gap = (leader.state.s_m - vehicle.state.s_m) % L
-                    ssd_required = self.min_ssd_m
-
-                # Per-driver parameters
-                T = vehicle.driver.params.headway_T_s
-                s0 = 2.0  # Standstill buffer (could be per-vehicle)
-                b_comf = vehicle.driver.params.comfort_brake_mps2
-                v0 = min(vehicle.driver.params.desired_speed_mps, effective_speed_limit)
-                a_max = self.a_max
-
-                # IDM desired gap - use SSD when available
-                delta_v = vehicle.state.v_mps - leader.state.v_mps
-                if (
-                    perception is not None
-                    and perception.leader_vehicle is not None
-                    and not perception.is_occluded
-                ):
-                    # Use SSD-based desired gap
-                    s_star = max(ssd_required, s0 + vehicle.state.v_mps * T)
-                else:
-                    # Standard IDM desired gap
-                    s_star = (
-                        s0
-                        + vehicle.state.v_mps * T
-                        + (vehicle.state.v_mps * delta_v)
-                        / (2.0 * (a_max**0.5) * (b_comf**0.5) + 1e-6)
-                    )
-
-                # IDM acceleration
-                a = a_max * (
-                    1.0
-                    - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta
-                    - (s_star / max(0.1, s_gap)) ** 2
-                )
+            # Calculate IDM acceleration
+            a = self._calculate_idm_acceleration(vehicle, perception, effective_speed_limit, n, L)
 
             # Set commanded acceleration
             vehicle.set_commanded_acceleration(a)
@@ -333,15 +365,8 @@ class Simulation:
             # Update internal state (jerk limiting, drivetrain lag)
             vehicle.update_internal_state(eff_dt)
 
-            # Update position and velocity
-            v_new = max(0.0, vehicle.state.v_mps + vehicle.state.a_mps2 * eff_dt)
-            s_new = (vehicle.state.s_m + v_new * eff_dt) % L
-
-            vehicle.state.s_m = s_new
-            vehicle.state.v_mps = v_new
-
-            # Update collision system
-            self.collision_system.update_vehicle_position(vehicle, i)
+            # Update physics
+            self._update_vehicle_physics(vehicle, eff_dt, L)
 
         # Step physics simulation
         self.collision_system.step_physics(eff_dt)
