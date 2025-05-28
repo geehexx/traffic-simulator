@@ -153,10 +153,16 @@ Quality gates run automatically in GitHub Actions on every push and pull request
 ## Testing Standards
 
 ### Test Organization
-- Unit tests in [test_idm.py](mdc:tests/test_idm.py) for IDM controller
-- Integration tests in [test_sim.py](mdc:tests/test_sim.py) for simulation
-- Track tests in [test_track.py](mdc:tests/test_track.py) for geometry
+- Unit tests in [idm_test.py](mdc:tests/idm_test.py) for IDM controller
+- Integration tests in [sim_test.py](mdc:tests/sim_test.py) for simulation
+- Track tests in [track_test.py](mdc:tests/track_test.py) for geometry
 - Property tests for driver behavior validation
+
+### Test File Naming
+- All test files must end with `_test.py`
+- Use descriptive names that indicate the module being tested
+- Examples: `idm_test.py`, `sim_test.py`, `track_test.py`
+- Avoid redundant prefixes like `test_` at the beginning
 
 ### Test Structure
 - Use descriptive test names: `test_should_calculate_correct_acceleration_when_leading_vehicle_brakes`

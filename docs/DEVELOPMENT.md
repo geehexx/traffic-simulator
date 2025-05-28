@@ -87,7 +87,7 @@ uv run python -m pytest tests/ -v
 uv run python -m pytest --cov=traffic_sim --cov-report=term-missing
 
 # Run specific test file
-uv run python -m pytest tests/test_idm.py -v
+uv run python -m pytest tests/idm_test.py -v
 
 # Run performance tests
 uv run python -m pytest tests/ -k performance -v
@@ -208,10 +208,10 @@ For detailed quality standards, see [Quality Standards Guide](mdc:docs/QUALITY_S
 
 ### Test Organization
 ```python
-# tests/test_idm.py - IDM controller tests
-# tests/test_sim.py - Simulation integration tests
-# tests/test_track.py - Track geometry tests
-# tests/test_track_properties.py - Track property tests
+# tests/idm_test.py - IDM controller tests
+# tests/sim_test.py - Simulation integration tests
+# tests/track_test.py - Track geometry tests
+# tests/track_properties_test.py - Track property tests
 ```
 
 ### Writing Tests
