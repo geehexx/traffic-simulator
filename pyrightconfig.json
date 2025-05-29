@@ -19,7 +19,7 @@
   "pythonPlatform": "Linux",
   "executionEnvironments": [
     {
-      "root": "src",
+      "root": ".",
       "pythonVersion": "3.10",
       "pythonPlatform": "Linux"
     }
