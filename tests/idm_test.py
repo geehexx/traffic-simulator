@@ -111,7 +111,7 @@ def test_jerk_limiting():
     )
 
     driver = Driver(params, rng)
-    spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+    spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
     state = VehicleState(0.0, 20.0, 0.0)
     vehicle = Vehicle(spec, state, driver)
 
@@ -151,7 +151,7 @@ def test_drivetrain_lag():
     )
 
     driver = Driver(params, rng)
-    spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+    spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
     state = VehicleState(0.0, 20.0, 0.0)
     vehicle = Vehicle(spec, state, driver)
 

@@ -31,6 +31,8 @@ class VehiclePhysicsState:
     disable_time_remaining: float
     original_position: Tuple[float, float]
     original_angle: float
+    blink_timer: float  # For visual blinking effect
+    blink_state: bool  # Current blink state
 
 
 class CollisionSystem:
@@ -92,6 +94,8 @@ class CollisionSystem:
             disable_time_remaining=0.0,
             original_position=(x_m, y_m),
             original_angle=theta,
+            blink_timer=0.0,
+            blink_state=False,
         )
 
         # Set up collision handler
@@ -108,6 +112,13 @@ class CollisionSystem:
         if physics_state.is_disabled:
             # Update disable timer
             physics_state.disable_time_remaining -= 1.0 / 60.0  # Assuming 60 FPS
+
+            # Update blink timer for visual effect
+            physics_state.blink_timer += 1.0 / 60.0
+            if physics_state.blink_timer >= 0.5:  # Blink every 0.5 seconds
+                physics_state.blink_state = not physics_state.blink_state
+                physics_state.blink_timer = 0.0
+
             if physics_state.disable_time_remaining <= 0:
                 self._reenable_vehicle(vehicle_id)
             return
@@ -221,6 +232,8 @@ class CollisionSystem:
             physics_state = self.vehicle_physics[vehicle_id]
             physics_state.is_disabled = True
             physics_state.disable_time_remaining = self.disable_time_s
+            physics_state.blink_timer = 0.0
+            physics_state.blink_state = False
 
             # Make vehicle semi-transparent or add visual effect
             physics_state.shape.color = (255, 0, 0, 128)  # Red with transparency
@@ -263,6 +276,33 @@ class CollisionSystem:
         """Step physics simulation."""
         if self.use_pymunk_impulse:
             self.space.step(dt_s)
+
+    def get_vehicle_visual_state(self, vehicle_id: int) -> Dict[str, Any]:
+        """
+        Get visual state for rendering a vehicle.
+
+        Args:
+            vehicle_id: ID of the vehicle
+
+        Returns:
+            Dictionary containing visual state information
+        """
+        if vehicle_id not in self.vehicle_physics:
+            return {"is_disabled": False, "blink_state": False, "alpha": 255}
+
+        physics_state = self.vehicle_physics[vehicle_id]
+
+        # Calculate alpha based on blink state
+        alpha = 128 if physics_state.is_disabled else 255
+        if physics_state.is_disabled and not physics_state.blink_state:
+            alpha = 64  # Very transparent when blinking off
+
+        return {
+            "is_disabled": physics_state.is_disabled,
+            "blink_state": physics_state.blink_state,
+            "alpha": alpha,
+            "disable_time_remaining": physics_state.disable_time_remaining,
+        }
 
     def cleanup(self) -> None:
         """Clean up physics simulation."""
