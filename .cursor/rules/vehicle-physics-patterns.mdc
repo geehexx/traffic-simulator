@@ -1,0 +1,48 @@
+---
+title: Vehicle Physics Patterns
+description: Patterns for implementing vehicle physics attributes and constraints
+tags: [physics, vehicles, performance]
+version: 1.0.0
+---
+
+# Vehicle Physics Patterns
+
+## Physics Attributes
+- **Pattern**: Use dataclass for vehicle specifications with physics attributes
+- **Implementation**: Include power_kw, torque_nm, drag_area_cda, wheelbase_m, tire_friction_mu, brake_efficiency_eta
+- **Reference**: [VehicleSpec](mdc:src/traffic_sim/core/vehicle.py#VehicleSpec)
+
+## Acceleration Calculations
+- **Pattern**: Implement power/torque-based acceleration curves
+- **Formula**: a_max(v) = min(power_limit, torque_limit) / mass
+- **Reference**: [calculate_max_acceleration](mdc:src/traffic_sim/core/vehicle.py#calculate_max_acceleration)
+
+## Aerodynamic Drag
+- **Pattern**: Calculate drag force using standard formula
+- **Formula**: F_d = 0.5 * ρ * C_d * A * v²
+- **Reference**: [calculate_aerodynamic_drag_force](mdc:src/traffic_sim/core/vehicle.py#calculate_aerodynamic_drag_force)
+
+## Physical Constraints
+- **Pattern**: Apply braking constraints based on tire friction
+- **Formula**: a ≥ -ημg
+- **Reference**: [apply_physical_constraints](mdc:src/traffic_sim/core/vehicle.py#apply_physical_constraints)
+
+## Performance Considerations
+- **Pattern**: Cache expensive calculations
+- **Implementation**: Use PerformanceOptimizer for fast approximations
+- **Reference**: [PerformanceOptimizer](mdc:src/traffic_sim/core/performance.py)
+
+## Vehicle Type Physics
+- **Pattern**: Define realistic physics values per vehicle type
+- **Implementation**: Use VehicleCatalogEntry with physics attributes
+- **Reference**: [DEFAULT_CATALOG](mdc:src/traffic_sim/models/vehicle_specs.py#DEFAULT_CATALOG)
+
+## Integration with IDM
+- **Pattern**: Apply physics constraints to IDM acceleration
+- **Implementation**: Use apply_physical_constraints after IDM calculation
+- **Reference**: [simulation.py](mdc:src/traffic_sim/core/simulation.py#_calculate_idm_acceleration)
+
+## Testing Physics
+- **Pattern**: Test physics calculations with known values
+- **Implementation**: Verify acceleration limits and drag forces
+- **Reference**: [performance_test.py](mdc:tests/performance_test.py#test_physics_constraints)
