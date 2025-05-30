@@ -70,6 +70,19 @@ Statistical driver model with correlated parameters:
 - Markov chain speeding behavior
 - Jerk limiting and drivetrain lag
 
+#### Driver Parameter Ranges
+
+Core parameters with realistic distributions and bounds:
+- **Reaction Time**: \( t_r \sim \mathcal{N}(2.5, 0.6) \) s → [0.8, 4.0]
+- **Desired Headway**: \( T \sim \mathcal{N}(1.6, 0.5) \) s → [0.6, 3.0]
+- **Comfortable Deceleration**: \( b_{\text{comf}} \sim \mathcal{N}(2.5, 0.7) \) m/s² → [1.0, 4.0]
+- **Maximum Deceleration**: \( b_{\max} \sim \mathcal{N}(7.0, 1.0) \) m/s² → [4.0, 9.0]
+- **Jerk Limit**: \( j_{\max} \sim \mathcal{N}(4.0, 1.0) \) m/s³ → [1.0, 7.0]
+- **Throttle Lag**: \( \tau_{\text{throttle}} \sim \mathcal{N}(0.25, 0.10) \) s → [0.05, 1.0]
+- **Brake Lag**: \( \tau_{\text{brake}} \sim \mathcal{N}(0.15, 0.07) \) s → [0.05, 1.0]
+- **Aggression**: \( A \sim \mathcal{N}(0,1) \) (latent, transformed to rule adherence)
+- **Rule Adherence**: \( R = \text{sigmoid}(A) \in [0, 1] \)
+
 ```python
 @dataclass
 class DriverParams:
@@ -153,10 +166,24 @@ class Vehicle:
 Different vehicle types have distinct physics characteristics:
 
 - **Sedans**: Balanced power/torque (100-200 kW), moderate drag (0.3-0.4 CdA)
+  - Examples: Toyota Camry, Honda Accord, Ford Fusion
 - **SUVs**: Higher mass, increased drag area (0.4-0.5 CdA), higher torque
+  - Examples: Ford Explorer, Toyota Highlander, Honda CR-V
 - **Trucks/Vans**: High torque (300-500 Nm), significant drag (0.6-0.8 CdA)
+  - Examples: Ford F-150, Chevrolet Silverado 1500, Ram 1500, Ford Transit, Mercedes-Benz Sprinter, Ram ProMaster
 - **Buses**: Very high mass (15,000+ kg), large drag area (1.0+ CdA)
+  - Examples: Blue Bird All American, Thomas Saf-T-Liner, IC Bus CE
 - **Motorbikes**: Low mass (200-300 kg), minimal drag (0.2-0.3 CdA), high power-to-weight ratio
+  - Examples: Harley-Davidson Sportster, Yamaha YZF-R6, Honda CBR600RR
+
+#### Default Vehicle Composition
+
+The simulation uses a configurable vehicle mix with realistic distribution:
+- **Sedans**: 55% (default)
+- **SUVs**: 25% (default)
+- **Trucks/Vans**: 10% (default)
+- **Buses**: 5% (default)
+- **Motorbikes**: 5% (default)
 
 #### Performance Benchmarks
 
