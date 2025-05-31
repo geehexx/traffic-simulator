@@ -239,6 +239,13 @@ def test_performance_target():
     assert fps_equivalent >= 30, f"Performance below target: {fps_equivalent:.1f} FPS"
 ```
 
+### Profiling & Benchmarks
+
+- Profiling CLI: `scripts/profile_simulation.py` (CSV output, optional cProfile)
+- Benchmark CLI: `scripts/benchmark_highperf.py` (vectorized flags enabled)
+- Nightly profiling workflow: `.github/workflows/profile.yml`
+- On-demand benchmark workflow: `.github/workflows/benchmark.yml`
+
 ## Security Standards
 
 ### Security Best Practices

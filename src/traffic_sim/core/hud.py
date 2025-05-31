@@ -17,14 +17,28 @@ class OptimizedHUD:
 
     def _create_text_objects(self) -> None:
         """Pre-create Text objects to avoid recreation each frame."""
-        # This would be implemented for high-frequency text updates
-        pass
+        try:
+            self.text_objects = {
+                "fps": arcade.Text("FPS: 0", 10, 10, arcade.color.WHITE, 12),
+                "vehicles": arcade.Text("Vehicles: 0", 10, 30, arcade.color.WHITE, 12),
+            }
+        except Exception:
+            # In headless/test environments, arcade may not initialize; fail gracefully
+            self.text_objects = {}
 
     def update(
         self, vehicles: List, perception_data: List[Optional[PerceptionData]], dt_s: float
     ) -> None:
         """Update HUD with current simulation state."""
         self.analytics_hud.update(vehicles, perception_data, dt_s)
+        # Update cached Text when available
+        if self.text_objects:
+            fps_text = self.text_objects.get("fps")
+            veh_text = self.text_objects.get("vehicles")
+            if fps_text is not None:
+                fps_text.text = f"FPS: {int(1.0/dt_s) if dt_s > 0 else 0}"
+            if veh_text is not None:
+                veh_text.text = f"Vehicles: {len(vehicles)}"
 
     @staticmethod
     def draw_text_optimized(

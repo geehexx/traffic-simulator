@@ -1,0 +1,25 @@
+name: High-Performance Benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Sync dependencies
+        run: uv sync --extra dev
+
+      - name: Run benchmark
+        run: uv run python scripts/benchmark_highperf.py --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0

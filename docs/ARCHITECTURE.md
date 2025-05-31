@@ -31,6 +31,7 @@ The traffic simulator is a 2D Python application that simulates multi-vehicle tr
 - **Rendering**: Arcade 3.3.x for 2D graphics
 - **Physics**: Pymunk for collision detection and response
 - **Data**: NumPy for numerical computations
+- **Vectorization**: Optional vectorized physics/IDM modules (feature-flagged)
 - **Configuration**: YAML for human-readable settings
 - **Testing**: Pytest with Hypothesis for property-based testing
 
@@ -59,6 +60,11 @@ class Simulation:
         # Calculate perception and SSD
         # Handle collisions
         # Update HUD data
+
+    # High-Performance Flags
+    # - data_manager.enabled: enable pre-allocated arrays for experimentation
+    # - high_performance.enabled: enable vectorized arc-length kinematics
+    # - high_performance.idm_vectorized: vectorized fallback IDM when perception is occluded
 ```
 
 ### 2. Driver Behavior Model
@@ -191,6 +197,12 @@ The physics system is designed to maintain:
 - **≥30 FPS** with 20+ vehicles
 - **10× speed factor** stability without instability
 - **Deterministic replay** with fixed seeds
+
+### 4b. Vectorized Physics and IDM (Optional)
+
+- Files: `core/physics_vectorized.py`, `core/idm_vectorized.py`
+- Purpose: NumPy-based kinematics and IDM fallback (leader = next vehicle)
+- Activation: `high_performance` flags in config
 
 ### 5. Visual Effects System {#id:visual-effects}
 **File**: [collision.py](mdc:src/traffic_sim/core/collision.py)
