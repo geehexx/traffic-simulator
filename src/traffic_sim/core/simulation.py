@@ -51,6 +51,10 @@ class Simulation:
         self.ssd_safety_margin = float(get_nested(cfg, "perception.ssd_safety_margin", 1.2))
         self.min_ssd_m = float(get_nested(cfg, "perception.min_ssd_m", 2.0))
 
+        # Window-limited occlusion config
+        self.window_enabled = bool(get_nested(cfg, "perception.window_enabled", False))
+        self.window_neighbors = int(get_nested(cfg, "perception.window_neighbors", 5))
+
         self.vehicles: List[Vehicle] = []
         self.drivers: List[Driver] = []
         self.perception_data: List[Optional[PerceptionData]] = []
@@ -159,6 +163,7 @@ class Simulation:
     ) -> Tuple[Optional[Vehicle], float, bool]:
         """
         Find the first unobstructed leader within visual range.
+        If window_enabled, only check up to window_neighbors ahead.
         Returns (leader_vehicle, distance_m, is_occluded).
         """
         if len(self.vehicles) <= 1:
@@ -167,8 +172,12 @@ class Simulation:
         follower = self.vehicles[follower_idx]
         L = self.track.total_length_m
 
-        # Check vehicles ahead in order of distance
-        for i in range(1, len(self.vehicles)):
+        max_neighbors = len(self.vehicles) - 1
+        if self.window_enabled:
+            max_neighbors = min(self.window_neighbors, len(self.vehicles) - 1)
+
+        # Check vehicles ahead in order of distance, up to max_neighbors
+        for i in range(1, max_neighbors + 1):
             leader_idx = (follower_idx + i) % len(self.vehicles)
             leader = self.vehicles[leader_idx]
 
@@ -186,7 +195,7 @@ class Simulation:
                 # This leader is occluded, continue to next
                 continue
 
-        # No unobstructed leader found within visual range
+        # No unobstructed leader found within visual range (or window)
         return None, 0.0, True
 
     def _is_line_of_sight_clear(self, follower: Vehicle, leader: Vehicle, distance: float) -> bool:
