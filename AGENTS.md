@@ -61,6 +61,8 @@ This ensures the correct environment and dependencies are used, similar to how C
 - **Configuration:** `config/` — YAML config files.
 - **Tests:** `tests/` — Test suite.
 - **Documentation:** `docs/` — Guides and references.
+- **NumPy Physics Engine:** `src/traffic_sim/core/physics_numpy.py` — High-performance, vectorized physics engine (Phase 3+).
+- **Spatial Hash/Grid:** `src/traffic_sim/core/spatial_hash.py` — Broadphase collision detection utility for large-scale simulation.
 
 ---
 
@@ -212,10 +214,15 @@ def bar(y: float) -> float:
 - Use dataclasses for vehicle specs with physics attributes.
 - Implement physics formulas for acceleration, drag, constraints.
 - Cache expensive calculations, define realistic values per vehicle type.
+- For large-scale simulation, prefer vectorized NumPy-based physics (see `physics_numpy.py`).
+- Use spatial hash/grid for broadphase collision checks (see `spatial_hash.py`).
+- Integrate Numba JIT for critical routines if available.
+- Gate new engine with `physics.numpy_engine_enabled` config flag for safe rollout.
 
 **How to Validate:**
 - Check for dataclass usage and correct formulas.
 - Review caching and catalog entries.
+- Ensure NumPy engine is tested, benchmarked, and gated by config.
 
 **Example:**
 ```python
@@ -224,6 +231,14 @@ class VehicleSpec:
 		power_kw: float
 		drag_area_cda: float
 		# ...
+```
+
+**NumPy Physics Engine Example:**
+```python
+from traffic_sim.core.physics_numpy import PhysicsEngineNumpy
+engine = PhysicsEngineNumpy(vehicle_specs, initial_state)
+state = engine.step(actions, dt)
+```
 ```
 
 **Reference:** [VehicleSpec](src/traffic_sim/core/vehicle.py#L1)
@@ -249,6 +264,7 @@ class VehicleSpec:
 2. Link to new documentation or code sections as needed.
 3. Keep checklists and examples current.
 4. Confirm with team before major changes.
+5. For new engine/optimization phases, document config flags, test/benchmark requirements, and integration points.
 
 ---
 

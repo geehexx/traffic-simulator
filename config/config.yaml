@@ -94,6 +94,7 @@ physics:
   gravity_mps2: 9.81
   tire_friction_mu: 0.7
   brake_efficiency_eta: 0.9
+  numpy_engine_enabled: true
 
 perception:
   visual_range_m: 200.0

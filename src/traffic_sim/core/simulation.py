@@ -18,6 +18,7 @@ from traffic_sim.core.performance import get_performance_optimizer, pre_sort_veh
 from traffic_sim.core.profiling import get_profiler
 from traffic_sim.core.data_manager import VehicleDataManager
 from traffic_sim.core.physics_vectorized import step_arc_kinematics
+from traffic_sim.core.physics_numpy import PhysicsEngineNumpy
 from traffic_sim.core.idm_vectorized import idm_accel_fallback_next_vehicle
 
 
@@ -76,6 +77,15 @@ class Simulation:
         self.idm_delta = 4.0
         self.simulation_time = 0.0
         self.a_max = 1.5  # m/s^2 (scaffold)
+
+        # NumPy-based physics engine integration (Phase 3)
+        self._use_numpy_physics = bool(get_nested(cfg, "physics.numpy_engine_enabled", False))
+        self.numpy_physics_engine = None
+        if self._use_numpy_physics:
+            # Placeholder: initialize with empty arrays, will be set up in future steps
+            self.numpy_physics_engine = PhysicsEngineNumpy(
+                vehicle_specs=np.empty((0,)), initial_state=np.empty((0,))
+            )
 
     def compute_safety_panel(self) -> Dict[str, float | bool]:
         r_cur, v_safe, l_needed, unsafe = self.track.warning_tuple(
@@ -392,6 +402,9 @@ class Simulation:
 
         # Update simulation time
         self.simulation_time += dt_s
+        # Inform collision system of current time (for scheduler)
+        if hasattr(self.collision_system, "update_time"):
+            self.collision_system.update_time(self.simulation_time)
 
         # Pre-sort vehicles by position for proper following behavior (with caching)
         # Use the global profiler dynamically in case tests reset it
@@ -548,16 +561,67 @@ class Simulation:
             else:
                 vehicle.update_internal_state(eff_dt)
 
-            # Update physics
-            if self._profiling_enabled and profiler is not None:
-                with profiler.time_block("update_vehicle_physics"):
+            # Update physics immediately unless we will defer to a vectorized engine
+            will_defer_physics = self._use_numpy_physics or (
+                bool(get_nested(self.cfg, "high_performance.enabled", False))
+                and self._use_data_manager
+            )
+            if not will_defer_physics:
+                if self._profiling_enabled and profiler is not None:
+                    with profiler.time_block("update_vehicle_physics"):
+                        self._update_vehicle_physics(vehicle, eff_dt, L)
+                else:
                     self._update_vehicle_physics(vehicle, eff_dt, L)
-            else:
-                self._update_vehicle_physics(vehicle, eff_dt, L)
 
         # Step physics simulation
         high_perf = bool(get_nested(self.cfg, "high_performance.enabled", False))
-        if high_perf and self._use_data_manager and self.data_manager is not None:
+        if self._use_numpy_physics and self.numpy_physics_engine is not None:
+            # Prepare arrays for NumPy engine
+            n = len(self.vehicles)
+            # Build vehicle_specs array: [mass_kg, power_kw, torque_nm, drag_area_cda, tire_friction_mu, brake_efficiency_eta]
+            specs = np.zeros((n, 6), dtype=float)
+            for i, v in enumerate(self.vehicles):
+                specs[i, 0] = v.spec.mass_kg
+                specs[i, 1] = v.spec.power_kw
+                specs[i, 2] = v.spec.torque_nm
+                specs[i, 3] = v.spec.drag_area_cda
+                specs[i, 4] = v.spec.tire_friction_mu
+                specs[i, 5] = v.spec.brake_efficiency_eta
+
+            # Build state array: [s_m, v_mps, a_mps2, heading (optional, unused)]
+            state = np.zeros((n, 4), dtype=float)
+            for i, v in enumerate(self.vehicles):
+                state[i, 0] = v.state.s_m
+                state[i, 1] = v.state.v_mps
+                state[i, 2] = v.state.a_mps2
+                # state[i, 3] = 0.0  # heading unused
+
+            # Commanded accelerations (from vehicle internal state)
+            actions = np.array(
+                [v.internal.commanded_accel_mps2 for v in self.vehicles], dtype=float
+            )
+
+            # (Re)initialize engine if vehicle count changes
+            if (
+                self.numpy_physics_engine.vehicle_specs.shape[0] != n
+                or self.numpy_physics_engine.state.shape[0] != n
+            ):
+                self.numpy_physics_engine = PhysicsEngineNumpy(specs, state)
+            else:
+                self.numpy_physics_engine.vehicle_specs = specs
+                self.numpy_physics_engine.state = state
+
+            # Step physics
+            updated_state = self.numpy_physics_engine.step(
+                actions, eff_dt, track_length=self.track.total_length_m
+            )
+
+            # Write back to Vehicle objects
+            for i, v in enumerate(self.vehicles):
+                v.state.s_m = float(updated_state[i, 0])
+                v.state.v_mps = float(updated_state[i, 1])
+                v.state.a_mps2 = float(updated_state[i, 2])
+        elif high_perf and self._use_data_manager and self.data_manager is not None:
             # Vectorized arc-length kinematics as Phase 3 groundwork
             if self._profiling_enabled and profiler is not None:
                 with profiler.time_block("step_physics_vectorized"):

@@ -1,3 +1,6 @@
+# Ignore profiling and benchmark output
+profiling_stats_*.csv
+profiling_stats_*.cs
 # Combined .gitignore
 # (remote template + local additions)
 

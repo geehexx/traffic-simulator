@@ -6,6 +6,7 @@ import pymunk
 import time
 from traffic_sim.core.vehicle import Vehicle
 from traffic_sim.core.track import StadiumTrack
+from traffic_sim.core.collision_scheduler import CollisionEventScheduler
 
 
 @dataclass
@@ -58,6 +59,25 @@ class CollisionSystem:
         self.collision_threshold = 0.5  # meters
         self.ttc_threshold = 2.0  # seconds
 
+        # Event-driven scheduler configuration (feature-gated)
+        c_cfg = config.get("collisions", {})
+        self.event_scheduler_enabled = bool(c_cfg.get("event_scheduler_enabled", False))
+        self.scheduler_horizon_s = float(c_cfg.get("event_horizon_s", 3.0))
+        self.scheduler_guard_band_m = float(c_cfg.get("guard_band_m", 0.3))
+        self.scheduler_follower_max_accel = float(
+            c_cfg.get("scheduler_max_follower_accel_mps2", 2.0)
+        )
+        self.scheduler_leader_max_brake = float(c_cfg.get("scheduler_max_leader_brake_mps2", 4.0))
+        self._scheduler = (
+            CollisionEventScheduler(
+                horizon_s=self.scheduler_horizon_s,
+                guard_band_m=self.scheduler_guard_band_m,
+            )
+            if self.event_scheduler_enabled
+            else None
+        )
+        self._sim_time_s: float = 0.0
+
     def add_vehicle(self, vehicle: Vehicle, vehicle_id: int) -> None:
         """Add vehicle to physics simulation."""
         # Create pymunk body
@@ -67,7 +87,7 @@ class CollisionSystem:
 
         # Set initial position and angle
         x_m, y_m, theta = self.track.position_heading(vehicle.state.s_m)
-        body.position = x_m, y_m
+        body.position = pymunk.Vec2d(x_m, y_m)
         body.angle = theta
 
         # Create collision shape
@@ -125,7 +145,7 @@ class CollisionSystem:
 
         # Update position and angle
         x_m, y_m, theta = self.track.position_heading(vehicle.state.s_m)
-        physics_state.body.position = x_m, y_m
+        physics_state.body.position = pymunk.Vec2d(x_m, y_m)
         physics_state.body.angle = theta
 
         # Apply lateral push if configured
@@ -138,7 +158,38 @@ class CollisionSystem:
 
     def check_collisions(self, vehicles: List[Vehicle]) -> List[CollisionEvent]:
         """Check for collisions and return collision events."""
-        new_events = []
+        new_events: List[CollisionEvent] = []
+
+        # Event-driven path: only check scheduled due pairs
+        if self.event_scheduler_enabled and self._scheduler is not None:
+            n = len(vehicles)
+            if n <= 1:
+                self._scheduler.clear()
+                return new_events
+
+            # Update adjacency follower->leader in current sorted order
+            follower_to_leader = [(i + 1) % n for i in range(n)]
+            self._scheduler.update_adjacency_and_reschedule(
+                vehicles,
+                self.track.total_length_m,
+                self._sim_time_s,
+                follower_to_leader=follower_to_leader,
+                follower_max_accel=self.scheduler_follower_max_accel,
+                leader_max_brake=self.scheduler_leader_max_brake,
+                collision_threshold_m=self.collision_threshold,
+            )
+
+            # Process due pairs only
+            for follower_idx, leader_idx in self._scheduler.pop_due_pairs(self._sim_time_s):
+                v1 = vehicles[follower_idx]
+                v2 = vehicles[leader_idx]
+                if self._vehicles_colliding(v1, v2):
+                    event = self._create_collision_event(v1, v2, follower_idx, leader_idx)
+                    if event:
+                        new_events.append(event)
+                        self.collision_events.append(event)
+                        self._handle_collision(v1, v2, follower_idx, leader_idx)
+            return new_events
 
         # Simple collision detection based on distance
         for i, vehicle1 in enumerate(vehicles):
@@ -151,6 +202,10 @@ class CollisionSystem:
                         self._handle_collision(vehicle1, vehicle2, i, j)
 
         return new_events
+
+    def update_time(self, sim_time_s: float) -> None:
+        """Update internal simulation time for the event scheduler."""
+        self._sim_time_s = float(sim_time_s)
 
     def _vehicles_colliding(self, vehicle1: Vehicle, vehicle2: Vehicle) -> bool:
         """Check if two vehicles are colliding."""
@@ -248,7 +303,9 @@ class CollisionSystem:
             # Restore normal appearance
             physics_state.shape.color = (100, 180, 255, 255)  # Normal blue
 
-    def _on_collision_begin(self, arbiter: pymunk.Arbiter, space: pymunk.Space, data: Dict) -> bool:
+    def _on_collision_begin(
+        self, arbiter: pymunk.Arbiter, space: pymunk.Space, data: Dict[str, Any]
+    ) -> bool:
         """Handle collision begin event."""
         # This is called by pymunk when collision begins
         # We can add additional collision handling here
