@@ -144,3 +144,4 @@ __marimo__/
 *.pyc
 .DS_Store
 runs/*.csv
+AGENTS.md
