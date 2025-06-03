@@ -40,6 +40,12 @@ description: Performance optimization guidelines
 - **Key**: Use pymunk spatial hash, filter unnecessary checks, reuse shapes
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#collision-system-performance)
 
+## Event-Driven Collision Detection
+- **Pattern**: Predictive TTC scheduling, adjacency tracking, version-based invalidation
+- **Key**: Only check collision pairs when time-to-collision < horizon
+- **Performance**: O(n) instead of O(n²) collision checks
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection)
+
 ## Data Logging Performance
 - **Pattern**: Asynchronous logging, batch writes, selective data collection
 - **Key**: Background threads for CSV writing, configurable logging rates
@@ -54,3 +60,8 @@ description: Performance optimization guidelines
 - **Pattern**: Cache expensive physics calculations, vectorized operations
 - **Key**: Use cached acceleration curves, aerodynamic drag calculations
 - **Reference**: [Vehicle Physics Patterns](mdc:.cursor/rules/vehicle-physics-patterns.mdc)
+
+## NumPy Physics Engine Performance
+- **Pattern**: Vectorized operations, JIT compilation, pre-allocated arrays
+- **Key**: Use NumPy for kinematics, Numba for acceleration, feature-flag for rollout
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance)

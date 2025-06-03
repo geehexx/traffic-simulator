@@ -308,6 +308,25 @@ Pymunk-based collision detection and physics simulation:
 - Vehicle disable system with configurable duration
 - Collision event logging with delta-v and TTC data
 
+#### Event-Driven Collision Detection
+**File**: [collision_scheduler.py](mdc:src/traffic_sim/core/collision_scheduler.py)
+
+Predictive collision detection with time-to-collision scheduling:
+- TTC-based scheduling to reduce collision check overhead
+- Adjacency tracking with version-based invalidation
+- Conservative time prediction with guard bands
+- Feature-flagged integration via `collisions.event_scheduler_enabled`
+
+```python
+class CollisionEventScheduler:
+    def __init__(self, horizon_s: float = 3.0, guard_band_m: float = 0.3):
+        self.horizon_s = horizon_s
+        self.guard_band_m = guard_band_m
+        self._heap = []  # Priority queue for due times
+        self._due_time_by_follower = {}
+        self._version_by_follower = {}
+```
+
 ```python
 class CollisionSystem:
     def __init__(self, config: Dict[str, Any], track: StadiumTrack):
@@ -333,6 +352,28 @@ Comprehensive data logging with CSV export:
 - Incident and near-miss event logging
 - Configurable logging rates for different data types
 - CSV export with structured data format
+
+### 9. NumPy Physics Engine
+**File**: [physics_numpy.py](mdc:src/traffic_sim/core/physics_numpy.py)
+
+High-performance vectorized physics engine:
+- NumPy-based kinematics and dynamics calculations
+- Numba JIT compilation for critical routines (required dependency)
+- Dual-mode operation: arc-length and XY-velocity
+- Feature-flagged integration via `physics.numpy_engine_enabled`
+
+```python
+class PhysicsEngineNumpy:
+    def __init__(self, vehicle_specs: np.ndarray, initial_state: np.ndarray):
+        self.vehicle_specs = vehicle_specs
+        self.state = initial_state
+
+    def step(self, actions: np.ndarray, dt: float, 
+             track_length: float = 1000.0) -> np.ndarray:
+        """Vectorized physics step with NumPy operations."""
+        # Arc-length mode: state columns [s_m, v_mps, a_mps2, heading]
+        # XY-velocity mode: state columns [x, y, vx, vy]
+```
 
 ```python
 class DataLogger:

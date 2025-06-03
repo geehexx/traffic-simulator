@@ -246,6 +246,35 @@ def test_performance_target():
 - Nightly profiling workflow: `.github/workflows/profile.yml`
 - On-demand benchmark workflow: `.github/workflows/benchmark.yml`
 
+### Feature Flags & Configuration
+
+- **Event-Driven Collision Detection**: `collisions.event_scheduler_enabled` (default: false)
+- **NumPy Physics Engine**: `physics.numpy_engine_enabled` (default: false)
+- **High-Performance Mode**: `high_performance.enabled` (default: false)
+- **Vectorized IDM**: `high_performance.idm_vectorized` (default: false)
+- **Data Manager**: `data_manager.enabled` (default: false)
+
+**Configuration Example**:
+```yaml
+collisions:
+  event_scheduler_enabled: true
+  event_horizon_s: 3.0
+  guard_band_m: 0.3
+  scheduler_max_follower_accel_mps2: 2.0
+  scheduler_max_leader_brake_mps2: 4.0
+
+physics:
+  numpy_engine_enabled: true
+
+high_performance:
+  enabled: true
+  idm_vectorized: true
+
+data_manager:
+  enabled: true
+  max_vehicles: 10000
+```
+
 ## Security Standards
 
 ### Security Best Practices

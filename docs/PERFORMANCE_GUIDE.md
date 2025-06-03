@@ -19,6 +19,7 @@ This document provides comprehensive performance optimization guidelines, monito
 - **Memory Usage**: Minimal runtime allocations
 - **Determinism**: Reproducible behavior with fixed seeds
 - **Scalability**: Support 50+ vehicles
+- **High-Scale Performance**: 1000+ vehicles at 100-1000x speed factors
 
 ### Current Performance
 - **Achieved**: 300+ FPS equivalent (10x target on development hardware)
@@ -203,6 +204,28 @@ class LiveAnalytics:
 - **Physics Stepping**: Use appropriate physics timestep
 - **Memory Management**: Reuse collision shapes when possible
 
+#### Event-Driven Collision Detection
+```python
+class CollisionEventScheduler:
+    def __init__(self, horizon_s: float = 3.0, guard_band_m: float = 0.3):
+        self.horizon_s = horizon_s
+        self.guard_band_m = guard_band_m
+        self._heap = []  # Priority queue for due times
+        self._due_time_by_follower = {}
+        self._version_by_follower = {}
+
+    def update_adjacency_and_reschedule(self, vehicles, track_length_m, now_s, 
+                                       follower_to_leader, follower_max_accel, 
+                                       leader_max_brake, collision_threshold_m):
+        """Update vehicle adjacency and reschedule collision checks."""
+        # Only check pairs when collision is predicted within horizon
+```
+
+**Benefits**:
+- **Predictive Scheduling**: Only check collision pairs when TTC < horizon
+- **Reduced Overhead**: O(n) instead of O(n²) collision checks
+- **Performance**: 200v=2.0fps, 500v=0.3fps with scheduler enabled
+
 ```python
 class CollisionSystem:
     def __init__(self, config: Dict[str, Any], track: StadiumTrack):
@@ -227,6 +250,27 @@ class CollisionSystem:
 - **Batch Writes**: Write multiple records at once
 - **Compression**: Use compressed formats for large datasets
 - **Selective Logging**: Log only necessary data at high rates
+
+### 8. NumPy Physics Engine Performance
+- **Vectorized Operations**: NumPy-based kinematics and dynamics
+- **JIT Compilation**: Numba acceleration for critical routines (required dependency)
+- **Memory Efficiency**: Pre-allocated arrays for state management
+- **Feature Gating**: Safe rollout via `physics.numpy_engine_enabled` flag
+
+```python
+class PhysicsEngineNumpy:
+    def step(self, actions: np.ndarray, dt: float, 
+             track_length: float = 1000.0) -> np.ndarray:
+        """Vectorized physics step with NumPy operations."""
+        # Arc-length kinematics: s += v*dt + 0.5*a*dt²
+        # XY-velocity mode: x += vx*dt, y += vy*dt
+```
+
+**Benefits**:
+- **Vectorized Operations**: NumPy-based kinematics and dynamics calculations
+- **JIT Compilation**: Numba acceleration for critical routines
+- **Memory Efficiency**: Pre-allocated arrays for state management
+- **Dual-Mode Operation**: Arc-length and XY-velocity modes
 
 ```python
 class DataLogger:

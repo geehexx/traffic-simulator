@@ -22,6 +22,7 @@ import numpy as np
 
 try:
     import numba  # type: ignore[import-not-found]
+
     NUMBA_AVAILABLE = True
 except ImportError:
     NUMBA_AVAILABLE = False
