@@ -90,7 +90,7 @@ class CollisionEventScheduler:
         """
         due: List[Tuple[int, int]] = []
         while self._heap and self._heap[0][0] <= now_s:
-            due_time, version, follower_idx = heapq.heappop(self._heap)
+            _, version, follower_idx = heapq.heappop(self._heap)
             if self._version_by_follower.get(follower_idx) != version:
                 continue  # stale
             leader_idx = self._leader_by_follower.get(follower_idx)
