@@ -95,6 +95,17 @@ physics:
   tire_friction_mu: 0.7
   brake_efficiency_eta: 0.9
   numpy_engine_enabled: true
+  adaptive_timestep_enabled: true  # Adaptive timestep for high speed factors
+
+# High-performance optimizations (Phase 3)
+high_performance:
+  enabled: true
+  idm_vectorized: true
+
+# Data manager for large-scale simulation
+data_manager:
+  enabled: true
+  max_vehicles: 10000
 
 perception:
   visual_range_m: 200.0
@@ -137,6 +148,12 @@ collisions:
   use_pymunk_impulse: true
   disable_time_s: 5.0
   lateral_push: true
+  # Event-driven collision scheduler (Phase 3 optimization)
+  event_scheduler_enabled: true
+  event_horizon_s: 2.0  # Reduced from 3.0 for better performance
+  guard_band_m: 0.2     # Reduced from 0.3 for more aggressive scheduling
+  scheduler_max_follower_accel_mps2: 2.5  # Increased from 2.0
+  scheduler_max_leader_brake_mps2: 5.0    # Increased from 4.0
 
 random:
   # Set to a number for reproducibility; null → random each run
