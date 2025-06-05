@@ -400,6 +400,14 @@ class Simulation:
         if n == 0:
             return
 
+        # Adaptive time stepping for high speed factors
+        adaptive_enabled = bool(get_nested(self.cfg, "physics.adaptive_timestep_enabled", False))
+        if adaptive_enabled and self.speed_factor > 10.0:
+            # Use larger timesteps for high speed factors to improve performance
+            # while maintaining stability
+            adaptive_dt = min(dt_s * (self.speed_factor / 10.0), dt_s * 10.0)
+            dt_s = adaptive_dt
+
         # Update simulation time
         self.simulation_time += dt_s
         # Inform collision system of current time (for scheduler)
