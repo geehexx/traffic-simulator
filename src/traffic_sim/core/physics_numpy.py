@@ -208,7 +208,7 @@ class PhysicsEngineNumpy:
                 self.state[:, 1] = v_new
                 self.state[:, 2] = a_total
 
-            return self.state.copy()
+            return self.state.copy()  # type: ignore[no-any-return]
 
         # XY-Velocity mode: state columns [x, y, vx, vy]
         x = self.state[:, 0]
@@ -223,4 +223,4 @@ class PhysicsEngineNumpy:
         self.state[:, 0] = x_new
         self.state[:, 1] = y_new
         # velocities unchanged
-        return self.state.copy()
+        return self.state.copy()  # type: ignore[no-any-return]
