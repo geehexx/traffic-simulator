@@ -36,3 +36,11 @@ description: Configuration management patterns
 - **Default**: State the actual default from the repository config; do not assume.
 - **Validation**: Boolean or appropriate type; fail fast on invalid values; provide actionable messages.
 - **Cross-References**: See perception/rendering documentation in project docs for behavior; avoid linking from docs to rules.
+
+## Performance Optimization Configuration
+- **Pattern**: Feature-flagged optimizations for safe rollout
+- **Physics**: numpy_engine_enabled, adaptive_timestep_enabled
+- **High Performance**: enabled, idm_vectorized
+- **Collisions**: event_scheduler_enabled, event_horizon_s, guard_band_m
+- **Data Manager**: enabled, max_vehicles
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#configuration-management)

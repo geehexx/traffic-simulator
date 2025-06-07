@@ -46,3 +46,9 @@ version: 1.0.0
 - **Pattern**: Test physics calculations with known values
 - **Implementation**: Verify acceleration limits and drag forces
 - **Reference**: [performance_test.py](mdc:tests/performance_test.py#test_physics_constraints)
+
+## NumPy Physics Engine Patterns
+- **Pattern**: Vectorized physics with Numba JIT acceleration
+- **Key**: Use @njit decorators, cache compiled functions, fallback to pure NumPy
+- **Performance**: Significant speedup for large vehicle counts
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance)

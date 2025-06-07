@@ -1,0 +1,55 @@
+---
+globs: src/traffic_sim/core/**,scripts/**
+description: Comprehensive performance optimization patterns and techniques
+---
+
+# Performance Optimization Patterns
+
+## Event-Driven Collision Scheduler
+- **Pattern**: Predictive TTC scheduling with min-heap
+- **Key**: Only check collision pairs when time-to-collision < horizon
+- **Performance**: O(n) instead of O(n²) collision checks
+- **Configuration**: event_horizon_s, guard_band_m, acceleration bounds
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection)
+
+## NumPy Physics Engine
+- **Pattern**: Vectorized physics with Numba JIT acceleration
+- **Key**: Use @njit decorators, cache compiled functions, fallback to pure NumPy
+- **Performance**: Significant speedup for large vehicle counts
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance)
+
+## Adaptive Time Stepping
+- **Pattern**: Dynamic timestep scaling for high speed factors
+- **Key**: Scale timestep by speed_factor/10.0 with maximum 10x multiplier
+- **Performance**: Better efficiency at 100x+ speed factors
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#adaptive-time-stepping)
+
+## Vectorized IDM Controller
+- **Pattern**: NumPy-based IDM acceleration calculation
+- **Key**: Automatic fallback when perception is occluded
+- **Performance**: Significant speedup for multi-vehicle scenarios
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#vectorized-idm-controller)
+
+## High-Performance Data Manager
+- **Pattern**: Efficient vehicle state management
+- **Key**: Pre-allocated arrays, batch processing, up to 10,000 vehicles
+- **Performance**: Scalable state management for large simulations
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#high-performance-data-manager)
+
+## Performance Monitoring
+- **Pattern**: Continuous performance monitoring and validation
+- **Key**: Use scripts/performance_monitor.py for real-time metrics
+- **Validation**: Use scripts/validation_test.py for behavioral consistency
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-monitoring)
+
+## Scale Testing
+- **Pattern**: Comprehensive performance benchmarking
+- **Key**: Use scripts/scale_benchmark.py for multi-vehicle testing
+- **Targets**: 1000+ vehicles at 100-1000x speed factors
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#scale-testing)
+
+## Configuration Management
+- **Pattern**: Feature-flagged optimizations for safe rollout
+- **Key**: Enable optimizations via config flags, maintain fallbacks
+- **Performance**: 11.4x improvement at 20 vehicles, scales to 1000+ vehicles
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#configuration-management)

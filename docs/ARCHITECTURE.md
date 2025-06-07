@@ -368,7 +368,7 @@ class PhysicsEngineNumpy:
         self.vehicle_specs = vehicle_specs
         self.state = initial_state
 
-    def step(self, actions: np.ndarray, dt: float, 
+    def step(self, actions: np.ndarray, dt: float,
              track_length: float = 1000.0) -> np.ndarray:
         """Vectorized physics step with NumPy operations."""
         # Arc-length mode: state columns [s_m, v_mps, a_mps2, heading]
@@ -642,6 +642,51 @@ class OptimizedHUD:
             # ... more text objects
         }
 ```
+
+## Performance Optimization Components
+
+### Event-Driven Collision Scheduler
+**File**: [collision_scheduler.py](mdc:src/traffic_sim/core/collision_scheduler.py)
+
+Predictive collision detection with time-to-collision scheduling:
+- Min-heap based event scheduling
+- O(n) instead of O(n²) collision detection
+- Version-based invalidation for stale entries
+- Configurable horizon and guard band parameters
+
+### NumPy Physics Engine
+**File**: [physics_numpy.py](mdc:src/traffic_sim/core/physics_numpy.py)
+
+Vectorized physics with Numba JIT acceleration:
+- Vectorized acceleration limit calculations
+- JIT-compiled physics loops with caching
+- Fallback to pure NumPy when Numba unavailable
+- Significant speedup for large vehicle counts
+
+### Adaptive Time Stepping
+**File**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
+
+Dynamic timestep scaling for high speed factors:
+- Automatic timestep adjustment for speed factors > 10x
+- Maintains stability while improving performance
+- Configurable via `physics.adaptive_timestep_enabled`
+
+### Vectorized IDM Controller
+**File**: [idm_vectorized.py](mdc:src/traffic_sim/core/idm_vectorized.py)
+
+NumPy-based IDM acceleration calculation:
+- Automatic fallback when perception is occluded
+- Vectorized acceleration calculations
+- Significant speedup for multi-vehicle scenarios
+
+### High-Performance Data Manager
+**File**: [data_manager.py](mdc:src/traffic_sim/core/data_manager.py)
+
+Efficient vehicle state management:
+- Pre-allocated arrays for large-scale simulation
+- Batch processing for state updates
+- Supports up to 10,000 vehicles
+- Configurable via `data_manager.enabled`
 
 ## Configuration Architecture
 

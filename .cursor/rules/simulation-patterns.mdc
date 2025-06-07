@@ -51,3 +51,9 @@ description: Core simulation architecture patterns
 - **Pattern**: Asynchronous logging, batch writes, selective data collection
 - **Key**: Background threads for CSV writing, configurable logging rates
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#data-logging-performance)
+
+## Event-Driven Collision Detection
+- **Pattern**: Predictive TTC scheduling, adjacency tracking, version-based invalidation
+- **Key**: Only check collision pairs when time-to-collision < horizon
+- **Performance**: O(n) instead of O(n²) collision checks
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection)

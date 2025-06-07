@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 
 try:
-    from numba import jit, njit
+    from numba import jit, njit  # type: ignore[import-not-found]
 
     NUMBA_AVAILABLE = True
 except ImportError:

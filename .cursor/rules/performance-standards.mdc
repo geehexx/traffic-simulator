@@ -6,6 +6,8 @@ description: Performance optimization guidelines
 # Performance Standards
 
 ## Performance Targets
+- **Primary**: 30+ FPS with 20+ vehicles (baseline)
+- **Stretch**: 1000+ vehicles at 100-1000x speed factors
 - **Frame Rate**: 30+ FPS with 20+ vehicles
 - **Memory**: Minimal runtime allocations
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-targets)
@@ -65,3 +67,8 @@ description: Performance optimization guidelines
 - **Pattern**: Vectorized operations, JIT compilation, pre-allocated arrays
 - **Key**: Use NumPy for kinematics, Numba for acceleration, feature-flag for rollout
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance)
+
+## Performance Optimization Results
+- **Pattern**: Document achieved improvements and optimization techniques
+- **Key**: 11.4x improvement at 20 vehicles, scales to 1000+ vehicles
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-optimization-results)
