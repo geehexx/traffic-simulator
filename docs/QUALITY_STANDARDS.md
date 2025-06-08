@@ -389,6 +389,9 @@ uv run pre-commit autoupdate
 
 # Run specific hook
 uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
+
+# For comprehensive troubleshooting, see:
+# docs/COMMIT_TROUBLESHOOTING.md
 ```
 
 ### Getting Help

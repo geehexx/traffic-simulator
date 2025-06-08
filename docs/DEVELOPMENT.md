@@ -353,6 +353,7 @@ uv run python -m traffic_sim --log-level DEBUG
 2. **Import errors**: Verify module structure and `__init__.py` files
 3. **Performance issues**: Profile and optimize hot paths
 4. **Test failures**: Check test data and assertions
+5. **Commit issues**: Pre-commit hook failures and quality gate problems
 
 ### Debugging Tools
 ```bash
@@ -364,6 +365,10 @@ uv run python scripts/quality_monitor.py > quality_report.json
 
 # Check test coverage
 uv run python -m pytest --cov=traffic_sim --cov-report=html
+
+# Troubleshoot commit issues
+# See docs/COMMIT_TROUBLESHOOTING.md for detailed solutions
+uv run pre-commit run --all-files
 ```
 
 ## Contributing Guidelines
