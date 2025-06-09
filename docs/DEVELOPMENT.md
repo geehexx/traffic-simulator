@@ -467,9 +467,11 @@ data_manager:
 
 ### Resources
 - **Documentation**: `docs/` directory
+- **Documentation Guide**: [Comprehensive Documentation Standards](mdc:docs/DOCUMENTATION_GUIDE.md)
 - **Quality Standards**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
 - **Performance**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md)
+- **Commit Troubleshooting**: [Commit Troubleshooting Guide](mdc:docs/COMMIT_TROUBLESHOOTING.md)
 - **Issues**: GitHub Issues for bug reports
 - **Discussions**: GitHub Discussions for questions
 

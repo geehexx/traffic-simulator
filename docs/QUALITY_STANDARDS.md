@@ -313,6 +313,12 @@ uv run pip-audit
 - Provide usage examples
 - Explain return values and exceptions
 
+### Documentation Maintenance
+- **Pattern**: Keep documentation in sync with code changes
+- **Process**: Update when code changes, review regularly, validate accuracy
+- **Tools**: Automated checks, manual review, user feedback
+- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#maintenance-procedures)
+
 ## Usage Examples
 
 ### Fixing Common Issues
