@@ -180,8 +180,8 @@ uv run pre-commit run --all-files
 ### Common Commands Reference
 ```bash
 # Quality checks
-uv run python scripts/quality_gates.py
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=check
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Linting and formatting
 uv run ruff check src/ --fix

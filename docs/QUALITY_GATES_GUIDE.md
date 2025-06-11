@@ -18,13 +18,13 @@ The quality gates system enforces code quality standards through automated stati
 ### Manual Execution
 ```bash
 # Run all quality gates
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Run quality monitoring
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Run comprehensive analysis
-uv run python scripts/static_analysis.py
+uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
 ### Pre-commit Hooks

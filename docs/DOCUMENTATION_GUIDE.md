@@ -147,7 +147,7 @@ physics:
 #### Command Examples
 ```bash
 # Use actual commands with proper paths
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 uv run pre-commit run --all-files
 ```
 

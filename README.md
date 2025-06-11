@@ -146,7 +146,7 @@ uv run python -m pytest tests/ -v
 uv run python -m pytest tests/ --cov=traffic_sim --cov-report=term-missing
 
 # Run quality gates
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Export simulation data
 uv run python -c "from traffic_sim.core.simulation import Simulation; from traffic_sim.config.loader import load_config; sim = Simulation(load_config()); [sim.step(0.02) for _ in range(1000)]; sim.export_data('my_simulation')"
@@ -173,13 +173,13 @@ The project uses a comprehensive static analysis framework with automated qualit
 #### Usage
 ```bash
 # Run all quality gates
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Run quality monitoring
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Run comprehensive analysis
-uv run python scripts/static_analysis.py
+uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
 For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md) and [Development Guide](docs/DEVELOPMENT.md).

@@ -9,7 +9,7 @@
   - [ ] Compare optimized vs baseline behavior metrics
 
 - [ ] **Performance Monitoring**
-  - [ ] Deploy `scripts/performance_monitor.py` for continuous monitoring
+  - [ ] Deploy `scripts/performance_analysis.py --mode=monitor` for continuous monitoring
   - [ ] Set up alerts for performance degradation
   - [ ] Establish baseline performance metrics
 
@@ -164,7 +164,7 @@
 ## 🚀 **Next Immediate Actions**
 
 1. **Run validation tests**: `uv run python scripts/validation_test.py`
-2. **Start performance monitoring**: `uv run python scripts/performance_monitor.py --duration 10`
+2. **Start performance monitoring**: `uv run python scripts/performance_analysis.py --mode=monitor --duration 10`
 3. **Review current performance**: Analyze benchmark results
 4. **Plan GPU acceleration**: Research CUDA integration options
 5. **Document findings**: Update performance optimization summary

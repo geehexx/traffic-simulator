@@ -100,13 +100,13 @@ tools:
 #### Manual Execution
 ```bash
 # Run all quality gates
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Run quality monitoring
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Run comprehensive static analysis
-uv run python scripts/static_analysis.py
+uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
 #### Pre-commit Hooks
@@ -242,7 +242,7 @@ def test_performance_target():
 ### Profiling & Benchmarks
 
 - Profiling CLI: `scripts/profile_simulation.py` (CSV output, optional cProfile)
-- Benchmark CLI: `scripts/benchmark_highperf.py` (vectorized flags enabled)
+- Benchmark CLI: `scripts/performance_analysis.py --mode=benchmark` (vectorized flags enabled)
 - Nightly profiling workflow: `.github/workflows/profile.yml`
 - On-demand benchmark workflow: `.github/workflows/benchmark.yml`
 
@@ -412,7 +412,7 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 
 2. **Run quality monitoring**:
    ```bash
-   uv run python scripts/quality_monitor.py
+   uv run python scripts/quality_analysis.py --mode=monitor
    ```
 
 3. **Check CI logs** for detailed error information

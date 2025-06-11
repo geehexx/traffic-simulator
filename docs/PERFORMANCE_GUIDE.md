@@ -580,16 +580,16 @@ performance:
 ### Running Quality Gates
 ```bash
 # Run all quality gates including performance checks
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Run performance-specific quality checks
-uv run python scripts/quality_gates.py --performance-only
+uv run python scripts/quality_analysis.py --mode=check --performance-only
 
 # Run profiling session and dump CSV of timing blocks (feature-flagged)
 uv run python scripts/profile_simulation.py --steps 1000 --dt 0.02 --csv profiling_stats.csv --cprofile
 
 # Run high-performance benchmark (vectorized paths enabled via flags)
-uv run python scripts/benchmark_highperf.py --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0
+uv run python scripts/performance_analysis.py --mode=benchmark --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0
 ```
 
 ### 3. Advanced Performance Optimizations
@@ -655,7 +655,7 @@ def fast_inverse_sqrt(self, x: float) -> float:
     - `high_performance.enabled`: enable vectorized arc-length kinematics path
     - `high_performance.idm_vectorized`: use vectorized fallback IDM (leader = next vehicle) when perception is occluded/unavailable
   - Integration: feature-flagged in `src/traffic_sim/core/simulation.py`
-  - Benchmarks: `scripts/benchmark_highperf.py`
+  - Benchmarks: `scripts/performance_analysis.py --mode=benchmark`
 - **Inverse Square Root**: Quake III algorithm with caching for distance calculations
 - **Vectorization**: NumPy-based operations when available
 - **Cache Management**: Intelligent cache cleanup to prevent memory bloat
@@ -693,11 +693,11 @@ def get_cached_occlusion(self, vehicle1_idx: int, vehicle2_idx: int) -> Optional
 ## Performance Testing
 
 ### 1. Automated Performance Tests
-- **Benchmark Suite**: `scripts/benchmark_highperf.py`
+- **Benchmark Suite**: `scripts/performance_analysis.py --mode=benchmark`
 - **Profiling Tools**: `scripts/profile_simulation.py`
-- **Scale Testing**: `scripts/scale_benchmark.py`
+- **Scale Testing**: `scripts/performance_analysis.py --mode=scale`
 - **Validation Testing**: `scripts/validation_test.py`
-- **Performance Monitoring**: `scripts/performance_monitor.py`
+- **Performance Monitoring**: `scripts/performance_analysis.py --mode=monitor`
 
 ```python
 def test_simulation_performance():

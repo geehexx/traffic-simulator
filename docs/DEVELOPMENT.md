@@ -96,13 +96,13 @@ uv run python -m pytest tests/ -k performance -v
 #### Static Analysis
 ```bash
 # Run all quality gates
-uv run python scripts/quality_gates.py
+uv run python scripts/quality_analysis.py --mode=check
 
 # Run quality monitoring
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Run comprehensive analysis
-uv run python scripts/static_analysis.py
+uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
 #### Code Formatting
@@ -358,10 +358,10 @@ uv run python -m traffic_sim --log-level DEBUG
 ### Debugging Tools
 ```bash
 # Check quality metrics
-uv run python scripts/quality_monitor.py
+uv run python scripts/quality_analysis.py --mode=monitor
 
 # Generate quality report
-uv run python scripts/quality_monitor.py > quality_report.json
+uv run python scripts/quality_analysis.py --mode=monitor > quality_report.json
 
 # Check test coverage
 uv run python -m pytest --cov=traffic_sim --cov-report=html
@@ -427,8 +427,8 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 
 ### Validation and Testing
 - **Behavioral Consistency**: Run `scripts/validation_test.py` to verify optimization accuracy
-- **Performance Monitoring**: Use `scripts/performance_monitor.py` for continuous monitoring
-- **Scale Testing**: Execute `scripts/scale_benchmark.py` for comprehensive performance analysis
+- **Performance Monitoring**: Use `scripts/performance_analysis.py --mode=monitor` for continuous monitoring
+- **Scale Testing**: Execute `scripts/performance_analysis.py --mode=scale` for comprehensive performance analysis
 
 ### Optimization Techniques
 - **Event-Driven Collision**: Reduces collision checks by 90% (O(n) vs O(n²))
@@ -480,7 +480,7 @@ data_manager:
 # Development
 uv run python -m traffic_sim                    # Run simulator
 uv run python -m pytest tests/ -v              # Run tests
-uv run python scripts/quality_gates.py         # Check quality
+uv run python scripts/quality_analysis.py --mode=check         # Check quality
 
 # Code quality
 uv run ruff check src/ --fix                   # Fix linting
@@ -489,8 +489,8 @@ uv run mypy src/                              # Type check
 uv run pyright src/                           # Enhanced type check
 
 # Analysis
-uv run python scripts/static_analysis.py       # Full analysis
-uv run python scripts/quality_monitor.py      # Quality monitoring
+uv run python scripts/quality_analysis.py --mode=analyze       # Full analysis
+uv run python scripts/quality_analysis.py --mode=monitor      # Quality monitoring
 ```
 
 This development guide provides comprehensive coverage of all aspects of developing the traffic simulator project while maintaining high code quality standards.
