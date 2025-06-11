@@ -36,6 +36,46 @@ tasks:
     cmds:
       - uv run pre-commit run --all-files
 
+  quality:
+    desc: Run quality analysis (gates, monitoring, or comprehensive analysis)
+    cmds:
+      - uv run python scripts/quality_analysis.py --mode=check
+
+  quality:monitor:
+    desc: Run detailed quality monitoring and generate report
+    cmds:
+      - uv run python scripts/quality_analysis.py --mode=monitor
+
+  quality:analyze:
+    desc: Run comprehensive static analysis
+    cmds:
+      - uv run python scripts/quality_analysis.py --mode=analyze
+
+  performance:
+    desc: Run performance benchmark
+    cmds:
+      - uv run python scripts/performance_analysis.py --mode=benchmark
+
+  performance:scale:
+    desc: Run scale performance testing
+    cmds:
+      - uv run python scripts/performance_analysis.py --mode=scale
+
+  performance:monitor:
+    desc: Run real-time performance monitoring
+    cmds:
+      - uv run python scripts/performance_analysis.py --mode=monitor
+
+  profile:
+    desc: Run simulation profiling
+    cmds:
+      - uv run python scripts/profile_simulation.py
+
+  validate:
+    desc: Run validation tests
+    cmds:
+      - uv run python scripts/validation_test.py
+
   clean:
     desc: Clean all temporary files and caches from the project
     cmds:
