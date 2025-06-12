@@ -182,7 +182,52 @@ uv run python scripts/quality_analysis.py --mode=monitor
 uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
-For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md) and [Development Guide](docs/DEVELOPMENT.md).
+For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md), [Development Guide](docs/DEVELOPMENT.md), and [Scripts Guide](docs/SCRIPTS_GUIDE.md).
+
+## Scripts & Analysis Tools
+
+The project includes consolidated analysis tools for quality and performance testing:
+
+### Quality Analysis
+```bash
+# Quality gates enforcement
+uv run python scripts/quality_analysis.py --mode=check
+
+# Detailed quality monitoring
+uv run python scripts/quality_analysis.py --mode=monitor
+
+# Comprehensive static analysis
+uv run python scripts/quality_analysis.py --mode=analyze
+```
+
+### Performance Analysis
+```bash
+# High-performance benchmark
+uv run python scripts/performance_analysis.py --mode=benchmark
+
+# Scale performance testing
+uv run python scripts/performance_analysis.py --mode=scale
+
+# Real-time performance monitoring
+uv run python scripts/performance_analysis.py --mode=monitor
+```
+
+### Task Commands
+```bash
+# Quality analysis
+task quality              # Quality gates
+task quality:monitor      # Detailed monitoring
+task quality:analyze      # Comprehensive analysis
+
+# Performance analysis
+task performance          # Performance benchmark
+task performance:scale    # Scale testing
+task performance:monitor  # Real-time monitoring
+
+# Specialized tools
+task profile              # Simulation profiling
+task validate             # Validation testing
+```
 
 ### Project Structure
 - **Core**: `src/traffic_sim/core/` - Simulation logic, vehicles, drivers

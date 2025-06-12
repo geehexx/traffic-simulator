@@ -31,6 +31,12 @@ description: Performance optimization guidelines
 ## Performance Testing
 - **Pattern**: Automated performance tests
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
+- **Scripts**: `scripts/performance_analysis.py --mode=benchmark|scale|monitor`
+
+## Performance Analysis Modes
+- **Benchmark**: `--mode=benchmark` - High-performance benchmark testing
+- **Scale**: `--mode=scale` - Scale performance testing across vehicle counts
+- **Monitor**: `--mode=monitor` - Real-time performance monitoring
 
 ## Analytics Performance
 - **Pattern**: Bounded collections, batch processing, statistical caching

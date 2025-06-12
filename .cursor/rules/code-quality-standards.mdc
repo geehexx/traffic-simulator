@@ -20,7 +20,12 @@ alwaysApply: true
 ## Quality Gates
 - **Tools**: MyPy, Pyright, Ruff, Pylint, Bandit, Radon
 - **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
-- **Usage**: `uv run python scripts/quality_gates.py`
+- **Usage**: `uv run python scripts/quality_analysis.py --mode=check`
+
+## Quality Analysis Modes
+- **Check**: `--mode=check` - Quality gates enforcement
+- **Monitor**: `--mode=monitor` - Detailed quality monitoring
+- **Analyze**: `--mode=analyze` - Comprehensive static analysis
 
 ## Code Style
 - **Line Length**: 100 characters

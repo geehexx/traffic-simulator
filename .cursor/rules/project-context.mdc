@@ -22,6 +22,11 @@ alwaysApply: true
 - **Quality**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
 
+## Task Commands
+- **Quality**: `task quality` (gates), `task quality:monitor` (detailed), `task quality:analyze` (comprehensive)
+- **Performance**: `task performance` (benchmark), `task performance:scale` (scalability), `task performance:monitor` (real-time)
+- **Specialized**: `task profile` (profiling), `task validate` (validation)
+
 ## Project Structure
 - **Core Logic**: [src/traffic_sim/core/](mdc:src/traffic_sim/core/) - Simulation engine, vehicles, drivers
 - **Rendering**: [src/traffic_sim/render/](mdc:src/traffic_sim/render/) - Arcade-based visualization
