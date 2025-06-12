@@ -1,0 +1,200 @@
+# Benchmarking Framework Configuration
+# Comprehensive configuration for the unified benchmarking system
+
+benchmarking:
+  # Parallel execution settings
+  parallel_execution:
+    enabled: true
+    max_workers: null  # Auto-detect CPU count
+    timeout_seconds: 300
+    chunk_size: 1  # Number of benchmarks per worker
+
+  # Real-time performance estimation
+  real_time_estimation:
+    enabled: true
+    cpu_utilization_threshold: 0.8
+    memory_utilization_threshold: 0.9
+    io_wait_threshold: 0.1
+    confidence_threshold: 0.7
+
+  # Caching and optimization
+  caching:
+    enabled: true
+    cache_size: 1000
+    cache_ttl_seconds: 3600
+    simulation_cache: true
+    result_cache: true
+
+  # External tools integration
+  external_tools:
+    pytest_benchmark:
+      enabled: true
+      iterations: 10
+      warmup: 3
+      save_data: true
+      json_output: true
+
+    asv:
+      enabled: false  # Optional - requires setup
+      repository: "."
+      branches: ["main"]
+      pythons: ["3.8", "3.9", "3.10", "3.11"]
+
+    hyperfine:
+      enabled: true
+      runs: 10
+      warmup: 2
+      export_json: true
+
+    py_spy:
+      enabled: true
+      duration_seconds: 10
+      output_format: "svg"
+
+  # Profiling settings
+  profiling:
+    memory_profiling:
+      enabled: true
+      tracemalloc: true
+      heap_analysis: true
+      leak_detection: true
+
+    performance_profiling:
+      enabled: true
+      detailed_timing: true
+      function_profiling: true
+      cprofile: true
+
+  # Scaling analysis
+  scaling_analysis:
+    enabled: true
+    vehicle_counts: [10, 20, 50, 100, 200, 500, 1000]
+    speed_factors: [1.0, 10.0, 100.0, 1000.0]
+    prediction_scales: [100, 500, 1000, 2000, 5000]
+
+  # Output and reporting
+  output:
+    base_directory: "benchmark_results"
+    csv_output: true
+    json_output: true
+    html_reports: true
+    flame_graphs: true
+
+  # Performance thresholds
+  thresholds:
+    min_fps: 30.0
+    max_memory_mb: 1000
+    max_cpu_percent: 90
+    min_efficiency: 0.5
+
+  # Quality gates
+  quality_gates:
+    performance_regression:
+      enabled: true
+      threshold_percent: 10  # 10% performance regression threshold
+
+    memory_leak_detection:
+      enabled: true
+      growth_threshold_mb: 100
+
+    stability_testing:
+      enabled: true
+      iterations: 5
+      variance_threshold: 0.1
+
+# Simulation configuration overrides for benchmarking
+simulation:
+  # High-performance settings for benchmarking
+  high_performance:
+    enabled: true
+    idm_vectorized: true
+    numpy_engine_enabled: true
+
+  # Data management
+  data_manager:
+    enabled: true
+    batch_processing: true
+    pre_allocated_arrays: true
+
+  # Physics optimization
+  physics:
+    adaptive_timestep: true
+    vectorized_operations: true
+    cached_calculations: true
+
+  # Collision system
+  collisions:
+    event_scheduler_enabled: true
+    spatial_partitioning: true
+    collision_filtering: true
+
+  # Profiling
+  profiling:
+    enabled: true
+    detailed_timing: true
+    memory_tracking: true
+    performance_counters: true
+
+# Benchmark test configurations
+test_configs:
+  # Smoke tests (quick validation)
+  smoke:
+    vehicles: 5
+    steps: 200
+    dt: 0.02
+    speed_factor: 1.0
+    warmup_steps: 10
+
+  # Standard benchmarks
+  standard:
+    vehicles: 100
+    steps: 1000
+    dt: 0.02
+    speed_factor: 1.0
+    warmup_steps: 100
+
+  # High-performance benchmarks
+  high_performance:
+    vehicles: 1000
+    steps: 1000
+    dt: 0.02
+    speed_factor: 100.0
+    warmup_steps: 100
+
+  # Scale testing
+  scale:
+    vehicle_counts: [20, 50, 100, 200, 500, 1000]
+    speed_factors: [1.0, 10.0, 100.0, 1000.0]
+    steps: 1000
+    dt: 0.02
+
+  # Stress testing
+  stress:
+    vehicles: 5000
+    steps: 100
+    dt: 0.02
+    speed_factor: 1000.0
+    warmup_steps: 50
+
+# CI/CD integration
+ci_cd:
+  # GitHub Actions integration
+  github_actions:
+    enabled: true
+    performance_regression_check: true
+    memory_leak_detection: true
+    benchmark_comparison: true
+
+  # Performance regression detection
+  regression_detection:
+    baseline_branch: "main"
+    comparison_method: "statistical"
+    significance_level: 0.05
+    minimum_samples: 5
+
+  # Automated reporting
+  reporting:
+    generate_reports: true
+    upload_artifacts: true
+    notify_on_regression: true
+    performance_dashboard: true
