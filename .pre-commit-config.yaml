@@ -61,3 +61,10 @@ repos:
         entry: timeout 30 bash -c 'uv run radon cc src/ -a --min B'
         language: system
         types: [python]
+      - id: test-consistency
+        name: test-consistency
+        entry: timeout 30 bash -c 'uv run python scripts/check_test_consistency.py "$@"'
+        language: system
+        types: [python]
+        files: ^tests/.*\.py$
+        pass_filenames: true

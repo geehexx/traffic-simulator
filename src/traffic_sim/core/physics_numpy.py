@@ -223,4 +223,4 @@ class PhysicsEngineNumpy:
         self.state[:, 0] = x_new
         self.state[:, 1] = y_new
         # velocities unchanged
-        return self.state.copy()  # type: ignore[no-any-return]  # type: ignore[no-any-return]
+        return self.state.copy()  # type: ignore[no-any-return]
