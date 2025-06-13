@@ -31,7 +31,23 @@ description: Performance optimization guidelines
 ## Performance Testing
 - **Pattern**: Automated performance tests
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
-- **Scripts**: `scripts/performance_analysis.py --mode=benchmark|scale|monitor`
+- **Scripts**: `scripts/benchmarking_framework.py --mode=benchmark|scale|monitor|profile`
+
+## Unified Benchmarking Framework
+- **Pattern**: Parallel execution, real-time estimation, comprehensive metrics
+- **Key**: 3-5x performance improvement through parallelization
+- **Features**: Intelligent caching, system monitoring, external tool integration
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
+
+## External Tools Integration
+- **Pattern**: pytest-benchmark, ASV, Hyperfine, Py-Spy integration
+- **Key**: Statistical analysis, historical tracking, command-line benchmarking
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#external-tools-integration)
+
+## Advanced Profiling
+- **Pattern**: Memory analysis, performance prediction, scaling modeling
+- **Key**: Leak detection, resource bottleneck identification
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#advanced-profiling)
 
 ## Performance Analysis Modes
 - **Benchmark**: `--mode=benchmark` - High-performance benchmark testing

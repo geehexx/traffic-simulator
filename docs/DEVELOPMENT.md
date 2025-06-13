@@ -212,9 +212,36 @@ For detailed quality standards, see [Quality Standards Guide](mdc:docs/QUALITY_S
 # tests/sim_test.py - Simulation integration tests
 # tests/track_test.py - Track geometry tests
 # tests/track_properties_test.py - Track property tests
-# tests/performance_highperf_test.py - High-performance optimization tests
+# tests/benchmark_test.py - Unified benchmarking tests (replaces performance_*_test.py)
 # tests/validation_test.py - Behavioral consistency tests
 ```
+
+### Performance Test Migration
+The project has migrated from individual performance test files to a unified benchmarking framework:
+
+```bash
+# Check migration readiness
+uv run python scripts/migrate_performance_tests.py --check-only
+
+# Run migration (removes old performance test files)
+uv run python scripts/migrate_performance_tests.py
+
+# Dry run (see what would be done)
+uv run python scripts/migrate_performance_tests.py --dry-run
+```
+
+**Migration Details:**
+- `tests/performance_test.py` → `tests/benchmark_test.py`
+- `tests/performance_smoke_test.py` → Integrated into unified framework
+- `tests/performance_highperf_test.py` → Integrated into unified framework
+
+**New Benchmarking Framework:**
+- **Unified Framework**: `scripts/benchmarking_framework.py`
+- **External Tools**: `scripts/external_tools.py`
+- **Advanced Profiling**: `scripts/advanced_profiling.py`
+- **Migration Support**: `scripts/migrate_performance_tests.py`
+
+**Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
 
 ### Writing Tests
 ```python

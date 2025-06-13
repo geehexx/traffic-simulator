@@ -63,69 +63,83 @@ uv run python scripts/quality_analysis.py --mode=analyze --output analysis_repor
 
 ## Performance Analysis
 
-The `scripts/performance_analysis.py` script provides comprehensive performance analysis with three modes:
+The `scripts/performance_analysis.py` script has been superseded by the unified benchmarking framework. Use the new framework for all performance testing:
 
-### Benchmark Mode (High-Performance Testing)
+### Unified Benchmarking Framework
 ```bash
-# Run high-performance benchmark
-uv run python scripts/performance_analysis.py --mode=benchmark
+# Single benchmark
+uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
 
-# With custom parameters
-uv run python scripts/performance_analysis.py --mode=benchmark --vehicles 100 --steps 2000 --speed-factor 10.0
+# Scale testing
+uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
+
+# Performance monitoring
+uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+
+# Advanced profiling
+uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
 ```
 
-**Features:**
-- High-performance benchmark testing
-- Configurable vehicle counts and speed factors
-- Frame time analysis (avg, p95)
-- FPS equivalent calculations
-- Performance optimization validation
-
-### Scale Mode (Scalability Testing)
+### External Tools Integration
 ```bash
-# Run scale performance testing
-uv run python scripts/performance_analysis.py --mode=scale
+# pytest-benchmark integration
+uv run python scripts/external_tools.py --tool pytest
 
-# With custom vehicle counts and speed factors
-uv run python scripts/performance_analysis.py --mode=scale --vehicle-counts 20 50 100 200 --speed-factors 1.0 10.0 100.0
+# Hyperfine benchmarking
+uv run python scripts/external_tools.py --tool hyperfine
+
+# Py-Spy profiling
+uv run python scripts/external_tools.py --tool pyspy
+
+# All tools
+uv run python scripts/external_tools.py --tool all
 ```
 
-**Features:**
-- Multi-dimensional performance testing
-- Vehicle count scaling analysis
-- Speed factor impact assessment
-- CSV output for analysis
-- Performance efficiency metrics
-
-### Monitor Mode (Real-Time Monitoring)
+### Advanced Profiling
 ```bash
-# Run real-time performance monitoring
-uv run python scripts/performance_analysis.py --mode=monitor
+# Memory analysis
+uv run python scripts/advanced_profiling.py --mode=memory --vehicles 100 --steps 1000
 
-# With custom duration and parameters
-uv run python scripts/performance_analysis.py --mode=monitor --duration 10 --vehicles 50 --speed-factor 5.0
+# Scaling analysis
+uv run python scripts/advanced_profiling.py --mode=scaling --vehicle-counts 10 20 50 100 200
+
+# Comprehensive analysis
+uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 --steps 1000
 ```
 
-**Features:**
-- Real-time performance monitoring
-- CPU and memory usage tracking
-- Performance alert system
-- Configurable monitoring duration
-- Live performance metrics
+### Migration Support
+```bash
+# Check migration readiness
+uv run python scripts/migrate_performance_tests.py --check-only
+
+# Run migration
+uv run python scripts/migrate_performance_tests.py
+
+# Dry run (see what would be done)
+uv run python scripts/migrate_performance_tests.py --dry-run
+```
+
+**Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
 
 ## Specialized Scripts
 
-### Simulation Profiling
+### Advanced Profiling
 ```bash
-# Run simulation profiling
-uv run python scripts/profile_simulation.py --steps 1000 --dt 0.02 --csv profiling_stats.csv --cprofile
+# Memory analysis
+uv run python scripts/advanced_profiling.py --mode=memory --vehicles 100 --steps 1000
+
+# Scaling analysis
+uv run python scripts/advanced_profiling.py --mode=scaling --vehicle-counts 10 20 50 100 200
+
+# Comprehensive analysis
+uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 --steps 1000
 ```
 
 **Features:**
-- Detailed performance profiling
-- CSV output for analysis
-- Optional cProfile integration
-- Step-by-step performance tracking
+- Advanced memory profiling with leak detection
+- Performance prediction and scaling analysis
+- Resource bottleneck identification
+- Mathematical modeling of performance behavior
 
 ### Validation Testing
 ```bash

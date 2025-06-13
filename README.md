@@ -219,14 +219,17 @@ task quality              # Quality gates
 task quality:monitor      # Detailed monitoring
 task quality:analyze      # Comprehensive analysis
 
-# Performance analysis
+# Performance analysis (Unified Benchmarking Framework)
 task performance          # Performance benchmark
 task performance:scale    # Scale testing
 task performance:monitor  # Real-time monitoring
+task performance:profile # Advanced profiling
 
 # Specialized tools
-task profile              # Simulation profiling
 task validate             # Validation testing
+task benchmark            # Unified benchmarking framework
+task benchmark:external   # External tools integration
+task benchmark:advanced   # Advanced profiling
 ```
 
 ### Project Structure
@@ -235,6 +238,7 @@ task validate             # Validation testing
 - **Tests**: `tests/` - Test suite
 - **Models**: `src/traffic_sim/models/` - Vehicle and driver specifications
 - **Render**: `src/traffic_sim/render/` - Arcade rendering and UI
+- **Scripts**: `scripts/` - Analysis and benchmarking tools
 
 ### Key Components
 - **Simulation**: Main simulation loop with IDM controller
@@ -243,8 +247,32 @@ task validate             # Validation testing
 - **Perception**: Occlusion detection and dynamic SSD calculation
 - **Track**: Stadium geometry with safety calculations
 - **Analytics**: Live data collection and real-time visualization
-- **Collision**: Pymunk physics integration for realistic crash dynamics
-- **Logging**: Comprehensive data export and incident tracking
+- **Benchmarking**: Unified framework with parallel execution and real-time estimation
+
+### Unified Benchmarking Framework
+The project includes a comprehensive benchmarking system for performance optimization:
+
+```bash
+# Single benchmark
+uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+
+# Scale testing
+uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
+
+# Performance monitoring
+uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+
+# Advanced profiling
+uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
+```
+
+**Features:**
+- **Parallel Execution**: 3-5x performance improvement through automatic parallelization
+- **Real-Time Estimation**: Theoretical performance modeling with 100% CPU utilization
+- **External Tools**: Integration with pytest-benchmark, ASV, Hyperfine, Py-Spy
+- **Advanced Profiling**: Memory analysis, performance prediction, scaling modeling
+
+**Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
 
 ## Testing & CI
 

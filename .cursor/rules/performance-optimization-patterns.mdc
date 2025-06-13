@@ -36,15 +36,33 @@ description: Comprehensive performance optimization patterns and techniques
 - **Performance**: Scalable state management for large simulations
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#high-performance-data-manager)
 
+## Unified Benchmarking Framework
+- **Pattern**: Parallel execution with real-time performance estimation
+- **Key**: 3-5x performance improvement, 100% CPU utilization modeling
+- **Performance**: Automatic parallelization across all CPU cores
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#unified-benchmarking-framework)
+
+## External Tools Integration
+- **Pattern**: Modern benchmarking frameworks integration
+- **Key**: pytest-benchmark, ASV, Hyperfine, Py-Spy
+- **Performance**: Statistical analysis, historical tracking, flame graphs
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#external-tools-integration)
+
+## Advanced Profiling Patterns
+- **Pattern**: Memory analysis with leak detection, performance prediction
+- **Key**: tracemalloc integration, scaling behavior modeling
+- **Performance**: Resource bottleneck identification, mathematical modeling
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#advanced-profiling)
+
 ## Performance Monitoring
 - **Pattern**: Continuous performance monitoring and validation
-- **Key**: Use scripts/performance_monitor.py for real-time metrics
+- **Key**: Use scripts/benchmarking_framework.py for real-time metrics
 - **Validation**: Use scripts/validation_test.py for behavioral consistency
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-monitoring)
 
 ## Scale Testing
 - **Pattern**: Comprehensive performance benchmarking
-- **Key**: Use scripts/scale_benchmark.py for multi-vehicle testing
+- **Key**: Use scripts/benchmarking_framework.py for multi-vehicle testing
 - **Targets**: 1000+ vehicles at 100-1000x speed factors
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#scale-testing)
 
