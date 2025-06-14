@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+"""Tests for track properties test."""
+
+
+import pytest
+
 import math
 
 import hypothesis.strategies as st
@@ -34,3 +41,7 @@ def test_safe_speed_inverse(V, e, f):
         else math.sqrt(127.0 * Rmin * (e + f))
     )
     assert abs(Vsafe - V) <= 1e-8 * max(1.0, V)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

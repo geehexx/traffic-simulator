@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+"""Tests for the simulation module."""
+
+
+import pytest
+
 from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 
@@ -225,3 +232,7 @@ def test_occlusion_visibility_edge_cases_2():
 
         # Test edge case: distance just over 1.0
         assert sim._is_leader_visible(1.01, 0.0) is True
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

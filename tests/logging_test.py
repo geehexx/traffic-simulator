@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 """Comprehensive tests for the logging module."""
 
-from __future__ import annotations
+
+import pytest
 
 import tempfile
 import os
@@ -467,3 +470,7 @@ class TestDataLogger:
         logger.log_simulation_step(vehicles, perception_data, analytics, 0.02)
 
         assert logger.step_count == initial_count + 1
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

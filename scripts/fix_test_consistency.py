@@ -84,25 +84,41 @@ def fix_test_file(file_path: Path) -> bool:
     # Apply fixes
     new_lines = lines.copy()
     insert_index = 0
-
+    
     # Add docstring if missing
     if not has_docstring:
         docstring = f'"""Tests for {file_path.stem.replace("_", " ")}."""'
         new_lines.insert(insert_index, docstring)
         new_lines.insert(insert_index + 1, "")
         insert_index += 2
-
-    # Add future annotations if missing
+    
+    # Add future annotations if missing - must be at the very beginning
     if not has_future_annotations:
         new_lines.insert(insert_index, "from __future__ import annotations")
         new_lines.insert(insert_index + 1, "")
         insert_index += 2
-
+    
     # Add pytest import if missing
     if not has_pytest_import:
         new_lines.insert(insert_index, "import pytest")
         new_lines.insert(insert_index + 1, "")
         insert_index += 2
+    
+    # Fix import order if future annotations is not at the beginning
+    if has_future_annotations:
+        # Find where future annotations is and move it to the beginning
+        future_line_idx = None
+        for i, line in enumerate(new_lines):
+            if line.strip() == "from __future__ import annotations":
+                future_line_idx = i
+                break
+        
+        if future_line_idx is not None and future_line_idx > 0:
+            # Remove from current position
+            future_line = new_lines.pop(future_line_idx)
+            # Insert at the beginning after docstring
+            new_lines.insert(insert_index, future_line)
+            new_lines.insert(insert_index + 1, "")
 
     # Add main block if missing
     if not has_main_block:

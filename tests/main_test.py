@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 """Tests for the main module."""
 
-from __future__ import annotations
+
+import pytest
 
 
 class TestMain:
@@ -19,3 +22,7 @@ class TestMain:
         # Check that the module has the expected structure
         assert hasattr(main_module, "__name__")
         assert main_module.__name__ == "traffic_sim.__main__"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

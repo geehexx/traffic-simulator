@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for performance highperf test."""
+
+import pytest
+
+
 import time
 
 from traffic_sim.config.loader import load_config
@@ -30,3 +35,7 @@ def test_high_performance_flags_do_not_regress():
 
     # Soft bound to catch obvious regressions while avoiding flakiness
     assert elapsed < 10.0, f"High-performance path too slow: {elapsed:.2f}s"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

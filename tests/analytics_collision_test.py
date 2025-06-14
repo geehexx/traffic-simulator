@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+"""Tests for analytics collision test."""
+
+
 import pytest
 import random
 from traffic_sim.config.loader import load_config

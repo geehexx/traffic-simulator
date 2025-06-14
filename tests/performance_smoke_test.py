@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Performance regression smoke test using profiler stats.
 
 This is intentionally lightweight and non-flaky: it asserts that
@@ -5,7 +7,8 @@ profiling is enabled, stats are produced, and total simulation time
 per step remains within a generous bound on typical dev hardware.
 """
 
-from __future__ import annotations
+
+import pytest
 
 import time
 
@@ -46,3 +49,7 @@ def test_profiler_produces_stats_and_reasonable_step_time():
 
     # Generous upper bound to avoid flakiness: < 3s for 200 small steps
     assert elapsed < 3.0, f"Performance smoke too slow: {elapsed:.2f}s"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

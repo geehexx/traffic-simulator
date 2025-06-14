@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for collision prefilter test."""
+
+import pytest
+
+
 from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 
@@ -35,3 +40,7 @@ def test_collision_prefilter_does_not_change_detection():
     # Both should detect at least one collision and equal counts
     assert len(events_no) >= 1
     assert len(events_no) == len(events_yes)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 """Integration tests for rendering functionality."""
 
-from __future__ import annotations
 
 import pytest
 from unittest.mock import Mock, patch
@@ -134,3 +135,7 @@ class TestRenderingIntegration:
             except SyntaxError:
                 # Skip files with syntax errors
                 pass
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

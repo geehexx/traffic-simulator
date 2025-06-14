@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for idm vectorized test."""
+
+import pytest
+
+
 import numpy as np
 
 from traffic_sim.core.idm_vectorized import idm_accel_fallback_next_vehicle
@@ -23,3 +28,7 @@ def test_idm_vectorized_matches_simple_synthetic_case():
     assert acc.shape == (n,)
     assert np.allclose(acc, acc[0])
     assert acc[0] > 0.0
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

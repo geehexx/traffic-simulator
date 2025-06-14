@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for collision scheduler test."""
+
+import pytest
+
+
 from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 
@@ -40,3 +45,7 @@ def test_scheduler_parity_with_dense_detection_simple_case():
     events_dense = sim_dense.collision_system.get_collision_events()
     events_sched = sim_sched.collision_system.get_collision_events()
     assert (len(events_dense) > 0) == (len(events_sched) > 0)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

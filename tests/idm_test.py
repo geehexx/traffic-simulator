@@ -1,9 +1,16 @@
-from traffic_sim.config.loader import load_config
-from traffic_sim.core.simulation import Simulation
-from traffic_sim.core.driver import Driver, DriverParams, sample_driver_params
-from traffic_sim.core.vehicle import Vehicle, VehicleSpec, VehicleState
+from __future__ import annotations
+
+"""Tests for IDM (Intelligent Driver Model) functionality."""
+
+
 import random
+
 import pytest
+
+from traffic_sim.config.loader import load_config
+from traffic_sim.core.driver import Driver, DriverParams, sample_driver_params
+from traffic_sim.core.simulation import Simulation
+from traffic_sim.core.vehicle import Vehicle, VehicleSpec, VehicleState
 
 
 def test_idm_braking_when_too_close():
@@ -219,8 +226,9 @@ def test_deterministic_behavior():
 def test_single_vehicle_behavior():
     """Test that single vehicle approaches desired speed."""
     import pytest
+
     pytest.skip("Skipping due to optimization changes affecting behavior - needs investigation")
-    
+
     cfg = load_config()
     cfg["vehicles"]["count"] = 1
     # Disable optimizations for deterministic test behavior

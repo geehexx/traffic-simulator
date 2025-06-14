@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+"""Tests for spatial hash test."""
+
+
+import pytest
+
 import numpy as np
 from traffic_sim.core.spatial_hash import spatial_hash_grid
 
@@ -14,3 +21,7 @@ def test_spatial_hash_grid_basic():
     assert grid[(1, 0)] == [1]
     assert sorted(grid[(2, 2)]) == [2, 4]
     print("Basic spatial hash grid test passed.")
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

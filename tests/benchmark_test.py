@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+from __future__ import annotations
+
 """
 Consolidated Benchmark Tests
 
@@ -12,7 +13,6 @@ Replaces:
 - tests/performance_highperf_test.py
 """
 
-from __future__ import annotations
 
 import pytest
 import sys
@@ -353,4 +353,4 @@ class TestBenchmarkingIntegration:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    pytest.main([__file__])

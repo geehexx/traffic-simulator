@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 """Tests for performance optimizations and speed factor stability."""
 
-from __future__ import annotations
 
 import pytest
 import time

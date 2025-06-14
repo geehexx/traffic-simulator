@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+"""Tests for track test."""
+
+
 import math
 
 import pytest
@@ -74,3 +79,7 @@ def test_safe_speed_kmh():
     # Check the formula: V_safe = sqrt(127 R (e + f))
     expected = math.sqrt(127.0 * track.radius_m * (e + f))
     assert pytest.approx(safe_speed, rel=1e-12) == expected
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

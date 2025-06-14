@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for data manager test."""
+
+import pytest
+
+
 import numpy as np
 
 from traffic_sim.core.data_manager import VehicleDataManager
@@ -24,3 +29,7 @@ def test_allocate_and_step_kinematics():
     # x = x0 + v0 t + 0.5 a t^2 = 0 + 10*1 + 0.5*1*1 = 10.5 m
     np.testing.assert_allclose(dm.velocities[idx, 0], 11.0, rtol=1e-4, atol=1e-3)
     np.testing.assert_allclose(dm.positions[idx, 0], 10.5, rtol=1e-4, atol=1e-3)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

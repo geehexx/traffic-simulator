@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for physics vectorized test."""
+
+import pytest
+
+
 import numpy as np
 
 from traffic_sim.core.physics_vectorized import step_arc_kinematics
@@ -38,3 +43,7 @@ def test_step_arc_kinematics_mask_and_wrap():
     # idx2: inactive -> unchanged
     np.testing.assert_allclose(v, [1.0, 4.0, 0.0], rtol=1e-6)
     np.testing.assert_allclose(s, [1.0, 3.0, 25.0], rtol=1e-6)
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

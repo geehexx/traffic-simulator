@@ -1,3 +1,10 @@
+from __future__ import annotations
+
+"""Tests for physics numpy test."""
+
+
+import pytest
+
 import numpy as np
 from traffic_sim.core.physics_numpy import PhysicsEngineNumpy
 
@@ -19,3 +26,7 @@ def test_physics_engine_numpy_basic():
     assert np.allclose(state[0, 0], 10.0)
     assert np.allclose(state[1, 0], 5.0)
     print("Basic NumPy physics engine test passed.")
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

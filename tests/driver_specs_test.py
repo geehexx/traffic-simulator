@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 """Tests for the driver specs module."""
 
-from __future__ import annotations
 
 import pytest
 
@@ -142,3 +143,7 @@ def test_sample_driver_params_exception_handling():
     assert hasattr(params, "aggression_z")
     assert hasattr(params, "rule_adherence")
     assert hasattr(params, "desired_speed_mps")
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for perception window test."""
+
+import pytest
+
+
 from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 
@@ -40,3 +45,7 @@ def test_perception_window_flag_limits_checks_without_behavior_change_when_clear
         assert (pa.leader_vehicle is None) == (pb.leader_vehicle is None)
         if pa.leader_vehicle is not None and pb.leader_vehicle is not None:
             assert abs(pa.leader_distance_m - pb.leader_distance_m) < 1e-9
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

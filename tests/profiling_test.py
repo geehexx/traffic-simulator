@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+"""Tests for profiling test."""
+
+import pytest
+
+
 import time
 
 from traffic_sim.core.profiling import PerformanceProfiler, get_profiler
@@ -47,3 +52,7 @@ def test_memory_snapshot():
     # Peak should be non-decreasing and positive
     assert snap2.peak_bytes >= snap1.peak_bytes
     assert snap2.peak_bytes > 0
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])

@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 """Tests for the config loader module."""
 
-from __future__ import annotations
+
+import pytest
 
 import os
 import tempfile
@@ -110,3 +113,7 @@ class TestGetNested:
         cfg = {"key": "value"}
         result = get_nested(cfg, "", "default")
         assert result == "default"
+
+
+if __name__ == "__main__":
+    pytest.main([__file__])
