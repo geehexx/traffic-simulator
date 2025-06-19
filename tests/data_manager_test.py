@@ -1,4 +1,7 @@
+"""Tests for data manager test."""
+
 from __future__ import annotations
+
 
 """Tests for data manager test."""
 

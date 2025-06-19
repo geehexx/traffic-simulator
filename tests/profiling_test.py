@@ -1,4 +1,7 @@
+"""Tests for profiling test."""
+
 from __future__ import annotations
+
 
 """Tests for profiling test."""
 

@@ -1,4 +1,7 @@
+"""Tests for logging test."""
+
 from __future__ import annotations
+
 
 """Comprehensive tests for the logging module."""
 

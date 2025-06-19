@@ -1,4 +1,7 @@
+"""Tests for conftest."""
+
 from __future__ import annotations
+
 
 """Tests for conftest."""
 

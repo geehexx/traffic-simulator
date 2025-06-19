@@ -1,4 +1,7 @@
+"""Tests for performance highperf test."""
+
 from __future__ import annotations
+
 
 """Tests for performance highperf test."""
 

@@ -1,4 +1,7 @@
+"""Tests for collision scheduler test."""
+
 from __future__ import annotations
+
 
 """Tests for collision scheduler test."""
 

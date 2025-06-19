@@ -1,4 +1,7 @@
+"""Tests for performance smoke test."""
+
 from __future__ import annotations
+
 
 """Performance regression smoke test using profiler stats.
 

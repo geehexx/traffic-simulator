@@ -1,4 +1,7 @@
+"""Tests for benchmark test."""
+
 from __future__ import annotations
+
 
 """
 Consolidated Benchmark Tests

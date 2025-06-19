@@ -1,4 +1,7 @@
+"""Tests for track properties test."""
+
 from __future__ import annotations
+
 
 """Tests for track properties test."""
 

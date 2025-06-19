@@ -1,4 +1,7 @@
+"""Tests for config loader test."""
+
 from __future__ import annotations
+
 
 """Tests for the config loader module."""
 

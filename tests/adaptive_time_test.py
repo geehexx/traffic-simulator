@@ -1,4 +1,7 @@
+"""Tests for adaptive time test."""
+
 from __future__ import annotations
+
 
 """Tests for adaptive time test."""
 

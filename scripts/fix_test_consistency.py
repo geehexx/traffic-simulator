@@ -85,12 +85,29 @@ def fix_test_file(file_path: Path) -> bool:
     new_lines = lines.copy()
     insert_index = 0
     
-    # Add docstring if missing
+    # Add docstring if missing or fix position
     if not has_docstring:
         docstring = f'"""Tests for {file_path.stem.replace("_", " ")}."""'
         new_lines.insert(insert_index, docstring)
         new_lines.insert(insert_index + 1, "")
         insert_index += 2
+    else:
+        # Check if docstring is at the beginning
+        if not (new_lines[0].strip().startswith('"""') or new_lines[0].strip().startswith("'''")):
+            # Find and move docstring to the beginning
+            docstring_line_idx = None
+            for i, line in enumerate(new_lines):
+                if line.strip().startswith('"""') or line.strip().startswith("'''"):
+                    docstring_line_idx = i
+                    break
+            
+            if docstring_line_idx is not None:
+                # Remove docstring from current position
+                docstring_line = new_lines.pop(docstring_line_idx)
+                # Insert at the beginning
+                new_lines.insert(0, docstring_line)
+                new_lines.insert(1, "")
+                insert_index = 2
     
     # Add future annotations if missing - must be at the very beginning
     if not has_future_annotations:
