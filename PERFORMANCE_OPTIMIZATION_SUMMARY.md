@@ -8,7 +8,7 @@ This document summarizes the comprehensive performance optimizations implemented
 ### 1. Event-Driven Collision Scheduler ✅
 - **Implementation**: Predictive TTC scheduling with min-heap
 - **Performance Impact**: 90% reduction in collision checks (190,000 → 17,980)
-- **Configuration**: 
+- **Configuration**:
   - `event_horizon_s: 2.0` (reduced from 3.0)
   - `guard_band_m: 0.2` (reduced from 0.3)
   - `scheduler_max_follower_accel_mps2: 2.5`
@@ -16,7 +16,7 @@ This document summarizes the comprehensive performance optimizations implemented
 
 ### 2. NumPy Physics Engine with Numba JIT ✅
 - **Implementation**: Vectorized physics with Numba acceleration
-- **Features**: 
+- **Features**:
   - Cached acceleration limit calculations
   - Vectorized drag force computation
   - JIT-compiled physics loops

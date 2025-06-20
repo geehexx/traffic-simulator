@@ -1,9 +1,4 @@
-"""Tests for rendering integration test."""
-
 from __future__ import annotations
-
-
-"""Integration tests for rendering functionality."""
 
 
 import pytest

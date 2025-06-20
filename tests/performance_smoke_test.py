@@ -1,14 +1,11 @@
-"""Tests for performance smoke test."""
-
-from __future__ import annotations
-
-
 """Performance regression smoke test using profiler stats.
 
 This is intentionally lightweight and non-flaky: it asserts that
 profiling is enabled, stats are produced, and total simulation time
 per step remains within a generous bound on typical dev hardware.
 """
+
+from __future__ import annotations
 
 
 import pytest

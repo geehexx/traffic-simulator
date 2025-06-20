@@ -1,9 +1,4 @@
-"""Tests for idm test."""
-
 from __future__ import annotations
-
-
-"""Tests for IDM (Intelligent Driver Model) functionality."""
 
 
 import random

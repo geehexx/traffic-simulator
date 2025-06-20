@@ -1,9 +1,4 @@
-"""Tests for performance test."""
-
 from __future__ import annotations
-
-
-"""Tests for performance optimizations and speed factor stability."""
 
 
 import pytest

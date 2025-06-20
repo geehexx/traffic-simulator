@@ -1,9 +1,4 @@
-"""Tests for main test."""
-
 from __future__ import annotations
-
-
-"""Tests for the main module."""
 
 
 import pytest

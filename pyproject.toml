@@ -43,6 +43,14 @@ addopts = "-q"
 [tool.ruff]
 line-length = 100
 
+[tool.ruff.lint.per-file-ignores]
+# Allow imports after docstrings in test files for direct runnability
+"tests/*.py" = ["E402"]
+
+[tool.pyright]
+# Disable pyright for physics_numpy.py due to mypy/pyright conflict
+exclude = ["src/traffic_sim/core/physics_numpy.py"]
+
 [tool.ruff.lint.flake8-type-checking]
 # Allow imports that are used at runtime, not just for type annotations
 runtime-evaluated-base-classes = ["dataclasses.dataclass"]

@@ -1,9 +1,4 @@
-"""Tests for analytics collision test."""
-
 from __future__ import annotations
-
-
-"""Tests for analytics collision test."""
 
 
 import pytest

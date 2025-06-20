@@ -1,8 +1,3 @@
-"""Tests for benchmark test."""
-
-from __future__ import annotations
-
-
 """
 Consolidated Benchmark Tests
 
@@ -15,6 +10,8 @@ Replaces:
 - tests/performance_smoke_test.py
 - tests/performance_highperf_test.py
 """
+
+from __future__ import annotations
 
 
 import pytest

@@ -261,7 +261,7 @@ class PerformancePredictor:
             )
 
         # Use NumPy for more sophisticated analysis
-        if np is not None and hasattr(np, 'array'):
+        if np is not None and hasattr(np, "array"):
             x = np.array(vehicle_counts)
             y = np.array(performance_metrics)
         else:

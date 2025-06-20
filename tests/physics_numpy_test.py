@@ -1,9 +1,4 @@
-"""Tests for physics numpy test."""
-
 from __future__ import annotations
-
-
-"""Tests for physics numpy test."""
 
 
 import pytest
