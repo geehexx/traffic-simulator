@@ -39,13 +39,6 @@ repos:
         language: system
         types: [python]
         files: ^src/.*\.py$
-      # Temporarily disabled pylint due to style issues - will fix in separate commit
-      # - id: pylint
-      #   name: pylint
-      #   entry: timeout 60 uv run pylint
-      #   language: system
-      #   types: [python]
-      #   args: [src/, --rcfile=pylintrc]
       - id: bandit
         name: bandit
         entry: timeout 30 bash -c 'uv run bandit -r src/ -c bandit.yaml'
