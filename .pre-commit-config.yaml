@@ -33,18 +33,12 @@ repos:
         language_version: python3
   - repo: local
     hooks:
-      - id: mypy
-        name: mypy
-        entry: timeout 60 bash -c 'cd src && uv run mypy traffic_sim/ --explicit-package-bases --show-error-codes'
+      - id: pyright
+        name: pyright
+        entry: timeout 120 uv run pyright
         language: system
         types: [python]
-      # Temporarily disabled pyright due to mypy/pyright conflict
-      # - id: pyright
-      #   name: pyright
-      #   entry: timeout 120 uv run pyright
-      #   language: system
-      #   types: [python]
-      #   args: [src/]
+        files: ^src/.*\.py$
       # Temporarily disabled pylint due to style issues - will fix in separate commit
       # - id: pylint
       #   name: pylint

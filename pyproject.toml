@@ -22,7 +22,6 @@ dev = [
 	"pre-commit>=3.8.0",
 	"ruff>=0.6.0",
 	"black>=24.8.0",
-	"mypy>=1.18.0",
 	"pyright>=1.1.400",
 	"pylint>=3.3.0",
 	"bandit>=1.7.0",
@@ -47,13 +46,21 @@ line-length = 100
 # Allow imports after docstrings in test files for direct runnability
 "tests/*.py" = ["E402"]
 
-[tool.pyright]
-# Disable pyright for physics_numpy.py due to mypy/pyright conflict
-exclude = ["src/traffic_sim/core/physics_numpy.py"]
 
 [tool.ruff.lint.flake8-type-checking]
 # Allow imports that are used at runtime, not just for type annotations
 runtime-evaluated-base-classes = ["dataclasses.dataclass"]
+
+[tool.pyright]
+# Pyright configuration for better type checking
+include = ["src/"]
+exclude = ["tests/", "scripts/", "**/__pycache__", "**/node_modules"]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
+useLibraryCodeForTypes = true
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnnecessaryTypeIgnoreComment = true
 
 [tool.black]
 line-length = 100
