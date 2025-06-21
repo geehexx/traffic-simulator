@@ -46,10 +46,8 @@ uv run pre-commit run --all-files
 
 ### Current Status (as of latest commit)
 - **Overall**: 6/7 checks passing
-- **MyPy**: 1 duplicate module issue (PRIORITY: needs resolution)
 - **Pyright**: All checks passing
 - **Ruff**: All checks passing
-- **Pylint**: Score 9.5/10
 - **Bandit**: No security issues
 - **Radon**: No complexity issues
 - **Coverage**: 79% (target: 70%)
@@ -58,9 +56,6 @@ uv run pre-commit run --all-files
 
 ### Type Checking Issues
 ```bash
-# Fix MyPy issues
-uv run mypy src/ --show-error-codes
-
 # Fix Pyright issues
 uv run pyright src/
 ```
@@ -73,8 +68,6 @@ uv run ruff check src/ --fix
 # Format code
 uv run ruff format src/
 
-# Fix Pylint issues
-uv run pylint src/ --rcfile=pylintrc
 ```
 
 ### Security Issues

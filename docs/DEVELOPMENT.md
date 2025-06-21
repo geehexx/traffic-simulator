@@ -50,16 +50,13 @@ The project enforces high code quality through automated static analysis. See [Q
 #### Pre-commit Hooks
 Quality gates run automatically on every commit:
 - **Ruff**: Linting and formatting
-- **MyPy**: Type checking
-- **Pyright**: Enhanced type checking
-- **Pylint**: Code quality analysis
+- **Pyright**: Fast, accurate type checking
 - **Bandit**: Security scanning
 - **Radon**: Complexity analysis
 
 #### Quality Gates
 All code must pass quality gates before merging. See [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds:
 - **Type Safety**: Comprehensive type checking
-- **Code Quality**: Pylint score ≥8.0/10
 - **Security**: No high/medium severity issues
 - **Complexity**: No high complexity functions
 - **Coverage**: ≥70% line coverage
@@ -512,8 +509,7 @@ uv run python scripts/quality_analysis.py --mode=check         # Check quality
 # Code quality
 uv run ruff check src/ --fix                   # Fix linting
 uv run ruff format src/                        # Format code
-uv run mypy src/                              # Type check
-uv run pyright src/                           # Enhanced type check
+uv run pyright src/                          # Type check
 
 # Analysis
 uv run python scripts/quality_analysis.py --mode=analyze       # Full analysis

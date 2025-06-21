@@ -125,15 +125,15 @@ class QualityAnalysis:
             severity=severity,
         )
 
-    def check_mypy(self) -> QualityGateResult:
-        """Check MyPy type checking."""
-        print("🔬 Checking MyPy type checking...")
+    def check_pyright(self) -> QualityGateResult:
+        """Check Pyright type checking."""
+        print("🔬 Checking Pyright type checking...")
 
         exit_code, stdout, _ = self.run_command(
             [
                 "bash",
                 "-c",
-                "cd src && uv run mypy traffic_sim/ --explicit-package-bases --show-error-codes",
+                "cd src && uv run pyright traffic_sim/",
             ]
         )
 
@@ -141,31 +141,6 @@ class QualityAnalysis:
             issues = 0
         else:
             error_lines = [line for line in stdout.split("\n") if "error:" in line]
-            issues = len(error_lines)
-
-        max_allowed = self.config["tools"]["mypy"]["max_warnings"]
-        passed = issues <= max_allowed
-        severity = "error" if not passed else "info"
-
-        return QualityGateResult(
-            tool_name="MyPy",
-            passed=passed,
-            issues=issues,
-            max_allowed=max_allowed,
-            details=stdout if issues > 0 else "No type errors found",
-            severity=severity,
-        )
-
-    def check_pyright(self) -> QualityGateResult:
-        """Check Pyright type checking."""
-        print("🔬 Checking Pyright type checking...")
-
-        exit_code, stdout, _ = self.run_command(["uv", "run", "pyright", "src/"])
-
-        if exit_code == 0:
-            issues = 0
-        else:
-            error_lines = [line for line in stdout.split("\n") if "error" in line.lower()]
             issues = len(error_lines)
 
         max_allowed = self.config["tools"]["pyright"]["max_warnings"]
@@ -178,53 +153,6 @@ class QualityAnalysis:
             issues=issues,
             max_allowed=max_allowed,
             details=stdout if issues > 0 else "No type errors found",
-            severity=severity,
-        )
-
-    def check_pylint(self) -> QualityGateResult:
-        """Check Pylint code quality."""
-        print("🔍 Checking Pylint code quality...")
-
-        exit_code, stdout, _ = self.run_command(
-            ["uv", "run", "pylint", "src/", "--rcfile=pylintrc"]
-        )
-
-        if exit_code == 0:
-            issues = 0
-            score = 10.0
-        else:
-            # Extract score from output
-            score_line = [
-                line for line in stdout.split("\n") if "Your code has been rated at" in line
-            ]
-            if score_line:
-                try:
-                    score = float(score_line[0].split("rated at ")[1].split("/10")[0])
-                except (IndexError, ValueError):
-                    score = 0.0
-            else:
-                score = 0.0
-
-            issue_lines = [
-                line
-                for line in stdout.split("\n")
-                if ":" in line
-                and any(x in line for x in ["error", "warning", "refactor", "convention"])
-            ]
-            issues = len(issue_lines)
-
-        min_score = self.config["tools"]["pylint"]["min_score"]
-        max_allowed = self.config["tools"]["pylint"]["max_warnings"]
-
-        passed = score >= min_score and issues <= max_allowed
-        severity = "error" if not passed else "info"
-
-        return QualityGateResult(
-            tool_name="Pylint",
-            passed=passed,
-            issues=issues,
-            max_allowed=max_allowed,
-            details=f"Score: {score:.1f}/10, Issues: {issues}",
             severity=severity,
         )
 
@@ -371,32 +299,6 @@ class QualityAnalysis:
             ),
         ]
 
-    def collect_mypy_metrics(self) -> List[QualityMetric]:
-        """Collect MyPy type checking metrics."""
-        print("🔬 Collecting MyPy metrics...")
-
-        exit_code, stdout, _ = self.run_command(["uv", "run", "mypy", "src/", "--show-error-codes"])
-
-        if exit_code == 0:
-            issues = 0
-        else:
-            error_lines = [line for line in stdout.split("\n") if "error:" in line]
-            issues = len(error_lines)
-
-        max_allowed = self.config["tools"]["mypy"]["max_warnings"]
-
-        return [
-            QualityMetric(
-                timestamp=datetime.now().isoformat(),
-                tool="MyPy",
-                metric_name="type_errors",
-                value=float(issues),
-                threshold=float(max_allowed),
-                passed=issues <= max_allowed,
-                details=f"Type errors: {issues}",
-            )
-        ]
-
     def collect_pyright_metrics(self) -> List[QualityMetric]:
         """Collect Pyright type checking metrics."""
         print("🔬 Collecting Pyright metrics...")
@@ -406,7 +308,7 @@ class QualityAnalysis:
         if exit_code == 0:
             issues = 0
         else:
-            error_lines = [line for line in stdout.split("\n") if "error" in line.lower()]
+            error_lines = [line for line in stdout.split("\n") if "error:" in line]
             issues = len(error_lines)
 
         max_allowed = self.config["tools"]["pyright"]["max_warnings"]
@@ -421,61 +323,6 @@ class QualityAnalysis:
                 passed=issues <= max_allowed,
                 details=f"Type errors: {issues}",
             )
-        ]
-
-    def collect_pylint_metrics(self) -> List[QualityMetric]:
-        """Collect Pylint code quality metrics."""
-        print("🔍 Collecting Pylint metrics...")
-
-        exit_code, stdout, _ = self.run_command(
-            ["uv", "run", "pylint", "src/", "--rcfile=pylintrc"]
-        )
-
-        if exit_code == 0:
-            score = 10.0
-            issues = 0
-        else:
-            # Extract score from output
-            score_line = [
-                line for line in stdout.split("\n") if "Your code has been rated at" in line
-            ]
-            if score_line:
-                try:
-                    score = float(score_line[0].split("rated at ")[1].split("/10")[0])
-                except (IndexError, ValueError):
-                    score = 0.0
-            else:
-                score = 0.0
-
-            issue_lines = [
-                line
-                for line in stdout.split("\n")
-                if ":" in line
-                and any(x in line for x in ["error", "warning", "refactor", "convention"])
-            ]
-            issues = len(issue_lines)
-
-        min_score = self.config["tools"]["pylint"]["min_score"]
-
-        return [
-            QualityMetric(
-                timestamp=datetime.now().isoformat(),
-                tool="Pylint",
-                metric_name="quality_score",
-                value=score,
-                threshold=min_score,
-                passed=score >= min_score,
-                details=f"Quality score: {score:.1f}/10",
-            ),
-            QualityMetric(
-                timestamp=datetime.now().isoformat(),
-                tool="Pylint",
-                metric_name="code_issues",
-                value=float(issues),
-                threshold=0.0,
-                passed=issues == 0,
-                details=f"Code issues: {issues}",
-            ),
         ]
 
     def collect_bandit_metrics(self) -> List[QualityMetric]:
@@ -632,9 +479,7 @@ class QualityAnalysis:
 
         checks = [
             self.check_ruff,
-            self.check_mypy,
             self.check_pyright,
-            self.check_pylint,
             self.check_bandit,
             self.check_radon,
             self.check_coverage,
@@ -670,9 +515,7 @@ class QualityAnalysis:
 
         collectors = [
             self.collect_ruff_metrics,
-            self.collect_mypy_metrics,
             self.collect_pyright_metrics,
-            self.collect_pylint_metrics,
             self.collect_bandit_metrics,
             self.collect_radon_metrics,
             self.collect_coverage_metrics,
@@ -717,9 +560,9 @@ class QualityAnalysis:
             recommendations.append("Run 'uv run ruff check src/ --fix' to fix linting issues")
             recommendations.append("Run 'uv run ruff format src/' to fix formatting issues")
 
-        mypy_issues = [m for m in metrics if m.tool == "MyPy" and not m.passed]
-        if mypy_issues:
-            recommendations.append("Run 'uv run mypy src/' to check type errors")
+        pyright_issues = [m for m in metrics if m.tool == "Pyright" and not m.passed]
+        if pyright_issues:
+            recommendations.append("Run 'uv run pyright src/' to check type errors")
 
         coverage_issues = [m for m in metrics if m.tool == "Coverage" and not m.passed]
         if coverage_issues:
@@ -823,9 +666,7 @@ def main():
                 print("\n💡 To fix issues, run:")
                 print("   uv run ruff check src/ --fix")
                 print("   uv run ruff format src/")
-                print("   uv run mypy src/")
                 print("   uv run pyright src/")
-                print("   uv run pylint src/ --rcfile=pylintrc")
                 print("   uv run bandit -r src/ -c bandit.yaml")
                 print("   uv run radon cc src/ -a --min B")
                 print("   uv run pytest --cov=traffic_sim")

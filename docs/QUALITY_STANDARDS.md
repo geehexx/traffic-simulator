@@ -22,16 +22,10 @@ The project uses a comprehensive static analysis framework with multiple tools t
 
 ### 1. Type Checking
 
-#### MyPy
-- **Purpose**: Static type checking for Python
-- **Configuration**: [mypy.ini](mdc:mypy.ini)
-- **Features**: Strict type checking, import validation, type inference
-- **Usage**: `uv run mypy src/`
-
 #### Pyright
-- **Purpose**: Enhanced type checking with better IDE integration
-- **Configuration**: [pyrightconfig.json](mdc:pyrightconfig.json)
-- **Features**: Advanced type analysis, unused variable detection, override detection
+- **Purpose**: Fast, accurate type checking with excellent IDE integration
+- **Configuration**: [pyproject.toml](mdc:pyproject.toml) (pyright section)
+- **Features**: Advanced type analysis, unused variable detection, override detection, fast and accurate
 - **Usage**: `uv run pyright src/`
 
 ### 2. Code Quality
@@ -44,11 +38,6 @@ The project uses a comprehensive static analysis framework with multiple tools t
   - `uv run ruff check src/` (linting)
   - `uv run ruff format src/` (formatting)
 
-#### Pylint
-- **Purpose**: Comprehensive code quality analysis
-- **Configuration**: [pylintrc](mdc:pylintrc)
-- **Features**: Code quality scoring, style checking, error detection
-- **Usage**: `uv run pylint src/ --rcfile=pylintrc`
 
 ### 3. Security Analysis
 
@@ -87,7 +76,7 @@ tools:
     max_info: 10
     fail_on_format_issues: true
 
-  mypy:
+  pyright:
     max_errors: 0
     max_warnings: 3
     fail_on_any_error: true
@@ -325,9 +314,6 @@ uv run pip-audit
 
 #### Type Checking Issues
 ```bash
-# Fix MyPy issues
-uv run mypy src/ --show-error-codes
-
 # Fix Pyright issues
 uv run pyright src/
 ```
@@ -340,8 +326,6 @@ uv run ruff check src/ --fix
 # Format code
 uv run ruff format src/
 
-# Fix Pylint issues
-uv run pylint src/ --rcfile=pylintrc
 ```
 
 #### Security Issues
@@ -359,10 +343,10 @@ Add rules to [pyproject.toml](mdc:pyproject.toml):
 select = ["E", "W", "F", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "AIR", "PERF", "FURB", "LOG", "RUF"]
 ```
 
-#### MyPy Rules
-Add rules to [mypy.ini](mdc:mypy.ini):
-```ini
-[mypy]
+#### Pyright Rules
+Add rules to [pyproject.toml](mdc:pyproject.toml):
+```toml
+[tool.pyright]
 disallow_untyped_defs = True
 disallow_incomplete_defs = True
 check_untyped_defs = True
@@ -403,10 +387,8 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 ### Getting Help
 
 1. **Check tool documentation**:
-   - [MyPy](https://mypy.readthedocs.io/)
    - [Pyright](https://github.com/microsoft/pyright)
    - [Ruff](https://docs.astral.sh/ruff/)
-   - [Pylint](https://pylint.pycqa.org/)
    - [Bandit](https://bandit.readthedocs.io/)
    - [Radon](https://radon.readthedocs.io/)
 

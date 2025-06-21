@@ -83,7 +83,7 @@ tasks:
       - find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
       - find . -name ".pytest_cache" -type d -exec rm -rf {} + 2>/dev/null || true
       - find . -name ".hypothesis" -type d -exec rm -rf {} + 2>/dev/null || true
-      - find . -name ".mypy_cache" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".pyright_cache" -type d -exec rm -rf {} + 2>/dev/null || true
       - find . -name ".ruff_cache" -type d -exec rm -rf {} + 2>/dev/null || true
       - find . -name "*.log" -delete
       - find . -name ".coverage*" -delete

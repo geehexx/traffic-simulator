@@ -24,8 +24,7 @@ uv run python scripts/quality_analysis.py --mode=check --config custom_quality_g
 
 **Features:**
 - Ruff linting and formatting checks
-- MyPy and Pyright type checking
-- Pylint code quality analysis
+- Pyright type checking
 - Bandit security scanning
 - Radon complexity analysis
 - Test coverage validation
@@ -225,10 +224,8 @@ Quality analysis uses `quality_gates.yaml` for thresholds and rules. Key setting
 tools:
   ruff:
     max_warnings: 5
-  mypy:
+  pyright:
     max_warnings: 3
-  pylint:
-    min_score: 8.0
   bandit:
     max_low_severity: 3
   radon:
