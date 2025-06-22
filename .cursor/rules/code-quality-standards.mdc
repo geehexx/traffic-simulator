@@ -18,7 +18,7 @@ alwaysApply: true
 - **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
 
 ## Quality Gates
-- **Tools**: MyPy, Pyright, Ruff, Pylint, Bandit, Radon
+- **Tools**: Pyright, Ruff, Bandit, Radon
 - **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
 - **Usage**: `uv run python scripts/quality_analysis.py --mode=check`
 
@@ -33,3 +33,9 @@ alwaysApply: true
 - **Classes**: <200 lines
 - **Docstrings**: Google-style for public APIs
 - **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#code-quality-standards)
+
+## IDE Integration
+- **VS Code**: Python extension with Pyright integration
+- **PyCharm**: Enable type checking and external tools
+- **Configuration**: Automatic detection from pyproject.toml
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#ide-integration)

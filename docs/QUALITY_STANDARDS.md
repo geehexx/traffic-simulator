@@ -25,7 +25,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 #### Pyright
 - **Purpose**: Fast, accurate type checking with excellent IDE integration
 - **Configuration**: [pyproject.toml](mdc:pyproject.toml) (pyright section)
-- **Features**: Advanced type analysis, unused variable detection, override detection, fast and accurate
+- **Features**: Advanced type analysis, unused variable detection, override detection, ~3-5x faster than mypy
 - **Usage**: `uv run pyright src/`
 
 ### 2. Code Quality
@@ -37,7 +37,6 @@ The project uses a comprehensive static analysis framework with multiple tools t
 - **Usage**:
   - `uv run ruff check src/` (linting)
   - `uv run ruff format src/` (formatting)
-
 
 ### 3. Security Analysis
 
@@ -51,9 +50,130 @@ The project uses a comprehensive static analysis framework with multiple tools t
 
 #### Radon
 - **Purpose**: Code complexity analysis
-- **Configuration**: [radon.cfg](mdc:radon.cfg)
+- **Configuration**: Built-in thresholds
 - **Features**: Cyclomatic complexity, maintainability index
 - **Usage**: `uv run radon cc src/ -a --min B`
+
+## Configuration Reference
+
+### Pyright Configuration
+The project uses Pyright for type checking with the following configuration in `pyproject.toml`:
+
+```toml
+[tool.pyright]
+include = ["src/"]
+exclude = ["tests/", "scripts/", "**/__pycache__", "**/node_modules"]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
+useLibraryCodeForTypes = true
+reportMissingImports = true
+reportMissingTypeStubs = false
+reportUnnecessaryTypeIgnoreComment = true
+```
+
+### Quality Gates Thresholds
+Current quality gates enforce the following standards:
+
+```yaml
+tools:
+  pyright:
+    max_errors: 0
+    max_warnings: 3
+    fail_on_any_error: true
+
+  ruff:
+    max_errors: 0
+    max_warnings: 5
+    max_info: 10
+    fail_on_format_issues: true
+
+  bandit:
+    max_high_severity: 0
+    max_medium_severity: 0
+    max_low_severity: 3
+
+  radon:
+    max_complexity_C: 0
+    max_complexity_D: 0
+    max_complexity_E: 0
+    max_complexity_F: 0
+    average_complexity_max: 3.0
+```
+
+## IDE Integration
+
+### VS Code Setup
+For optimal development experience with Pyright:
+
+1. **Install Python Extension**: Ensure the official Python extension is installed
+2. **Configure Pyright**: Add to `settings.json`:
+   ```json
+   {
+     "python.analysis.typeCheckingMode": "standard",
+     "python.analysis.autoImportCompletions": true
+   }
+   ```
+3. **Workspace Settings**: The project's `pyproject.toml` configuration will be automatically detected
+
+### PyCharm Setup
+1. **Enable Type Checking**: Go to Settings → Editor → Inspections → Python → Type checking
+2. **Configure External Tools**: Add Pyright as an external tool for manual type checking
+3. **Import Project**: Open the project root to automatically detect configuration
+
+## Quality Analysis Workflow
+
+### Automated Quality Gates
+Quality gates run automatically on every commit via pre-commit hooks:
+
+```bash
+# Manual quality check
+uv run python scripts/quality_analysis.py --mode=check
+
+# Detailed monitoring
+uv run python scripts/quality_analysis.py --mode=monitor
+
+# Comprehensive analysis
+uv run python scripts/quality_analysis.py --mode=analyze
+```
+
+### Individual Tool Usage
+```bash
+# Type checking
+uv run pyright src/
+
+# Linting and formatting
+uv run ruff check src/ --fix
+uv run ruff format src/
+
+# Security scanning
+uv run bandit -r src/ -c bandit.yaml
+
+# Complexity analysis
+uv run radon cc src/ -a --min B
+```
+
+## Best Practices
+
+### Type Safety
+- Use `from __future__ import annotations` for forward compatibility
+- Prefer specific type hints over `Any`
+- Use `# type: ignore` sparingly and with specific error codes
+
+### Code Quality
+- Follow PEP 8 standards enforced by Ruff
+- Keep functions under 50 lines and complexity ≤10
+- Use Google-style docstrings for public APIs
+- Organize imports: standard library, third-party, local
+
+### Security
+- Run Bandit regularly to catch security issues
+- Avoid hardcoded secrets or credentials
+- Use environment variables for configuration
+
+### Performance
+- Monitor complexity with Radon
+- Use type hints to enable better IDE support
+- Leverage Pyright's advanced type analysis for better code understanding
 
 ## Quality Gates
 
