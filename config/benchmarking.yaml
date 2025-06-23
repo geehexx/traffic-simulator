@@ -74,7 +74,7 @@ benchmarking:
 
   # Output and reporting
   output:
-    base_directory: "benchmark_results"
+    base_directory: "runs"
     csv_output: true
     json_output: true
     html_reports: true
