@@ -153,7 +153,7 @@ results = framework.run_scale_benchmark(
     vehicle_counts=[20, 50, 100, 200, 500, 1000],
     speed_factors=[1.0, 10.0, 100.0, 1000.0],
     steps=1000,
-    output_csv="scale_results.csv"
+    output_csv="runs/scaling/scale_results.csv"
 )
 
 # Results include theoretical performance estimates
@@ -173,7 +173,7 @@ profiler = AdvancedProfiler()
 results = profiler.run_comprehensive_analysis(
     vehicles=100,
     steps=1000,
-    output_dir="profiling_analysis"
+    output_dir="runs/profiling/profiling_analysis"
 )
 
 # Memory analysis
@@ -284,6 +284,27 @@ pip install py-spy       # Py-Spy profiling
 See `requirements-benchmarking.txt` for complete dependency list.
 
 ## Output and Reporting
+
+### Runs Directory Structure
+
+**All profiling and benchmark output is automatically saved to the `runs/` directory.** This directory is organized by analysis type:
+
+```
+runs/
+├── profiling/               # Profiling analysis outputs
+│   ├── profiling_stats*.csv
+│   └── profiling_analysis/
+├── benchmarks/              # Benchmark results
+│   ├── benchmark_results/
+│   └── comprehensive_benchmark/
+├── performance/             # Performance analysis outputs
+│   └── *_performance*.csv
+└── scaling/                 # Scaling analysis outputs
+    ├── scale_benchmark*.csv
+    └── scaling_analysis/
+```
+
+**Important:** Always use the `runs/` directory for any profiling or benchmark output. The directory is configured in `config/benchmarking.yaml` and all scripts default to this location.
 
 ### CSV Output
 

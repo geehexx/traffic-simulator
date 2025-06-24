@@ -65,17 +65,20 @@ uv run python scripts/quality_analysis.py --mode=analyze --output analysis_repor
 The `scripts/performance_analysis.py` script has been superseded by the unified benchmarking framework. Use the new framework for all performance testing:
 
 ### Unified Benchmarking Framework
+
+**All output is automatically saved to the `runs/` directory** with organized subdirectories:
+
 ```bash
-# Single benchmark
+# Single benchmark (saves to runs/scaling/)
 uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
 
-# Scale testing
+# Scale testing (saves to runs/scaling/)
 uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
 
-# Performance monitoring
+# Performance monitoring (saves to runs/performance/)
 uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
 
-# Advanced profiling
+# Advanced profiling (saves to runs/profiling/)
 uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
 ```
 
@@ -95,14 +98,17 @@ uv run python scripts/external_tools.py --tool all
 ```
 
 ### Advanced Profiling
+
+**All profiling output is saved to the `runs/` directory** with organized subdirectories:
+
 ```bash
-# Memory analysis
+# Memory analysis (saves to runs/profiling/)
 uv run python scripts/advanced_profiling.py --mode=memory --vehicles 100 --steps 1000
 
-# Scaling analysis
+# Scaling analysis (saves to runs/scaling/)
 uv run python scripts/advanced_profiling.py --mode=scaling --vehicle-counts 10 20 50 100 200
 
-# Comprehensive analysis
+# Comprehensive analysis (saves to runs/profiling/)
 uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 --steps 1000
 ```
 

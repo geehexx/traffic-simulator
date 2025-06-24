@@ -21,6 +21,33 @@
 
 This ensures the correct environment and dependencies are used, similar to how Cursor required its own command wrapper.
 
+## Profiling and Benchmark Output
+
+**All profiling and benchmark output MUST be saved to the `runs/` directory.** This directory is organized by analysis type:
+
+- `runs/profiling/` - Profiling analysis outputs
+- `runs/benchmarks/` - Benchmark results
+- `runs/performance/` - Performance analysis outputs
+- `runs/scaling/` - Scaling analysis outputs
+
+**Enforcement:**
+- All scripts default to the `runs/` directory
+- Configuration in `config/benchmarking.yaml` enforces this
+- Documentation examples use `runs/` paths
+- `.gitignore` excludes the entire `runs/` directory
+
+**Examples:**
+```bash
+# Profiling (saves to runs/profiling/)
+uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100
+
+# Scaling (saves to runs/scaling/)
+uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100
+
+# Performance (saves to runs/performance/)
+uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5
+```
+
 # AGENTS.md
 
 ## Standards Summary Table
