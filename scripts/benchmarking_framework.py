@@ -18,12 +18,12 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import csv
+from pathlib import Path
 import statistics
 import sys
 import time
 import tracemalloc
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import cpu_count
@@ -377,7 +377,7 @@ class BenchmarkRunner:
         speed_factors: List[float],
         steps: int = 1000,
         dt: float = 0.02,
-        output_csv: str = "scale_benchmark.csv",
+        output_csv: str = "runs/scaling/scale_benchmark.csv",
     ) -> List[BenchmarkResult]:
         """Run comprehensive scale benchmarks."""
 
@@ -497,7 +497,7 @@ class BenchmarkingFramework:
         speed_factors: List[float],
         steps: int = 1000,
         dt: float = 0.02,
-        output_csv: str = "scale_benchmark.csv",
+        output_csv: str = "runs/scaling/scale_benchmark.csv",
     ) -> List[BenchmarkResult]:
         """Run comprehensive scale benchmarks."""
         return self.runner.run_scale_benchmark(vehicle_counts, speed_factors, steps, dt, output_csv)
@@ -538,7 +538,7 @@ class BenchmarkingFramework:
         steps: int = 1000,
         dt: float = 0.02,
         speed_factor: float = 1.0,
-        output_csv: str = "profiling_stats.csv",
+        output_csv: str = "runs/profiling/profiling_stats.csv",
     ) -> BenchmarkResult:
         """Run profiling benchmark with detailed analysis."""
 
@@ -629,7 +629,9 @@ def main():
         default=[1.0, 10.0, 100.0, 1000.0],
         help="Speed factors to test",
     )
-    parser.add_argument("--output", default="scale_benchmark.csv", help="Output CSV file")
+    parser.add_argument(
+        "--output", default="runs/scaling/scale_benchmark.csv", help="Output CSV file"
+    )
 
     # Monitor mode arguments
     parser.add_argument(
@@ -637,7 +639,9 @@ def main():
     )
 
     # Profile mode arguments
-    parser.add_argument("--profile-csv", default="profiling_stats.csv", help="Profile output CSV")
+    parser.add_argument(
+        "--profile-csv", default="runs/profiling/profiling_stats.csv", help="Profile output CSV"
+    )
 
     # Parallel execution
     parser.add_argument("--max-workers", type=int, help="Maximum parallel workers")
@@ -698,5 +702,16 @@ def main():
         sys.exit(1)
 
 
+def ensure_runs_directory():
+    """Ensure the runs directory structure exists."""
+    runs_dir = Path("runs")
+    runs_dir.mkdir(exist_ok=True)
+
+    # Create subdirectories
+    for subdir in ["profiling", "benchmarks", "performance", "scaling"]:
+        (runs_dir / subdir).mkdir(exist_ok=True)
+
+
 if __name__ == "__main__":
+    ensure_runs_directory()
     main()

@@ -120,7 +120,9 @@ def test_{test_name}(benchmark):
         return test_functions
 
     def run_benchmark_suite(
-        self, test_cases: List[Dict[str, Any]], output_dir: str = "benchmark_results"
+        self,
+        test_cases: List[Dict[str, Any]],
+        output_dir: str = "runs/benchmarks/benchmark_results",
     ) -> List[PytestBenchmarkResult]:
         """Run comprehensive benchmark suite with pytest-benchmark."""
 
@@ -494,7 +496,9 @@ class ExternalToolsIntegration:
         self.pyspy_profiler = PySpyProfiler()
 
     def run_comprehensive_benchmark(
-        self, test_cases: List[Dict[str, Any]], output_dir: str = "comprehensive_benchmark"
+        self,
+        test_cases: List[Dict[str, Any]],
+        output_dir: str = "runs/benchmarks/comprehensive_benchmark",
     ) -> Dict[str, Any]:
         """Run comprehensive benchmark using all available tools."""
 
@@ -540,7 +544,9 @@ def main():
         default="all",
         help="Tool to run",
     )
-    parser.add_argument("--output", default="external_benchmark_results", help="Output directory")
+    parser.add_argument(
+        "--output", default="runs/benchmarks/external_benchmark_results", help="Output directory"
+    )
 
     args = parser.parse_args()
 
@@ -561,5 +567,18 @@ def main():
         # Individual tool execution would go here
 
 
+def ensure_runs_directory():
+    """Ensure the runs directory structure exists."""
+    from pathlib import Path
+
+    runs_dir = Path("runs")
+    runs_dir.mkdir(exist_ok=True)
+
+    # Create subdirectories
+    for subdir in ["profiling", "benchmarks", "performance", "scaling"]:
+        (runs_dir / subdir).mkdir(exist_ok=True)
+
+
 if __name__ == "__main__":
+    ensure_runs_directory()
     main()

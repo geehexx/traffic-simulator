@@ -395,7 +395,10 @@ class AdvancedProfiler:
         self.performance_predictor = PerformancePredictor()
 
     def run_comprehensive_analysis(
-        self, vehicles: int = 100, steps: int = 1000, output_dir: str = "profiling_analysis"
+        self,
+        vehicles: int = 100,
+        steps: int = 1000,
+        output_dir: str = "runs/profiling/profiling_analysis",
     ) -> Dict[str, Any]:
         """Run comprehensive profiling analysis."""
 
@@ -474,7 +477,10 @@ class AdvancedProfiler:
         return results
 
     def run_scaling_analysis(
-        self, vehicle_counts: List[int], steps: int = 1000, output_dir: str = "scaling_analysis"
+        self,
+        vehicle_counts: List[int],
+        steps: int = 1000,
+        output_dir: str = "runs/scaling/scaling_analysis",
     ) -> Dict[str, Any]:
         """Run scaling behavior analysis."""
 
@@ -541,7 +547,9 @@ def main():
     )
     parser.add_argument("--vehicles", type=int, default=100, help="Number of vehicles")
     parser.add_argument("--steps", type=int, default=1000, help="Number of steps")
-    parser.add_argument("--output", default="profiling_analysis", help="Output directory")
+    parser.add_argument(
+        "--output", default="runs/profiling/profiling_analysis", help="Output directory"
+    )
     parser.add_argument(
         "--vehicle-counts",
         nargs="+",
@@ -590,5 +598,16 @@ def main():
         sys.exit(1)
 
 
+def ensure_runs_directory():
+    """Ensure the runs directory structure exists."""
+    runs_dir = Path("runs")
+    runs_dir.mkdir(exist_ok=True)
+
+    # Create subdirectories
+    for subdir in ["profiling", "benchmarks", "performance", "scaling"]:
+        (runs_dir / subdir).mkdir(exist_ok=True)
+
+
 if __name__ == "__main__":
+    ensure_runs_directory()
     main()
