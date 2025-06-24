@@ -1,6 +1,8 @@
 # Ignore profiling and benchmark output
 profiling_stats_*.csv
 profiling_stats_*.cs
+# Ignore all profiling/benchmark data in runs directory
+runs/
 # Combined .gitignore
 # (remote template + local additions)
 
@@ -143,5 +145,4 @@ __marimo__/
 # Local additions
 *.pyc
 .DS_Store
-runs/*.csv
 AGENTS.md
