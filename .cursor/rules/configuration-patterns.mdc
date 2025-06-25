@@ -44,3 +44,11 @@ description: Configuration management patterns
 - **Collisions**: event_scheduler_enabled, event_horizon_s, guard_band_m
 - **Data Manager**: enabled, max_vehicles
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#configuration-management)
+
+## Benchmarking Configuration
+- **Pattern**: Centralized configuration for all profiling/benchmark output
+- **Base Directory**: `runs/` - centralized location for all performance data
+- **Config File**: [benchmarking.yaml](mdc:config/benchmarking.yaml)
+- **Output Types**: CSV, JSON, HTML reports, flame graphs
+- **Directory Structure**: Organized by analysis type (profiling, benchmarks, performance, scaling)
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure)

@@ -32,6 +32,7 @@ description: Performance optimization guidelines
 - **Pattern**: Automated performance tests
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
 - **Scripts**: `scripts/benchmarking_framework.py --mode=benchmark|scale|monitor|profile`
+- **Output**: All profiling/benchmark data saved to `runs/` directory with organized subdirectories
 
 ## Unified Benchmarking Framework
 - **Pattern**: Parallel execution, real-time estimation, comprehensive metrics
@@ -94,3 +95,43 @@ description: Performance optimization guidelines
 - **Pattern**: Document achieved improvements and optimization techniques
 - **Key**: 11.4x improvement at 20 vehicles, scales to 1000+ vehicles
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-optimization-results)
+
+## Runs Directory Organization
+- **Pattern**: Centralized output location for all profiling/benchmark data
+- **Structure**: `runs/profiling/`, `runs/benchmarks/`, `runs/performance/`, `runs/scaling/`
+- **Enforcement**: All scripts default to runs directory; automatic directory creation
+- **Git**: Entire runs directory excluded from version control
+- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure)
+
+## Output File Organization
+- **Profiling**: `runs/profiling/profiling_stats*.csv`, `runs/profiling/profiling_analysis/`
+- **Benchmarks**: `runs/benchmarks/benchmark_results/`, `runs/benchmarks/comprehensive_benchmark/`
+- **Performance**: `runs/performance/*_performance*.csv`
+- **Scaling**: `runs/scaling/scale_benchmark*.csv`, `runs/scaling/scaling_analysis/`
+- **Coverage**: `runs/coverage/.coverage`, `runs/coverage/htmlcov/`
+- **Quality**: `runs/quality/quality_report.json`
+
+## Script Defaults
+- **benchmarking_framework.py**: Defaults to `runs/scaling/` and `runs/profiling/`
+- **advanced_profiling.py**: Defaults to `runs/profiling/` and `runs/scaling/`
+- **external_tools.py**: Defaults to `runs/benchmarks/`
+- **quality_analysis.py**: Defaults to `runs/quality/`
+- **Automatic Creation**: All scripts ensure runs directory structure exists
+
+## Configuration Enforcement
+- **Config File**: [benchmarking.yaml](mdc:config/benchmarking.yaml) sets `base_directory: "runs"`
+- **Coverage Config**: Update coverage settings to use `runs/coverage/`
+- **Environment**: Scripts automatically create directory structure
+- **Validation**: Ensure output paths use runs directory structure
+
+## Git Integration
+- **Pattern**: Entire `runs/` directory excluded from version control
+- **Rationale**: Generated data files should not be committed
+- **Cleanup**: Regular cleanup of old profiling/benchmark data recommended
+
+## Documentation Requirements
+- **Examples**: All documentation examples must use runs directory paths
+- **Enforcement**: AGENTS.md contains strong enforcement rules
+- **Guides**: BENCHMARKING_GUIDE.md and SCRIPTS_GUIDE.md updated with runs directory usage
+- **Coverage**: Document coverage file location in testing guides
+- **Reference**: [AGENTS.md](mdc:AGENTS.md#profiling-and-benchmark-output)
