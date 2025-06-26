@@ -34,8 +34,8 @@ uv run python scripts/quality_analysis.py --mode=check --config custom_quality_g
 # Run detailed quality monitoring
 uv run python scripts/quality_analysis.py --mode=monitor
 
-# With custom output file
-uv run python scripts/quality_analysis.py --mode=monitor --output quality_report.json
+# With custom output file (defaults to runs/quality/)
+uv run python scripts/quality_analysis.py --mode=monitor --output runs/quality/quality_report.json
 ```
 
 **Features:**
@@ -50,8 +50,8 @@ uv run python scripts/quality_analysis.py --mode=monitor --output quality_report
 # Run comprehensive static analysis
 uv run python scripts/quality_analysis.py --mode=analyze
 
-# With custom output
-uv run python scripts/quality_analysis.py --mode=analyze --output analysis_report.json
+# With custom output (defaults to runs/quality/)
+uv run python scripts/quality_analysis.py --mode=analyze --output runs/quality/analysis_report.json
 ```
 
 **Features:**
@@ -208,11 +208,14 @@ uv run python scripts/performance_analysis.py --mode=benchmark --vehicles 20 --s
 
 ### Monitoring and Reporting
 ```bash
-# Generate quality report
-uv run python scripts/quality_analysis.py --mode=monitor --output quality_report.json
+# Generate quality report (saves to runs/quality/)
+uv run python scripts/quality_analysis.py --mode=monitor --output runs/quality/quality_report.json
 
-# Run performance monitoring
-uv run python scripts/performance_analysis.py --mode=monitor --duration 5
+# Run performance monitoring (saves to runs/performance/)
+uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5
+
+# Generate test coverage (saves to runs/coverage/)
+uv run pytest --cov=traffic_sim --cov-report=html
 ```
 
 ### Scale Testing
