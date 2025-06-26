@@ -576,7 +576,9 @@ class QualityAnalysis:
             recommendations=recommendations,
         )
 
-    def save_report(self, report: QualityReport, output_path: str = "quality_report.json"):
+    def save_report(
+        self, report: QualityReport, output_path: str = "runs/quality/quality_report.json"
+    ):
         """Save quality report to file."""
         report_data = {
             "timestamp": report.timestamp,
@@ -648,11 +650,17 @@ def main():
         help="Analysis mode: check (gates), monitor (detailed), analyze (comprehensive)",
     )
     parser.add_argument(
-        "--output", "-o", default="quality_report.json", help="Output file for reports"
+        "--output", "-o", default="runs/quality/quality_report.json", help="Output file for reports"
     )
     parser.add_argument("--config", "-c", default="quality_gates.yaml", help="Configuration file")
 
     args = parser.parse_args()
+
+    # Ensure runs directory exists
+    runs_dir = Path("runs")
+    runs_dir.mkdir(exist_ok=True)
+    for subdir in ["profiling", "benchmarks", "performance", "scaling", "coverage", "quality"]:
+        (runs_dir / subdir).mkdir(exist_ok=True)
 
     try:
         analysis = QualityAnalysis(args.config)
