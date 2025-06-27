@@ -1,6 +1,7 @@
 ---
 globs: src/traffic_sim/render/**
 description: Arcade rendering guidelines
+alwaysApply: false
 ---
 
 # Rendering Patterns

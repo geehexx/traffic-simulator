@@ -1,6 +1,7 @@
 ---
 globs: src/traffic_sim/config/**,config/**
 description: Configuration management patterns
+alwaysApply: false
 ---
 
 # Configuration Patterns

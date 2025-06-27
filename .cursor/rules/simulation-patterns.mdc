@@ -1,6 +1,7 @@
 ---
 globs: src/traffic_sim/core/**
 description: Core simulation architecture patterns
+alwaysApply: false
 ---
 
 # Simulation Patterns

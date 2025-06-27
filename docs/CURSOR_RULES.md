@@ -41,6 +41,13 @@ The project uses 9 specialized Cursor rules to provide AI-assisted development g
 ### Activating Rules
 Rules are automatically loaded by Cursor when working in the project. They provide context-aware suggestions and guidance during development.
 
+**Mandatory Rule Configuration:**
+- **All rules MUST include**: `globs`, `description`, and `alwaysApply` in frontmatter
+- **Universal Rules**: Use `globs: "**"` and `alwaysApply: true` for rules that should always apply
+- **Specific Rules**: Use targeted globs like `globs: "src/**"` and `alwaysApply: false` for file-specific rules
+- **No Defaults**: Explicit configuration eliminates ambiguity and prevents errors
+- **Consistency**: Uniform structure across all rules improves maintainability
+
 ### Rule Selection
 The system uses intelligent rule selection based on:
 - File context (e.g., simulation files trigger simulation-patterns)
@@ -90,6 +97,10 @@ Rules are validated through:
 - Use clear, actionable language
 - Include examples where helpful
 - Regular review and updates
+- **Mandatory frontmatter**: All rules MUST include `globs`, `description`, and `alwaysApply`
+- **Universal rules**: Use `globs: "**"` and `alwaysApply: true` for rules that should always apply
+- **Specific rules**: Use targeted globs and `alwaysApply: false` for file-specific rules
+- **Test rule application**: Verify rules are actually being applied
 
 ### For Project Maintainers
 - Monitor rule effectiveness
@@ -110,6 +121,9 @@ The Cursor rules system integrates with the quality gates framework:
 1. **Rule conflicts**: Resolve by prioritizing more specific rules
 2. **Outdated guidance**: Update rules when code changes
 3. **Performance impact**: Optimize rule complexity
+4. **Missing mandatory fields**: Rules without `globs`, `description`, and `alwaysApply` are not applied
+5. **Incorrect glob patterns**: Universal rules need `globs: "**"` to apply everywhere
+6. **Inconsistent alwaysApply**: Use `alwaysApply: true` for universal rules, `false` for specific rules
 
 ### Getting Help
 - Check rule documentation

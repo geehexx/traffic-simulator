@@ -1,0 +1,41 @@
+---
+globs: "**"
+description: Prevent creation of temporary summary files
+alwaysApply: false
+---
+
+# No Temporary Summary Files
+
+## Pattern
+- **Do**: Update existing documentation when implementing features or optimizations
+- **Don't**: Create temporary summary files with "SUMMARY" in the filename
+- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#consolidation-policy)
+
+## File Creation Rules
+- **Pattern**: Never create files with "SUMMARY" in the filename
+- **Examples**: ❌ `BENCHMARKING_OPTIMIZATION_SUMMARY.md`, ❌ `PERFORMANCE_OPTIMIZATION_SUMMARY.md`
+- **Alternative**: Update existing docs in `docs/` directory or create permanent documentation
+
+## Documentation Consolidation
+- **Pattern**: Check existing documentation before creating new files
+- **Key**: Use `docs/BENCHMARKING_GUIDE.md` for benchmarking content
+- **Key**: Use `docs/PERFORMANCE_GUIDE.md` for performance optimization content
+- **Process**: Search existing docs, update relevant sections, avoid duplication
+
+## Content Coverage Check
+- **Pattern**: Verify content is not already covered before creating documentation
+- **Tools**: Use `codebase_search` to find existing documentation
+- **Validation**: Check `docs/` directory for relevant guides and guides
+- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-validation)
+
+## Temporary File Prevention
+- **Pattern**: All documentation should be permanent and properly organized
+- **Enforcement**: Files with "SUMMARY" in name are temporary artifacts
+- **Solution**: Update existing documentation or create properly named permanent files
+- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#file-organization)
+
+## Quality Standards
+- **Pattern**: Follow documentation consolidation and organization standards
+- **Key**: Use proper headings, cross-references, and file naming
+- **Process**: Check for existing content, update rather than duplicate
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)

@@ -1,6 +1,7 @@
 ---
 globs: stubs/arcade/**, docs/**, src/traffic_sim/render/**
 description: Arcade API consistency and validation rules
+alwaysApply: false
 ---
 
 # Arcade API Consistency Rules

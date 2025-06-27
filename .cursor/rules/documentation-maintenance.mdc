@@ -1,6 +1,7 @@
 ---
 globs: docs/**,*.md
 description: Documentation maintenance and update procedures
+alwaysApply: false
 ---
 
 # Documentation Maintenance Patterns

@@ -1,6 +1,7 @@
 ---
 globs: src/traffic_sim/core/**,scripts/**
 description: Comprehensive performance optimization patterns and techniques
+alwaysApply: false
 ---
 
 # Performance Optimization Patterns

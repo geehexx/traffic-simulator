@@ -1,6 +1,7 @@
 ---
 globs: docs/**,*.md
 description: Documentation standards and best practices
+alwaysApply: false
 ---
 
 # Documentation Patterns

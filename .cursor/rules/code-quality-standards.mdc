@@ -1,4 +1,5 @@
 ---
+globs: "**"
 description: Essential code quality patterns
 alwaysApply: true
 ---

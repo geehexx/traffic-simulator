@@ -1,8 +1,7 @@
 ---
-title: Vehicle Physics Patterns
+globs: src/traffic_sim/core/**
 description: Patterns for implementing vehicle physics attributes and constraints
-tags: [physics, vehicles, performance]
-version: 1.0.0
+alwaysApply: false
 ---
 
 # Vehicle Physics Patterns

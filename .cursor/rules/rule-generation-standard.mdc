@@ -1,6 +1,7 @@
 ---
 globs: .cursor/rules/*.mdc
 description: Rule generation standards and quality metrics for Cursor rules
+alwaysApply: false
 ---
 
 # Rule Generation Standard

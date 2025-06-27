@@ -1,4 +1,5 @@
 ---
+globs: "**"
 description: Project context and core principles
 alwaysApply: true
 ---

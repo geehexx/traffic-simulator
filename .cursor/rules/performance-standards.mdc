@@ -1,6 +1,7 @@
 ---
 globs: src/traffic_sim/core/**,src/traffic_sim/render/**
 description: Performance optimization guidelines
+alwaysApply: false
 ---
 
 # Performance Standards
