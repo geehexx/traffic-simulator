@@ -49,10 +49,10 @@ Rules are automatically loaded by Cursor when working in the project. They provi
 - **Consistency**: Uniform structure across all rules improves maintainability
 
 ### Rule Selection
-The system uses intelligent rule selection based on:
-- File context (e.g., simulation files trigger simulation-patterns)
-- Code patterns (e.g., performance-critical code triggers performance rules)
-- Development phase (e.g., testing triggers testing-patterns)
+The system uses file pattern matching based on:
+- **File Path Patterns**: Rules trigger based on `globs` patterns (e.g., `src/traffic_sim/core/**` triggers simulation-patterns)
+- **Explicit Configuration**: No AI-driven analysis - rules apply based on explicit glob patterns
+- **Predictable Behavior**: File path matching ensures reliable, consistent rule application
 
 ### Rule Effectiveness
 Rules are designed to:
@@ -131,12 +131,18 @@ The Cursor rules system integrates with the quality gates framework:
 - Consult with team members
 - Open issues for rule improvements
 
-## Future Enhancements
+## Rule Effectiveness Measurement
 
-Planned improvements to the rule system:
-- Dynamic rule loading based on context
-- Machine learning-based rule optimization
-- Integration with external quality tools
-- Enhanced rule performance metrics
+### Performance Metrics
+- **Rule Application Rate**: Track how often rules are triggered
+- **Developer Feedback**: Monitor rule usefulness and clarity
+- **Code Quality Impact**: Measure improvements in code consistency
+- **Maintenance Overhead**: Track time spent updating rules
+
+### Testing Rule Application
+- **Manual Verification**: Check rule triggers with test files
+- **Glob Pattern Testing**: Validate glob patterns match intended files
+- **Rule Interaction Testing**: Ensure rules work together correctly
+- **Performance Testing**: Verify rule application doesn't impact development speed
 
 For questions about Cursor rules or suggestions for improvements, please open an issue or discuss in the project's communication channels.
