@@ -20,25 +20,7 @@ Usage:
 from __future__ import annotations
 import numpy as np
 
-try:
-    from numba import jit, njit  # type: ignore[import-not-found]
-
-    NUMBA_AVAILABLE = True
-except ImportError:
-    NUMBA_AVAILABLE = False
-
-    # Create dummy decorators for when Numba is not available
-    def jit(*args, **kwargs):
-        def decorator(func):
-            return func
-
-        return decorator
-
-    def njit(*args, **kwargs):
-        def decorator(func):
-            return func
-
-        return decorator
+from numba import njit
 
 
 # Numba-accelerated physics functions
@@ -144,7 +126,6 @@ class PhysicsEngineNumpy:
         Returns:
             np.ndarray: Updated state array (N, 4)
         """
-        n = self.state.shape[0]
 
         # Normalize actions to 1-D (N,) for vectorized operations
         if actions.ndim == 2 and actions.shape[1] == 1:
@@ -166,47 +147,26 @@ class PhysicsEngineNumpy:
             tire_friction_mu = self.vehicle_specs[:, 4]
             brake_efficiency_eta = self.vehicle_specs[:, 5]
 
-            # Use Numba-accelerated functions if available
-            if NUMBA_AVAILABLE:
-                # Calculate acceleration limits with Numba
-                min_decel, max_accel = _calculate_acceleration_limits(
-                    mass, power_kw, torque_nm, v, tire_friction_mu, brake_efficiency_eta
-                )
+            # Use Numba-accelerated functions
+            # Calculate acceleration limits with Numba
+            min_decel, max_accel = _calculate_acceleration_limits(
+                mass, power_kw, torque_nm, v, tire_friction_mu, brake_efficiency_eta
+            )
 
-                # Step physics with Numba
-                _step_physics_vectorized(
-                    s,
-                    v,
-                    a,
-                    actions,
-                    mass,
-                    drag_area_cda,
-                    min_decel,
-                    max_accel,
-                    dt,
-                    track_length,
-                    air_density,
-                )
-            else:
-                # Fallback to NumPy implementation
-                gravity = 9.81
-                min_decel = -brake_efficiency_eta * tire_friction_mu * gravity
-                power_watts = power_kw * 1000.0
-                power_limited_accel = np.where(v > 0.1, power_watts / (mass * v), np.inf)
-                wheel_radius = 0.3
-                torque_limited_accel = torque_nm / wheel_radius / mass
-                max_accel = np.minimum(power_limited_accel, torque_limited_accel)
-
-                a_cmd = np.clip(actions if actions.ndim == 1 else np.zeros(n), min_decel, max_accel)
-                drag_force = 0.5 * air_density * drag_area_cda * v * v
-                drag_accel = -drag_force / mass
-                a_total = a_cmd + drag_accel
-                v_new = np.maximum(0.0, v + a_total * dt)
-                s_new = (s + v * dt + 0.5 * a_total * dt * dt) % track_length
-
-                self.state[:, 0] = s_new
-                self.state[:, 1] = v_new
-                self.state[:, 2] = a_total
+            # Step physics with Numba
+            _step_physics_vectorized(
+                s,
+                v,
+                a,
+                actions,
+                mass,
+                drag_area_cda,
+                min_decel,
+                max_accel,
+                dt,
+                track_length,
+                air_density,
+            )
 
             return self.state.copy()
 

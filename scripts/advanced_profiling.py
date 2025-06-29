@@ -24,15 +24,8 @@ from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 from traffic_sim.core.profiling import get_profiler
 
-try:
-    import psutil
-except ImportError:
-    psutil = None
-
-try:
-    import numpy as np
-except ImportError:
-    np = None
+import psutil
+import numpy as np
 
 
 @dataclass

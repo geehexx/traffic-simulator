@@ -35,20 +35,7 @@ from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 from traffic_sim.core.profiling import get_profiler
 
-try:
-    import psutil
-except ImportError:
-    psutil = None
-
-try:
-    import pytest_benchmark
-except ImportError:
-    pytest_benchmark = None
-
-try:
-    import pyperf
-except ImportError:
-    pyperf = None
+import psutil
 
 
 @dataclass

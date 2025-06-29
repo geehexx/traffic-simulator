@@ -21,15 +21,7 @@ from dataclasses import dataclass
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 
-try:
-    import pytest_benchmark
-except ImportError:
-    pytest_benchmark = None
-
-try:
-    import pyperf
-except ImportError:
-    pyperf = None
+import pytest_benchmark
 
 
 @dataclass

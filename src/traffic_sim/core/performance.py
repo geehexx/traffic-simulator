@@ -139,28 +139,18 @@ class PerformanceOptimizer:
         if len(positions) < 2:
             return []
 
-        # Use numpy for vectorized operations if available
-        try:
-            import numpy as np
+        # Use numpy for vectorized operations
+        import numpy as np
 
-            positions_array = np.array(positions)
+        positions_array = np.array(positions)
 
-            # Calculate differences
-            diffs = np.diff(positions_array)
+        # Calculate differences
+        diffs = np.diff(positions_array)
 
-            # Handle wrap-around for circular track
-            diffs = np.where(diffs < 0, diffs + track_length, diffs)
+        # Handle wrap-around for circular track
+        diffs = np.where(diffs < 0, diffs + track_length, diffs)
 
-            return list(diffs)
-        except ImportError:
-            # Fallback to pure Python
-            distances = []
-            for i in range(len(positions) - 1):
-                diff = positions[i + 1] - positions[i]
-                if diff < 0:
-                    diff += track_length
-                distances.append(diff)
-            return distances
+        return list(diffs)
 
     def batch_update_vehicle_states(self, vehicles: List[Vehicle], dt_s: float) -> None:
         """
