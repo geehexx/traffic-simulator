@@ -50,9 +50,11 @@ The project enforces high code quality through automated static analysis. See [Q
 #### Pre-commit Hooks
 Quality gates run automatically on every commit:
 - **Ruff**: Linting and formatting
-- **Pyright**: Fast, accurate type checking
+- **Pyright**: Type checking with optimized configuration
 - **Bandit**: Security scanning
 - **Radon**: Complexity analysis
+
+**Configuration**: Uses `pass_filenames: false` to prevent multiple executions and optimize performance.
 
 #### Quality Gates
 All code must pass quality gates before merging. See [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds:

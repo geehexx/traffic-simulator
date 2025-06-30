@@ -26,6 +26,7 @@ alwaysApply: false
 - **Pattern**: User-centered design, clear language, active voice
 - **Structure**: Introduction, main content, examples, references
 - **Examples**: Realistic examples from codebase, tested and verified
+- **Avoid**: Static performance metrics, specific timing numbers, version-specific performance data
 - **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-guidelines)
 
 ## Docstring Format

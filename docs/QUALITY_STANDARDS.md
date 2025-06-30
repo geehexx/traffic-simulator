@@ -125,6 +125,8 @@ For optimal development experience with Pyright:
 ### Automated Quality Gates
 Quality gates run automatically on every commit via pre-commit hooks:
 
+**Configuration**: Optimized for efficiency with `pass_filenames: false` to prevent multiple executions.
+
 ```bash
 # Manual quality check
 uv run python scripts/quality_analysis.py --mode=check
