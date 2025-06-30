@@ -26,26 +26,24 @@ repos:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
-  - repo: https://github.com/psf/black
-    rev: 24.8.0
-    hooks:
-      - id: black
-        language_version: python3
   - repo: local
     hooks:
       - id: pyright
         name: pyright
-        entry: timeout 120 uv run pyright
+        entry: timeout 45 uv run pyright --stats
         language: system
         types: [python]
         files: ^src/.*\.py$
+        pass_filenames: false
       - id: bandit
         name: bandit
         entry: timeout 30 bash -c 'uv run bandit -r src/ -c bandit.yaml'
         language: system
         types: [python]
+        pass_filenames: false
       - id: radon
         name: radon
         entry: timeout 30 bash -c 'uv run radon cc src/ -a --min B'
         language: system
         types: [python]
+        pass_filenames: false
