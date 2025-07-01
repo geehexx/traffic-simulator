@@ -5,6 +5,8 @@ This directory contains specialized prompts and a repeatable methodology for opt
 ## Contents
 ### generate-super.md
 Unified Docs & Rules Maintainer super‑prompt with modes (docs | rules | hybrid) and shared APE workflow. Prefer this for future maintenance.
+### generate-meta-optimizer.md
+High‑reasoning meta‑optimizer for prompts and artifacts. Designs criteria, runs dry‑run comparisons (update/consolidate vs regenerate), scores with PDQI‑9/RGS + stability/SoT, and selects winners. Long‑running; use sparingly.
 
 ## Purpose
 
@@ -22,7 +24,7 @@ Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to
 ## APE Workflow (high-level)
 1. Define evaluation rubric(s) appropriate to the prompt’s task.
 2. Generate 4–6 candidate prompts with meaningful variation (structure, brevity, targeting).
-3. Prepare standardized inputs (see below) and run all candidates in-memory (dry-run, no file writes).
+3. Prepare standardized inputs (see below) and run all candidates in-memory (dry-run, no file writes). For the meta‑optimizer, generate both update/consolidate and full regeneration variants for head‑to‑head scoring.
 4. Score each output (absolute rubric score + pairwise preferences via Bradley–Terry/Elo).
 5. Self-critique top 1–2 and revise once; re-score; repeat until gains plateau (≤ +1 point across two rounds).
 6. Perform stability checks (minor perturbations); pick the more stable if tied.
@@ -35,6 +37,7 @@ Provide as much of the following as is available:
 - Chat/issue decisions: key requirements, acceptance criteria, chosen designs
 - Style guide/glossary references
 - For rule prompts: current taxonomy and list of existing rules (title, globs, description, references)
+- For meta‑optimizer runs: duplication/overlap signals, link hygiene reports, stability indices from minor perturbations
 
 Run dry-runs in-memory: do not write to the repo until a winner is selected and a plan is approved.
 
@@ -49,6 +52,9 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 - Security/redaction (5): no secrets; redact clearly
 
 ### Rule generation (super-prompt rules mode)
+### Meta‑optimizer (prompt + artifact selection)
+- Include global metrics: Idempotency score, Stability index (minor perturbations), Duplication/Single‑source‑of‑truth score, Cross‑reference integrity, Link hygiene, Arcade API validity (where applicable)
+- Decision policy: Prefer higher rubric scores with better stability and SoT; on ties choose more stable and concise
 - RGS score (100 total base):
   - Clarity & Actionability (25)
   - Token Efficiency (20): references over repetition; structured/scan-friendly
@@ -67,7 +73,7 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 ## Scoring & Selection
 - Absolute rubric score (0–100) per candidate
 - Pairwise Bradley–Terry/Elo ranking on identical inputs
-- Stability index: 1 − normalized stddev across minor-perturbation runs
+- Stability index: 1 − normalized stddev across minor-perturbation runs; report per candidate and winner
 - MDL brevity penalty: deduct for non-informative verbosity
 - Winner must outperform alternatives and pass stability checks
 
