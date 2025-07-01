@@ -292,7 +292,7 @@ Quality gates run automatically in GitHub Actions on every push and pull request
 - Test all public functions and methods
 - Cover error conditions and edge cases
 - Test both success and failure paths
-- **Current**: 79% coverage (target: 70%)
+// Coverage values change over time; use CI reports for current metrics.
 
 ### Performance Testing
 - Verify 30+ FPS target with 20+ vehicles

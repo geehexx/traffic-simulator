@@ -44,13 +44,9 @@ uv run pre-commit run --all-files
 - **FAIL**: One or more checks failed
 - **WARN**: Some issues but within thresholds
 
-### Current Status (as of latest commit)
-- **Overall**: 6/7 checks passing
-- **Pyright**: All checks passing
-- **Ruff**: All checks passing
-- **Bandit**: No security issues
-- **Radon**: No complexity issues
-- **Coverage**: 79% (target: 70%)
+### Status Reporting
+- Use CI job artifacts or `uv run python scripts/quality_analysis.py --mode=check` for up-to-date pass/fail and coverage.
+- Avoid embedding static numbers that drift over time.
 
 ## Fixing Issues
 

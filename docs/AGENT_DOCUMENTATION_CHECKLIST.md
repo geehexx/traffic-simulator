@@ -13,7 +13,7 @@ This checklist helps AI agents determine when documentation updates are necessar
 
 ### Content Quality Check
 - [ ] **Focuses on actionable guidance** (What to do, not what happened)
-- [ ] **Avoids specific performance numbers** (No timing measurements or benchmarks)
+- [ ] **Avoids specific performance numbers** (No timing measurements or hardware-bound benchmarks)
 - [ ] **Uses configuration examples, not results** (Shows how to configure, not what was achieved)
 - [ ] **Provides clear instructions** (Step-by-step guidance)
 - [ ] **References existing documentation appropriately** (Links to relevant guides)

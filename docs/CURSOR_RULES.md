@@ -74,7 +74,7 @@ Rules should be updated when:
 Rules are validated through:
 - Code review feedback
 - Quality gate results
-- Performance metrics
+- Stability and idempotency checks (deterministic anchors, minimal diffs)
 - Developer experience surveys
 
 ### Rule Lifecycle

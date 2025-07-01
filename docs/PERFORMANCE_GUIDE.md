@@ -23,13 +23,11 @@ This document provides comprehensive performance optimization guidelines, monito
 - **Scalability**: Support 50+ vehicles
 - **High-Scale Performance**: 1000+ vehicles at 100-1000x speed factors
 
-### Current Performance
-- **Achieved**: 300+ FPS equivalent (10x target on development hardware)
-- **Memory**: <50MB for 20 vehicles
-- **Deterministic**: Fixed-step simulation with seeded RNGs
-- **Scalable**: Tested up to 100 vehicles
-- **Quality Gates**: 6/7 checks passing (MyPy duplicate module issue remains)
-- **Coverage**: 79% (above 70% target)
+### Status Guidance
+- **Document targets and procedures**, not hardware-specific results.
+- **Validate determinism** with fixed-step simulation and seeded RNGs.
+- **Track scalability** with scale tests (see Unified Benchmarking Framework).
+- **Report quality gates** using the quality analysis scripts, without static “current” numbers.
 
 ## Optimization Strategies
 
@@ -572,10 +570,8 @@ performance:
 ```
 
 ### Quality Gates Status
-- **Current Status**: 6/7 checks passing
-- **Coverage**: 79% (above 70% target)
-- **Known Issues**: MyPy duplicate module issue (priority for resolution)
-- **Performance Impact**: Quality gates run in <5 seconds
+- Use `uv run python scripts/quality_analysis.py --mode=check` for up-to-date status.
+- Track coverage and tool pass/fail in CI artifacts instead of embedding static numbers.
 
 ### Running Quality Gates
 ```bash
@@ -869,16 +865,7 @@ def detect_memory_leaks():
             print(f"  {obj_type}: {count}")
 ```
 
-## Performance Optimization Results
-
-### Achieved Improvements
-- **11.4x faster** at 20 vehicles (239.6 → 2736.8 steps/s)
-- **8.8x faster** at 50 vehicles (123.6 → 1086.4 steps/s)
-- **9.4x faster** at 100 vehicles (45.8 → 431.9 steps/s)
-- **90% reduction** in collision detection overhead
-- **Scales to 1000+ vehicles** at 100-1000x speed factors
-
-### Optimization Techniques
+## Optimization Techniques
 - **Event-Driven Collision Scheduler**: O(n) instead of O(n²) collision detection
 - **NumPy Physics Engine**: Vectorized physics with Numba JIT acceleration
 - **Adaptive Time Stepping**: Dynamic timestep scaling for high speed factors

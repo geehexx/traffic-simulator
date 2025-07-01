@@ -1,10 +1,27 @@
----
-globs: .cursor/rules/*.mdc
-description: Rule generation standards and quality metrics for Cursor rules
+globs: .cursor/rules/**/*.mdc
+description: Standards for writing and evaluating Cursor rules (RGS)
 alwaysApply: false
 ---
 
 # Rule Generation Standard
+
+## Frontmatter Requirements
+- `globs`: precise target patterns; prefer subdirectory coverage (`.cursor/rules/**/*.mdc`)
+- `description`: succinct summary for retrieval
+- `alwaysApply`: use sparingly; ≤5 global rules across repo
+
+## Global Audits & Penalties
+- >5 global rules → penalties (−5 per extra, cap −15)
+- Token soft cap ~500 (allowed ≤900 with justification; penalties above)
+- Transitional/time-bound content → −3..−10
+
+## Determinism & Idempotency
+- Stable anchors/slugs; deterministic ordering; minimal diffs.
+- Hidden metadata allowed per policy; avoid in docs where forbidden.
+
+## Stability Evaluation
+- Report Stability Index (1 − normalized stddev under minor perturbations).
+- Prefer higher stability on ties.
 
 ## Quality Scoring Metrics (100 points total)
 
@@ -49,7 +66,8 @@ alwaysApply: false
 ```markdown
 ---
 globs: <specific-file-patterns>
-description: <brief-description-for-fetching>
+description: <brief-description>
+alwaysApply: false
 ---
 
 # <Rule Title>
@@ -67,6 +85,7 @@ description: <brief-description-for-fetching>
 
 ## References
 - [External Doc](url) - Brief description
+- [Internal Doc](mdc:docs/FILE.md#section) - Cross-reference
 - [Internal Rule](mdc:other-rule.mdc) - Cross-reference
 ```
 
@@ -104,7 +123,7 @@ Use:
 ```markdown
 ## Arcade Functions
 - [Drawing Primitives API](https://api.arcade.academy/en/latest/api/drawing_primitives.html)
-- Key functions: draw_rectangle_filled, draw_lrtb_rectangle_filled, draw_polygon_filled
+- Key functions: draw_lrbt_rectangle_filled, draw_lbwh_rectangle_filled, draw_polygon_filled
 ```
 
 ### 2. Use Cross-References
@@ -119,7 +138,7 @@ Instead of:
 Use:
 ```markdown
 ## Performance Testing
-- See [performance-targets.mdc](mdc:performance-targets.mdc) for detailed patterns
+- See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-targets) for detailed patterns
 - Key: FPS ≥30, minimal allocations, deterministic behavior
 ```
 
