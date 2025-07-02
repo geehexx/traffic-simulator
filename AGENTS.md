@@ -101,14 +101,14 @@ uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5
 - Handle errors with specific exceptions and context.
 - Enforce code style: max 100 chars/line, functions <50 lines, classes <200 lines.
 - Use Google-style docstrings for public APIs.
-- Use MyPy, Pyright, Ruff, Pylint, Bandit, Radon for quality gates.
+- Use Pyright, Ruff, Bandit, Radon for quality gates.
 
 **Don’t:**
 - Ignore linter/type errors.
 - Use generic exceptions (e.g., `except Exception`).
 
 **How to Validate:**
-- Run `uv run python scripts/quality_gates.py`.
+- Run `uv run python scripts/quality_analysis.py --mode=check`.
 - Check with all listed tools.
 
 **Example:**

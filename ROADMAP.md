@@ -95,9 +95,6 @@
 ## 📈 **Performance Targets**
 
 ### Current Achievements
-- ✅ 11.4x performance improvement at 20 vehicles
-- ✅ Scales to 1000+ vehicles at 100x speed factors
-- ✅ 90% reduction in collision detection overhead
 - ✅ Event-driven collision scheduling
 
 ### Phase 4 Targets

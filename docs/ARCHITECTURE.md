@@ -392,8 +392,8 @@ class DataLogger:
 **Files**: [benchmarking_framework.py](mdc:scripts/benchmarking_framework.py), [external_tools.py](mdc:scripts/external_tools.py), [advanced_profiling.py](mdc:scripts/advanced_profiling.py)
 
 High-performance benchmarking system with parallel execution and real-time estimation:
-- **Parallel Execution**: 3-5x performance improvement through automatic parallelization
-- **Real-Time Estimation**: Theoretical performance modeling with 100% CPU utilization
+- **Parallel Execution**: Automatic parallelization
+- **Real-Time Estimation**: Theoretical performance modeling
 - **External Tools Integration**: pytest-benchmark, ASV, Hyperfine, Py-Spy
 - **Advanced Profiling**: Memory analysis, performance prediction, scaling modeling
 - **Intelligent Caching**: Configuration and result caching for improved performance

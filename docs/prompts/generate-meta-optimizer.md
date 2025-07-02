@@ -65,6 +65,7 @@ Score all candidate artifacts (and use similarly when evaluating existing conten
 ### Global Cross‑Cutting Metrics
 - Idempotency Score: Stable anchors, reproducible ordering; minimal unrelated changes.
 - Stability Index: Score variance under minor input perturbations (prefer higher stability).
+- Stability Threshold: Winners must achieve Stability Index ≥0.85 on the standardized perturbation harness.
 - Duplication & SoT (Single‑Source‑of‑Truth) Score: Penalize content overlap across files; reward canonical consolidation.
 - Cross‑Reference Integrity: Links resolve; docs avoid linking to rules; rules properly reference docs/rules.
 - Link Hygiene: All links valid and appropriate (`mdc:` where applicable; `runs/` for outputs in examples).
@@ -98,7 +99,7 @@ Produce 4–6 prompt variants that meaningfully differ across:
    - Docs: PDQI‑9; Rules: RGS; plus global metrics.
    - Pairwise ranking via Bradley–Terry/Elo on identical inputs.
 4) Self‑critique top 1–2; revise; re‑score; stop when gains plateau (≤ +1 across two rounds).
-5) Stability check (minor perturbations); prefer higher stability if tied.
+5) Stability check (minor perturbations via seeded noise harness): compute Stability Index per candidate; require ≥0.85 to qualify; prefer higher stability if tied.
 6) Select winners: one maintenance prompt and, per target, the better artifact (updated vs regenerated).
 7) Emit concise scoring summary and proposed diffs. Apply changes only when instructed (apply mode) or when operating under an approved automation gate.
 

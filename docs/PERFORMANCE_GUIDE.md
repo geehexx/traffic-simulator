@@ -224,7 +224,6 @@ class CollisionEventScheduler:
 **Benefits**:
 - **Predictive Scheduling**: Only check collision pairs when TTC < horizon
 - **Reduced Overhead**: O(n) instead of O(n²) collision checks
-- **Performance**: 200v=2.0fps, 500v=0.3fps with scheduler enabled
 
 ```python
 class CollisionSystem:
@@ -692,8 +691,8 @@ def get_cached_occlusion(self, vehicle1_idx: int, vehicle2_idx: int) -> Optional
 The project now includes a comprehensive benchmarking framework that consolidates all performance testing into a single, high-performance system.
 
 #### Core Framework
-- **Parallel Execution**: 3-5x performance improvement through automatic parallelization
-- **Real-Time Estimation**: Theoretical performance modeling with 100% CPU utilization
+- **Parallel Execution**: Automatic parallelization
+- **Real-Time Estimation**: Theoretical performance modeling
 - **Comprehensive Metrics**: CPU, memory, efficiency, and theoretical performance tracking
 - **Intelligent Caching**: Configuration and result caching for improved performance
 

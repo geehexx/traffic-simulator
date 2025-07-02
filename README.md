@@ -157,15 +157,14 @@ uv run python -c "from traffic_sim.core.simulation import Simulation; from traff
 The project uses a comprehensive static analysis framework with automated quality gates:
 
 #### Tools
-- **MyPy & Pyright**: Type checking
+- **Pyright**: Type checking
 - **Ruff**: Linting and formatting
-- **Pylint**: Code quality analysis
 - **Bandit**: Security scanning
 - **Radon**: Complexity analysis
 
 #### Quality Gates
 - **Type Safety**: Comprehensive type checking
-- **Code Quality**: Pylint score ≥8.0/10
+- **Code Quality**: Lint rules pass
 - **Security**: No high/medium severity issues
 - **Complexity**: No high complexity functions
 - **Coverage**: ≥80% line coverage
@@ -267,8 +266,8 @@ uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --
 ```
 
 **Features:**
-- **Parallel Execution**: 3-5x performance improvement through automatic parallelization
-- **Real-Time Estimation**: Theoretical performance modeling with 100% CPU utilization
+- **Parallel Execution**: Automatic parallelization
+- **Real-Time Estimation**: Theoretical performance modeling
 - **External Tools**: Integration with pytest-benchmark, ASV, Hyperfine, Py-Spy
 - **Advanced Profiling**: Memory analysis, performance prediction, scaling modeling
 
@@ -321,10 +320,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Performance
 
 - **Target**: 30+ FPS with 20 vehicles
-- **Current**: 300+ FPS equivalent (10x target on development hardware)
-- **Memory**: <50MB for 20 vehicles
 - **Deterministic**: Fixed-step simulation with seeded RNGs
-- **Quality Gates**: 6/7 checks passing (MyPy duplicate module issue remains)
+- For current results, use the unified benchmarking scripts and review outputs under `runs/`.
 
 ## Recent Updates
 

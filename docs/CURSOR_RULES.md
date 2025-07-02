@@ -11,7 +11,7 @@ This document provides comprehensive guidance on the Cursor rules system used in
 
 ## Overview
 
-The project uses 9 specialized Cursor rules to provide AI-assisted development guidance. These rules are stored in `.cursor/rules/` and cover various aspects of development including code quality, architecture patterns, and project-specific guidelines.
+The project uses a curated set of agent-enforced rules (taxonomy-driven) to provide AI‑assisted development guidance. The rules cover code quality, architecture patterns, performance, and project‑specific guidelines.
 
 ## Rule Categories
 
@@ -50,7 +50,7 @@ Rules are automatically loaded by Cursor when working in the project. They provi
 
 ### Rule Selection
 The system uses file pattern matching based on:
-- **File Path Patterns**: Rules trigger based on `globs` patterns (e.g., `src/traffic_sim/core/**` triggers simulation-patterns)
+- **File Path Patterns**: Rules trigger based on `globs` patterns (e.g., category rules for simulation or rendering)
 - **Explicit Configuration**: No AI-driven analysis - rules apply based on explicit glob patterns
 - **Predictable Behavior**: File path matching ensures reliable, consistent rule application
 
@@ -125,7 +125,10 @@ The Cursor rules system integrates with the quality gates framework:
 5. **Incorrect glob patterns**: Universal rules need `globs: "**"` to apply everywhere
 6. **Inconsistent alwaysApply**: Use `alwaysApply: true` for universal rules, `false` for specific rules
 
-### Getting Help
+### Link Policy and Getting Help
+Documentation pages must not link directly to rule files. Reference documentation pages via `mdc:` links and refer to rule categories conceptually. Rules may reference docs and other rules.
+
+Getting help:
 - Check rule documentation
 - Review project guidelines
 - Consult with team members

@@ -25,7 +25,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 #### Pyright
 - **Purpose**: Fast, accurate type checking with excellent IDE integration
 - **Configuration**: [pyproject.toml](mdc:pyproject.toml) (pyright section)
-- **Features**: Advanced type analysis, unused variable detection, override detection, ~3-5x faster than mypy
+ - **Features**: Advanced type analysis, unused variable detection, override detection, fast type checking
 - **Usage**: `uv run pyright src/`
 
 ### 2. Code Quality

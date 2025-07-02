@@ -109,6 +109,9 @@ Duplicates merged/split with canonical targets and cross‑ref updates.
 ### Compliance & Quality Check
 PDQI‑9 self‑scores (docs); RGS scoring summary (rules); style/glossary/link hygiene; redundancy check; redaction check; taxonomy/packaging rationale; transitional‑content detection results (flagged; not relocated).
 
+- Validate that documentation examples which generate output use the `runs/` directory paths (profiling/benchmarks/performance/scaling) per repository policy.
+- If the content references Arcade drawing APIs, verify the functions exist for the installed Arcade version (e.g., `draw_lrbt_rectangle_filled`, `draw_lbwh_rectangle_filled`).
+
 ### Questions
 3–7 targeted questions to resolve missing inputs or ambiguities.
 
