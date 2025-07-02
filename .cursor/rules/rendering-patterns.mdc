@@ -6,6 +6,30 @@ alwaysApply: false
 
 # Rendering Patterns
 
+## Integration & Stubs
+- Window: `src/traffic_sim/render/app.py`
+- Type stubs: `stubs/arcade/`
+
+## Performance
+- Text object caching for HUD; draw-call batching; minimal allocations.
+
+## Coordinate Systems
+- Meters for simulation; pixels for rendering.
+
+## HUD Design
+- Minimal vs full modes; toggle; occlusion-aware panels with cached inputs.
+
+## Arcade Calls
+- Use valid functions (e.g., `draw_lbwh_rectangle_filled`, `draw_lrbt_rectangle_filled`).
+- See Arcade API Consistency rule.
+---
+globs: src/traffic_sim/render/**
+description: Arcade rendering guidelines
+alwaysApply: false
+---
+
+# Rendering Patterns
+
 ## Arcade Integration
 - **Main Window**: [app.py](mdc:src/traffic_sim/render/app.py)
 - **Type Stubs**: [stubs/arcade/](mdc:stubs/arcade/) for type safety

@@ -1,4 +1,31 @@
 ---
+globs: docs/**/*.md
+description: Documentation maintenance and update procedures
+alwaysApply: false
+---
+
+# Documentation Maintenance Patterns
+
+## Update Triggers
+- Code/config changes, new features, bug fixes, user feedback.
+- See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#update-triggers)
+
+## Content Validation
+- Test code examples; check links; validate procedures.
+- Tools: automated link/spell checks; manual review; user testing.
+
+## Cross-Reference Management
+- Keep references up-to-date when files move; verify all links.
+
+## Quality Assurance
+- Regular reviews for accuracy, completeness, clarity, consistency.
+
+## Version Control & Review
+- Use feature branches, conventional commits, PR review.
+
+## Maintenance Schedule
+- Monthly light review; quarterly audit; release-cycle passes.
+---
 globs: docs/**,*.md
 description: Documentation maintenance and update procedures
 alwaysApply: false

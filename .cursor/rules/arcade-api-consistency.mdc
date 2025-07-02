@@ -1,4 +1,44 @@
 ---
+globs: src/traffic_sim/render/**
+description: Arcade API consistency and validation rules
+alwaysApply: false
+---
+
+# Arcade API Consistency Rules
+
+## Function Validation
+- **Pattern**: Verify Arcade functions exist before using them.
+- **Validation**: `uv run python -c "import arcade; import inspect; print(hasattr(arcade,'draw_lbwh_rectangle_filled'))"`
+- **Reference**: [Arcade 3.3.2 Documentation](https://arcade.academy/)
+
+## Available Rectangle Functions (Arcade 3.3.2)
+- `draw_lrbt_rectangle_filled(left, right, bottom, top, color)`
+- `draw_lrbt_rectangle_outline(left, right, bottom, top, color, border_width)`
+- `draw_lbwh_rectangle_filled(left, bottom, width, height, color)`
+- `draw_lbwh_rectangle_outline(left, bottom, width, height, color, border_width)`
+
+## Deprecated/Non-existent Functions
+- ❌ `draw_rectangle_filled`
+- ❌ `draw_rectangle_outline`
+
+## Type Stub Maintenance
+- Keep type stubs synchronized with installed Arcade version.
+- Run integration tests that call the functions to validate stubs.
+
+## Documentation Consistency
+- Use only valid Arcade functions in examples.
+- Integration tests should cover example calls.
+
+## Testing Requirements
+- Include rendering integration tests that verify presence and callability.
+- Cover both success paths and error conditions.
+
+## Prevention Checklist
+- [ ] `hasattr(arcade, 'function_name')`
+- [ ] `inspect.signature(arcade.function_name)`
+- [ ] Update stubs on Arcade upgrades
+- [ ] Run rendering integration tests
+---
 globs: stubs/arcade/**, docs/**, src/traffic_sim/render/**
 description: Arcade API consistency and validation rules
 alwaysApply: false

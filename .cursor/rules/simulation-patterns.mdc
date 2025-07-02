@@ -7,6 +7,25 @@ alwaysApply: false
 # Simulation Patterns
 
 ## Core Components
+- Simulation, Driver, Vehicle, Analytics, Collision, Logging modules.
+
+## Design Patterns
+- IDM controller; occlusion-based perception; bounded analytics; pymunk collisions; async logging.
+
+## State & Performance
+- Immutable state where possible; fixed timestep; vectorization.
+
+## Event-Driven Collision Detection
+- Predictive TTC scheduling; adjacency tracking; version-based invalidation.
+---
+globs: src/traffic_sim/core/**
+description: Core simulation architecture patterns
+alwaysApply: false
+---
+
+# Simulation Patterns
+
+## Core Components
 - **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
 - **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py)
 - **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)

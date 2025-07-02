@@ -6,6 +6,29 @@ alwaysApply: false
 
 # Vehicle Physics Patterns
 
+## Attributes & Catalog
+- Dataclass specs: power_kw, torque_nm, drag_area_cda, wheelbase_m, tire_friction_mu, brake_efficiency_eta.
+- Realistic values per vehicle type; catalog entries with physics attributes.
+
+## Dynamics & Constraints
+- Acceleration curves based on power/torque; aerodynamic drag; braking constraints `a ≥ -ημg`.
+
+## Performance
+- Cache expensive calculations; use vectorized operations where available.
+
+## IDM Integration
+- Apply physical constraints after IDM acceleration computation.
+
+## Testing
+- Verify acceleration limits and drag calculations with known values.
+---
+globs: src/traffic_sim/core/**
+description: Patterns for implementing vehicle physics attributes and constraints
+alwaysApply: false
+---
+
+# Vehicle Physics Patterns
+
 ## Physics Attributes
 - **Pattern**: Use dataclass for vehicle specifications with physics attributes
 - **Implementation**: Include power_kw, torque_nm, drag_area_cda, wheelbase_m, tire_friction_mu, brake_efficiency_eta

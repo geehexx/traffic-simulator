@@ -1,4 +1,39 @@
 ---
+globs: src/traffic_sim/**
+description: Performance optimization patterns and techniques
+alwaysApply: false
+---
+
+# Performance Optimization Patterns
+
+## Event-Driven Collision Scheduler
+- Predictive TTC scheduling with min-heap; check pairs only when TTC < horizon.
+- Config: `event_horizon_s`, `guard_band_m`, acceleration bounds.
+- Reference: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection)
+
+## NumPy Physics Engine
+- Vectorized physics; optional Numba JIT; pre-allocated arrays.
+- Feature flag for safe rollout.
+
+## Adaptive Time Stepping
+- Dynamic timestep scaling at high speed factors with capped multiplier.
+
+## Vectorized IDM Controller
+- NumPy-based acceleration; fallback when perception occluded.
+
+## High-Performance Data Manager
+- Pre-allocated arrays; batch updates; supports large vehicle counts.
+
+## Unified Benchmarking Framework
+- Parallel execution; real-time estimation; comprehensive metrics.
+- Use `runs/` for all outputs; see Benchmarking Guide.
+
+## External Tools & Profiling
+- pytest-benchmark, ASV, Hyperfine, Py-Spy; tracemalloc for memory analysis.
+
+## Performance Monitoring & Scale Testing
+- Use `scripts/benchmarking_framework.py` for monitor/scale/profile modes.
+---
 globs: src/traffic_sim/core/**,scripts/**
 description: Comprehensive performance optimization patterns and techniques
 alwaysApply: false

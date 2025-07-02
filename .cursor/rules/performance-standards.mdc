@@ -1,4 +1,23 @@
 ---
+globs: src/traffic_sim/**
+description: Performance optimization guidelines and targets
+alwaysApply: false
+---
+
+# Performance Standards
+
+## Targets
+- FPS ≥30 with 20+ vehicles
+- Minimal per-frame allocations
+- Deterministic fixed-step physics; scalable to larger counts
+
+## Optimization
+- Fixed timestep; vectorized operations; spatial partitioning; caching.
+
+## Testing & Monitoring
+- Automated tests and unified benchmarking framework.
+- Save outputs under `runs/` per Benchmarking Guide.
+---
 globs: src/traffic_sim/core/**,src/traffic_sim/render/**
 description: Performance optimization guidelines
 alwaysApply: false

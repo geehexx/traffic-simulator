@@ -1,4 +1,40 @@
 ---
+globs: src/traffic_sim/config/**
+description: Configuration management patterns and validation
+alwaysApply: false
+---
+
+# Configuration Patterns
+
+## Structure & Loading
+- **Main Config**: `config/` YAML files.
+- **Loader**: `src/traffic_sim/config/loader.py` with validation on load.
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
+
+## Environment Variables
+- **Pattern**: `TRAFFIC_SIM_CONFIG` for custom config path.
+- **Docs**: [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management)
+
+## Validation & Errors
+- Validate all keys and types; fail fast with actionable messages.
+- Use specific exceptions with context.
+
+## Performance Feature Flags
+- Physics: `physics.numpy_engine_enabled`, `physics.adaptive_timestep_enabled`
+- High Performance: `high_performance.enabled`, `high_performance.idm_vectorized`
+- Collisions: `collisions.event_scheduler_enabled`, `collisions.event_horizon_s`, `collisions.guard_band_m`
+- Data Manager: `data_manager.enabled`, `data_manager.max_vehicles`
+- Reference: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
+
+## HUD Occlusion Configuration {#id:hud-occlusion-config}
+- Document exact keys and defaults from repo config (confirm before publishing).
+- Validate boolean and numeric types; provide clear error messages.
+- Cross-reference perception/render docs without linking docs→rules.
+
+## Benchmarking Output
+- All outputs to `runs/` with organized subdirectories per guide.
+- See [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure)
+---
 globs: src/traffic_sim/config/**,config/**
 description: Configuration management patterns
 alwaysApply: false
