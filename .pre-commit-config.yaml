@@ -37,7 +37,7 @@ repos:
         pass_filenames: false
       - id: bandit
         name: bandit
-        entry: timeout 30 bash -c 'uv run bandit -r src/ -c bandit.yaml'
+        entry: timeout 30 bash -c 'uv run bandit -r src/ -c config/bandit.yaml'
         language: system
         types: [python]
         pass_filenames: false

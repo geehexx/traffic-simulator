@@ -1,0 +1,61 @@
+# Quality Gates Configuration for Traffic Simulator
+# Defines thresholds and rules for code quality enforcement
+
+# Overall Quality Gates
+overall:
+  max_critical_issues: 0
+  max_high_issues: 0
+  max_medium_issues: 5
+  max_low_issues: 10
+  max_total_issues: 15
+
+# Tool-specific Quality Gates
+tools:
+  ruff:
+    max_errors: 0
+    max_warnings: 5
+    max_info: 10
+    fail_on_format_issues: true
+
+  pyright:
+    max_errors: 0
+    max_warnings: 3
+    fail_on_any_error: true
+
+  bandit:
+    max_high_severity: 0
+    max_medium_severity: 0
+    max_low_severity: 3
+
+  radon:
+    max_complexity_C: 0  # No C complexity functions
+    max_complexity_D: 0  # No D complexity functions
+    max_complexity_E: 0  # No E complexity functions
+    max_complexity_F: 0  # No F complexity functions
+    average_complexity_max: 3.0
+
+# Coverage Requirements
+coverage:
+  min_line_coverage: 70
+  min_branch_coverage: 60
+  min_function_coverage: 75
+
+# Performance Requirements
+performance:
+  max_cyclomatic_complexity: 10
+  max_cognitive_complexity: 15
+  max_function_length: 50
+  max_class_length: 200
+
+# Security Requirements
+security:
+  max_security_issues: 0
+  require_security_scan: true
+  fail_on_high_severity: true
+  fail_on_medium_severity: true
+
+# Documentation Requirements
+documentation:
+  require_docstrings: false  # Set to true for production
+  min_docstring_coverage: 0  # Set to 80 for production
+  require_type_hints: true
