@@ -59,7 +59,7 @@ class QualityReport:
 class QualityAnalysis:
     """Comprehensive quality analysis system."""
 
-    def __init__(self, config_path: str = "quality_gates.yaml"):
+    def __init__(self, config_path: str = "config/quality_gates.yaml"):
         """Initialize quality analysis with configuration."""
         self.config_path = Path(config_path)
         self.config = self._load_config()
@@ -161,7 +161,7 @@ class QualityAnalysis:
         print("🔒 Checking Bandit security analysis...")
 
         exit_code, stdout, _ = self.run_command(
-            ["uv", "run", "bandit", "-r", "src/", "-f", "json", "-c", "bandit.yaml"]
+            ["uv", "run", "bandit", "-r", "src/", "-f", "json", "-c", "config/bandit.yaml"]
         )
 
         if exit_code == 0:
@@ -330,7 +330,7 @@ class QualityAnalysis:
         print("🔒 Collecting Bandit metrics...")
 
         exit_code, stdout, _ = self.run_command(
-            ["uv", "run", "bandit", "-r", "src/", "-f", "json", "-c", "bandit.yaml"]
+            ["uv", "run", "bandit", "-r", "src/", "-f", "json", "-c", "config/bandit.yaml"]
         )
 
         if exit_code == 0:
@@ -652,7 +652,9 @@ def main():
     parser.add_argument(
         "--output", "-o", default="runs/quality/quality_report.json", help="Output file for reports"
     )
-    parser.add_argument("--config", "-c", default="quality_gates.yaml", help="Configuration file")
+    parser.add_argument(
+        "--config", "-c", default="config/quality_gates.yaml", help="Configuration file"
+    )
 
     args = parser.parse_args()
 
@@ -675,7 +677,7 @@ def main():
                 print("   uv run ruff check src/ --fix")
                 print("   uv run ruff format src/")
                 print("   uv run pyright src/")
-                print("   uv run bandit -r src/ -c bandit.yaml")
+                print("   uv run bandit -r src/ -c config/bandit.yaml")
                 print("   uv run radon cc src/ -a --min B")
                 print("   uv run pytest --cov=traffic_sim")
 
