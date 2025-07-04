@@ -69,12 +69,12 @@ uv run ruff format src/
 ### Security Issues
 ```bash
 # Check security issues
-uv run bandit -r src/ -c bandit.yaml
+uv run bandit -r src/ -c config/bandit.yaml
 ```
 
 ## Configuration
 
-Quality gates are configured in `quality_gates.yaml`:
+Quality gates are configured in `config/quality_gates.yaml`:
 ```yaml
 overall:
   max_critical_issues: 0

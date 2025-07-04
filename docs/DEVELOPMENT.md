@@ -57,7 +57,7 @@ Quality gates run automatically on every commit:
 **Configuration**: Uses `pass_filenames: false` to prevent multiple executions and optimize performance.
 
 #### Quality Gates
-All code must pass quality gates before merging. See [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds:
+All code must pass quality gates before merging. See [config/quality_gates.yaml](mdc:config/quality_gates.yaml) for thresholds:
 - **Type Safety**: Comprehensive type checking
 - **Security**: No high/medium severity issues
 - **Complexity**: No high complexity functions
@@ -342,7 +342,7 @@ For detailed architecture information, see [Architecture Guide](mdc:docs/ARCHITE
 ### Main Configuration
 - **`config/config.yaml`**: Main simulation configuration
 - **`pyproject.toml`**: Project metadata and tool configuration
-- **`quality_gates.yaml`**: Quality gates thresholds
+- **`config/quality_gates.yaml`**: Quality gates thresholds
 
 ### Environment Variables
 ```bash

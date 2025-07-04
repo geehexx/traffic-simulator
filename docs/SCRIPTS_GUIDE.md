@@ -19,7 +19,7 @@ The `scripts/quality_analysis.py` script provides comprehensive quality analysis
 uv run python scripts/quality_analysis.py --mode=check
 
 # With custom config
-uv run python scripts/quality_analysis.py --mode=check --config custom_quality_gates.yaml
+uv run python scripts/quality_analysis.py --mode=check --config config/custom_quality_gates.yaml
 ```
 
 **Features:**
@@ -227,7 +227,7 @@ uv run python scripts/performance_analysis.py --mode=scale --vehicle-counts 20 5
 ## Configuration
 
 ### Quality Gates Configuration
-Quality analysis uses `quality_gates.yaml` for thresholds and rules. Key settings:
+Quality analysis uses `config/quality_gates.yaml` for thresholds and rules. Key settings:
 
 ```yaml
 tools:

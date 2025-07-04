@@ -42,9 +42,9 @@ The project uses a comprehensive static analysis framework with multiple tools t
 
 #### Bandit
 - **Purpose**: Security vulnerability scanning
-- **Configuration**: [bandit.yaml](mdc:bandit.yaml)
+- **Configuration**: [config/bandit.yaml](mdc:config/bandit.yaml)
 - **Features**: Security issue detection, vulnerability scanning
-- **Usage**: `uv run bandit -r src/ -c bandit.yaml`
+- **Usage**: `uv run bandit -r src/ -c config/bandit.yaml`
 
 ### 4. Complexity Analysis
 
@@ -148,7 +148,7 @@ uv run ruff check src/ --fix
 uv run ruff format src/
 
 # Security scanning
-uv run bandit -r src/ -c bandit.yaml
+uv run bandit -r src/ -c config/bandit.yaml
 
 # Complexity analysis
 uv run radon cc src/ -a --min B
@@ -181,7 +181,7 @@ uv run radon cc src/ -a --min B
 
 ### Configuration
 
-Quality gates are defined in [quality_gates.yaml](mdc:quality_gates.yaml) with the following structure:
+Quality gates are defined in [config/quality_gates.yaml](mdc:config/quality_gates.yaml) with the following structure:
 
 ```yaml
 overall:
@@ -398,7 +398,7 @@ data_manager:
 ### Security Scanning
 ```bash
 # Check security issues
-uv run bandit -r src/ -c bandit.yaml
+uv run bandit -r src/ -c config/bandit.yaml
 
 # Check for vulnerable dependencies
 uv run pip-audit
@@ -453,7 +453,7 @@ uv run ruff format src/
 #### Security Issues
 ```bash
 # Check security issues
-uv run bandit -r src/ -c bandit.yaml
+uv run bandit -r src/ -c config/bandit.yaml
 ```
 
 ### Adding New Rules

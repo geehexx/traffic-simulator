@@ -281,7 +281,7 @@ pip install py-spy       # Py-Spy profiling
 
 ### Full Dependencies
 
-See `requirements-benchmarking.txt` for complete dependency list.
+See `pyproject.toml` dev dependencies for complete dependency list.
 
 ## Output and Reporting
 

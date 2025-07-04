@@ -560,7 +560,7 @@ class CalculationCache:
 The project integrates quality gates with performance monitoring to ensure consistent performance standards:
 
 ```yaml
-# From quality_gates.yaml
+# From config/quality_gates.yaml
 performance:
   max_cyclomatic_complexity: 10
   max_cognitive_complexity: 15
