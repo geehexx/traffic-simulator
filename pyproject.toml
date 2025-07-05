@@ -13,7 +13,7 @@ dependencies = [
 	"pyyaml>=6.0",
 	"numpy>=1.26",
 	"numba>=0.55.0",
-	"psutil>=5.8.0",
+	"psutil>=5.9.0",
 ]
 
 [project.optional-dependencies]
@@ -28,8 +28,29 @@ dev = [
 	"bandit>=1.7.0",
 	"radon>=6.0.0",
 	"semgrep>=1.0.0",
+	# Benchmarking and performance tools
 	"pytest-benchmark>=4.0.0",
 	"pyperf>=2.0.0",
+	"psutil>=5.9.0",
+	"memory-profiler>=0.60.0",
+	"line-profiler>=4.0.0",
+	"pympler>=0.9",
+	# Statistical analysis
+	"scipy>=1.7.0",
+	"pandas>=1.3.0",
+	# Visualization tools
+	"matplotlib>=3.5.0",
+	"seaborn>=0.11.0",
+	"plotly>=5.0.0",
+	# Parallel processing
+	"joblib>=1.1.0",
+	# Data handling
+	"h5py>=3.6.0",
+	# Enhanced testing
+	"pytest-xdist>=2.5.0",
+	"pytest-html>=3.1.0",
+	# Optional advanced tools
+	"asv>=0.4.0",
 ]
 
 [build-system]
