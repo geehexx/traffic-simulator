@@ -1,0 +1,9 @@
+load("@pip_runtime//:requirements.bzl", "requirement")
+py_library(
+    name = "models",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        requirement("numpy"),
+    ],
+)

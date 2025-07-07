@@ -1,0 +1,17 @@
+load("@pip_runtime//:requirements.bzl", "requirement", "data_requirement")
+
+py_library(
+    name = "render",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        "//src/traffic_sim/core:core",
+        requirement("arcade"),
+        requirement("pymunk"),
+        requirement("pyyaml"),
+    ],
+    data = [
+        data_requirement("arcade"),
+        data_requirement("pymunk"),
+    ],
+)

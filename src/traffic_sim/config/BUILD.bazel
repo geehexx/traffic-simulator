@@ -1,0 +1,8 @@
+py_library(
+    name = "config",
+    srcs = ["__init__.py", "loader.py"],
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        "//src/traffic_sim/models:models",
+    ],
+)

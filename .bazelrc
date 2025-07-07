@@ -1,0 +1,11 @@
+common --color=yes
+common --curses=no
+
+build --jobs=8
+build --announce_rc
+
+test --test_output=errors
+test --jobs=8
+
+coverage --combined_report=lcov
+coverage --instrumentation_filter=//src/traffic_sim/...

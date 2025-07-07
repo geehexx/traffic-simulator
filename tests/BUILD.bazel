@@ -1,0 +1,11 @@
+load("@pip_dev//:requirements.bzl", "all_requirements")
+
+py_test(
+    name = "all_tests",
+    srcs = glob(["*_test.py"]) + ["conftest.py"],
+    main = "conftest.py",
+    deps = [
+        "//src/traffic_sim:traffic_sim",
+    ] + all_requirements,
+    args = ["-n=auto"],
+)

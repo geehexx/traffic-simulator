@@ -1,0 +1,32 @@
+module(name = "traffic_simulator", version = "0.1.0")
+
+bazel_dep(name = "rules_python", version = "1.6.3")
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.defaults(
+    python_version = "3.12",
+)
+python.toolchain(
+    configure_coverage_tool = True,
+    python_version = "3.12",
+)
+
+use_repo(python, "python_3_12", "python_versions", "pythons_hub")
+
+register_toolchains(
+    "@python_3_12//:all",
+)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip_runtime",
+    python_version = "3.12",
+    requirements_lock = "//third_party/pip:runtime_requirements.txt",
+)
+pip.parse(
+    hub_name = "pip_dev",
+    python_version = "3.12",
+    requirements_lock = "//third_party/pip:dev_requirements.txt",
+)
+
+use_repo(pip, "pip_runtime", "pip_dev")

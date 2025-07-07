@@ -16,8 +16,8 @@ This comprehensive guide covers all aspects of developing the traffic simulator 
 ## Quick Start
 
 ### Prerequisites
-- Python 3.10+
-- [uv](https://docs.astral.sh/uv/) package manager
+- Python 3.12+
+- [Bazel](https://bazel.build/) build system
 - Git
 
 ### Setup
@@ -26,17 +26,11 @@ This comprehensive guide covers all aspects of developing the traffic simulator 
 git clone <repository-url>
 cd traffic-simulator
 
-# Install dependencies
-uv sync --extra dev
-
-# Install pre-commit hooks
-uv run pre-commit install
-
-# Run tests
-uv run python -m pytest tests/ -v
+# Run tests with Bazel
+bazel test //...
 
 # Run simulator
-uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin
 ```
 
 For detailed setup instructions, see [README.md](mdc:README.md).
@@ -68,52 +62,55 @@ All code must pass quality gates before merging. See [config/quality_gates.yaml]
 #### Running the Simulator
 ```bash
 # Run the simulator
-uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin
 
 # Run with specific configuration
-uv run python -m traffic_sim --config config/custom.yaml
+bazel run //src/traffic_sim:traffic_sim_bin -- --config config/custom.yaml
 
 # Run with debug logging
-uv run python -m traffic_sim --debug
+bazel run //src/traffic_sim:traffic_sim_bin -- --debug
 ```
 
 #### Testing
 ```bash
 # Run all tests
-uv run python -m pytest tests/ -v
+bazel test //...
 
-# Run with coverage
-uv run python -m pytest --cov=traffic_sim --cov-report=term-missing
+# Run specific test target
+bazel test //tests:all_tests
 
-# Run specific test file
-uv run python -m pytest tests/idm_test.py -v
+# Run tests with verbose output
+bazel test //... --test_output=all
 
-# Run performance tests
-uv run python -m pytest tests/ -k performance -v
+# Run tests in parallel
+bazel test //... --jobs=4
 ```
 
-#### Static Analysis
+#### Building
 ```bash
-# Run all quality gates
-uv run python scripts/quality_analysis.py --mode=check
+# Build all targets
+bazel build //...
 
-# Run quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+# Build specific target
+bazel build //src/traffic_sim:traffic_sim
 
-# Run comprehensive analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+# Build with verbose output
+bazel build //... --verbose_failures
 ```
 
-#### Code Formatting
+#### Code Quality (Legacy)
 ```bash
-# Format code
-uv run ruff format src/
+# Note: Quality analysis scripts are deprecated in favor of Bazel
+# These commands are kept for reference but should not be used
 
-# Fix linting issues
-uv run ruff check src/ --fix
+# Run all quality gates (deprecated)
+# uv run python scripts/quality_analysis.py --mode=check
 
-# Check formatting
-uv run ruff format --check src/
+# Run quality monitoring (deprecated)
+# uv run python scripts/quality_analysis.py --mode=monitor
+
+# Run comprehensive analysis (deprecated)
+# uv run python scripts/quality_analysis.py --mode=analyze
 ```
 
 ### 3. Project Structure
@@ -135,10 +132,14 @@ traffic-simulator/
 ├── tests/                    # Test suite
 ├── config/                   # Configuration files
 ├── docs/                     # Documentation
-├── scripts/                  # Utility scripts
+├── scripts/                  # Utility scripts (deprecated)
 ├── stubs/                    # Type stubs for external libraries
 ├── .github/workflows/        # CI/CD workflows
-└── pyproject.toml           # Project configuration
+├── third_party/pip/          # Bazel pip dependencies
+├── MODULE.bazel              # Bazel module configuration
+├── WORKSPACE.bazel           # Bazel workspace configuration
+├── .bazelrc                  # Bazel configuration
+└── pyproject.toml           # Project configuration (legacy)
 ```
 
 ## Code Quality Standards
@@ -427,26 +428,75 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 - Write comprehensive tests
 - Document public APIs
 
+## Bazel Workflow
+
+### Build System
+The project uses Bazel for fast, reliable, and hermetic builds:
+- **Deterministic Builds**: Reproducible builds across environments
+- **Incremental Builds**: Only rebuild what changed
+- **Parallel Execution**: Automatic parallelization of build tasks
+- **Dependency Management**: Automatic dependency resolution
+
+### Bazel Commands
+```bash
+# Build all targets
+bazel build //...
+
+# Run all tests
+bazel test //...
+
+# Run specific target
+bazel run //src/traffic_sim:traffic_sim_bin
+
+# Clean build artifacts
+bazel clean
+
+# Query build graph
+bazel query //...
+
+# Show dependencies
+bazel query --output=graph //src/traffic_sim:traffic_sim
+```
+
+### Bazel Configuration
+- **`.bazelrc`**: Global build and test flags
+- **`MODULE.bazel`**: Module dependencies and toolchain configuration
+- **`WORKSPACE.bazel`**: Workspace-level configuration
+- **`BUILD.bazel`**: Target-specific build rules
+
 ## CI/CD Pipeline
 
 ### GitHub Actions
-The project uses GitHub Actions for continuous integration:
-- **Quality Gates**: Run on every push and PR
-- **Testing**: Run tests on multiple Python versions
-- **Coverage**: Generate and report test coverage
-- **Security**: Scan for vulnerabilities
+The project uses GitHub Actions with Bazel for continuous integration:
+- **Bazel Tests**: Run all tests using Bazel
+- **Bazel Build**: Verify all targets build successfully
+- **Python 3.12**: Single Python version for consistency
+- **Linux Only**: Simplified matrix for faster CI
 
-### Pre-commit Hooks
-Quality gates run locally before commits:
+### Bazel CI Configuration
+```yaml
+# .github/workflows/ci.yml
+- name: Setup Bazel
+  uses: bazelbuild/setup-bazelisk@v2
+- name: Run Bazel tests
+  run: bazel test //... --jobs=4
+- name: Run Bazel build
+  run: bazel build //...
+```
+
+### Legacy Pre-commit Hooks (Deprecated)
 ```bash
-# Install hooks
-uv run pre-commit install
+# Note: Pre-commit hooks are deprecated in favor of Bazel
+# These commands are kept for reference but should not be used
 
-# Run on all files
-uv run pre-commit run --all-files
+# Install hooks (deprecated)
+# uv run pre-commit install
 
-# Run specific hook
-uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
+# Run on all files (deprecated)
+# uv run pre-commit run --all-files
+
+# Run specific hook (deprecated)
+# uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 ```
 
 ## Performance Optimization Workflow
@@ -504,18 +554,19 @@ data_manager:
 ### Common Commands Reference
 ```bash
 # Development
-uv run python -m traffic_sim                    # Run simulator
-uv run python -m pytest tests/ -v              # Run tests
-uv run python scripts/quality_analysis.py --mode=check         # Check quality
+bazel run //src/traffic_sim:traffic_sim_bin    # Run simulator
+bazel test //...                               # Run tests
+bazel build //...                              # Build all targets
 
-# Code quality
-uv run ruff check src/ --fix                   # Fix linting
-uv run ruff format src/                        # Format code
-uv run pyright src/                          # Type check
+# Bazel specific
+bazel query //...                              # Query build graph
+bazel clean                                    # Clean build artifacts
+bazel test //... --jobs=4                      # Run tests in parallel
 
-# Analysis
-uv run python scripts/quality_analysis.py --mode=analyze       # Full analysis
-uv run python scripts/quality_analysis.py --mode=monitor      # Quality monitoring
+# Legacy commands (deprecated)
+# uv run python -m traffic_sim                 # Run simulator (deprecated)
+# uv run python -m pytest tests/ -v            # Run tests (deprecated)
+# uv run python scripts/quality_analysis.py --mode=check  # Check quality (deprecated)
 ```
 
 This development guide provides comprehensive coverage of all aspects of developing the traffic simulator project while maintaining high code quality standards.

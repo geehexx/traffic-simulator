@@ -1,0 +1,17 @@
+load("@pip_runtime//:requirements.bzl", "requirement", "data_requirement")
+py_library(
+    name = "core",
+    srcs = glob(["**/*.py"]),
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        "//src/traffic_sim/config:config",
+        "//src/traffic_sim/models:models",
+        requirement("numpy"),
+        requirement("numba"),
+        requirement("pyyaml"),
+        requirement("psutil"),
+    ],
+    data = [
+        data_requirement("pyyaml"),
+    ],
+)
