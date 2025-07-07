@@ -31,7 +31,7 @@ alwaysApply: true
 ## Project Structure
 - **Core Logic**: [src/traffic_sim/core/](mdc:src/traffic_sim/core/) - Simulation engine, vehicles, drivers
 - **Rendering**: [src/traffic_sim/render/](mdc:src/traffic_sim/render/) - Arcade-based visualization
-- **Configuration**: [config/](mdc:config/) - YAML configuration files
+- **Configuration**: [config/](mdc:config/) - YAML configuration files (bandit.yaml, quality_gates.yaml, radon.cfg, pyrightconfig.json, benchmarking.yaml)
 - **Tests**: [tests/](mdc:tests/) - Comprehensive test suite
 - **Documentation**: [docs/](mdc:docs/) - Consolidated guides
 

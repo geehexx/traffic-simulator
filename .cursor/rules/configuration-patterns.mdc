@@ -1,5 +1,5 @@
 ---
-globs: src/traffic_sim/config/**
+globs: src/traffic_sim/config/**,config/**
 description: Configuration management patterns and validation
 alwaysApply: false
 ---
@@ -7,7 +7,7 @@ alwaysApply: false
 # Configuration Patterns
 
 ## Structure & Loading
-- **Main Config**: `config/` YAML files.
+- **Main Config**: `config/` YAML files in dedicated config directory.
 - **Loader**: `src/traffic_sim/config/loader.py` with validation on load.
 - **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
 
@@ -18,6 +18,12 @@ alwaysApply: false
 ## Validation & Errors
 - Validate all keys and types; fail fast with actionable messages.
 - Use specific exceptions with context.
+
+## Configuration File Organization
+- **Pattern**: All configuration files in `config/` directory
+- **Files**: `bandit.yaml`, `quality_gates.yaml`, `radon.cfg`, `pyrightconfig.json`, `benchmarking.yaml`
+- **Benefits**: Cleaner root directory, better organization, consolidated management
+- **Maintenance**: Keep config files in `config/` directory; avoid adding config files to root
 
 ## Performance Feature Flags
 - Physics: `physics.numpy_engine_enabled`, `physics.adaptive_timestep_enabled`
