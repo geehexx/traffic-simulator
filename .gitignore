@@ -148,3 +148,9 @@ __marimo__/
 *.pyc
 .DS_Store
 AGENTS.md
+
+# Bazel build artifacts
+bazel-*
+bazel-bin
+bazel-out
+bazel-testlogs
