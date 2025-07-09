@@ -2,24 +2,24 @@
 
 ## Running Tests and Scripts
 
-**Always use `uv run` to execute tests and scripts in this project.**
+**Always use `bazel` to execute tests and scripts in this project.**
 
 **Examples:**
 
 - Run all tests:
 	```bash
-	uv run pytest
+	bazel test //...
 	```
 - Run a specific test file:
 	```bash
-	uv run pytest tests/perception_window_test.py --maxfail=2 -v
+	bazel test //tests:perception_window_test --test_output=all
 	```
 - Run a script:
 	```bash
-	uv run python scripts/profile_simulation.py --steps 1000 --dt 0.02 --csv profiling_stats.csv --cprofile
+	bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 	```
 
-This ensures the correct environment and dependencies are used, similar to how Cursor required its own command wrapper.
+This ensures the correct environment and dependencies are used with Bazel's hermetic build system.
 
 ## Profiling and Benchmark Output
 
@@ -39,13 +39,13 @@ This ensures the correct environment and dependencies are used, similar to how C
 **Examples:**
 ```bash
 # Profiling (saves to runs/profiling/)
-uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100
 
 # Scaling (saves to runs/scaling/)
-uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100
 
 # Performance (saves to runs/performance/)
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5
 ```
 
 # AGENTS.md

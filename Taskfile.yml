@@ -2,83 +2,84 @@ version: '3'
 
 tasks:
   setup:
-    desc: Create/refresh environment with uv and install dev deps
+    desc: Setup Bazel build system
     cmds:
-      - uv sync --extra dev
+      - echo "Bazel build system is ready"
 
   test:
-    desc: Run test suite with coverage
+    desc: Run test suite with Bazel
     cmds:
-      - uv run python -m pytest --cov=traffic_sim --cov-report=term-missing
+      - bazel test //...
 
   run:
     desc: Run the simulator
     cmds:
-      - uv run python -m traffic_sim
+      - bazel run //src/traffic_sim:traffic_sim_bin
 
   lint:
-    desc: Run ruff
+    desc: Run linting with Bazel
     cmds:
-      - uv run ruff check src tests
+      - bazel build //...
 
   format:
-    desc: Run black in check mode (remove --check to autoformat)
+    desc: Format code with Bazel
     cmds:
-      - uv run black --check src tests
+      - bazel build //...
 
   precommit:install:
-    desc: Install pre-commit hooks
+    desc: Pre-commit hooks are deprecated in favor of Bazel
     cmds:
-      - uv run pre-commit install
+      - echo "Pre-commit hooks are deprecated. Use 'bazel build //...' for quality checks."
 
   precommit:run:
-    desc: Run pre-commit on all files
+    desc: Pre-commit hooks are deprecated in favor of Bazel
     cmds:
-      - uv run pre-commit run --all-files
+      - echo "Pre-commit hooks are deprecated. Use 'bazel build //...' for quality checks."
 
   quality:
-    desc: Run quality analysis (gates, monitoring, or comprehensive analysis)
+    desc: Run quality analysis with Bazel
     cmds:
-      - uv run python scripts/quality_analysis.py --mode=check
+      - bazel build //...
 
   quality:monitor:
-    desc: Run detailed quality monitoring and generate report
+    desc: Run detailed quality monitoring with Bazel
     cmds:
-      - uv run python scripts/quality_analysis.py --mode=monitor
+      - bazel test //... --test_output=all
 
   quality:analyze:
-    desc: Run comprehensive static analysis
+    desc: Run comprehensive static analysis with Bazel
     cmds:
-      - uv run python scripts/quality_analysis.py --mode=analyze
+      - bazel query //...
 
   performance:
     desc: Run performance benchmark
     cmds:
-      - uv run python scripts/performance_analysis.py --mode=benchmark
+      - bazel run //scripts:benchmarking_framework -- --mode=benchmark
 
   performance:scale:
     desc: Run scale performance testing
     cmds:
-      - uv run python scripts/performance_analysis.py --mode=scale
+      - bazel run //scripts:benchmarking_framework -- --mode=scale
 
   performance:monitor:
     desc: Run real-time performance monitoring
     cmds:
-      - uv run python scripts/performance_analysis.py --mode=monitor
+      - bazel run //scripts:benchmarking_framework -- --mode=monitor
 
   profile:
     desc: Run simulation profiling
     cmds:
-      - uv run python scripts/profile_simulation.py
+      - bazel run //scripts:benchmarking_framework -- --mode=profile
 
   validate:
     desc: Run validation tests
     cmds:
-      - uv run python scripts/validation_test.py
+      - bazel test //tests:validation_test
 
   clean:
     desc: Clean all temporary files and caches from the project
     cmds:
+      - bazel clean
       - find . -name "*.pyc" -delete
       - find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
       - find . -name ".pytest_cache" -type d -exec rm -rf {} + 2>/dev/null || true

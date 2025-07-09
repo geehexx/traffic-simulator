@@ -160,8 +160,8 @@
 
 ## 🚀 **Next Immediate Actions**
 
-1. **Run validation tests**: `uv run python scripts/validation_test.py`
-2. **Start performance monitoring**: `uv run python scripts/performance_analysis.py --mode=monitor --duration 10`
+1. **Run validation tests**: `bazel test //tests:validation_test`
+2. **Start performance monitoring**: `bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 10`
 3. **Review current performance**: Analyze benchmark results
 4. **Plan GPU acceleration**: Research CUDA integration options
 5. **Document findings**: Update performance optimization summary

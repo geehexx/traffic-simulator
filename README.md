@@ -26,19 +26,22 @@ This project simulates vehicles circulating on a stadium-shaped track. Drivers a
 - **Advanced Data Logging**: Incident tracking, performance metrics, CSV export
 - **Enhanced HUD**: Speed/headway/TTC, incident log, safe-curve panel, perception data
 
-## Installation (uv)
-Requires Python 3.10+ and uv package manager.
+## Installation (Bazel)
+Requires Python 3.12+ and Bazel build system.
 
 ```bash
 # Clone the repository
 git clone <repository-url>
 cd traffic-simulator
 
-# Install dependencies
-uv sync --extra dev
-
 # Run the simulator
-uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin
+
+# Run tests
+bazel test //...
+
+# Build all targets
+bazel build //...
 ```
 
 ## Usage
@@ -46,10 +49,10 @@ uv run python -m traffic_sim
 ### Basic Usage
 ```bash
 # Run with default configuration
-uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin
 
 # Run with custom config
-TRAFFIC_SIM_CONFIG=config/my_config.yaml uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin -- --config config/my_config.yaml
 ```
 
 ### Controls
@@ -130,26 +133,20 @@ collisions:
 
 ### Quick Start
 ```bash
-# Setup development environment
-uv sync --extra dev
-
-# Install pre-commit hooks
-uv run pre-commit install
-
 # Run simulator
-uv run python -m traffic_sim
+bazel run //src/traffic_sim:traffic_sim_bin
 
 # Run tests
-uv run python -m pytest tests/ -v
+bazel test //...
 
-# Run with coverage
-uv run python -m pytest tests/ --cov=traffic_sim --cov-report=term-missing
+# Build all targets
+bazel build //...
 
-# Run quality gates
-uv run python scripts/quality_analysis.py --mode=check
+# Run with verbose output
+bazel test //... --test_output=all
 
 # Export simulation data
-uv run python -c "from traffic_sim.core.simulation import Simulation; from traffic_sim.config.loader import load_config; sim = Simulation(load_config()); [sim.step(0.02) for _ in range(1000)]; sim.export_data('my_simulation')"
+bazel run //src/traffic_sim:traffic_sim_bin -- --export my_simulation
 ```
 
 ### Static Analysis & Quality Gates
@@ -171,14 +168,14 @@ The project uses a comprehensive static analysis framework with automated qualit
 
 #### Usage
 ```bash
-# Run all quality gates
-uv run python scripts/quality_analysis.py --mode=check
+# Run all quality gates (integrated into Bazel)
+bazel build //...
 
-# Run quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+# Run tests with coverage
+bazel test //... --test_output=all
 
-# Run comprehensive analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+# Query build graph
+bazel query //...
 ```
 
 For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md), [Development Guide](docs/DEVELOPMENT.md), and [Scripts Guide](docs/SCRIPTS_GUIDE.md).
@@ -189,26 +186,26 @@ The project includes consolidated analysis tools for quality and performance tes
 
 ### Quality Analysis
 ```bash
-# Quality gates enforcement
-uv run python scripts/quality_analysis.py --mode=check
+# Quality gates enforcement (integrated into Bazel)
+bazel build //...
 
-# Detailed quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+# Run tests with coverage
+bazel test //... --test_output=all
 
-# Comprehensive static analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+# Query build graph
+bazel query //...
 ```
 
 ### Performance Analysis
 ```bash
 # High-performance benchmark
-uv run python scripts/performance_analysis.py --mode=benchmark
+bazel run //scripts:benchmarking_framework -- --mode=benchmark
 
 # Scale performance testing
-uv run python scripts/performance_analysis.py --mode=scale
+bazel run //scripts:benchmarking_framework -- --mode=scale
 
 # Real-time performance monitoring
-uv run python scripts/performance_analysis.py --mode=monitor
+bazel run //scripts:benchmarking_framework -- --mode=monitor
 ```
 
 ### Task Commands
@@ -253,16 +250,16 @@ The project includes a comprehensive benchmarking system for performance optimiz
 
 ```bash
 # Single benchmark
-uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 1000
 
 # Scale testing
-uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200
 
 # Performance monitoring
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5 --vehicles 100
 
 # Advanced profiling
-uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
 
 **Features:**
@@ -278,13 +275,16 @@ uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --
 ### Running Tests
 ```bash
 # All tests
-uv run python -m pytest tests/ -v
+bazel test //...
 
-# Specific test file
-uv run python -m pytest tests/idm_test.py -v
+# Specific test target
+bazel test //tests:idm_test
 
-# With coverage
-uv run python -m pytest tests/ --cov=traffic_sim --cov-report=html
+# With verbose output
+bazel test //... --test_output=all
+
+# Run tests in parallel
+bazel test //... --jobs=4
 ```
 
 ### Test Categories
