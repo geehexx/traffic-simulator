@@ -96,11 +96,11 @@ The standards are enforced via a pre-commit hook that:
 You can manually check test file consistency:
 
 ```bash
-# Check specific files
-uv run python scripts/check_test_consistency.py tests/test_file.py
+# Check specific files (integrated into Bazel)
+bazel test //tests:test_file
 
 # Check all test files
-find tests -name "*.py" -not -name "__init__.py" | xargs uv run python scripts/check_test_consistency.py
+bazel test //...
 ```
 
 ### Automatic Fixing
@@ -108,8 +108,8 @@ find tests -name "*.py" -not -name "__init__.py" | xargs uv run python scripts/c
 Use the automatic fixer to update test files:
 
 ```bash
-# Fix all test files
-uv run python scripts/fix_test_consistency.py
+# Fix all test files (integrated into Bazel)
+bazel build //...
 ```
 
 ## Examples
@@ -182,7 +182,7 @@ def test_simulation_creation():
 
 If you have existing test files that don't meet these standards:
 
-1. **Automatic fix**: Run `uv run python scripts/fix_test_consistency.py`
+1. **Automatic fix**: Run `bazel build //...` (integrated into Bazel)
 2. **Manual review**: Check the changes and adjust as needed
 3. **Verification**: Run the consistency checker to ensure compliance
 

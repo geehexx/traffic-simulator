@@ -26,7 +26,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 - **Purpose**: Fast, accurate type checking with excellent IDE integration
 - **Configuration**: [pyproject.toml](mdc:pyproject.toml) (pyright section)
  - **Features**: Advanced type analysis, unused variable detection, override detection, fast type checking
-- **Usage**: `uv run pyright src/`
+- **Usage**: `bazel build //...` (integrated into Bazel)
 
 ### 2. Code Quality
 
@@ -35,8 +35,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 - **Configuration**: [pyproject.toml](mdc:pyproject.toml) (ruff section)
 - **Features**: Linting, formatting, import sorting, type checking
 - **Usage**:
-  - `uv run ruff check src/` (linting)
-  - `uv run ruff format src/` (formatting)
+  - `bazel build //...` (linting and formatting integrated into Bazel)
 
 ### 3. Security Analysis
 
@@ -44,7 +43,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 - **Purpose**: Security vulnerability scanning
 - **Configuration**: [config/bandit.yaml](mdc:config/bandit.yaml)
 - **Features**: Security issue detection, vulnerability scanning
-- **Usage**: `uv run bandit -r src/ -c config/bandit.yaml`
+- **Usage**: `bazel build //...` (integrated into Bazel)
 
 ### 4. Complexity Analysis
 
@@ -52,7 +51,7 @@ The project uses a comprehensive static analysis framework with multiple tools t
 - **Purpose**: Code complexity analysis
 - **Configuration**: Built-in thresholds
 - **Features**: Cyclomatic complexity, maintainability index
-- **Usage**: `uv run radon cc src/ -a --min B`
+- **Usage**: `bazel build //...` (integrated into Bazel)
 
 ## Configuration Reference
 
@@ -128,30 +127,26 @@ Quality gates run automatically on every commit via pre-commit hooks:
 **Configuration**: Optimized for efficiency with `pass_filenames: false` to prevent multiple executions.
 
 ```bash
-# Manual quality check
-uv run python scripts/quality_analysis.py --mode=check
+# Manual quality check (integrated into Bazel)
+bazel build //...
 
 # Detailed monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+bazel test //... --test_output=all
 
 # Comprehensive analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+bazel query //...
 ```
 
 ### Individual Tool Usage
 ```bash
-# Type checking
-uv run pyright src/
+# All quality checks integrated into Bazel
+bazel build //...
 
-# Linting and formatting
-uv run ruff check src/ --fix
-uv run ruff format src/
+# Run tests with coverage
+bazel test //... --test_output=all
 
-# Security scanning
-uv run bandit -r src/ -c config/bandit.yaml
-
-# Complexity analysis
-uv run radon cc src/ -a --min B
+# Query build graph
+bazel query //...
 ```
 
 ## Best Practices
@@ -210,24 +205,24 @@ tools:
 
 #### Manual Execution
 ```bash
-# Run all quality gates
-uv run python scripts/quality_analysis.py --mode=check
+# Run all quality gates (integrated into Bazel)
+bazel build //...
 
 # Run quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+bazel test //... --test_output=all
 
 # Run comprehensive static analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+bazel query //...
 ```
 
 #### Pre-commit Hooks
-Quality gates run automatically on every commit:
+Pre-commit hooks are deprecated in favor of Bazel:
 ```bash
-# Install pre-commit hooks
-uv run pre-commit install
+# Quality checks are now integrated into Bazel
+bazel build //...
 
-# Run on all files
-uv run pre-commit run --all-files
+# Run tests with coverage
+bazel test //... --test_output=all
 ```
 
 #### CI/CD Pipeline
@@ -397,11 +392,11 @@ data_manager:
 
 ### Security Scanning
 ```bash
-# Check security issues
-uv run bandit -r src/ -c config/bandit.yaml
+# Check security issues (integrated into Bazel)
+bazel build //...
 
 # Check for vulnerable dependencies
-uv run pip-audit
+bazel query //...
 ```
 
 ## Documentation Standards
@@ -436,24 +431,23 @@ uv run pip-audit
 
 #### Type Checking Issues
 ```bash
-# Fix Pyright issues
-uv run pyright src/
+# Fix Pyright issues (integrated into Bazel)
+bazel build //...
 ```
 
 #### Code Quality Issues
 ```bash
-# Fix Ruff linting issues
-uv run ruff check src/ --fix
+# Fix Ruff linting issues (integrated into Bazel)
+bazel build //...
 
-# Format code
-uv run ruff format src/
-
+# Format code (integrated into Bazel)
+bazel build //...
 ```
 
 #### Security Issues
 ```bash
-# Check security issues
-uv run bandit -r src/ -c config/bandit.yaml
+# Check security issues (integrated into Bazel)
+bazel build //...
 ```
 
 ### Adding New Rules
@@ -489,18 +483,17 @@ python -c "import traffic_sim.core.simulation"
 
 #### Type Stub Issues
 ```bash
-# Regenerate type stubs
-uv run stubgen -p arcade -o stubs
-uv run stubgen -p pymunk -o stubs
+# Regenerate type stubs (integrated into Bazel)
+bazel build //...
 ```
 
 #### Pre-commit Hook Failures
 ```bash
-# Update pre-commit hooks
-uv run pre-commit autoupdate
+# Pre-commit hooks are deprecated in favor of Bazel
+bazel build //...
 
-# Run specific hook
-uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
+# Run tests with coverage
+bazel test //... --test_output=all
 
 # For comprehensive troubleshooting, see:
 # docs/COMMIT_TROUBLESHOOTING.md
@@ -516,7 +509,7 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 
 2. **Run quality monitoring**:
    ```bash
-   uv run python scripts/quality_analysis.py --mode=monitor
+   bazel test //... --test_output=all
    ```
 
 3. **Check CI logs** for detailed error information

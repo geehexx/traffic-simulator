@@ -17,24 +17,24 @@ The quality gates system enforces code quality standards through automated stati
 
 ### Manual Execution
 ```bash
-# Run all quality gates
-uv run python scripts/quality_analysis.py --mode=check
+# Run all quality gates (integrated into Bazel)
+bazel build //...
 
 # Run quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+bazel test //... --test_output=all
 
 # Run comprehensive analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+bazel query //...
 ```
 
 ### Pre-commit Hooks
-Quality gates run automatically on every commit:
+Pre-commit hooks are deprecated in favor of Bazel:
 ```bash
-# Install pre-commit hooks
-uv run pre-commit install
+# Quality checks are now integrated into Bazel
+bazel build //...
 
-# Run on all files
-uv run pre-commit run --all-files
+# Run tests with coverage
+bazel test //... --test_output=all
 ```
 
 ## Understanding Results
@@ -45,31 +45,30 @@ uv run pre-commit run --all-files
 - **WARN**: Some issues but within thresholds
 
 ### Status Reporting
-- Use CI job artifacts or `uv run python scripts/quality_analysis.py --mode=check` for up-to-date pass/fail and coverage.
+- Use CI job artifacts or `bazel build //...` for up-to-date pass/fail and coverage (integrated into Bazel).
 - Avoid embedding static numbers that drift over time.
 
 ## Fixing Issues
 
 ### Type Checking Issues
 ```bash
-# Fix Pyright issues
-uv run pyright src/
+# Fix Pyright issues (integrated into Bazel)
+bazel build //...
 ```
 
 ### Code Quality Issues
 ```bash
-# Fix Ruff linting issues
-uv run ruff check src/ --fix
+# Fix Ruff linting issues (integrated into Bazel)
+bazel build //...
 
-# Format code
-uv run ruff format src/
-
+# Format code (integrated into Bazel)
+bazel build //...
 ```
 
 ### Security Issues
 ```bash
-# Check security issues
-uv run bandit -r src/ -c config/bandit.yaml
+# Check security issues (integrated into Bazel)
+bazel build //...
 ```
 
 ## Configuration
