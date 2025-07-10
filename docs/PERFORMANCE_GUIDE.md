@@ -569,22 +569,22 @@ performance:
 ```
 
 ### Quality Gates Status
-- Use `uv run python scripts/quality_analysis.py --mode=check` for up-to-date status.
+- Use `bazel build //...` for up-to-date status (integrated into Bazel).
 - Track coverage and tool pass/fail in CI artifacts instead of embedding static numbers.
 
 ### Running Quality Gates
 ```bash
-# Run all quality gates including performance checks
-uv run python scripts/quality_analysis.py --mode=check
+# Run all quality gates including performance checks (integrated into Bazel)
+bazel build //...
 
 # Run performance-specific quality checks
-uv run python scripts/quality_analysis.py --mode=check --performance-only
+bazel test //... --test_filter=performance
 
 # Run profiling session and dump CSV of timing blocks (feature-flagged)
-uv run python scripts/profile_simulation.py --steps 1000 --dt 0.02 --csv profiling_stats.csv --cprofile
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 
 # Run high-performance benchmark (vectorized paths enabled via flags)
-uv run python scripts/performance_analysis.py --mode=benchmark --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0
 ```
 
 ### 3. Advanced Performance Optimizations
@@ -699,16 +699,16 @@ The project now includes a comprehensive benchmarking framework that consolidate
 #### Usage
 ```bash
 # Single benchmark
-uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 1000
 
 # Scale testing
-uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200
 
 # Performance monitoring
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5 --vehicles 100
 
 # Advanced profiling
-uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
 
 #### External Tools Integration

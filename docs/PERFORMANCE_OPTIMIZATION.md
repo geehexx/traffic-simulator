@@ -50,29 +50,29 @@ class CacheManager:
 
 #### Ruff
 ```bash
-# Slow
-uv run ruff check src/ --output-format=json
+# Slow (integrated into Bazel)
+bazel build //...
 
-# Fast
-uv run ruff check src/ --select=E,W,F --no-cache --quiet
+# Fast (integrated into Bazel)
+bazel build //...
 ```
 
 #### Pyright
 ```bash
-# Slow
-uv run pyright src/
+# Slow (integrated into Bazel)
+bazel build //...
 
-# Fast
-uv run pyright src/ --outputjson --skipunannotated
+# Fast (integrated into Bazel)
+bazel build //...
 ```
 
 #### Pytest Coverage
 ```bash
-# Slow
-uv run pytest --cov=traffic_sim --cov-report=term-missing
+# Slow (integrated into Bazel)
+bazel test //... --test_output=all
 
 # Fast (skip coverage for speed)
-uv run pytest -q --tb=short -x
+bazel test //... --test_output=errors
 ```
 
 ### 4. Ultra-Fast Mode
@@ -94,23 +94,23 @@ For CI/CD and quick checks, use minimal tool set:
 
 ### Fast Quality Script
 ```bash
-# Ultra-fast quality check (5s)
-uv run python scripts/quality_fast.py
+# Ultra-fast quality check (integrated into Bazel)
+bazel build //...
 
-# Optimized quality check (40s)
-uv run python scripts/quality_analysis_optimized.py --mode=check
+# Optimized quality check (integrated into Bazel)
+bazel build //...
 
-# Original quality check (2m18s)
-uv run python scripts/quality_analysis.py --mode=check
+# Original quality check (integrated into Bazel)
+bazel build //...
 ```
 
 ### Caching
 ```bash
-# Clear cache
-uv run python scripts/quality_analysis_optimized.py --clear-cache
+# Clear cache (integrated into Bazel)
+bazel clean
 
-# Disable cache
-uv run python scripts/quality_analysis_optimized.py --no-cache
+# Disable cache (integrated into Bazel)
+bazel build //... --no-cache
 ```
 
 ## Recommendations

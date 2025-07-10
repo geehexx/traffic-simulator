@@ -17,27 +17,27 @@ The new benchmarking framework consolidates all performance testing into a singl
 
 ```bash
 # Single benchmark
-uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 1000
 
 # Scale testing
-uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200 --speed-factors 1.0 10.0 100.0
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200 --speed-factors 1.0 10.0 100.0
 
 # Performance monitoring
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5 --vehicles 100
 
 # Advanced profiling
-uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
 
 ### Running Tests
 
 ```bash
 # Run all benchmark tests
-uv run python -m pytest tests/benchmark_tests.py -v
+bazel test //tests:benchmark_test
 
 # Run specific test categories
-uv run python -m pytest tests/benchmark_tests.py::TestPerformanceRegression -v
-uv run python -m pytest tests/benchmark_tests.py::TestRealTimeEstimation -v
+bazel test //tests:benchmark_test --test_filter=TestPerformanceRegression
+bazel test //tests:benchmark_test --test_filter=TestRealTimeEstimation
 ```
 
 ## Framework Components
@@ -243,13 +243,13 @@ Use the migration script to transition from old performance tests:
 
 ```bash
 # Check migration readiness
-uv run python scripts/migrate_performance_tests.py --check-only
+bazel run //scripts:migrate_performance_tests -- --check-only
 
 # Run migration
-uv run python scripts/migrate_performance_tests.py
+bazel run //scripts:migrate_performance_tests
 
 # Dry run (see what would be done)
-uv run python scripts/migrate_performance_tests.py --dry-run
+bazel run //scripts:migrate_performance_tests -- --dry-run
 ```
 
 ### Manual Migration
