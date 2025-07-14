@@ -147,8 +147,8 @@ physics:
 #### Command Examples
 ```bash
 # Use actual commands with proper paths
-uv run python scripts/quality_analysis.py --mode=check
-uv run pre-commit run --all-files
+bazel build //...
+bazel test //...
 ```
 
 ## Maintenance Procedures
@@ -237,14 +237,14 @@ git push origin docs/update-performance-guide
 
 #### Automated Checks
 ```bash
-# Check markdown formatting
-uv run markdownlint docs/*.md
+# Check markdown formatting (integrated into Bazel)
+bazel build //...
 
-# Check for broken links
-uv run linkchecker docs/
+# Check for broken links (integrated into Bazel)
+bazel build //...
 
-# Check spelling
-uv run aspell check docs/*.md
+# Check spelling (integrated into Bazel)
+bazel build //...
 ```
 
 #### Manual Reviews

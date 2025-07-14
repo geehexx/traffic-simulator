@@ -15,11 +15,11 @@ The `scripts/quality_analysis.py` script provides comprehensive quality analysis
 
 ### Check Mode (Quality Gates)
 ```bash
-# Run quality gates enforcement
-uv run python scripts/quality_analysis.py --mode=check
+# Run quality gates enforcement (integrated into Bazel)
+bazel build //...
 
 # With custom config
-uv run python scripts/quality_analysis.py --mode=check --config config/custom_quality_gates.yaml
+bazel build //... --config=config/custom_quality_gates.yaml
 ```
 
 **Features:**
@@ -31,11 +31,11 @@ uv run python scripts/quality_analysis.py --mode=check --config config/custom_qu
 
 ### Monitor Mode (Detailed Monitoring)
 ```bash
-# Run detailed quality monitoring
-uv run python scripts/quality_analysis.py --mode=monitor
+# Run detailed quality monitoring (integrated into Bazel)
+bazel test //... --test_output=all
 
 # With custom output file (defaults to runs/quality/)
-uv run python scripts/quality_analysis.py --mode=monitor --output runs/quality/quality_report.json
+bazel test //... --test_output=all --output=runs/quality/quality_report.json
 ```
 
 **Features:**
@@ -47,11 +47,11 @@ uv run python scripts/quality_analysis.py --mode=monitor --output runs/quality/q
 
 ### Analyze Mode (Comprehensive Analysis)
 ```bash
-# Run comprehensive static analysis
-uv run python scripts/quality_analysis.py --mode=analyze
+# Run comprehensive static analysis (integrated into Bazel)
+bazel query //...
 
 # With custom output (defaults to runs/quality/)
-uv run python scripts/quality_analysis.py --mode=analyze --output runs/quality/analysis_report.json
+bazel query //... --output=runs/quality/analysis_report.json
 ```
 
 **Features:**
@@ -70,31 +70,31 @@ The `scripts/performance_analysis.py` script has been superseded by the unified 
 
 ```bash
 # Single benchmark (saves to runs/scaling/)
-uv run python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 1000
 
 # Scale testing (saves to runs/scaling/)
-uv run python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100 200
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200
 
 # Performance monitoring (saves to runs/performance/)
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5 --vehicles 100
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5 --vehicles 100
 
 # Advanced profiling (saves to runs/profiling/)
-uv run python scripts/benchmarking_framework.py --mode=profile --vehicles 100 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
 
 ### External Tools Integration
 ```bash
 # pytest-benchmark integration
-uv run python scripts/external_tools.py --tool pytest
+bazel run //scripts:external_tools -- --tool pytest
 
 # Hyperfine benchmarking
-uv run python scripts/external_tools.py --tool hyperfine
+bazel run //scripts:external_tools -- --tool hyperfine
 
 # Py-Spy profiling
-uv run python scripts/external_tools.py --tool pyspy
+bazel run //scripts:external_tools -- --tool pyspy
 
 # All tools
-uv run python scripts/external_tools.py --tool all
+bazel run //scripts:external_tools -- --tool all
 ```
 
 ### Advanced Profiling
@@ -103,25 +103,25 @@ uv run python scripts/external_tools.py --tool all
 
 ```bash
 # Memory analysis (saves to runs/profiling/)
-uv run python scripts/advanced_profiling.py --mode=memory --vehicles 100 --steps 1000
+bazel run //scripts:advanced_profiling -- --mode=memory --vehicles 100 --steps 1000
 
 # Scaling analysis (saves to runs/scaling/)
-uv run python scripts/advanced_profiling.py --mode=scaling --vehicle-counts 10 20 50 100 200
+bazel run //scripts:advanced_profiling -- --mode=scaling --vehicle-counts 10 20 50 100 200
 
 # Comprehensive analysis (saves to runs/profiling/)
-uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 --steps 1000
+bazel run //scripts:advanced_profiling -- --mode=comprehensive --vehicles 100 --steps 1000
 ```
 
 ### Migration Support
 ```bash
 # Check migration readiness
-uv run python scripts/migrate_performance_tests.py --check-only
+bazel run //scripts:migrate_performance_tests -- --check-only
 
 # Run migration
-uv run python scripts/migrate_performance_tests.py
+bazel run //scripts:migrate_performance_tests
 
 # Dry run (see what would be done)
-uv run python scripts/migrate_performance_tests.py --dry-run
+bazel run //scripts:migrate_performance_tests -- --dry-run
 ```
 
 **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
@@ -131,13 +131,13 @@ uv run python scripts/migrate_performance_tests.py --dry-run
 ### Advanced Profiling
 ```bash
 # Memory analysis
-uv run python scripts/advanced_profiling.py --mode=memory --vehicles 100 --steps 1000
+bazel run //scripts:advanced_profiling -- --mode=memory --vehicles 100 --steps 1000
 
 # Scaling analysis
-uv run python scripts/advanced_profiling.py --mode=scaling --vehicle-counts 10 20 50 100 200
+bazel run //scripts:advanced_profiling -- --mode=scaling --vehicle-counts 10 20 50 100 200
 
 # Comprehensive analysis
-uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 --steps 1000
+bazel run //scripts:advanced_profiling -- --mode=comprehensive --vehicles 100 --steps 1000
 ```
 
 **Features:**
@@ -149,7 +149,7 @@ uv run python scripts/advanced_profiling.py --mode=comprehensive --vehicles 100 
 ### Validation Testing
 ```bash
 # Run validation tests
-uv run python scripts/validation_test.py --verbose
+bazel test //tests:validation_test --test_output=all
 ```
 
 **Features:**
@@ -199,29 +199,29 @@ task performance:scale
 
 ### CI/CD Integration
 ```bash
-# Quality gates for CI
-uv run python scripts/quality_analysis.py --mode=check
+# Quality gates for CI (integrated into Bazel)
+bazel build //...
 
 # Performance validation
-uv run python scripts/performance_analysis.py --mode=benchmark --vehicles 20 --steps 1000
+bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 20 --steps 1000
 ```
 
 ### Monitoring and Reporting
 ```bash
 # Generate quality report (saves to runs/quality/)
-uv run python scripts/quality_analysis.py --mode=monitor --output runs/quality/quality_report.json
+bazel test //... --test_output=all --output=runs/quality/quality_report.json
 
 # Run performance monitoring (saves to runs/performance/)
-uv run python scripts/benchmarking_framework.py --mode=monitor --duration 5
+bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5
 
 # Generate test coverage (saves to runs/coverage/)
-uv run pytest --cov=traffic_sim --cov-report=html
+bazel test //... --test_output=all
 ```
 
 ### Scale Testing
 ```bash
 # Test performance across vehicle counts
-uv run python scripts/performance_analysis.py --mode=scale --vehicle-counts 20 50 100 200 500
+bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200 500
 ```
 
 ## Configuration

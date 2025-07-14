@@ -221,13 +221,13 @@ The project has migrated from individual performance test files to a unified ben
 
 ```bash
 # Check migration readiness
-uv run python scripts/migrate_performance_tests.py --check-only
+bazel run //scripts:migrate_performance_tests -- --check-only
 
 # Run migration (removes old performance test files)
-uv run python scripts/migrate_performance_tests.py
+bazel run //scripts:migrate_performance_tests
 
 # Dry run (see what would be done)
-uv run python scripts/migrate_performance_tests.py --dry-run
+bazel run //scripts:migrate_performance_tests -- --dry-run
 ```
 
 **Migration Details:**
@@ -305,14 +305,10 @@ def test_performance_target():
 ### Performance Testing
 ```bash
 # Run performance tests
-uv run python -m pytest tests/ -k performance -v
+bazel test //... --test_filter=performance
 
 # Profile specific functions
-uv run python -c "
-import cProfile
-from traffic_sim.core.simulation import Simulation
-cProfile.run('Simulation(config).step(0.02)')
-"
+bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
 
 For detailed performance guidelines, see [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md).
@@ -369,10 +365,10 @@ def load_config(config_path: str = None) -> Dict[str, Any]:
 ### Debug Mode
 ```bash
 # Run with debug logging
-uv run python -m traffic_sim --debug
+bazel run //src/traffic_sim:traffic_sim_bin -- --debug
 
 # Run with specific log level
-uv run python -m traffic_sim --log-level DEBUG
+bazel run //src/traffic_sim:traffic_sim_bin -- --log-level DEBUG
 ```
 
 ### Common Issues
@@ -384,18 +380,18 @@ uv run python -m traffic_sim --log-level DEBUG
 
 ### Debugging Tools
 ```bash
-# Check quality metrics
-uv run python scripts/quality_analysis.py --mode=monitor
+# Check quality metrics (integrated into Bazel)
+bazel test //... --test_output=all
 
 # Generate quality report
-uv run python scripts/quality_analysis.py --mode=monitor > quality_report.json
+bazel test //... --test_output=all > quality_report.json
 
 # Check test coverage
-uv run python -m pytest --cov=traffic_sim --cov-report=html
+bazel test //... --test_output=all
 
 # Troubleshoot commit issues
 # See docs/COMMIT_TROUBLESHOOTING.md for detailed solutions
-uv run pre-commit run --all-files
+bazel build //...
 ```
 
 ## Contributing Guidelines
