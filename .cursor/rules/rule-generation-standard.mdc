@@ -1,3 +1,4 @@
+---
 globs: .cursor/rules/**/*.mdc
 description: Standards for writing and evaluating Cursor rules (RGS)
 alwaysApply: false

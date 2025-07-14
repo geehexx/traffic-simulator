@@ -1,6 +1,6 @@
 ---
-globs: "docs/**/*.md"
-description: "Documentation standards, structure, maintenance, accessibility, and link policy"
+globs: docs/**/*.md
+description: Documentation standards, structure, maintenance, accessibility, and link policy
 alwaysApply: false
 ---
 
