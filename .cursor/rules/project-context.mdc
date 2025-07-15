@@ -18,9 +18,9 @@ alwaysApply: true
 - **Rendering**: [app.py](mdc:src/traffic_sim/render/app.py)
 
 ## Development Workflow
-- **Setup**: `uv sync --extra dev && uv run pre-commit install`
-- **Testing**: `uv run python -m pytest tests/ -v`
-- **Quality**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
+- **Setup**: `bazel build //...` (Bazel build system ready)
+- **Testing**: `bazel test //...`
+- **Quality**: `bazel build //...` (integrated quality gates)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
 
 ## Task Commands

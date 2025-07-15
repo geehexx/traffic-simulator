@@ -49,9 +49,9 @@ alwaysApply: false
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#algorithm-optimization)
 
 ## Performance Testing
-- **Pattern**: Automated performance tests
+- **Pattern**: Automated performance tests via Bazel
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-testing)
-- **Scripts**: `scripts/benchmarking_framework.py --mode=benchmark|scale|monitor|profile`
+- **Commands**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark|scale|monitor|profile`
 - **Output**: All profiling/benchmark data saved to `runs/` directory with organized subdirectories
 
 ## Unified Benchmarking Framework

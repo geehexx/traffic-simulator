@@ -19,14 +19,14 @@ alwaysApply: true
 - **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
 
 ## Quality Gates
-- **Tools**: Pyright, Ruff, Bandit, Radon
+- **Tools**: Pyright, Ruff, Bandit, Radon (integrated into Bazel)
 - **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
-- **Usage**: `uv run python scripts/quality_analysis.py --mode=check`
+- **Usage**: `bazel build //...` (all quality checks integrated)
 
 ## Quality Analysis Modes
-- **Check**: `--mode=check` - Quality gates enforcement
-- **Monitor**: `--mode=monitor` - Detailed quality monitoring
-- **Analyze**: `--mode=analyze` - Comprehensive static analysis
+- **Check**: `bazel build //...` - Quality gates enforcement (integrated)
+- **Monitor**: `bazel test //... --test_output=all` - Detailed quality monitoring
+- **Analyze**: `bazel query //...` - Comprehensive static analysis
 
 ## Code Style
 - **Line Length**: 100 characters
