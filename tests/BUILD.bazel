@@ -1,4 +1,4 @@
-load("@pip_dev//:requirements.bzl", "all_requirements")
+load("@pip_dev//:requirements.bzl", "requirement")
 
 py_test(
     name = "all_tests",
@@ -6,6 +6,10 @@ py_test(
     main = "conftest.py",
     deps = [
         "//src/traffic_sim:traffic_sim",
-    ] + all_requirements,
+        requirement("pytest"),
+        requirement("pytest-xdist"),
+        requirement("pytest-cov"),
+        requirement("pytest-mock"),
+    ],
     args = ["-n=auto"],
 )
