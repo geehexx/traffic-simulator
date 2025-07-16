@@ -6,4 +6,5 @@ py_test(
         "//src/traffic_sim:traffic_sim",
     ],
     args = ["-n=auto"],
+    python_version = "PY3",
 )

@@ -154,3 +154,6 @@ bazel-*
 bazel-bin
 bazel-out
 bazel-testlogs
+
+# Node.js dependencies
+node_modules/
