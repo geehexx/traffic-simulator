@@ -6,22 +6,14 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Python rules - use a version compatible with Bazel 7.1.1
 http_archive(
     name = "rules_python",
-    sha256 = "a30abdfc7126d497a7698c29c46ea9901c6392d6ed315171a6df5ce433aa4502",
-    strip_prefix = "rules_python-0.6.0",
-    url = "https://github.com/bazelbuild/rules_python/archive/0.6.0.tar.gz",
+    sha256 = "be04b635c7be4604be1ef20542e9870af3c49778ce841ee2d92fcb42f9d9516a",
+    strip_prefix = "rules_python-0.35.0",
+    url = "https://github.com/bazelbuild/rules_python/releases/download/0.35.0/rules_python-0.35.0.tar.gz",
 )
 
 # Python toolchain
-load("@rules_python//python:repositories.bzl", "py_repositories")
-py_repositories()
-
-# Pip dependencies
-load("@rules_python//python:pip.bzl", "pip_parse")
-pip_parse(
-    name = "pip_runtime",
-    requirements_lock = "//third_party/pip:runtime_requirements.txt",
-)
-pip_parse(
-    name = "pip_dev",
-    requirements_lock = "//third_party/pip:dev_requirements.txt",
+load("@rules_python//python:repositories.bzl", "python_register_toolchains")
+python_register_toolchains(
+    name = "python3_12",
+    python_version = "3.12",
 )

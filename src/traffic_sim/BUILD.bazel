@@ -1,5 +1,3 @@
-load("@pip_runtime//:requirements.bzl", "requirement")
-
 py_library(
     name = "traffic_sim",
     srcs = glob(["**/*.py"]),
@@ -11,6 +9,5 @@ py_library(
         "//src/traffic_sim/core:core",
         "//src/traffic_sim/models:models",
         "//src/traffic_sim/render:render",
-        requirement("pyyaml"),
     ],
 )
