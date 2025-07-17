@@ -18,7 +18,7 @@ alwaysApply: true
 - **Rendering**: [app.py](mdc:src/traffic_sim/render/app.py)
 
 ## Development Workflow
-- **Setup**: `bazel build //...` (Bazel build system ready)
+- **Setup**: `bazel build //...` (Bazel 7.1.1+ build system ready)
 - **Testing**: `bazel test //...`
 - **Quality**: `bazel build //...` (integrated quality gates)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)

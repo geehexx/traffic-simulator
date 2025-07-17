@@ -21,7 +21,7 @@ alwaysApply: true
 ## Quality Gates
 - **Tools**: Pyright, Ruff, Bandit, Radon (integrated into Bazel)
 - **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
-- **Usage**: `bazel build //...` (all quality checks integrated)
+- **Usage**: `bazel build //...` (all quality checks integrated with Bazel 7.1.1+)
 
 ## Quality Analysis Modes
 - **Check**: `bazel build //...` - Quality gates enforcement (integrated)

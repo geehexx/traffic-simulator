@@ -17,7 +17,7 @@ This comprehensive guide covers all aspects of developing the traffic simulator 
 
 ### Prerequisites
 - Python 3.12+
-- [Bazel](https://bazel.build/) build system
+- [Bazel 7.1.1+](https://bazel.build/) build system
 - Git
 
 ### Setup
@@ -34,6 +34,20 @@ bazel run //src/traffic_sim:traffic_sim_bin
 ```
 
 For detailed setup instructions, see [README.md](mdc:README.md).
+
+### Development Dependencies
+For local development with external dependencies (numpy, arcade, etc.):
+```bash
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install development dependencies
+pip install pytest pytest-xdist pytest-cov pytest-mock
+pip install numpy pyyaml arcade pymunk psutil numba hypothesis
+```
+
+**Note**: The build system uses simplified dependency management. External packages are installed in the virtual environment for development and testing.
 
 ## Development Workflow
 
