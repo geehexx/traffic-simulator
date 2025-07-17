@@ -23,6 +23,32 @@ alwaysApply: true
 - **Quality**: `bazel build //...` (integrated quality gates)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
 
+## Development Workflow Rules
+
+### Hybrid Architecture
+The project uses a **hybrid approach** combining Bazel and virtual environment:
+
+#### Bazel Commands (Build System)
+- **Building**: `bazel build //...` - Build all targets
+- **Quality Checks**: `bazel build //...` - Integrated quality gates
+- **CI/CD**: All automated processes use Bazel
+- **Dependencies**: Simplified dependency management
+
+#### Virtual Environment (Development)
+- **Testing**: `uv run python -m pytest tests/` - Run tests with external dependencies
+- **Scripts**: `uv run python scripts/benchmarking_framework.py` - Run scripts with dependencies
+- **Development**: All development work with numpy, arcade, pymunk, etc.
+
+#### Task Commands (Convenience)
+- **Quality**: `task quality` - Quality gates via Bazel
+- **Performance**: `task performance` - Benchmarking via Bazel (when dependencies available)
+- **Testing**: `task test` - Testing via Bazel (when dependencies available)
+
+### Command Selection Guidelines
+- **Use Bazel** for: Building, quality checks, CI/CD, when dependencies are available
+- **Use Virtual Environment** for: Development, testing, scripts with external dependencies
+- **Use Task Commands** for: Convenience when Bazel targets are available
+
 ## Task Commands
 - **Quality**: `task quality` (gates), `task quality:monitor` (detailed), `task quality:analyze` (comprehensive)
 - **Performance**: `task performance` (benchmark), `task performance:scale` (scalability), `task performance:monitor` (real-time)

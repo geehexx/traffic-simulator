@@ -1,0 +1,10 @@
+py_binary(
+    name = "benchmarking_framework",
+    srcs = ["benchmarking_framework.py"],
+    deps = [
+        "//src/traffic_sim:traffic_sim",
+    ],
+    data = [
+        "//config:config",
+    ],
+)

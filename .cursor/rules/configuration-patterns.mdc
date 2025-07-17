@@ -21,9 +21,15 @@ alwaysApply: false
 
 ## Configuration File Organization
 - **Pattern**: All configuration files in `config/` directory
-- **Files**: `bandit.yaml`, `quality_gates.yaml`, `radon.cfg`, `pyrightconfig.json`, `benchmarking.yaml`
+- **Files**: `bandit.yaml`, `quality_gates.yaml`, `radon.cfg`, `pyrightconfig.json`, `benchmarking.yaml`, `requirements_test.txt`
 - **Benefits**: Cleaner root directory, better organization, consolidated management
 - **Maintenance**: Keep config files in `config/` directory; avoid adding config files to root
+
+## CRITICAL: Configuration File Enforcement
+- **MANDATORY**: All configuration files MUST be in `config/` directory
+- **FORBIDDEN**: Configuration files in root directory (except essential build files)
+- **ENFORCEMENT**: Move any config files found in root to `config/` directory
+- **VALIDATION**: Check for misplaced config files before committing
 
 ## Performance Feature Flags
 - Physics: `physics.numpy_engine_enabled`, `physics.adaptive_timestep_enabled`
@@ -41,9 +47,9 @@ alwaysApply: false
 - All outputs to `runs/` with organized subdirectories per guide.
 - See [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure)
 ---
-globs: src/traffic_sim/config/**,config/**
-description: Configuration management patterns
-alwaysApply: false
+globs: "**/*.py", "**/*.md", "**/*.yml", "**/*.yaml", "**/*.sh", "**/*.bash", "**/*.txt"
+description: Configuration management patterns and file organization
+alwaysApply: true
 ---
 
 # Configuration Patterns
