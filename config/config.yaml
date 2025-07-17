@@ -148,6 +148,9 @@ collisions:
   use_pymunk_impulse: true
   disable_time_s: 5.0
   lateral_push: true
+
+profiling:
+  enabled: false
   # Event-driven collision scheduler (Phase 3 optimization)
   event_scheduler_enabled: true
   event_horizon_s: 2.0  # Reduced from 3.0 for better performance

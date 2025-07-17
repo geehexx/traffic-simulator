@@ -49,6 +49,21 @@ pip install numpy pyyaml arcade pymunk psutil numba hypothesis
 
 **Note**: The build system uses simplified dependency management. External packages are installed in the virtual environment for development and testing.
 
+### Headless Simulation Mode
+For multiprocessing and benchmarking without rendering dependencies:
+```bash
+# Run headless simulation
+python scripts/benchmarking_framework.py --mode=benchmark --vehicles 100 --steps 1000
+
+# Run scale benchmarking
+python scripts/benchmarking_framework.py --mode=scale --vehicle-counts 20 50 100
+```
+
+**Benefits**:
+- True multiprocessing (no GIL limitations)
+- No Arcade/Pymunk dependencies in worker processes
+- Proper CPU core scaling for benchmarks
+
 ## Development Workflow
 
 ### 1. Code Quality Standards

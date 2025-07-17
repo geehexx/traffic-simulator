@@ -17,3 +17,6 @@ python_register_toolchains(
     name = "python3_12",
     python_version = "3.12",
 )
+
+# Note: Using simplified dependency management
+# Test dependencies are installed in virtual environment

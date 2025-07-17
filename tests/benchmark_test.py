@@ -25,9 +25,9 @@ from traffic_sim.config.loader import load_config
 from traffic_sim.core.simulation import Simulation
 from traffic_sim.core.performance import get_performance_optimizer
 
-# Import the unified benchmarking framework
+# Import the consolidated benchmarking framework
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from benchmarking_framework import BenchmarkingFramework, BenchmarkConfig
+from benchmarking_framework import FixedBenchmarkingFramework, BenchmarkConfig
 
 
 class TestBenchmarkingFramework:
@@ -35,7 +35,7 @@ class TestBenchmarkingFramework:
 
     def setup_method(self):
         """Setup for each test method."""
-        self.framework = BenchmarkingFramework(max_workers=2)  # Limit workers for tests
+        self.framework = FixedBenchmarkingFramework(max_workers=2)  # Limit workers for tests
 
     def test_single_benchmark(self):
         """Test single benchmark execution."""
@@ -67,7 +67,7 @@ class TestBenchmarkingFramework:
             BenchmarkConfig(vehicles=30, steps=50, dt=0.02, speed_factor=1.0),
         ]
 
-        results = self.framework.runner.run_parallel_benchmarks(configs)
+        results = self.framework.run_parallel_benchmarks(configs)
 
         assert len(results) == 3
         for result in results:
@@ -96,7 +96,7 @@ class TestPerformanceRegression:
 
     def setup_method(self):
         """Setup for each test method."""
-        self.framework = BenchmarkingFramework(
+        self.framework = FixedBenchmarkingFramework(
             max_workers=1
         )  # Single worker for consistent results
 
@@ -278,7 +278,7 @@ class TestRealTimeEstimation:
 
     def setup_method(self):
         """Setup for each test method."""
-        self.framework = BenchmarkingFramework(max_workers=1)
+        self.framework = FixedBenchmarkingFramework(max_workers=1)
 
     def test_theoretical_performance_estimation(self):
         """Test theoretical performance estimation."""
@@ -316,7 +316,7 @@ class TestBenchmarkingIntegration:
 
     def setup_method(self):
         """Setup for each test method."""
-        self.framework = BenchmarkingFramework(max_workers=1)
+        self.framework = FixedBenchmarkingFramework(max_workers=1)
 
     def test_benchmark_config_validation(self):
         """Test benchmark configuration validation."""
