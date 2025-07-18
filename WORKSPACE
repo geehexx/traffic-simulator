@@ -3,7 +3,7 @@ workspace(name = "traffic_simulator")
 # Use built-in Python rules for Bazel 7.1.1
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# Python rules - use a version compatible with Bazel 7.1.1
+# Python rules - use version compatible with Bazel 7.1.1
 http_archive(
     name = "rules_python",
     sha256 = "be04b635c7be4604be1ef20542e9870af3c49778ce841ee2d92fcb42f9d9516a",
