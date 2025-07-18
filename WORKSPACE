@@ -19,4 +19,4 @@ python_register_toolchains(
 )
 
 # Note: Using simplified dependency management
-# Test dependencies are installed in virtual environment
+# External dependencies managed via virtual environment for development
