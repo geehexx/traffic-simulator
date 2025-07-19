@@ -1,53 +1,3 @@
----
-
-## Running Tests and Scripts
-
-**Always use `bazel` to execute tests and scripts in this project.**
-
-**Examples:**
-
-- Run all tests:
-	```bash
-	bazel test //...
-	```
-- Run a specific test file:
-	```bash
-	bazel test //tests:perception_window_test --test_output=all
-	```
-- Run a script:
-	```bash
-	bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
-	```
-
-This ensures the correct environment and dependencies are used with Bazel's hermetic build system.
-
-## Profiling and Benchmark Output
-
-**All profiling and benchmark output MUST be saved to the `runs/` directory.** This directory is organized by analysis type:
-
-- `runs/profiling/` - Profiling analysis outputs
-- `runs/benchmarks/` - Benchmark results
-- `runs/performance/` - Performance analysis outputs
-- `runs/scaling/` - Scaling analysis outputs
-
-**Enforcement:**
-- All scripts default to the `runs/` directory
-- Configuration in `config/benchmarking.yaml` enforces this
-- Documentation examples use `runs/` paths
-- `.gitignore` excludes the entire `runs/` directory
-
-**Examples:**
-```bash
-# Profiling (saves to runs/profiling/)
-bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100
-
-# Scaling (saves to runs/scaling/)
-bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100
-
-# Performance (saves to runs/performance/)
-bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5
-```
-
 # AGENTS.md
 
 ## Standards Summary Table
@@ -93,6 +43,40 @@ bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5
 
 ---
 
+## Streamlined Hybrid Architecture
+
+The project uses a **streamlined hybrid approach** optimized for efficiency:
+
+### Bazel Commands (Primary - 95% of workflow)
+- **Building**: `bazel build //...` - Build all targets
+- **Quality Checks**: `bazel build //...` - Integrated quality gates
+- **CI/CD**: All automated processes use Bazel
+- **Core Logic**: All simulation logic runs via Bazel
+
+### Virtual Environment (Development Only - 5% of workflow)
+- **Testing**: `uv run python -m pytest tests/` - Run tests with external dependencies
+- **Scripts**: `uv run python scripts/benchmarking_framework.py` - Run scripts with dependencies
+- **Development**: Only when external dependencies (numpy, arcade, pymunk) are needed
+
+### Task Commands (Convenience Layer)
+- **Quality**: `task quality` - Quality gates via Bazel
+- **Performance**: `task performance` - Benchmarking via virtual environment
+- **Testing**: `task test` - Testing via virtual environment
+
+### Command Selection Guidelines
+- **Use Bazel** for: Building, quality checks, CI/CD, core simulation logic
+- **Use Virtual Environment** for: Development, testing, scripts with external dependencies
+- **Use Task Commands** for: Convenience and automation
+
+### Efficiency Benefits
+- **95% Bazel**: All core functionality uses Bazel efficiently
+- **5% Virtual Environment**: Only for external dependencies
+- **Simplified**: No complex dependency management in Bazel
+- **Fast**: Bazel handles most operations efficiently
+- **Maintainable**: Clear separation of concerns
+
+---
+
 ## Code Quality Standards
 
 **Do:**
@@ -103,12 +87,12 @@ bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5
 - Use Google-style docstrings for public APIs.
 - Use Pyright, Ruff, Bandit, Radon for quality gates.
 
-**Don’t:**
+**Don't:**
 - Ignore linter/type errors.
 - Use generic exceptions (e.g., `except Exception`).
 
 **How to Validate:**
-- Run `uv run python scripts/quality_analysis.py --mode=check`.
+- Run `task quality` for quality gates via Bazel.
 - Check with all listed tools.
 
 **Example:**
@@ -205,7 +189,7 @@ def bar(y: float) -> float:
 - Maintain type stubs in sync with Arcade version.
 - Test documentation and integration for function existence.
 
-**Don’t:**
+**Don't:**
 - Use deprecated or non-existent Arcade functions.
 
 **How to Validate:**
@@ -265,7 +249,6 @@ class VehicleSpec:
 from traffic_sim.core.physics_numpy import PhysicsEngineNumpy
 engine = PhysicsEngineNumpy(vehicle_specs, initial_state)
 state = engine.step(actions, dt)
-```
 ```
 
 **Reference:** [VehicleSpec](src/traffic_sim/core/vehicle.py#L1)

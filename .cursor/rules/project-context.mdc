@@ -50,10 +50,17 @@ The project uses a **streamlined hybrid approach** optimized for efficiency:
 - **Use Task Commands** for: Convenience and automation
 
 ### Efficiency Benefits
-- **95% Bazel**: All core functionality uses Bazel
+- **95% Bazel**: All core functionality uses Bazel efficiently
 - **5% Virtual Environment**: Only for external dependencies
 - **Simplified**: No complex dependency management in Bazel
 - **Fast**: Bazel handles most operations efficiently
+- **Maintainable**: Clear separation of concerns
+
+### Troubleshooting
+- **Build Issues**: Use `bazel clean` and `bazel build //...` to reset
+- **Dependency Issues**: Ensure virtual environment is activated for development
+- **Performance Issues**: Use `task performance` for benchmarking
+- **Quality Issues**: Use `task quality` for comprehensive quality checks
 
 ## Task Commands
 - **Quality**: `task quality` (gates), `task quality:monitor` (detailed), `task quality:analyze` (comprehensive)
