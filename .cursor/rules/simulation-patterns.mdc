@@ -7,32 +7,6 @@ alwaysApply: false
 # Simulation Patterns
 
 ## Core Components
-- Simulation, Driver, Vehicle, Analytics, Collision, Logging modules.
-
-## Design Patterns
-- IDM controller; occlusion-based perception; bounded analytics; pymunk collisions; async logging.
-
-## State & Performance
-- Immutable state where possible; fixed timestep; vectorization.
-- **Use headless simulation for multiprocessing** - separate simulation logic from rendering dependencies.
-
-## Headless Simulation
-- **Use `SimulationHeadless`** for multiprocessing and benchmarking
-- **Avoid Arcade/Pymunk dependencies** in worker processes
-- **Use `ProcessPoolExecutor`** for true parallelism (not threading)
-- **Serialize only data** between processes, not objects
-
-## Event-Driven Collision Detection
-- Predictive TTC scheduling; adjacency tracking; version-based invalidation.
----
-globs: src/traffic_sim/core/**
-description: Core simulation architecture patterns
-alwaysApply: false
----
-
-# Simulation Patterns
-
-## Core Components
 - **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
 - **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py)
 - **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
@@ -55,6 +29,20 @@ alwaysApply: false
 ## Performance Considerations
 - **Pattern**: Fixed timestep, vectorized operations
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#simulation-optimization)
+
+## Headless Simulation
+- **Use `SimulationHeadless`** for multiprocessing and benchmarking
+- **Avoid Arcade/Pymunk dependencies** in worker processes
+- **Use `ProcessPoolExecutor`** for true parallelism (not threading)
+- **Serialize only data** between processes, not objects
+- **Reference**: [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py)
+
+## Testing Headless Simulation
+- **Test Configuration**: Validate headless simulation config parameters
+- **Performance Testing**: Test multiprocessing scaling and performance targets
+- **Data Serialization**: Test that only serializable data is passed between processes
+- **Error Handling**: Test process failure recovery and fault tolerance
+- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#headless-simulation-mode)
 
 ## IDM Controller
 - **Pattern**: Calculate gap → delta_v → s_star → acceleration

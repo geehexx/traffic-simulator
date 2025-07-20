@@ -725,6 +725,53 @@ Efficient vehicle state management:
 - Supports up to 10,000 vehicles
 - Configurable via `data_manager.enabled`
 
+## Headless Simulation Architecture
+
+### 1. SimulationHeadless Class
+**File**: [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py)
+
+A decoupled simulation engine designed for multiprocessing and benchmarking:
+
+```python
+class SimulationHeadless:
+    def __init__(self, cfg: Dict[str, Any]):
+        # Initialize without Arcade/Pymunk dependencies
+        self.track = StadiumTrack(...)
+        self.vehicles: List[Vehicle] = []
+        self.drivers: List[Driver] = []
+        self.analytics = LiveAnalytics(cfg)
+```
+
+**Key Features**:
+- **No Rendering Dependencies**: Avoids Arcade/Pymunk in worker processes
+- **True Multiprocessing**: Uses `ProcessPoolExecutor` for parallel execution
+- **Data Serialization**: Only serializes data, not objects with thread locks
+- **Performance Profiling**: Integrated profiling support with configurable metrics
+
+### 2. Multiprocessing Benefits
+- **CPU Scaling**: Utilizes all available CPU cores
+- **Memory Isolation**: Each process has independent memory space
+- **Fault Tolerance**: Process failures don't crash entire benchmark
+- **Scalability**: Supports large-scale vehicle simulations (1000+ vehicles)
+
+### 3. Usage Patterns
+```python
+# Benchmarking with headless simulation
+from traffic_sim.core.simulation_headless import SimulationHeadless
+
+# Create headless simulation
+sim = SimulationHeadless(config)
+
+# Run simulation steps
+for step in range(num_steps):
+    sim.step(dt=0.02)
+
+# Get results
+results = sim.get_results()
+```
+
+**Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#headless-simulation-mode)
+
 ## Configuration Architecture
 
 ### 1. YAML Configuration

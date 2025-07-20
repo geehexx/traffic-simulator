@@ -16,18 +16,32 @@ The new benchmarking framework consolidates all performance testing into a singl
 ### Basic Benchmarking
 
 ```bash
-# Single benchmark
+# Single benchmark (with headless simulation)
 bazel run //scripts:benchmarking_framework -- --mode=benchmark --vehicles 100 --steps 1000
 
-# Scale testing
+# Scale testing (headless multiprocessing)
 bazel run //scripts:benchmarking_framework -- --mode=scale --vehicle-counts 20 50 100 200 --speed-factors 1.0 10.0 100.0
 
 # Performance monitoring
 bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 5 --vehicles 100
 
-# Advanced profiling
+# Advanced profiling (headless mode)
 bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --steps 1000
 ```
+
+### Headless Simulation Benefits
+
+The benchmarking framework now uses headless simulation for true multiprocessing:
+
+- **True Multiprocessing**: No GIL limitations, utilizes all CPU cores
+- **Memory Efficiency**: Independent process memory spaces
+- **Scalability**: Supports 1000+ vehicles with linear CPU scaling
+- **Fault Tolerance**: Process failures don't crash entire benchmark
+
+**Performance Targets** (Headless Mode):
+- **100 vehicles**: 2000+ steps/second
+- **500 vehicles**: 800+ steps/second
+- **1000 vehicles**: 400+ steps/second
 
 ### Running Tests
 
