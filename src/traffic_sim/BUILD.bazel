@@ -1,6 +1,9 @@
+# Optimized main library with explicit source files for better parallelization
 py_library(
     name = "traffic_sim",
-    srcs = glob(["**/*.py"]),
+    srcs = [
+        "__init__.py",
+    ],
     data = glob(["**/*.yaml", "**/*.json"]),
     imports = [".."],
     visibility = ["//visibility:public"],
@@ -10,4 +13,13 @@ py_library(
         "//src/traffic_sim/models:models",
         "//src/traffic_sim/render:render",
     ],
+)
+
+# Binary target for running the simulator
+py_binary(
+    name = "traffic_sim_bin",
+    srcs = ["__init__.py"],
+    main = "__init__.py",
+    deps = [":traffic_sim"],
+    visibility = ["//visibility:public"],
 )

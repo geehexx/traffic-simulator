@@ -1,9 +1,39 @@
+# Core simulation library with explicit source files for better parallelization
 py_library(
     name = "core",
     srcs = glob(["**/*.py"]),
     visibility = ["//src/traffic_sim:__subpackages__"],
     deps = [
         "//src/traffic_sim/config:config",
+        "//src/traffic_sim/models:models",
+    ],
+)
+
+# Individual core modules for better parallelization
+py_library(
+    name = "simulation",
+    srcs = ["simulation.py", "simulation_headless.py"],
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        "//src/traffic_sim/config:config",
+        "//src/traffic_sim/models:models",
+    ],
+)
+
+py_library(
+    name = "physics",
+    srcs = ["physics_numpy.py", "spatial_hash.py"],
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
+        "//src/traffic_sim/models:models",
+    ],
+)
+
+py_library(
+    name = "vehicles",
+    srcs = ["vehicle.py", "driver.py"],
+    visibility = ["//src/traffic_sim:__subpackages__"],
+    deps = [
         "//src/traffic_sim/models:models",
     ],
 )
