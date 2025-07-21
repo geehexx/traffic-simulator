@@ -1,11 +1,46 @@
+# Common settings
 common --color=yes
 common --curses=no
 
+# Build optimizations
 build --jobs=8
 build --announce_rc
+build --keep_going
+build --experimental_ui_max_stdouterr_bytes=1048576
 
+# Memory optimizations (use BAZEL_JVM_OPTS environment variable instead)
+# build --host_jvm_args=-Xmx4g
+# build --host_jvm_args=-XX:+UseG1GC
+# build --host_jvm_args=-XX:+UseStringDeduplication
+
+# Parallel execution optimizations
+# build --experimental_ui_deduplicate  # Not available in Bazel 7.1.1
+# build --experimental_ui_actions_shown=10  # Not available in Bazel 7.1.1
+# build --experimental_ui_limit_console_output=0  # Not available in Bazel 7.1.1
+
+# Test optimizations
 test --test_output=errors
 test --jobs=8
+test --test_strategy=exclusive
+test --runs_per_test=1
 
+# Coverage optimizations
 coverage --combined_report=lcov
 coverage --instrumentation_filter=//src/traffic_sim/...
+
+# Performance profiles
+build:fast --jobs=16
+# build:fast --host_jvm_args=-Xmx8g  # Use BAZEL_JVM_OPTS instead
+# build:fast --experimental_ui_deduplicate  # Not available in Bazel 7.1.1
+
+# Debug profile for troubleshooting
+build:debug --verbose_failures
+build:debug --subcommands
+build:debug --announce_rc
+
+# Remote caching profile (uncomment to enable)
+# build:remote --config=remote
+
+# Local disk cache profile
+build:cache --disk_cache=~/.cache/bazel-disk-cache
+build:cache --remote_download_toplevel

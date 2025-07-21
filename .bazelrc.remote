@@ -1,0 +1,30 @@
+# Remote caching and execution configuration
+# This file contains settings for remote caching to speed up builds
+
+# Remote caching settings (uncomment and configure for your setup)
+# build --remote_cache=grpc://your-cache-server:8080
+# build --remote_executor=grpc://your-executor-server:8080
+
+# Alternative: Use BuildBuddy (free tier available)
+# build --remote_cache=grpc://remote.buildbuddy.io
+# build --remote_executor=grpc://remote.buildbuddy.io
+
+# Alternative: Use GitHub Actions cache (for CI)
+# build --remote_cache=grpc://cache.buildbuddy.io
+# build --remote_executor=grpc://executor.buildbuddy.io
+
+# Local disk cache (fallback)
+build --disk_cache=~/.cache/bazel-disk-cache
+
+# Remote caching optimizations
+build --remote_download_toplevel
+build --remote_download_minimal
+build --remote_upload_local_results
+
+# Authentication (if using remote services)
+# build --remote_header=x-buildbuddy-api-key=your-api-key
+
+# Performance settings for remote execution
+build --jobs=16
+build --remote_max_connections=100
+build --remote_retries=3
