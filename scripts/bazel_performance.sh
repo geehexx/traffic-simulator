@@ -14,6 +14,12 @@ bazel_fast() {
     bazel "$@" --config=fast
 }
 
+# Function to run Bazel with ultra-fast settings
+bazel_ultra() {
+    export BAZEL_JVM_OPTS="$BAZEL_JVM_OPTS_FAST"
+    bazel "$@" --config=ultra
+}
+
 # Function to run Bazel with caching
 bazel_cache() {
     export BAZEL_JVM_OPTS="$BAZEL_JVM_OPTS"
@@ -39,6 +45,10 @@ main() {
             shift
             bazel_fast "$@"
             ;;
+        "ultra")
+            shift
+            bazel_ultra "$@"
+            ;;
         "cache")
             shift
             bazel_cache "$@"
@@ -56,10 +66,11 @@ main() {
             bazel run //scripts:bazel_performance_monitor -- "$@"
             ;;
         *)
-            echo "Usage: $0 {fast|cache|debug|profile|monitor} [bazel-args...]"
+            echo "Usage: $0 {fast|ultra|cache|debug|profile|monitor} [bazel-args...]"
             echo ""
             echo "Commands:"
             echo "  fast     - Run with fast profile (16 jobs, 8GB memory)"
+            echo "  ultra    - Run with ultra-fast profile (32 jobs, optimized for CI/CD)"
             echo "  cache    - Run with local disk cache"
             echo "  debug    - Run with debug output"
             echo "  profile  - Run performance monitoring"
@@ -67,6 +78,7 @@ main() {
             echo ""
             echo "Examples:"
             echo "  $0 fast build //..."
+            echo "  $0 ultra build //..."  # For CI/CD
             echo "  $0 cache test //..."
             echo "  $0 profile --target=//src/traffic_sim:traffic_sim"
             echo "  $0 monitor --benchmark-only"
