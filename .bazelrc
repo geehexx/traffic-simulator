@@ -7,6 +7,8 @@ build --jobs=8
 build --announce_rc
 build --keep_going
 build --experimental_ui_max_stdouterr_bytes=1048576
+build --compilation_mode=fastbuild
+build --experimental_reuse_sandbox_directories
 
 # Memory optimizations (use BAZEL_JVM_OPTS environment variable instead)
 # build --host_jvm_args=-Xmx4g
@@ -30,8 +32,16 @@ coverage --instrumentation_filter=//src/traffic_sim/...
 
 # Performance profiles
 build:fast --jobs=16
+build:fast --compilation_mode=fastbuild
+build:fast --experimental_reuse_sandbox_directories
 # build:fast --host_jvm_args=-Xmx8g  # Use BAZEL_JVM_OPTS instead
 # build:fast --experimental_ui_deduplicate  # Not available in Bazel 7.1.1
+
+# Ultra-fast profile for CI/CD
+build:ultra --jobs=32
+build:ultra --compilation_mode=fastbuild
+build:ultra --experimental_reuse_sandbox_directories
+build:ultra --remote_download_toplevel
 
 # Debug profile for troubleshooting
 build:debug --verbose_failures
