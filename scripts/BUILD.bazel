@@ -8,3 +8,11 @@ py_binary(
         "//config:config",
     ],
 )
+
+# Bazel performance monitoring script
+py_binary(
+    name = "bazel_performance_monitor",
+    srcs = ["bazel_performance_monitor.py"],
+    main = "bazel_performance_monitor.py",
+    visibility = ["//visibility:public"],
+)
