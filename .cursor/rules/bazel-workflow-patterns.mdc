@@ -1,0 +1,72 @@
+---
+globs: **
+description: Bazel build system workflow patterns and command standards
+alwaysApply: false
+---
+
+# Bazel Workflow Patterns
+
+## Core Commands
+- **Build**: `bazel build //...` - Build all targets with quality checks
+- **Test**: `bazel test //...` - Run all tests with coverage
+- **Run**: `bazel run //target:name` - Execute specific targets
+- **Query**: `bazel query //...` - Analyze build graph and dependencies
+- **Clean**: `bazel clean` - Remove build artifacts
+
+## Target Patterns
+- **Simulator**: `bazel run //src/traffic_sim:traffic_sim_bin`
+- **Scripts**: `bazel run //scripts:script_name -- --args`
+- **Tests**: `bazel test //tests:test_name`
+- **All Tests**: `bazel test //...`
+- **Specific Test**: `bazel test //tests:test_name --test_output=all`
+
+## Quality Integration
+- **Quality Gates**: Integrated into `bazel build //...`
+- **Linting**: Automatic via Bazel build system
+- **Type Checking**: Automatic via Bazel build system
+- **Security Scanning**: Automatic via Bazel build system
+- **Complexity Analysis**: Automatic via Bazel build system
+
+## Performance Commands
+- **Benchmark**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
+- **Scale Testing**: `bazel run //scripts:benchmarking_framework -- --mode=scale`
+- **Monitoring**: `bazel run //scripts:benchmarking_framework -- --mode=monitor`
+- **Profiling**: `bazel run //scripts:benchmarking_framework -- --mode=profile`
+
+## Advanced Options
+- **Parallel Jobs**: `bazel test //... --jobs=4`
+- **Verbose Output**: `bazel test //... --test_output=all`
+- **Error Output**: `bazel test //... --test_output=errors`
+- **Build Verbose**: `bazel build //... --verbose_failures`
+
+## Output Organization
+- **Profiling Data**: `runs/profiling/` directory
+- **Benchmark Results**: `runs/benchmarks/` directory
+- **Performance Data**: `runs/performance/` directory
+- **Scaling Analysis**: `runs/scaling/` directory
+- **Quality Reports**: `runs/quality/` directory
+
+## Configuration
+- **Module**: `MODULE.bazel` - Bazel module configuration
+- **Workspace**: `WORKSPACE.bazel` - Workspace-level settings
+- **Build Config**: `.bazelrc` - Build and test flags
+- **Target Rules**: `BUILD.bazel` files define targets
+
+## Best Practices
+- **Always use Bazel**: Replace all `uv run` commands with Bazel equivalents
+- **Target Specificity**: Use precise target names when possible
+- **Output Management**: All generated data goes to `runs/` directory
+- **Parallel Execution**: Use `--jobs=N` for faster builds/tests
+- **Verbose Debugging**: Use `--test_output=all` for detailed output
+
+## Migration Notes
+- **Legacy Commands**: All `uv run` commands deprecated in favor of Bazel
+- **Pre-commit Hooks**: Deprecated in favor of Bazel quality integration
+- **Script Execution**: Use `bazel run //scripts:name` instead of `uv run python scripts/name.py`
+- **Test Execution**: Use `bazel test //...` instead of `uv run python -m pytest`
+
+## Reference
+- **Development Guide**: [docs/DEVELOPMENT.md](mdc:docs/DEVELOPMENT.md#bazel-workflow)
+- **Quality Standards**: [docs/QUALITY_STANDARDS.md](mdc:docs/QUALITY_STANDARDS.md)
+- **Performance Guide**: [docs/PERFORMANCE_GUIDE.md](mdc:docs/PERFORMANCE_GUIDE.md)
+- **Benchmarking Guide**: [docs/BENCHMARKING_GUIDE.md](mdc:docs/BENCHMARKING_GUIDE.md)
