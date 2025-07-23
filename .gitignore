@@ -149,7 +149,7 @@ __marimo__/
 AGENTS.md
 
 # Bazel build artifacts
-bazel-*
+/bazel-*
 
 # Node.js dependencies
 node_modules/
