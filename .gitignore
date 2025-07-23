@@ -136,7 +136,6 @@ cython_debug/
 .pypirc
 
 # Cursor
-.cursorignore
 .cursorindexingignore
 
 # Marimo
@@ -150,10 +149,10 @@ __marimo__/
 AGENTS.md
 
 # Bazel build artifacts
-bazel-*
 bazel-bin
 bazel-out
 bazel-testlogs
+bazel-traffic-simulator
 
 # Node.js dependencies
 node_modules/
