@@ -115,6 +115,17 @@ ENV/
 env.bak/
 venv.bak/
 
+# API Keys and Secrets
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/
+api_keys.txt
+.env.local
+.env.production
+
 # mypy/pyre/pytype
 .mypy_cache/
 .dmypy.json
