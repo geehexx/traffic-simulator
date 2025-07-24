@@ -48,8 +48,15 @@ build:debug --verbose_failures
 build:debug --subcommands
 build:debug --announce_rc
 
-# Remote caching profile (uncomment to enable)
-# build:remote --config=remote
+# Remote caching profile (BuildBuddy integration)
+build:remote --remote_cache=grpcs://remote.buildbuddy.io
+build:remote --bes_backend=grpcs://remote.buildbuddy.io
+build:remote --bes_results_url=https://app.buildbuddy.io/invocation/
+build:remote --remote_header=x-buildbuddy-api-key=Kjr0vxB34zIseNiNLGH3
+build:remote --remote_timeout=10m
+build:remote --remote_download_minimal
+build:remote --remote_upload_local_results
+build:remote --jobs=50
 
 # Local disk cache profile
 build:cache --disk_cache=~/.cache/bazel-disk-cache
