@@ -23,7 +23,17 @@ bazel_ultra() {
 # Function to run Bazel with remote caching (BuildBuddy)
 bazel_remote() {
     export BAZEL_JVM_OPTS="$BAZEL_JVM_OPTS_FAST"
-    bazel "$@" --config=remote
+
+    # Check if BuildBuddy API key is set
+    if [ -z "$BUILD_BUDDY_API_KEY" ]; then
+        echo "❌ Error: BUILD_BUDDY_API_KEY environment variable not set"
+        echo "Please set it with: export BUILD_BUDDY_API_KEY=your_api_key"
+        echo "Or add it to your shell profile (e.g., ~/.bashrc, ~/.zshrc)"
+        exit 1
+    fi
+
+    # Run with API key from environment
+    bazel "$@" --config=remote --remote_header=x-buildbuddy-api-key="$BUILD_BUDDY_API_KEY"
 }
 
 # Function to run Bazel with caching
