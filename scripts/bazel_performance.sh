@@ -20,6 +20,12 @@ bazel_ultra() {
     bazel "$@" --config=ultra
 }
 
+# Function to run Bazel with remote caching (BuildBuddy)
+bazel_remote() {
+    export BAZEL_JVM_OPTS="$BAZEL_JVM_OPTS_FAST"
+    bazel "$@" --config=remote
+}
+
 # Function to run Bazel with caching
 bazel_cache() {
     export BAZEL_JVM_OPTS="$BAZEL_JVM_OPTS"
@@ -49,6 +55,10 @@ main() {
             shift
             bazel_ultra "$@"
             ;;
+        "remote")
+            shift
+            bazel_remote "$@"
+            ;;
         "cache")
             shift
             bazel_cache "$@"
@@ -66,11 +76,12 @@ main() {
             bazel run //scripts:bazel_performance_monitor -- "$@"
             ;;
         *)
-            echo "Usage: $0 {fast|ultra|cache|debug|profile|monitor} [bazel-args...]"
+            echo "Usage: $0 {fast|ultra|remote|cache|debug|profile|monitor} [bazel-args...]"
             echo ""
             echo "Commands:"
             echo "  fast     - Run with fast profile (16 jobs, 8GB memory)"
             echo "  ultra    - Run with ultra-fast profile (32 jobs, optimized for CI/CD)"
+            echo "  remote   - Run with BuildBuddy remote caching (requires API key)"
             echo "  cache    - Run with local disk cache"
             echo "  debug    - Run with debug output"
             echo "  profile  - Run performance monitoring"
@@ -79,6 +90,7 @@ main() {
             echo "Examples:"
             echo "  $0 fast build //..."
             echo "  $0 ultra build //..."  # For CI/CD
+            echo "  $0 remote build //..."  # With BuildBuddy
             echo "  $0 cache test //..."
             echo "  $0 profile --target=//src/traffic_sim:traffic_sim"
             echo "  $0 monitor --benchmark-only"
