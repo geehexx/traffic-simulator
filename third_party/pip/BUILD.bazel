@@ -1,4 +1,0 @@
-exports_files([
-    "runtime_requirements.txt",
-    "dev_requirements.txt",
-])
