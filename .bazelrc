@@ -49,7 +49,7 @@ build:debug --subcommands
 build:debug --announce_rc
 
 # Remote caching profile (BuildBuddy integration)
-# Note: API key should be set via BUILD_BUDDY_API_KEY environment variable
+# Set BUILD_BUDDY_API_KEY environment variable in your shell profile
 build:remote --remote_cache=grpcs://remote.buildbuddy.io
 build:remote --bes_backend=grpcs://remote.buildbuddy.io
 build:remote --bes_results_url=https://app.buildbuddy.io/invocation/
