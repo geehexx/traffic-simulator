@@ -492,11 +492,21 @@ The project uses Bazel for fast, reliable, and hermetic builds:
 - **Incremental Builds**: Only rebuild what changed
 - **Parallel Execution**: Automatic parallelization of build tasks
 - **Dependency Management**: Automatic dependency resolution
+- **Remote Caching**: BuildBuddy integration for team collaboration
 
 ### Bazel Commands
 ```bash
 # Build all targets
 bazel build //...
+
+# Fast build (16 jobs, 8GB memory)
+bazel build //... --config=fast
+
+# Build with local disk cache
+bazel build //... --config=cache
+
+# Build with BuildBuddy remote cache
+bazel build //... --config=remote --remote_header=x-buildbuddy-api-key="$BUILD_BUDDY_API_KEY"
 
 # Run all tests
 bazel test //...
@@ -513,6 +523,15 @@ bazel query //...
 # Show dependencies
 bazel query --output=graph //src/traffic_sim:traffic_sim
 ```
+
+### BuildBuddy Setup
+1. **Get API Key**: Visit [BuildBuddy Dashboard](https://app.buildbuddy.io/settings/api-keys)
+2. **Set Environment Variable**: Add to your shell profile
+   ```bash
+   echo 'export BUILD_BUDDY_API_KEY=your_api_key_here' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+3. **Monitor Builds**: Visit [BuildBuddy Dashboard](https://app.buildbuddy.io/invocation/)
 
 ### Bazel Configuration
 - **`.bazelrc`**: Global build and test flags

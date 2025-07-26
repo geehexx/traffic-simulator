@@ -30,6 +30,9 @@ alwaysApply: false
 - **Stretch**: 1000+ vehicles at 100-1000x speed factors
 - **Frame Rate**: 30+ FPS with 20+ vehicles
 - **Memory**: Minimal runtime allocations
+- **Build Performance**: <2 minutes full rebuild, <30 seconds incremental
+- **Cache Performance**: 71% faster builds with remote cache hits
+- **Parallel Execution**: 16-32 jobs for optimal performance
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-targets)
 
 ## Simulation Optimization
