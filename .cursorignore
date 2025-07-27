@@ -2,3 +2,31 @@
 
 # Bazel build artifacts
 /bazel-*
+
+# Generated data and build artifacts (but keep venv/ searchable for debugging)
+runs/
+__pycache__/
+*.pyc
+build/
+dist/
+*.egg-info/
+node_modules/
+
+# Large binary files and logs
+*.log
+*.so
+*.dll
+*.dylib
+
+# IDE and editor files
+.idea/
+.vscode/
+.cursor/
+
+# Temporary and cache files
+.cache/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
