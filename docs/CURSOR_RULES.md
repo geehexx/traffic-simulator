@@ -148,4 +148,21 @@ Getting help:
 - **Rule Interaction Testing**: Ensure rules work together correctly
 - **Performance Testing**: Verify rule application doesn't impact development speed
 
+## Strategic Indexing Configuration
+
+The project uses strategic indexing to balance Cursor performance with search flexibility:
+
+**Kept Searchable:**
+- `venv/` and `.venv/` - For debugging dependency issues
+- Source code files and configuration
+- Documentation and guides
+
+**Ignored for Performance:**
+- `runs/` - Generated profiling/benchmark data
+- `__pycache__/`, `*.pyc` - Python bytecode
+- `build/`, `dist/` - Build artifacts
+- `node_modules/` - Node.js dependencies
+- Cache directories (`.cache/`, `.pytest_cache/`, etc.)
+- Large binary files and logs
+
 For questions about Cursor rules or suggestions for improvements, please open an issue or discuss in the project's communication channels.

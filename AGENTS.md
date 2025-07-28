@@ -126,6 +126,7 @@ hud_occlusion: true
 ```
 
 **Reference:** [Development Guide: Configuration](docs/DEVELOPMENT.md#configuration-management)
+**Cursor Indexing:** [Cursor Rules Guide: Strategic Indexing](docs/CURSOR_RULES.md#strategic-indexing-configuration)
 
 ---
 
