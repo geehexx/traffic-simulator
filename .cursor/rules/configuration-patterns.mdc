@@ -72,3 +72,11 @@ alwaysApply: true
 - **Validation**: Boolean for profiling, integer for master_seed
 - **Error Handling**: Fail fast with actionable messages for invalid config
 - **Reference**: [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py)
+
+
+## Cursor Indexing Configuration
+- **Pattern**: Strategic indexing for optimal Cursor performance
+- **File**: `.cursorignore` - Controls what Cursor indexes vs. what git ignores
+- **Strategy**: Keep `venv/` searchable for debugging, ignore generated data
+- **Performance**: Exclude `runs/`, `__pycache__/`, build artifacts from indexing
+- **Reference**: [Cursor Rules Guide](mdc:docs/CURSOR_RULES.md#strategic-indexing-configuration)
