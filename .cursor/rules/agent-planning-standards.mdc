@@ -1,3 +1,9 @@
+---
+globs: **
+description: Agent planning and time estimation standards for AI-assisted development
+alwaysApply: true
+---
+
 # Agent Planning and Time Estimation Standards
 
 ## Planning Approach
@@ -8,28 +14,23 @@
 ## Time Estimation Guidelines
 - **Phase 1 (30 minutes)**: Major refactoring or new feature implementation
 - **Phase 2 (15 minutes)**: Integration and testing of new components
-- **Phase 3 (10 minutes)**: Documentation and final validation
+- **Phase 3 (10 minutes)**: Bug fixes and minor improvements
+- **Phase 4 (5 minutes)**: Documentation updates and cleanup
 
-## Implementation Standards
-- **Always create rules** for new patterns that can be picked up by agents
-- **Document planning approaches** in agent-accessible formats
-- **Focus on deliverable phases** rather than monolithic tasks
+## Task Breakdown Standards
+- **Clear deliverables**: Each phase should have specific, measurable outcomes
+- **Realistic timelines**: Account for AI processing time and human review
+- **Dependency management**: Identify and plan for task dependencies
+- **Quality gates**: Include testing and validation in time estimates
 
-## Example Usage
-```markdown
-### Phase 1: Create Headless Simulation Mode (30 minutes)
-1. Create `SimulationHeadless` class - simulation without Arcade/Pymunk dependencies
-2. Use data-only objects for vehicle states, perception data, etc.
-3. Keep rendering objects separate in main process only
+## Communication Standards
+- **Progress updates**: Regular status updates during long tasks
+- **Risk identification**: Early warning of potential issues or delays
+- **Stakeholder communication**: Clear updates on progress and blockers
+- **Documentation**: Maintain clear records of decisions and changes
 
-### Phase 2: Fix Benchmarking Framework (15 minutes)
-1. Remove the threading workaround from `benchmarking_framework_optimized.py`
-2. Implement proper multiprocessing using headless simulation
-3. Use ProcessPoolExecutor with serializable data only
-```
-
-## Benefits
-- **More accurate planning** for AI-assisted development
-- **Clear phase boundaries** with specific deliverables
-- **Realistic time expectations** based on agent capabilities
-- **Better task breakdown** for complex implementations
+## Quality Assurance
+- **Testing integration**: Include testing time in all estimates
+- **Code review**: Account for review and feedback cycles
+- **Documentation**: Plan time for updating relevant documentation
+- **Validation**: Ensure deliverables meet acceptance criteria
