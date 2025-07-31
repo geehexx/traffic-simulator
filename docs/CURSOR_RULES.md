@@ -148,7 +148,7 @@ Getting help:
 - **Rule Interaction Testing**: Ensure rules work together correctly
 - **Performance Testing**: Verify rule application doesn't impact development speed
 
-## Strategic Indexing Configuration
+## Strategic Indexing Configuration {#id:strategic-indexing-configuration}
 
 The project uses strategic indexing to balance Cursor performance with search flexibility:
 
