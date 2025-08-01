@@ -47,3 +47,10 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
+      - id: bazel-build
+        name: bazel-build
+        entry: timeout 60 bazel build --config=precommit //...
+        language: system
+        types: [python]
+        pass_filenames: false
+        description: "Run Bazel build with caching to ensure all targets compile and quality gates pass"

@@ -559,19 +559,19 @@ The project uses GitHub Actions with Bazel for continuous integration:
   run: bazel build //...
 ```
 
-### Legacy Pre-commit Hooks (Deprecated)
+### Pre-commit Hooks (Development Assurance)
 ```bash
-# Note: Pre-commit hooks are deprecated in favor of Bazel
-# These commands are kept for reference but should not be used
+# Pre-commit hooks provide development assurance by running quality checks
+# before commits. They complement Bazel by catching issues early in development.
 
-# Install hooks (deprecated)
-# uv run pre-commit install
+# Install hooks (recommended for development)
+uv run pre-commit install
 
-# Run on all files (deprecated)
-# uv run pre-commit run --all-files
+# Run hooks manually
+uv run pre-commit run --all-files
 
-# Run specific hook (deprecated)
-# uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
+# Run specific hook
+uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 ```
 
 ## Performance Optimization Workflow

@@ -32,25 +32,28 @@ dev = [
 	"pytest-benchmark>=4.0.0",
 	"pyperf>=2.0.0",
 	"psutil>=5.9.0",
-	"memory-profiler>=0.60.0",
-	"line-profiler>=4.0.0",
-	"pympler>=0.9",
-	# Statistical analysis
-	"scipy>=1.7.0",
-	"pandas>=1.3.0",
-	# Visualization tools
-	"matplotlib>=3.5.0",
-	"seaborn>=0.11.0",
-	"plotly>=5.0.0",
-	# Parallel processing
-	"joblib>=1.1.0",
-	# Data handling
-	"h5py>=3.6.0",
+	# Profiling tools (removed unused dependencies)
+	# "memory-profiler>=0.60.0",  # Not used in source code
+	# "line-profiler>=4.0.0",  # Not used in source code
+	# "pympler>=0.9",  # Not used in source code
+	# Statistical analysis (removed unused dependencies)
+	# "scipy>=1.7.0",  # Not used in source code
+	# "pandas>=1.3.0",  # Not used in source code
+	# Visualization tools (removed unused dependencies)
+	# "matplotlib>=3.5.0",  # Not used in source code
+	# "seaborn>=0.11.0",  # Not used in source code
+	# "plotly>=5.0.0",  # Not used in source code
+	# Parallel processing (removed unused dependencies)
+	# "joblib>=1.1.0",  # Not used in source code
+	# Data handling (removed unused dependencies)
+	# "h5py>=3.6.0",  # Not used in source code
 	# Enhanced testing
 	"pytest-xdist>=2.5.0",
 	"pytest-html>=3.1.0",
-	# Optional advanced tools
-	"asv>=0.4.0",
+	# Optional advanced tools (removed unused dependencies)
+	# "asv>=0.4.0",  # Not used in source code
+	# Dependency analysis
+	"deptry>=0.23.0",
 ]
 
 [build-system]
@@ -70,7 +73,6 @@ line-length = 100
 # Allow imports after docstrings in test files for direct runnability
 "tests/*.py" = ["E402"]
 
-
 [tool.ruff.lint.flake8-type-checking]
 # Allow imports that are used at runtime, not just for type annotations
 runtime-evaluated-base-classes = ["dataclasses.dataclass"]
@@ -88,6 +90,9 @@ reportUnnecessaryTypeIgnoreComment = true
 
 [tool.black]
 line-length = 100
+
+# Note: deptry configuration moved to command line options
+# Run: uv run deptry . --ignore DEP002,DEP003 --per-rule-ignores "DEP002=pytest,pytest-cov,hypothesis,pre-commit,ruff,black,pyright,bandit,radon,semgrep,pyperf,pytest-xdist,pytest-html,deptry"
 
 [dependency-groups]
 dev = [

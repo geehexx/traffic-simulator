@@ -61,3 +61,12 @@ build:remote --jobs=50
 # Local disk cache profile
 build:cache --disk_cache=~/.cache/bazel-disk-cache
 build:cache --remote_download_toplevel
+
+# Pre-commit profile - optimized for speed with caching
+build:precommit --jobs=8
+build:precommit --compilation_mode=fastbuild
+build:precommit --experimental_reuse_sandbox_directories
+build:precommit --disk_cache=~/.cache/bazel-disk-cache
+build:precommit --remote_download_toplevel
+build:precommit --keep_going
+build:precommit --announce_rc

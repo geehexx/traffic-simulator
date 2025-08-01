@@ -27,14 +27,14 @@ tasks:
       - bazel build //...
 
   precommit:install:
-    desc: Pre-commit hooks are deprecated in favor of Bazel
+    desc: Install pre-commit hooks for development assurance
     cmds:
-      - echo "Pre-commit hooks are deprecated. Use 'bazel build //...' for quality checks."
+      - uv run pre-commit install
 
   precommit:run:
-    desc: Pre-commit hooks are deprecated in favor of Bazel
+    desc: Run pre-commit hooks manually
     cmds:
-      - echo "Pre-commit hooks are deprecated. Use 'bazel build //...' for quality checks."
+      - uv run pre-commit run --all-files
 
   quality:
     desc: Run quality analysis with Bazel
@@ -75,6 +75,25 @@ tasks:
     desc: Run validation tests
     cmds:
       - bazel test //tests:validation_test
+
+  deps:check:
+    desc: Check for unused dependencies with deptry
+    cmds:
+      - uv run deptry . --ignore DEP002,DEP003
+
+  deps:unused:
+    desc: Find unused imports with ruff
+    cmds:
+      - uv run ruff check src/ --select F401
+
+  deps:audit:
+    desc: Comprehensive dependency audit
+    cmds:
+      - echo "🔍 Checking for unused dependencies..."
+      - uv run deptry . --ignore DEP002,DEP003
+      - echo "🔍 Checking for unused imports..."
+      - uv run ruff check src/ --select F401
+      - echo "✅ Dependency audit completed"
 
   clean:
     desc: Clean all temporary files and caches from the project
