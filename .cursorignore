@@ -21,7 +21,8 @@ node_modules/
 # IDE and editor files
 .idea/
 .vscode/
-.cursor/
+# Note: .cursor/ directory contains rules and should be indexed
+# .cursor/
 
 # Temporary and cache files
 .cache/
