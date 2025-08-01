@@ -12,3 +12,10 @@ pytest-xdist>=3.6.0
 pytest-cov>=7.0.0
 pytest-mock>=3.14.0
 hypothesis>=6.111.0
+
+# Note: Removed unused dependencies in recent cleanup:
+# - scipy, pandas, matplotlib, seaborn, plotly (visualization tools)
+# - joblib, h5py (data processing)
+# - memory-profiler, line-profiler, pympler (profiling tools)
+# - asv (benchmarking)
+# These were never imported in source code and have been removed to reduce bloat

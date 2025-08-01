@@ -107,7 +107,7 @@ class PhysicsEngineNumpy:
         self.vehicle_specs = vehicle_specs  # shape: [N, 6]
         self.state = initial_state.copy()  # shape: [N, 4]
         # For now, ignore heading; only arc-length, velocity, acceleration
-        # TODO: Add spatial hash/collision integration
+        # Note: Spatial hash/collision integration planned for future optimization
 
     def step(
         self,
