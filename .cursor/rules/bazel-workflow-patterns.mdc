@@ -31,6 +31,7 @@ alwaysApply: false
 - **Fast Build**: `bazel build //... --config=fast` (16 jobs, 8GB memory)
 - **Ultra Build**: `bazel build //... --config=ultra` (32 jobs, CI/CD optimized)
 - **Cache Build**: `bazel build //... --config=cache` (local disk cache)
+- **Precommit Build**: `bazel build //... --config=precommit` (8 jobs, fast cached builds)
 - **Remote Build**: `bazel build //... --config=remote` (BuildBuddy remote cache)
 - **Debug Build**: `bazel build //... --config=debug` (verbose output)
 - **Benchmark**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
@@ -56,6 +57,7 @@ alwaysApply: false
 - **Workspace**: `WORKSPACE.bazel` - Workspace-level settings
 - **Build Config**: `.bazelrc` - Build and test flags
 - **Target Rules**: `BUILD.bazel` files define targets
+- **Precommit Profile**: Optimized for development workflow with disk caching
 
 ## BuildBuddy Integration
 - **Setup**: Set `BUILD_BUDDY_API_KEY` environment variable
@@ -65,6 +67,7 @@ alwaysApply: false
 
 ## Best Practices
 - **Always use Bazel**: Replace all `uv run` commands with Bazel equivalents
+- **Precommit Optimization**: Use `--config=precommit` for pre-commit hooks
 - **Target Specificity**: Use precise target names when possible
 - **Output Management**: All generated data goes to `runs/` directory
 - **Parallel Execution**: Use `--jobs=N` for faster builds/tests
