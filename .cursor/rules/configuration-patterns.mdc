@@ -86,4 +86,6 @@ alwaysApply: true
 - **File**: `.cursorignore` - Controls what Cursor indexes vs. what git ignores
 - **Strategy**: Keep `venv/` searchable for debugging, ignore generated data
 - **Performance**: Exclude `runs/`, `__pycache__/`, build artifacts from indexing
+- **CRITICAL**: Never ignore `.cursor/rules/` - contains essential project rules
+- **Validation**: Always verify essential directories remain searchable after ignore changes
 - **Reference**: [Cursor Rules Guide](mdc:docs/CURSOR_RULES.md#strategic-indexing-configuration)
