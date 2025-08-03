@@ -156,6 +156,7 @@ The project uses strategic indexing to balance Cursor performance with search fl
 - `venv/` and `.venv/` - For debugging dependency issues
 - Source code files and configuration
 - Documentation and guides
+- `.cursor/rules/` - **CRITICAL**: Contains project rules and must be indexed
 
 **Ignored for Performance:**
 - `runs/` - Generated profiling/benchmark data
@@ -164,5 +165,14 @@ The project uses strategic indexing to balance Cursor performance with search fl
 - `node_modules/` - Node.js dependencies
 - Cache directories (`.cache/`, `.pytest_cache/`, etc.)
 - Large binary files and logs
+
+**Validation Checklist:**
+Before modifying `.cursorignore`, verify these directories remain searchable:
+- ✅ `.cursor/rules/` - Essential project rules
+- ✅ `src/` - Source code
+- ✅ `docs/` - Documentation
+- ✅ `tests/` - Test files
+- ✅ `config/` - Configuration files
+- ✅ `venv/` - For debugging (optional but recommended)
 
 For questions about Cursor rules or suggestions for improvements, please open an issue or discuss in the project's communication channels.
