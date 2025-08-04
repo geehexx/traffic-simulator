@@ -112,16 +112,10 @@ bazel run //scripts:advanced_profiling -- --mode=scaling --vehicle-counts 10 20 
 bazel run //scripts:advanced_profiling -- --mode=comprehensive --vehicles 100 --steps 1000
 ```
 
-### Migration Support
+### Validation Testing
 ```bash
-# Check migration readiness
-bazel run //scripts:migrate_performance_tests -- --check-only
-
-# Run migration
-bazel run //scripts:migrate_performance_tests
-
-# Dry run (see what would be done)
-bazel run //scripts:migrate_performance_tests -- --dry-run
+# Run validation tests
+bazel test //tests:validation_test --test_output=all
 ```
 
 **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
