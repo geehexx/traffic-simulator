@@ -1,14 +1,9 @@
 """
 Consolidated Benchmark Tests
 
-This module replaces the individual performance test files with a unified
-benchmarking framework that provides comprehensive performance testing
-with real-time estimation and modern benchmarking tools integration.
-
-Replaces:
-- tests/performance_test.py
-- tests/performance_smoke_test.py
-- tests/performance_highperf_test.py
+This module provides comprehensive performance testing with a unified
+benchmarking framework that includes real-time estimation and modern
+benchmarking tools integration.
 """
 
 from __future__ import annotations

@@ -91,11 +91,11 @@ Comprehensive profiling capabilities:
 
 ### 4. Unified Tests (`tests/benchmark_tests.py`)
 
-Consolidated test suite that replaces:
-
-- `tests/performance_test.py`
-- `tests/performance_smoke_test.py`
-- `tests/performance_highperf_test.py`
+Comprehensive test suite providing:
+- Performance benchmarking
+- Smoke testing
+- High-performance validation
+- Regression testing
 
 ## Configuration
 
@@ -249,36 +249,24 @@ Intelligent caching for improved performance:
 - **Result Caching**: Cache benchmark results
 - **Simulation Caching**: Reuse simulation instances where possible
 
-## Migration from Old Tests
+## Using the Benchmarking Framework
 
-### Automatic Migration
+The unified benchmarking framework provides comprehensive performance testing:
 
-Use the migration script to transition from old performance tests:
+1. **Run benchmark tests**:
+   ```bash
+   bazel test //tests:benchmark_test
+   ```
 
-```bash
-# Check migration readiness
-bazel run //scripts:migrate_performance_tests -- --check-only
+2. **Use benchmarking framework**:
+   ```bash
+   bazel run //scripts:benchmarking_framework -- --mode=benchmark
+   ```
 
-# Run migration
-bazel run //scripts:migrate_performance_tests
-
-# Dry run (see what would be done)
-bazel run //scripts:migrate_performance_tests -- --dry-run
-```
-
-### Manual Migration
-
-If automatic migration isn't suitable:
-
-1. **Remove old test files**:
-   - `tests/performance_test.py`
-   - `tests/performance_smoke_test.py`
-   - `tests/performance_highperf_test.py`
-
-2. **Use new unified tests**:
-   - `tests/benchmark_tests.py` (replaces all old tests)
-
-3. **Update CI/CD configurations** to use new framework
+3. **External tools integration**:
+   ```bash
+   bazel run //scripts:external_tools -- --tool=pytest-benchmark
+   ```
 
 ## Dependencies
 

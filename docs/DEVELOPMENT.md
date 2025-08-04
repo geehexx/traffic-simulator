@@ -158,19 +158,11 @@ bazel build //src/traffic_sim:traffic_sim
 bazel build //... --verbose_failures
 ```
 
-#### Code Quality (Legacy)
+#### Code Quality
 ```bash
-# Note: Quality analysis scripts are deprecated in favor of Bazel
-# These commands are kept for reference but should not be used
-
-# Run all quality gates (deprecated)
-# uv run python scripts/quality_analysis.py --mode=check
-
-# Run quality monitoring (deprecated)
-# uv run python scripts/quality_analysis.py --mode=monitor
-
-# Run comprehensive analysis (deprecated)
-# uv run python scripts/quality_analysis.py --mode=analyze
+# Quality checks are integrated into Bazel build system
+bazel build //...                    # Build with quality gates
+bazel test //...                     # Run tests with quality checks
 ```
 
 ### 3. Project Structure
@@ -192,14 +184,14 @@ traffic-simulator/
 ├── tests/                    # Test suite
 ├── config/                   # Configuration files
 ├── docs/                     # Documentation
-├── scripts/                  # Utility scripts (deprecated)
+├── scripts/                  # Utility scripts
 ├── stubs/                    # Type stubs for external libraries
 ├── .github/workflows/        # CI/CD workflows
 ├── third_party/pip/          # Bazel pip dependencies
 ├── MODULE.bazel              # Bazel module configuration
 ├── WORKSPACE.bazel           # Bazel workspace configuration
 ├── .bazelrc                  # Bazel configuration
-└── pyproject.toml           # Project configuration (legacy)
+└── pyproject.toml           # Project configuration
 ```
 
 ## Code Quality Standards
@@ -272,34 +264,18 @@ For detailed quality standards, see [Quality Standards Guide](mdc:docs/QUALITY_S
 # tests/sim_test.py - Simulation integration tests
 # tests/track_test.py - Track geometry tests
 # tests/track_properties_test.py - Track property tests
-# tests/benchmark_test.py - Unified benchmarking tests (replaces performance_*_test.py)
+# tests/benchmark_test.py - Unified benchmarking tests
 # tests/validation_test.py - Behavioral consistency tests
 ```
 
-### Performance Test Migration
-The project has migrated from individual performance test files to a unified benchmarking framework:
+### Benchmarking Framework
+The project uses a unified benchmarking framework for comprehensive performance testing:
 
-```bash
-# Check migration readiness
-bazel run //scripts:migrate_performance_tests -- --check-only
-
-# Run migration (removes old performance test files)
-bazel run //scripts:migrate_performance_tests
-
-# Dry run (see what would be done)
-bazel run //scripts:migrate_performance_tests -- --dry-run
-```
-
-**Migration Details:**
-- `tests/performance_test.py` → `tests/benchmark_test.py`
-- `tests/performance_smoke_test.py` → Integrated into unified framework
-- `tests/performance_highperf_test.py` → Integrated into unified framework
-
-**New Benchmarking Framework:**
+**Benchmarking Framework:**
 - **Unified Framework**: `scripts/benchmarking_framework.py`
 - **External Tools**: `scripts/external_tools.py`
 - **Advanced Profiling**: `scripts/advanced_profiling.py`
-- **Migration Support**: `scripts/migrate_performance_tests.py`
+- **Test Suite**: `tests/benchmark_test.py`
 
 **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
 
@@ -577,7 +553,7 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 ## Performance Optimization Workflow
 
 ### Validation and Testing
-- **Behavioral Consistency**: Run `scripts/validation_test.py` to verify optimization accuracy
+- **Behavioral Consistency**: Run `bazel test //tests:validation_test` to verify optimization accuracy
 - **Performance Monitoring**: Use `scripts/performance_analysis.py --mode=monitor` for continuous monitoring
 - **Scale Testing**: Execute `scripts/performance_analysis.py --mode=scale` for comprehensive performance analysis
 
@@ -638,10 +614,6 @@ bazel query //...                              # Query build graph
 bazel clean                                    # Clean build artifacts
 bazel test //... --jobs=4                      # Run tests in parallel
 
-# Legacy commands (deprecated)
-# uv run python -m traffic_sim                 # Run simulator (deprecated)
-# uv run python -m pytest tests/ -v            # Run tests (deprecated)
-# uv run python scripts/quality_analysis.py --mode=check  # Check quality (deprecated)
 ```
 
 This development guide provides comprehensive coverage of all aspects of developing the traffic simulator project while maintaining high code quality standards.

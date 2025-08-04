@@ -9,10 +9,24 @@ py_binary(
     ],
 )
 
-# Bazel performance monitoring script
 py_binary(
-    name = "bazel_performance_monitor",
-    srcs = ["bazel_performance_monitor.py"],
-    main = "bazel_performance_monitor.py",
-    visibility = ["//visibility:public"],
+    name = "external_tools",
+    srcs = ["external_tools.py"],
+    deps = [
+        "//src/traffic_sim:traffic_sim",
+    ],
+    data = [
+        "//config:config",
+    ],
+)
+
+py_binary(
+    name = "advanced_profiling",
+    srcs = ["advanced_profiling.py"],
+    deps = [
+        "//src/traffic_sim:traffic_sim",
+    ],
+    data = [
+        "//config:config",
+    ],
 )

@@ -4,7 +4,7 @@
 
 ### Immediate Tasks
 - [ ] **Validation Testing**
-  - [ ] Run `scripts/validation_test.py` to verify behavioral consistency
+  - [ ] Run `bazel test //tests:validation_test` to verify behavioral consistency
   - [ ] Test edge cases: high density, high speed factors, collision scenarios
   - [ ] Compare optimized vs baseline behavior metrics
 

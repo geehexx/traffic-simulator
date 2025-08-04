@@ -215,10 +215,10 @@ bazel test //... --test_output=all
 bazel query //...
 ```
 
-#### Pre-commit Hooks
-Pre-commit hooks are deprecated in favor of Bazel:
+#### Quality Checks
+Quality checks are integrated into Bazel:
 ```bash
-# Quality checks are now integrated into Bazel
+# Quality checks are integrated into Bazel
 bazel build //...
 
 # Run tests with coverage
@@ -489,7 +489,7 @@ bazel build //...
 
 #### Pre-commit Hook Failures
 ```bash
-# Pre-commit hooks are deprecated in favor of Bazel
+# Quality checks are integrated into Bazel
 bazel build //...
 
 # Run tests with coverage

@@ -724,16 +724,15 @@ bazel run //scripts:benchmarking_framework -- --mode=profile --vehicles 100 --st
 
 **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
 
-### Legacy Performance Testing
-The individual performance test files have been consolidated into the unified framework:
-- `tests/performance_test.py` → `tests/benchmark_test.py`
-- `tests/performance_smoke_test.py` → Integrated into unified framework
-- `tests/performance_highperf_test.py` → Integrated into unified framework
-
-**Migration**: Use `scripts/migrate_performance_tests.py` for automatic migration.
+### Unified Performance Testing
+The project uses a unified benchmarking framework for comprehensive performance testing:
+- **Test Suite**: `tests/benchmark_test.py` - Unified benchmarking tests
+- **Framework**: `scripts/benchmarking_framework.py` - Main benchmarking framework
+- **External Tools**: `scripts/external_tools.py` - External tool integration
+- **Advanced Profiling**: `scripts/advanced_profiling.py` - Advanced analysis
 
 ### 1. Automated Performance Tests
-- **Validation Testing**: `scripts/validation_test.py`
+- **Validation Testing**: `tests/validation_test.py`
 
 ```python
 def test_simulation_performance():
