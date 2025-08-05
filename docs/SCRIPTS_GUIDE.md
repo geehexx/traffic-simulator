@@ -11,7 +11,7 @@ This guide covers the consolidated analysis scripts available in the traffic sim
 
 ## Quality Analysis
 
-The `scripts/quality_analysis.py` script provides comprehensive quality analysis with three modes:
+Quality analysis is integrated into the Bazel build system with three modes:
 
 ### Check Mode (Quality Gates)
 ```bash
@@ -62,7 +62,7 @@ bazel query //... --output=runs/quality/analysis_report.json
 
 ## Performance Analysis
 
-The `scripts/performance_analysis.py` script has been superseded by the unified benchmarking framework. Use the new framework for all performance testing:
+Performance analysis is provided by the unified benchmarking framework:
 
 ### Unified Benchmarking Framework
 
@@ -115,7 +115,7 @@ bazel run //scripts:advanced_profiling -- --mode=comprehensive --vehicles 100 --
 ### Validation Testing
 ```bash
 # Run validation tests
-bazel test //tests:validation_test --test_output=all
+bazel test //tests:all_tests --test_output=all
 ```
 
 **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md)
@@ -143,7 +143,7 @@ bazel run //scripts:advanced_profiling -- --mode=comprehensive --vehicles 100 --
 ### Validation Testing
 ```bash
 # Run validation tests
-bazel test //tests:validation_test --test_output=all
+bazel test //tests:all_tests --test_output=all
 ```
 
 **Features:**

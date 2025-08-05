@@ -126,7 +126,7 @@ bazel build //... --no-cache
 - Cache results between runs when possible
 
 ### For Production
-- Use original `quality_analysis.py` for thorough analysis
+- Use `bazel build //...` for thorough analysis
 - Run comprehensive checks before releases
 - Monitor performance metrics over time
 

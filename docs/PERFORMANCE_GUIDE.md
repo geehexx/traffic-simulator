@@ -650,7 +650,7 @@ def fast_inverse_sqrt(self, x: float) -> float:
     - `high_performance.enabled`: enable vectorized arc-length kinematics path
     - `high_performance.idm_vectorized`: use vectorized fallback IDM (leader = next vehicle) when perception is occluded/unavailable
   - Integration: feature-flagged in `src/traffic_sim/core/simulation.py`
-  - Benchmarks: `scripts/performance_analysis.py --mode=benchmark`
+  - Benchmarks: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
 - **Inverse Square Root**: Quake III algorithm with caching for distance calculations
 - **Vectorization**: NumPy-based operations when available
 - **Cache Management**: Intelligent cache cleanup to prevent memory bloat
