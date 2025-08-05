@@ -1,0 +1,16 @@
+# .markdownlint.yaml
+extends: default
+rules:
+  line-length: false
+  no-hard-tabs: false
+  no-inline-html: false
+  no-bare-urls: false
+  no-trailing-punctuation: false
+  no-multiple-blanks: false
+  no-missing-space-atx: false
+  no-multiple-space-atx: false
+  no-missing-space-closed-atx: false
+  no-multiple-space-closed-atx: false
+  first-line-heading: false
+  blanks-around-headings: false
+  blanks-around-lists: false

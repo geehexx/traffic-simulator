@@ -7,6 +7,7 @@ This guide explains how to use the quality gates system to maintain code quality
 - [Running Quality Gates](#running-quality-gates)
 - [Understanding Results](#understanding-results)
 - [Fixing Issues](#fixing-issues)
+- [Enforcement System](#enforcement-system)
 - [Configuration](#configuration)
 
 ## Overview
@@ -91,6 +92,38 @@ tools:
   # ... other tools
 ```
 
+## Enforcement System
+
+The quality gates system includes comprehensive enforcement for commit messages, documentation, and rules:
+
+### Commit Message Enforcement
+- **Conventional Commits**: All commits must follow standardized format
+- **Validation**: Automated via commitlint and pre-commit hooks
+- **Types**: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
+
+### Documentation Enforcement
+- **Markdown Validation**: Automated formatting and style checking
+- **Link Checking**: Validates all internal and external links
+- **Spell Checking**: Technical dictionary with project-specific terms
+- **Quality Gates**: Integrated with Bazel build system
+
+### Rules Enforcement
+- **Structure Validation**: Automated frontmatter and format checking
+- **Compliance**: Global rules limit (max 5), token limits, duplicate detection
+- **Integration**: Pre-commit hooks and quality gates
+
+### Manual Validation
+```bash
+# Run all enforcement checks
+uv run pre-commit run --all-files
+
+# Individual validation tools
+npx commitlint --version
+npx markdownlint docs/**/*.md
+npx cspell "docs/**/*.md"
+python3 scripts/validate_rules.py
+```
+
 ## Troubleshooting
 
 ### Common Issues
@@ -98,8 +131,10 @@ tools:
 2. **Type errors**: Verify type annotations and imports
 3. **Formatting issues**: Run `ruff format` to fix
 4. **Coverage issues**: Add tests for uncovered code
+5. **Enforcement issues**: See [Enforcement Troubleshooting](docs/ENFORCEMENT_TROUBLESHOOTING.md)
 
 ### Getting Help
 - Check tool documentation
 - Review quality standards guide
+- See enforcement troubleshooting guide
 - Open issues for persistent problems

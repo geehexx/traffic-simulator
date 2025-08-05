@@ -194,6 +194,54 @@ traffic-simulator/
 └── pyproject.toml           # Project configuration
 ```
 
+## Commit Message Standards
+
+### Conventional Commits Format
+All commit messages must follow the Conventional Commits specification:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Commit Types
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools
+- **perf**: A code change that improves performance
+- **ci**: Changes to CI configuration files and scripts
+- **build**: Changes that affect the build system or external dependencies
+- **revert**: Reverts a previous commit
+
+### Examples
+```bash
+feat: add support for vehicle physics optimization
+fix(rendering): resolve HUD occlusion calculation bug
+docs: update performance guide with new benchmarks
+style: format code according to project standards
+refactor: extract common validation logic
+test: add unit tests for collision detection
+chore: update dependencies to latest versions
+perf: optimize spatial hash collision detection
+ci: add automated performance testing
+build: update Bazel to version 7.1.1
+revert: revert "feat: add experimental feature"
+```
+
+### Commit Message Rules
+- **Type**: Must be lowercase, one of the allowed types
+- **Scope**: Optional, lowercase, describes the area of change
+- **Description**: Lowercase, max 72 characters, no period at end
+- **Body**: Optional, explains what and why, max 100 characters per line
+- **Footer**: Optional, references issues or breaking changes
+
 ## Code Quality Standards
 
 ### Type Annotations
@@ -598,7 +646,7 @@ data_manager:
 - **Quality Standards**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
 - **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
 - **Performance**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md)
-- **Commit Troubleshooting**: [Commit Troubleshooting Guide](mdc:docs/COMMIT_TROUBLESHOOTING.md)
+- **Enforcement Troubleshooting**: [Enforcement System Troubleshooting](mdc:docs/ENFORCEMENT_TROUBLESHOOTING.md)
 - **Issues**: GitHub Issues for bug reports
 - **Discussions**: GitHub Discussions for questions
 

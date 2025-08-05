@@ -54,3 +54,33 @@ repos:
         types: [python]
         pass_filenames: false
         description: "Run Bazel build with caching to ensure all targets compile and quality gates pass"
+      - id: commitlint
+        name: commitlint
+        entry: timeout 30 bash -c 'echo "$1" | npx commitlint'
+        language: system
+        stages: [commit-msg]
+        always_run: true
+      - id: markdownlint
+        name: markdownlint
+        entry: timeout 30 bash -c 'npx markdownlint docs/**/*.md --ignore docs/prompts/'
+        language: system
+        types: [markdown]
+        files: ^docs/.*\.md$
+      - id: markdown-link-check
+        name: markdown-link-check
+        entry: timeout 30 bash -c 'npx markdown-link-check --config .markdownlint.yaml docs/**/*.md || true'
+        language: system
+        types: [markdown]
+        files: ^docs/.*\.md$
+      - id: cspell
+        name: cspell
+        entry: timeout 30 bash -c 'npx cspell "docs/**/*.md"'
+        language: system
+        types: [markdown]
+        files: ^docs/.*\.md$
+      - id: rules-validation
+        name: rules-validation
+        entry: timeout 30 bash -c 'python scripts/validate_rules.py'
+        language: system
+        types: [markdown]
+        files: ^\.cursor/rules/.*\.mdc$

@@ -1,5 +1,12 @@
 ---
-globs: "**/*.py", "**/*.md", "**/*.yml", "**/*.yaml", "**/*.sh", "**/*.bash", "**/*.txt"
+globs:
+  - "**/*.py"
+  - "**/*.md"
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.sh"
+  - "**/*.bash"
+  - "**/*.txt"
 description: Configuration management patterns and file organization
 alwaysApply: true
 ---

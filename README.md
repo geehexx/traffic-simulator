@@ -180,6 +180,31 @@ bazel query //...
 
 For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.md), [Development Guide](docs/DEVELOPMENT.md), and [Scripts Guide](docs/SCRIPTS_GUIDE.md).
 
+## Enforcement System
+
+The project includes comprehensive enforcement for code quality, documentation, and development standards:
+
+### Commit Message Enforcement
+- **Conventional Commits**: All commits follow standardized format (feat:, fix:, docs:, etc.)
+- **Validation**: Automated via commitlint and pre-commit hooks
+- **Examples**: `feat: add feature`, `fix(module): resolve bug`, `docs: update guide`
+
+### Documentation Enforcement
+- **Markdown Validation**: Automated formatting and style checking
+- **Link Checking**: Validates all internal and external links
+- **Spell Checking**: Technical dictionary with project-specific terms
+- **Quality Gates**: Integrated with Bazel build system
+
+### Rules Enforcement
+- **Structure Validation**: Automated frontmatter and format checking
+- **Compliance**: Global rules limit (max 5), token limits, duplicate detection
+- **Integration**: Pre-commit hooks and quality gates
+
+### Troubleshooting
+- **Guide**: [Enforcement Troubleshooting](docs/ENFORCEMENT_TROUBLESHOOTING.md)
+- **Manual Validation**: `uv run pre-commit run --all-files`
+- **Individual Tools**: `npx commitlint`, `npx markdownlint`, `python3 scripts/validate_rules.py`
+
 ## Scripts & Analysis Tools
 
 The project includes consolidated analysis tools for quality and performance testing:

@@ -18,7 +18,7 @@ This guide provides comprehensive standards and best practices for creating, mai
 - **`PERFORMANCE_GUIDE.md`** - Performance optimization, monitoring, and troubleshooting
 - **`QUALITY_STANDARDS.md`** - Code quality, testing, and security standards
 - **`QUALITY_GATES_GUIDE.md`** - Quality gates system usage and configuration
-- **`COMMIT_TROUBLESHOOTING.md`** - Common commit issues and solutions
+- **`ENFORCEMENT_TROUBLESHOOTING.md`** - Enforcement system troubleshooting and solutions
 
 ### Documentation Hierarchy
 ```
@@ -28,7 +28,7 @@ docs/
 ├── PERFORMANCE_GUIDE.md      # Performance optimization
 ├── QUALITY_STANDARDS.md      # Code quality standards
 ├── QUALITY_GATES_GUIDE.md    # Quality gates system
-├── COMMIT_TROUBLESHOOTING.md # Commit issue resolution
+├── ENFORCEMENT_TROUBLESHOOTING.md # Enforcement system troubleshooting
 ├── DOCUMENTATION_GUIDE.md    # This guide
 └── prompts/                  # AI prompt templates
     └── README.md
