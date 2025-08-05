@@ -1,5 +1,12 @@
 {
   "dependencies": {
     "@playwright/test": "^1.55.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "markdownlint-cli": "^0.38.0",
+    "markdown-link-check": "^3.12.0",
+    "cspell": "^8.7.0"
   }
 }

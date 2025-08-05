@@ -1,5 +1,5 @@
 ---
-globs: **
+globs: "**"
 description: Planning and implementation guidelines for AI agents
 alwaysApply: false
 ---

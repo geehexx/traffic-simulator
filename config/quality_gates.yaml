@@ -56,6 +56,35 @@ security:
 
 # Documentation Requirements
 documentation:
-  require_docstrings: false  # Set to true for production
-  min_docstring_coverage: 0  # Set to 80 for production
+  require_docstrings: true  # Enable for production
+  min_docstring_coverage: 80  # Set to 80 for production
   require_type_hints: true
+  require_markdown_validation: true
+  require_link_validation: true
+  require_spell_check: true
+
+# Rules Requirements
+rules:
+  require_frontmatter: true
+  max_global_rules: 5
+  require_globs: true
+  require_description: true
+  require_alwaysApply: true
+  require_unique_globs: true
+  max_token_count: 900
+
+# Enforcement Success Metrics
+enforcement_metrics:
+  commit_message_compliance: 100  # Percentage of commits following conventional format
+  documentation_validation_pass: 100  # Percentage of docs passing validation
+  rules_validation_pass: 100  # Percentage of rules passing validation
+  pre_commit_hooks_pass: 100  # Percentage of pre-commit hooks passing
+  quality_gates_pass: 100  # Percentage of quality gates passing
+
+  # Enforcement targets
+  targets:
+    commit_message_compliance: 95  # Minimum 95% compliance
+    documentation_validation_pass: 95  # Minimum 95% validation pass rate
+    rules_validation_pass: 95  # Minimum 95% validation pass rate
+    pre_commit_hooks_pass: 95  # Minimum 95% hook pass rate
+    quality_gates_pass: 95  # Minimum 95% quality gates pass rate

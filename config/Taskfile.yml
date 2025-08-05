@@ -90,6 +90,11 @@ tasks:
     desc: Comprehensive dependency audit
     cmds:
       - echo "🔍 Checking for unused dependencies..."
+
+  rules:validate:
+    desc: Validate Cursor rules structure and compliance
+    cmds:
+      - python scripts/validate_rules.py
       - uv run deptry . --ignore DEP002,DEP003
       - echo "🔍 Checking for unused imports..."
       - uv run ruff check src/ --select F401

@@ -1,5 +1,5 @@
 ---
-globs: **
+globs: "**"
 description: Bazel build system workflow patterns and command standards
 alwaysApply: false
 ---

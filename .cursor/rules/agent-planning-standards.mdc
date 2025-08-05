@@ -1,5 +1,5 @@
 ---
-globs: **
+globs: "**"
 description: Agent planning and time estimation standards for AI-assisted development
 alwaysApply: true
 ---
