@@ -74,7 +74,7 @@ tasks:
   validate:
     desc: Run validation tests
     cmds:
-      - bazel test //tests:validation_test
+      - bazel test //tests:all_tests
 
   deps:check:
     desc: Check for unused dependencies with deptry

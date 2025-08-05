@@ -47,11 +47,11 @@ The benchmarking framework now uses headless simulation for true multiprocessing
 
 ```bash
 # Run all benchmark tests
-bazel test //tests:benchmark_test
+bazel test //tests:all_tests
 
 # Run specific test categories
-bazel test //tests:benchmark_test --test_filter=TestPerformanceRegression
-bazel test //tests:benchmark_test --test_filter=TestRealTimeEstimation
+bazel test //tests:all_tests --test_filter=TestPerformanceRegression
+bazel test //tests:all_tests --test_filter=TestRealTimeEstimation
 ```
 
 ## Framework Components
@@ -89,7 +89,7 @@ Comprehensive profiling capabilities:
 - **PerformancePredictor**: Scaling behavior prediction
 - **ScalingModel**: Mathematical modeling of performance scaling
 
-### 4. Unified Tests (`tests/benchmark_tests.py`)
+### 4. Unified Tests (`tests/benchmark_test.py`)
 
 Comprehensive test suite providing:
 - Performance benchmarking
@@ -255,7 +255,7 @@ The unified benchmarking framework provides comprehensive performance testing:
 
 1. **Run benchmark tests**:
    ```bash
-   bazel test //tests:benchmark_test
+   bazel test //tests:all_tests
    ```
 
 2. **Use benchmarking framework**:

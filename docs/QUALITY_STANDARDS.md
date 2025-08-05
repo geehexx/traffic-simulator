@@ -347,8 +347,8 @@ def test_performance_target():
 
 ### Profiling & Benchmarks
 
-- Profiling CLI: `scripts/profile_simulation.py` (CSV output, optional cProfile)
-- Benchmark CLI: `scripts/performance_analysis.py --mode=benchmark` (vectorized flags enabled)
+- Profiling CLI: `bazel run //scripts:benchmarking_framework -- --mode=profile` (CSV output, optional cProfile)
+- Benchmark CLI: `bazel run //scripts:benchmarking_framework -- --mode=benchmark` (vectorized flags enabled)
 - Nightly profiling workflow: `.github/workflows/profile.yml`
 - On-demand benchmark workflow: `.github/workflows/benchmark.yml`
 

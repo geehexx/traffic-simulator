@@ -4,12 +4,12 @@
 
 ### Immediate Tasks
 - [ ] **Validation Testing**
-  - [ ] Run `bazel test //tests:validation_test` to verify behavioral consistency
+  - [ ] Run `bazel test //tests:all_tests` to verify behavioral consistency
   - [ ] Test edge cases: high density, high speed factors, collision scenarios
   - [ ] Compare optimized vs baseline behavior metrics
 
 - [ ] **Performance Monitoring**
-  - [ ] Deploy `scripts/performance_analysis.py --mode=monitor` for continuous monitoring
+  - [ ] Deploy `bazel run //scripts:benchmarking_framework -- --mode=monitor` for continuous monitoring
   - [ ] Set up alerts for performance degradation
   - [ ] Establish baseline performance metrics
 
@@ -160,7 +160,7 @@
 
 ## 🚀 **Next Immediate Actions**
 
-1. **Run validation tests**: `bazel test //tests:validation_test`
+1. **Run validation tests**: `bazel test //tests:all_tests`
 2. **Start performance monitoring**: `bazel run //scripts:benchmarking_framework -- --mode=monitor --duration 10`
 3. **Review current performance**: Analyze benchmark results
 4. **Plan GPU acceleration**: Research CUDA integration options

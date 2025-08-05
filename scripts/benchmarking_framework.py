@@ -6,10 +6,10 @@ This framework uses proper multiprocessing with headless simulation to avoid
 pickle errors while maintaining true parallelism across CPU cores.
 
 Usage:
-    python scripts/benchmarking_framework_fixed.py --mode=benchmark
-    python scripts/benchmarking_framework_fixed.py --mode=scale
-    python scripts/benchmarking_framework_fixed.py --mode=monitor
-    python scripts/benchmarking_framework_fixed.py --mode=profile
+    python scripts/benchmarking_framework.py --mode=benchmark
+    python scripts/benchmarking_framework.py --mode=scale
+    python scripts/benchmarking_framework.py --mode=monitor
+    python scripts/benchmarking_framework.py --mode=profile
 """
 
 from __future__ import annotations

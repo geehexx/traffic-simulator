@@ -553,9 +553,9 @@ uv run pre-commit run ruff --files src/traffic_sim/core/driver.py
 ## Performance Optimization Workflow
 
 ### Validation and Testing
-- **Behavioral Consistency**: Run `bazel test //tests:validation_test` to verify optimization accuracy
-- **Performance Monitoring**: Use `scripts/performance_analysis.py --mode=monitor` for continuous monitoring
-- **Scale Testing**: Execute `scripts/performance_analysis.py --mode=scale` for comprehensive performance analysis
+- **Behavioral Consistency**: Run `bazel test //tests:all_tests` to verify optimization accuracy
+- **Performance Monitoring**: Use `bazel run //scripts:benchmarking_framework -- --mode=monitor` for continuous monitoring
+- **Scale Testing**: Execute `bazel run //scripts:benchmarking_framework -- --mode=scale` for comprehensive performance analysis
 
 ### Optimization Techniques
 - **Event-Driven Collision**: Reduces collision checks by 90% (O(n) vs O(n²))
