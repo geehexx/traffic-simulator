@@ -56,7 +56,7 @@ repos:
         description: "Run Bazel build with caching to ensure all targets compile and quality gates pass"
       - id: commitlint
         name: commitlint
-        entry: timeout 30 bash -c 'echo "$1" | npx commitlint'
+        entry: timeout 30 bash -c 'echo "$1" | npx commitlint --config config/commitlint.config.js'
         language: system
         stages: [commit-msg]
         always_run: true
@@ -68,13 +68,13 @@ repos:
         files: ^docs/.*\.md$
       - id: markdown-link-check
         name: markdown-link-check
-        entry: timeout 30 bash -c 'npx markdown-link-check --config .markdownlint.yaml docs/**/*.md || true'
+        entry: timeout 30 bash -c 'npx markdown-link-check --config config/markdownlint.yaml docs/**/*.md || true'
         language: system
         types: [markdown]
         files: ^docs/.*\.md$
       - id: cspell
         name: cspell
-        entry: timeout 30 bash -c 'npx cspell "docs/**/*.md"'
+        entry: timeout 30 bash -c 'npx cspell --config config/cspell.json "docs/**/*.md"'
         language: system
         types: [markdown]
         files: ^docs/.*\.md$
