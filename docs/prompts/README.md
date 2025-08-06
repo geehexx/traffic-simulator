@@ -29,6 +29,7 @@ Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to
 5. Self-critique top 1–2 and revise once; re-score; repeat until gains plateau (≤ +1 point across two rounds).
 6. Perform stability checks (minor perturbations); pick the more stable if tied.
 7. Adopt the winner and archive the scoring summary.
+8. Introduce Human‑in‑the‑Loop (HITL) checkpoints at: (a) candidate shortlist, (b) tie‑breaks within epsilon, (c) consolidation decisions impacting SoT, and (d) post‑selection lessons‑learned updates to prompts.
 
 ## Standardized Inputs (for dry-runs)
 Provide as much of the following as is available:
@@ -75,7 +76,7 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 - Pairwise Bradley–Terry/Elo ranking on identical inputs
 - Stability index: 1 − normalized stddev across minor-perturbation runs; report per candidate and winner
 - MDL brevity penalty: deduct for non-informative verbosity
-- Winner must outperform alternatives and pass stability checks
+- Winner must outperform alternatives and pass stability checks with Stability Index ≥0.85. If two are within epsilon, prefer the more stable and concise; otherwise escalate to HITL review. Archive the rationale and scoring summary for traceability.
 
 ## Determinism & Idempotency
 - Stable heading anchors and deterministic slugging
@@ -105,11 +106,18 @@ Run dry-runs in-memory: do not write to the repo until a winner is selected and 
 - Review prompts after major framework or policy changes
 - Archive APE scoring summaries alongside commits (e.g., in PR descriptions)
 
+## Lessons Learned & HITL Feedback Loop {#id:lessons-learned-hitl}
+- Capture qualitative reviewer notes for why the winner was preferred
+- Convert notes into concrete prompt edits (structure, gates, rubrics, token strategy)
+- Update standardized inputs/examples to reflect new edge cases
+- Re-run stability checks; only adopt if Stability Index remains ≥0.85
+
 ## References
 - Quality Standards Guide: `mdc:docs/QUALITY_STANDARDS.md`
 - Cursor Rules Guide: `mdc:docs/CURSOR_RULES.md`
 - Architecture Guide: `mdc:docs/ARCHITECTURE.md`
 - Performance Guide: `mdc:docs/PERFORMANCE_GUIDE.md`
+ - APE Methodologies: `mdc:docs/prompts/APE.md#ape-methodologies`
 
 ---
 

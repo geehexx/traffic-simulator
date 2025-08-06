@@ -126,7 +126,7 @@ The Cursor rules system integrates with the quality gates framework:
 6. **Inconsistent alwaysApply**: Use `alwaysApply: true` for universal rules, `false` for specific rules
 
 ### Link Policy and Getting Help
-Documentation pages must not link directly to rule files. Reference documentation pages via `mdc:` links and refer to rule categories conceptually. Rules may reference docs and other rules.
+Documentation pages must not link directly to rule files. Reference documentation pages via `mdc:` links and refer to rule categories conceptually. Rules may reference docs and other rules. Prompts may reference both where necessary to guide agents.
 
 Getting help:
 - Check rule documentation

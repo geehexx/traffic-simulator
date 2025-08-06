@@ -19,7 +19,7 @@
     "unitless", "Timestep", "getenv", "pyperf", "frontmatter", "pycache",
     "cursorignore", "buildbuddy", "bazelbuild", "bazelisk", "lbwh",
     "dtype", "elif", "getpid", "pyrightconfig", "PDQI", "toctree",
-    "lrbt", "stddev", "overspeeding", "FURB", "pyspy"
+    "lrbt", "stddev", "overspeeding", "FURB", "pyspy", "HITL", "hitl"
   ],
   "ignorePaths": [
     "node_modules/**",
