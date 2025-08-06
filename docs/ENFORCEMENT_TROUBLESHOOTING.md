@@ -78,7 +78,7 @@ npx markdown-link-check docs/DEVELOPMENT.md
 # Check spelling
 npx cspell "docs/**/*.md"
 
-# Add words to dictionary (cspell.json)
+# Add words to dictionary (config/cspell.json)
 # Update the "words" array with technical terms
 ```
 
