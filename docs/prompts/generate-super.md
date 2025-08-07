@@ -142,3 +142,15 @@ Commit message draft (Conventional Commit).
 ## Determinism Note
 
 Sorting, slug generation, and fingerprinting must be deterministic. Given unchanged inputs, re‑runs produce byte‑identical output.
+
+## References
+
+- **APE Methodologies**: `mdc:docs/prompts/APE.md#ape-methodologies` - Complete APE techniques, rubrics, and academic references
+- Documentation Patterns: `mdc:docs/DOCUMENTATION_GUIDE.md`
+- Quality Standards: `mdc:docs/QUALITY_STANDARDS.md`
+- Performance Guide: `mdc:docs/PERFORMANCE_GUIDE.md`
+- Benchmarking Guide: `mdc:docs/BENCHMARKING_GUIDE.md`
+- AGENTS Overview: `mdc:AGENTS.md`
+- Rule Generation Standard: `mdc:rule-generation-standard.mdc`
+- Documentation Maintenance: `mdc:documentation-maintenance.mdc`
+- Arcade API Consistency: `mdc:arcade-api-consistency.mdc`
