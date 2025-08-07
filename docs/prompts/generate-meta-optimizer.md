@@ -149,6 +149,7 @@ Always produce, per target:
 
 ## References
 
+- **APE Methodologies**: `mdc:docs/prompts/APE.md#ape-methodologies` - Comprehensive APE techniques, rubrics, and academic references
 - Documentation Patterns: `mdc:docs/DOCUMENTATION_GUIDE.md`
 - Quality Standards: `mdc:docs/QUALITY_STANDARDS.md`
 - Performance Guide: `mdc:docs/PERFORMANCE_GUIDE.md`
