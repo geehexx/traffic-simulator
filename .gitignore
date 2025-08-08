@@ -96,7 +96,7 @@ ipython_config.py
 .pdm-build/
 .pixi
 #Pipfile.lock
-#uv.lock
+uv.lock
 #poetry.lock
 #poetry.toml
 #pdm.lock
