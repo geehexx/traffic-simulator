@@ -23,18 +23,26 @@ The project uses a curated set of agent-enforced rules (taxonomy-driven) to prov
 ### 2. Architecture & Patterns
 - **simulation-patterns.mdc**: Core simulation architecture patterns
 - **rendering-patterns.mdc**: Arcade rendering guidelines
+- **vehicle-physics-patterns.mdc**: Vehicle physics implementation patterns
 
 ### 3. Performance & Optimization
 - **performance-standards.mdc**: Performance optimization guidelines
+- **performance-optimization-patterns.mdc**: Performance optimization patterns and techniques
 
 ### 4. Configuration & Management
 - **configuration-patterns.mdc**: Configuration management patterns
 
 ### 5. Documentation
 - **documentation-patterns.mdc**: Documentation standards
+- **documentation-maintenance.mdc**: Documentation maintenance and update procedures
 
 ### 6. Project Context
 - **project-context.mdc**: Project overview and context
+
+### 7. Development Workflow
+- **agent-planning-standards.mdc**: Agent planning and time estimation standards
+- **bazel-workflow-patterns.mdc**: Bazel build system workflow patterns and command standards
+- **planning-and-implementation-guidelines.mdc**: Planning and implementation guidelines for AI agents
 
 ## Rule Usage
 
