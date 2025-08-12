@@ -34,6 +34,9 @@ The traffic simulator is a 2D Python application that simulates multi-vehicle tr
 - **Vectorization**: Optional vectorized physics/IDM modules (feature-flagged)
 - **Configuration**: YAML for human-readable settings
 - **Testing**: Pytest with Hypothesis for property-based testing
+- **MCP Server**: Model Context Protocol server for Git and task operations
+- **Git Integration**: Dulwich-based Git operations with security controls
+- **Task Orchestration**: Bazel/uv task execution with intelligent fallbacks
 
 ## Core Components
 
@@ -771,6 +774,40 @@ results = sim.get_results()
 ```
 
 **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#headless-simulation-mode)
+
+### 7. MCP Server
+**File**: [server.py](mdc:mcp/mcp_traffic_sim/server.py)
+
+The Model Context Protocol server that provides enhanced development capabilities:
+- **Git Operations**: Dulwich-based Git operations (status, sync, commit, diff)
+- **Task Execution**: Bazel primary, uv fallback with intelligent error handling
+- **Security Controls**: Path allowlists, command validation, token redaction
+- **Structured Logging**: JSON logs to `runs/mcp/` directory for audit and debugging
+- **Cursor Integration**: Enhanced AI agent workflows with 7 optimized tools
+- **Performance**: Minimal overhead with smart caching and parallel execution
+
+```python
+# MCP server architecture
+mcp/
+├── mcp_traffic_sim/
+│   ├── server.py              # MCP server entrypoint
+│   ├── config.py              # Configuration management
+│   ├── security.py            # Security and allowlists
+│   ├── logging_util.py         # Structured logging
+│   ├── git/                   # Git operations with dulwich
+│   ├── tasks/                 # Task execution with Bazel/uv
+│   └── tests/                 # Comprehensive test suite
+└── pyproject.toml             # Package configuration
+```
+
+**Key Features**:
+- **Hybrid Operations**: Model actions rather than command-line executables
+- **Smart Fallbacks**: Automatic fallback from Bazel to uv for debugging
+- **Security-First**: All operations validated with allowlists and confirmation
+- **Context Reduction**: Batch operations and artifact management for AI agents
+- **Performance Optimization**: Intelligent caching and timeout management
+
+**Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md)
 
 ## Configuration Architecture
 

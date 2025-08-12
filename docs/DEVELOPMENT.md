@@ -97,6 +97,32 @@ for step in range(1000):
 
 ## Development Workflow
 
+The project uses a **streamlined hybrid approach** optimized for efficiency:
+
+### Bazel Commands (Primary - 95% of workflow)
+- **Building**: `bazel build //...` - Build all targets
+- **Quality Checks**: `bazel build //...` - Integrated quality gates
+- **CI/CD**: All automated processes use Bazel
+- **Core Logic**: All simulation logic runs via Bazel
+
+### Virtual Environment (Development Only - 5% of workflow)
+- **Testing**: `uv run python -m pytest tests/` - Run tests with external dependencies
+- **Scripts**: `uv run python scripts/benchmarking_framework.py` - Run scripts with dependencies
+- **Development**: Only when external dependencies (numpy, arcade, pymunk) are needed
+
+### MCP Server Integration (New)
+- **Git Operations**: Streamlined Git workflow through MCP tools
+- **Task Execution**: Bazel/uv task execution with smart fallbacks
+- **Cursor Integration**: Enhanced AI agent capabilities
+- **Security**: Path allowlists and command validation
+
+For detailed MCP server setup and usage, see [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md).
+
+### Task Commands (Convenience Layer)
+- **Quality**: `task quality` - Quality gates via Bazel
+- **Performance**: `task performance` - Benchmarking via virtual environment
+- **Testing**: `task test` - Testing via virtual environment
+
 ### 1. Code Quality Standards
 
 The project enforces high code quality through automated static analysis. See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md) for detailed tool usage.

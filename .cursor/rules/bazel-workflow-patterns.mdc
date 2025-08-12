@@ -80,6 +80,25 @@ alwaysApply: false
 - **Script Execution**: Use `bazel run //scripts:name` instead of `uv run python scripts/name.py`
 - **Test Execution**: Use `bazel test //...` instead of `uv run python -m pytest`
 
+## MCP Server Integration
+
+**Pattern**: MCP server enhances Bazel workflow without replacing it
+- **Primary**: Bazel operations (95% of workflow)
+- **Fallback**: uv operations for debugging (5% of workflow)
+- **MCP Tools**: Provide structured interfaces to both Bazel and uv operations
+
+**Git Operations:**
+- Use MCP `git_status`, `git_sync`, `git_commit_workflow` tools
+- Maintain Bazel-first approach for build/test operations
+- Leverage MCP security controls for safe Git operations
+
+**Task Execution:**
+- Use MCP `run_quality`, `run_tests`, `run_performance` tools
+- Automatic fallback from Bazel to uv when needed
+- Structured output capture to `runs/` directory
+
+**Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md)
+
 ## Reference
 - **Development Guide**: [docs/DEVELOPMENT.md](mdc:docs/DEVELOPMENT.md#bazel-workflow)
 - **Quality Standards**: [docs/QUALITY_STANDARDS.md](mdc:docs/QUALITY_STANDARDS.md)
