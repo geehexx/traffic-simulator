@@ -1,26 +1,21 @@
 {
   "version": "0.2",
   "language": "en",
+  "dictionaries": ["python", "typescript", "bash", "html", "css", "python-libraries", "traffic-sim-project"],
+  "dictionaryDefinitions": [
+    {
+      "name": "python-libraries",
+      "path": "/home/gxx/projects/traffic-simulator/.cspell/python-libraries.txt",
+      "addWords": true
+    },
+    {
+      "name": "traffic-sim-project",
+      "path": "/home/gxx/projects/traffic-simulator/.cspell/traffic-sim-project.txt",
+      "addWords": true
+    }
+  ],
   "words": [
-    "mdc", "pyright", "ruff", "bandit", "radon", "bazel", "precommit",
-    "commitlint", "markdownlint", "cspell", "precommit", "pre-commit",
-    "traffic-sim", "traffic_sim", "arcade", "pymunk", "numpy", "pandas",
-    "matplotlib", "seaborn", "pytest", "coverage", "tox", "black", "isort",
-    "flake8", "mypy", "pylint", "autopep8", "yapf", "rope", "jedi",
-    "venv", "xdist", "pyyaml", "psutil", "numba", "bazelrc", "pyproject",
-    "docstrings", "docstring", "precommit", "pre-commit", "commitlint",
-    "markdownlint", "cspell", "traffic-sim", "traffic_sim", "arcade",
-    "pymunk", "numpy", "pandas", "matplotlib", "seaborn", "pytest",
-    "coverage", "tox", "black", "isort", "flake8", "mypy", "pylint",
-    "autopep8", "yapf", "rope", "jedi", "venv", "xdist", "pyyaml",
-    "psutil", "numba", "bazelrc", "pyproject", "docstrings", "docstring",
-    "AASHTO", "timestep", "mathcal", "comf", "dataclass", "Silverado",
-    "Sportster", "deque", "maxlen", "AABB", "ndarray", "tracemalloc",
-    "unitless", "Timestep", "getenv", "pyperf", "frontmatter", "pycache",
-    "cursorignore", "buildbuddy", "bazelbuild", "bazelisk", "lbwh",
-    "dtype", "elif", "getpid", "pyrightconfig", "PDQI", "toctree",
-    "lrbt", "stddev", "overspeeding", "FURB", "pyspy", "HITL", "hitl", "Biometrika",
-    "dulwich", "modelcontextprotocol", "pydantic"
+    "mdc", "pyright", "ruff", "bandit", "radon", "bazel"
   ],
   "ignorePaths": [
     "node_modules/**",
