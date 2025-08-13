@@ -1,0 +1,92 @@
+---
+globs: src/traffic_sim/**
+description: Comprehensive performance optimization guidelines and patterns
+alwaysApply: false
+---
+
+# Performance Optimization
+
+## Performance Targets {#id:performance-targets}
+- **Primary**: 30+ FPS with 20+ vehicles (baseline)
+- **Stretch**: 1000+ vehicles at 100-1000x speed factors
+- **Memory**: Minimal runtime allocations
+- **Build**: <2 minutes full rebuild, <30 seconds incremental
+
+## Core Optimization Patterns {#id:core-patterns}
+
+### Simulation Optimization
+- **Fixed timestep**: Deterministic physics with seeded RNGs
+- **Vectorized operations**: NumPy-based calculations for large datasets
+- **Spatial partitioning**: Efficient collision detection and neighbor finding
+
+### Rendering Optimization
+- **Text object caching**: Reuse text objects, minimize allocations
+- **Draw call batching**: Group similar operations
+- **Occlusion caching**: Cache expensive visibility calculations
+
+### Memory Management
+- **Object pooling**: Reuse objects instead of creating new ones
+- **Pre-allocation**: Allocate arrays upfront for predictable performance
+- **Bounded collections**: Use deque for rolling windows
+
+## Advanced Optimization Techniques {#id:advanced-techniques}
+
+### Event-Driven Collision Detection
+- **Pattern**: Predictive TTC scheduling with min-heap
+- **Performance**: O(n) instead of O(n²) collision checks
+- **Configuration**: `event_horizon_s`, `guard_band_m`, acceleration bounds
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection) for implementation
+
+### NumPy Physics Engine
+- **Pattern**: Vectorized physics with optional Numba JIT
+- **Key**: Use @njit decorators, cache compiled functions
+- **Performance**: Significant speedup for large vehicle counts
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance) for setup
+
+### Adaptive Time Stepping
+- **Pattern**: Dynamic timestep scaling for high speed factors
+- **Key**: Scale by speed_factor/10.0 with maximum 10x multiplier
+- **Performance**: Better efficiency at 100x+ speed factors
+
+## Performance Testing & Monitoring {#id:testing-monitoring}
+
+### Benchmarking Framework
+- **Commands**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark|scale|monitor|profile`
+- **Output**: All data saved to `runs/` directory with organized subdirectories
+- **Performance**: 3-5x improvement through parallelization
+
+### Analysis Modes
+- **Benchmark**: High-performance benchmark testing
+- **Scale**: Performance testing across vehicle counts
+- **Monitor**: Real-time performance monitoring
+- **Profile**: Detailed profiling and analysis
+
+### External Tools Integration
+- **Tools**: pytest-benchmark, ASV, Hyperfine, Py-Spy
+- **Features**: Statistical analysis, historical tracking, flame graphs
+- **Reference**: See [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#external-tools-integration) for setup
+
+## Configuration Management {#id:configuration}
+
+### Feature Flags
+- **Physics**: `numpy_engine_enabled`, `adaptive_timestep_enabled`
+- **High Performance**: `enabled`, `idm_vectorized`
+- **Collisions**: `event_scheduler_enabled`, `event_horizon_s`, `guard_band_m`
+- **Data Manager**: `enabled`, `max_vehicles`
+
+### Output Organization
+- **Base Directory**: `runs/` - centralized location for all performance data
+- **Structure**: `runs/profiling/`, `runs/benchmarks/`, `runs/performance/`, `runs/scaling/`
+- **Git**: Entire `runs/` directory excluded from version control
+
+## Performance Results {#id:results}
+- **Achievement**: 11.4x improvement at 20 vehicles, scales to 1000+ vehicles
+- **Techniques**: Event-driven collision detection, vectorized operations, adaptive time stepping
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-optimization-results) for detailed metrics
+
+## Quick Reference {#id:quick-reference}
+- **Primary Target**: 30+ FPS with 20+ vehicles
+- **Key Commands**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
+- **Output Location**: `runs/` directory
+- **Configuration**: Feature-flagged optimizations in config files
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md) for comprehensive details

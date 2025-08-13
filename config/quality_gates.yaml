@@ -73,6 +73,18 @@ rules:
   require_unique_globs: true
   max_token_count: 900
 
+# Context Optimization Requirements
+context_optimization:
+  max_tokens_per_rule: 500
+  max_references_per_rule: 5
+  max_total_context: 2000
+  require_semantic_anchors: true
+  require_ai_friendly_structure: true
+  broken_link_detection: true
+  duplicate_content_detection: true
+  reference_validation: true
+  token_efficiency_threshold: 0.8  # 80% information density per token
+
 # Enforcement Success Metrics
 enforcement_metrics:
   commit_message_compliance: 100  # Percentage of commits following conventional format
