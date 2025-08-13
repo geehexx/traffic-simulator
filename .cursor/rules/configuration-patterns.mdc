@@ -11,88 +11,69 @@ description: Configuration management patterns and file organization
 alwaysApply: true
 ---
 
-# Configuration Patterns
+# Configuration Patterns {#id:configuration-patterns}
 
-## Configuration Structure
-- **Main Config**: [config.yaml](mdc:config/config.yaml)
-- **Loader**: [loader.py](mdc:src/traffic_sim/config/loader.py)
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
+## Core Configuration {#id:core-configuration}
+- **Main Config**: [config.yaml](mdc:config/config.yaml) - Primary configuration file
+- **Loader**: [loader.py](mdc:src/traffic_sim/config/loader.py) - Configuration loading and validation
+- **Pattern**: YAML for human-readable configuration with validation on load
+- **Environment**: `TRAFFIC_SIM_CONFIG` for custom config path
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture) for detailed patterns
 
-## Configuration Patterns
-- **Pattern**: YAML for human-readable configuration
-- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management)
+## Configuration Management {#id:configuration-management}
+- **Driver Parameters**: Gaussian distributions with correlations
+- **Error Handling**: Clear error messages for invalid config with actionable guidance
+- **Validation**: Fail fast on invalid values, provide specific error context
+- **Reference**: See [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management) for implementation
 
-## Environment Variables
-- **Pattern**: `TRAFFIC_SIM_CONFIG` for custom config path
-- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management)
-
-## Validation
-- **Pattern**: Validate configuration on load
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
-
-## Driver Parameters
-- **Pattern**: Gaussian distributions with correlations
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components)
-
-## Error Handling
-- **Pattern**: Clear error messages for invalid config
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
-
-## Configuration File Organization
+## File Organization {#id:file-organization}
 - **Pattern**: All configuration files in `config/` directory
 - **Files**: `bandit.yaml`, `quality_gates.yaml`, `radon.cfg`, `pyrightconfig.json`, `benchmarking.yaml`, `requirements_test.txt`
 - **Benefits**: Cleaner root directory, better organization, consolidated management
-- **Maintenance**: Keep config files in `config/` directory; avoid adding config files to root
 
-## CRITICAL: Configuration File Enforcement
+## CRITICAL: Configuration File Enforcement {#id:enforcement}
 - **MANDATORY**: All configuration files MUST be in `config/` directory
 - **FORBIDDEN**: Configuration files in root directory (except essential build files)
 - **ENFORCEMENT**: Move any config files found in root to `config/` directory
 - **VALIDATION**: Check for misplaced config files before committing
 
+## Specialized Configuration {#id:specialized-configuration}
+
 ### HUD Occlusion Configuration {#id:hud-occlusion-config}
-- **Key**: Document the current, exact configuration key(s) used for HUD occlusion, confirming against repo config. If uncertain, ask for confirmation before inclusion.
-- **CLI Flag**: If CLI integration exists, document the exact flag spelling; otherwise omit.
-- **Default**: State the actual default from the repository config; do not assume.
-- **Validation**: Boolean or appropriate type; fail fast on invalid values; provide actionable messages.
-- **Cross-References**: See perception/rendering documentation in project docs for behavior; avoid linking from docs to rules.
+- **Key**: Document exact configuration key(s) for HUD occlusion
+- **Validation**: Boolean or appropriate type; fail fast on invalid values
+- **Cross-References**: See perception/rendering documentation for behavior
 
-## Performance Optimization Configuration
+### Performance Optimization Configuration {#id:performance-config}
 - **Pattern**: Feature-flagged optimizations for safe rollout
-- **Physics**: numpy_engine_enabled, adaptive_timestep_enabled
-- **High Performance**: enabled, idm_vectorized
-- **Collisions**: event_scheduler_enabled, event_horizon_s, guard_band_m
-- **Data Manager**: enabled, max_vehicles
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#configuration-management)
+- **Physics**: `numpy_engine_enabled`, `adaptive_timestep_enabled`
+- **High Performance**: `enabled`, `idm_vectorized`
+- **Collisions**: `event_scheduler_enabled`, `event_horizon_s`, `guard_band_m`
+- **Data Manager**: `enabled`, `max_vehicles`
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#configuration-management) for details
 
-## Benchmarking Configuration
+### Benchmarking Configuration {#id:benchmarking-config}
 - **Pattern**: Centralized configuration for all profiling/benchmark output
 - **Base Directory**: `runs/` - centralized location for all performance data
 - **Config File**: [benchmarking.yaml](mdc:config/benchmarking.yaml)
 - **Output Types**: CSV, JSON, HTML reports, flame graphs
-- **Directory Structure**: Organized by analysis type (profiling, benchmarks, performance, scaling)
-- **Reference**: [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure)
+- **Reference**: See [Benchmarking Guide](mdc:docs/BENCHMARKING_GUIDE.md#runs-directory-structure) for structure
 
-## Headless Simulation Configuration
+### Headless Simulation Configuration {#id:headless-config}
 - **Pattern**: Validate headless simulation parameters
 - **Required Keys**: `profiling.enabled`, `random.master_seed`
 - **Validation**: Boolean for profiling, integer for master_seed
 - **Error Handling**: Fail fast with actionable messages for invalid config
-- **Reference**: [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py)
 
-## Dependency Analysis Configuration
+### Dependency Analysis Configuration {#id:dependency-config}
 - **Pattern**: Use existing tools for dependency analysis via task runner
 - **Tools**: deptry for unused dependencies, ruff for unused imports
 - **Commands**: `task deps:check`, `task deps:unused`, `task deps:audit`
-- **Configuration**: Ignore dev dependencies and transitive imports
 - **Integration**: Taskfile.yml provides unified interface for dependency analysis
-- **Reference**: [config/Taskfile.yml](mdc:config/Taskfile.yml)
 
-## Cursor Indexing Configuration
+### Cursor Indexing Configuration {#id:cursor-indexing-config}
 - **Pattern**: Strategic indexing for optimal Cursor performance
 - **File**: `.cursorignore` - Controls what Cursor indexes vs. what git ignores
 - **Strategy**: Keep `venv/` searchable for debugging, ignore generated data
-- **Performance**: Exclude `runs/`, `__pycache__/`, build artifacts from indexing
 - **CRITICAL**: Never ignore `.cursor/rules/` - contains essential project rules
-- **Validation**: Always verify essential directories remain searchable after ignore changes
-- **Reference**: [Cursor Rules Guide](mdc:docs/CURSOR_RULES.md#strategic-indexing-configuration)
+- **Reference**: See [Cursor Rules Guide](mdc:docs/CURSOR_RULES.md#strategic-indexing-configuration) for details

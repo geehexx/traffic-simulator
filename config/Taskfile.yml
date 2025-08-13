@@ -51,6 +51,23 @@ tasks:
     cmds:
       - bazel query //...
 
+  context:validate:
+    desc: Validate context optimization compliance
+    cmds:
+      - uv run python scripts/validate_context_optimization.py
+
+  context:optimize:
+    desc: Run context optimization analysis and generate report
+    cmds:
+      - uv run python scripts/validate_context_optimization.py
+      - echo "Context optimization analysis complete"
+
+  context:report:
+    desc: Generate context optimization report
+    cmds:
+      - uv run python scripts/validate_context_optimization.py
+      - echo "Report generated in runs/quality/context_optimization_report.md"
+
   performance:
     desc: Run performance benchmark
     cmds:
