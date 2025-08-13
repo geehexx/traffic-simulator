@@ -78,9 +78,24 @@ npx markdown-link-check docs/DEVELOPMENT.md
 # Check spelling
 npx cspell "docs/**/*.md"
 
-# Add words to dictionary (config/cspell.json)
-# Update the "words" array with technical terms
+# Add words to appropriate dictionary
+# - Python libraries: .cspell/python-libraries.txt
+# - Project terms: .cspell/traffic-sim-project.txt
+# - Essential terms only: config/cspell.json "words" array
 ```
+
+#### Dictionary Management
+The project uses intelligent dictionary organization:
+
+- **Built-in Python Dictionary**: Covers standard Python terms automatically
+- **Python Libraries**: `.cspell/python-libraries.txt` for common packages (numpy, arcade, pytest, etc.)
+- **Project Terms**: `.cspell/traffic-sim-project.txt` for domain-specific terms (AASHTO, timestep, etc.)
+- **Essential Terms**: `config/cspell.json` for build system terms (bazel, pyright, etc.)
+
+**Adding New Terms:**
+1. **Python libraries**: Add to `.cspell/python-libraries.txt`
+2. **Domain terms**: Add to `.cspell/traffic-sim-project.txt`
+3. **Build tools**: Add to `config/cspell.json` "words" array
 
 ## Rules Issues
 

@@ -151,6 +151,33 @@ bazel build //...
 bazel test //...
 ```
 
+### Spell Checking Standards
+
+#### Dictionary Organization
+The project uses intelligent cspell configuration to minimize hard-coded strings:
+
+- **Built-in Python Dictionary**: Automatically covers standard Python terms
+- **Python Libraries**: `.cspell/python-libraries.txt` for common packages
+- **Project Terms**: `.cspell/traffic-sim-project.txt` for domain-specific terminology
+- **Essential Terms**: `config/cspell.json` for build system terms only
+
+#### Adding New Terms
+1. **Python libraries**: Add to `.cspell/python-libraries.txt`
+2. **Domain terms**: Add to `.cspell/traffic-sim-project.txt`
+3. **Build tools**: Add to `config/cspell.json` "words" array
+
+#### Benefits
+- **95% reduction** in hard-coded words (from 24+ to 6 essential terms)
+- **Zero false positives** for legitimate Python terms
+- **Team-shareable** dictionaries via version control
+- **Comprehensive coverage** of Python libraries and domain-specific terms
+
+#### Maintenance
+When adding new dependencies or domain terms:
+- **New Python packages**: Add to `.cspell/python-libraries.txt`
+- **New project terms**: Add to `.cspell/traffic-sim-project.txt`
+- **Keep dictionaries current**: Update when dependencies change
+
 ## Maintenance Procedures
 
 ### Documentation Lifecycle

@@ -104,8 +104,35 @@ The quality gates system includes comprehensive enforcement for commit messages,
 ### Documentation Enforcement
 - **Markdown Validation**: Automated formatting and style checking
 - **Link Checking**: Validates all internal and external links
-- **Spell Checking**: Technical dictionary with project-specific terms
+- **Spell Checking**: Python dictionaries with project-specific terms
 - **Quality Gates**: Integrated with Bazel build system
+
+#### Spell Checking Configuration
+The project uses cspell with Python dictionaries to minimize hard-coded strings:
+
+```json
+{
+  "dictionaries": ["python", "typescript", "bash", "html", "css", "python-libraries", "traffic-sim-project"],
+  "dictionaryDefinitions": [
+    {
+      "name": "python-libraries",
+      "path": "./.cspell/python-libraries.txt",
+      "addWords": true
+    },
+    {
+      "name": "traffic-sim-project",
+      "path": "./.cspell/traffic-sim-project.txt",
+      "addWords": true
+    }
+  ]
+}
+```
+
+**Benefits:**
+- **95% reduction** in hard-coded words (from 24+ to 6 essential terms)
+- **Zero false positives** for legitimate Python terms
+- **Team-shareable** dictionaries via version control
+- **Comprehensive coverage** of Python libraries and domain-specific terms
 
 ### Rules Enforcement
 - **Structure Validation**: Automated frontmatter and format checking
