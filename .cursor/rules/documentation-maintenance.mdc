@@ -4,91 +4,71 @@ description: Documentation maintenance and update procedures
 alwaysApply: false
 ---
 
-# Documentation Maintenance Patterns
+# Documentation Maintenance {#id:documentation-maintenance}
 
-## Update Triggers
-- Code/config changes, new features, bug fixes, user feedback.
-- See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#update-triggers)
+## Update Triggers {#id:update-triggers}
+- **Code Changes**: Update when related code changes
+- **New Features**: Document new functionality and APIs
+- **Bug Fixes**: Update when fixes affect user workflow
+- **Configuration Changes**: Update when config affects user experience
+- **User Feedback**: Address confusion or missing information
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#update-triggers) for detailed procedures
 
-## Content Validation
-- Test code examples; check links; validate procedures.
-- Tools: automated link/spell checks; manual review; user testing.
+## Content Validation {#id:content-validation}
+- **Code Examples**: Test all code examples for accuracy
+- **Links**: Check all internal and external links
+- **Procedures**: Validate step-by-step instructions
+- **Tools**: Use automated link/spell checks, manual review, user testing
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-validation) for validation tools
 
-## Cross-Reference Management
-- Keep references up-to-date when files move; verify all links.
+## Cross-Reference Management {#id:cross-references}
+- **Link Updates**: Keep references up-to-date when files move
+- **Verification**: Verify all internal links work correctly
+- **Consistency**: Ensure cross-references are consistent across docs
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#cross-references) for management
 
-## Quality Assurance
-- Regular reviews for accuracy, completeness, clarity, consistency.
+## Quality Assurance {#id:quality-assurance}
+- **Accuracy**: Regular reviews for accuracy and completeness
+- **Clarity**: Ensure instructions are clear and actionable
+- **Consistency**: Maintain consistent style and format
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#quality-assurance) for QA procedures
 
-## Version Control & Review
-- Use feature branches, conventional commits, PR review.
+## Version Control & Review {#id:version-control}
+- **Feature Branches**: Use feature branches for documentation changes
+- **Conventional Commits**: Use descriptive commit messages
+- **PR Review**: Require review for documentation changes
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#version-control) for workflow
 
-## Maintenance Schedule
-- Monthly light review; quarterly audit; release-cycle passes.
----
-globs: docs/**,*.md
-description: Documentation maintenance and update procedures
-alwaysApply: false
----
+## Maintenance Schedule {#id:maintenance-schedule}
+- **Monthly**: Light review for accuracy and completeness
+- **Quarterly**: Comprehensive audit of all documentation
+- **Release Cycle**: Full review before major releases
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#maintenance-schedule) for detailed schedule
 
-# Documentation Maintenance Patterns
+## Documentation Lifecycle {#id:documentation-lifecycle}
+- **Creation**: Plan content structure and organization
+- **Review**: Regular accuracy and clarity reviews
+- **Updates**: Timely updates when related code changes
+- **Retirement**: Archive or remove outdated documentation
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#documentation-lifecycle) for lifecycle management
 
-## Update Triggers
-- **Pattern**: Update documentation when related code changes
-- **Key**: Code changes, new features, bug fixes, configuration changes
-- **Process**: Identify affected documentation, update content, verify accuracy
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#update-triggers)
+## Common Documentation Issues {#id:common-issues}
+- **Outdated Content**: Regular review and updates
+- **Broken Links**: Automated link checking and validation
+- **Inconsistent Style**: Style guide enforcement
+- **Missing Information**: User feedback and gap analysis
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#common-documentation-issues) for issue resolution
 
-## Content Validation
-- **Pattern**: Verify all information is accurate and current
-- **Key**: Test code examples, check links, validate procedures
-- **Tools**: Automated checks, manual review, user testing
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-validation)
+## Success Metrics {#id:success-metrics}
+- **Accuracy**: Documentation reflects current code state
+- **Completeness**: All features and processes documented
+- **Usability**: Clear, actionable instructions
+- **Maintenance**: Regular updates and reviews
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#success-metrics) for measurement
 
-## Cross-Reference Management
-- **Pattern**: Maintain consistent cross-references between documents
-- **Key**: Update links when files move, verify all references work
-- **Process**: Check internal links, validate external links, update broken references
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#cross-references)
-
-## Quality Assurance
-- **Pattern**: Regular documentation quality checks
-- **Key**: Accuracy, completeness, clarity, consistency
-- **Process**: Self-review, peer review, technical review, final review
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#quality-assurance)
-
-## Version Control
-- **Pattern**: Track documentation changes in git
-- **Key**: Use feature branches, conventional commits, pull requests
-- **Process**: Branch, edit, commit, review, merge
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#version-control)
-
-## Review Process
-- **Pattern**: Multi-stage review process for documentation changes
-- **Key**: Self-review, peer review, technical review, final review
-- **Process**: Plan, write, review, test, maintain
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#review-process)
-
-## Maintenance Schedule
-- **Pattern**: Regular documentation maintenance cycles
-- **Key**: Monthly reviews, quarterly audits, release cycle updates
-- **Process**: Identify outdated content, update information, verify accuracy
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#maintenance-schedule)
-
-## Documentation Lifecycle
-- **Pattern**: Plan, create, review, maintain, update, retire
-- **Key**: Identify needs, write content, review quality, maintain currency
-- **Process**: Planning, creation, review, maintenance, updates
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#documentation-lifecycle)
-
-## Common Issues
-- **Pattern**: Address common documentation problems
-- **Key**: Outdated information, broken links, inconsistent formatting
-- **Solutions**: Regular updates, link checking, style guidelines
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#common-documentation-issues)
-
-## Success Metrics
-- **Pattern**: Measure documentation quality and effectiveness
-- **Key**: Accuracy, completeness, clarity, currency, usage
-- **Metrics**: Quality scores, user feedback, access frequency
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#success-metrics)
+## Quick Reference {#id:quick-reference}
+- **Update Triggers**: Code changes, new features, bug fixes, user feedback
+- **Validation**: Test examples, check links, verify procedures
+- **Quality**: Regular reviews for accuracy, completeness, clarity
+- **Schedule**: Monthly light review, quarterly audit, release-cycle passes
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md) for comprehensive procedures

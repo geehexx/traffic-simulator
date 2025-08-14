@@ -4,55 +4,37 @@ description: Standards for writing and evaluating Cursor rules (RGS)
 alwaysApply: false
 ---
 
-# Rule Generation Standard
+# Rule Generation Standard {#id:rule-generation-standard}
 
-## Frontmatter Requirements
-- `globs`: precise target patterns; prefer subdirectory coverage (`.cursor/rules/**/*.mdc`)
+## Frontmatter Requirements {#id:frontmatter}
+- `globs`: precise target patterns; prefer subdirectory coverage
 - `description`: succinct summary for retrieval
 - `alwaysApply`: use sparingly; ≤5 global rules across repo
 
-## Global Audits & Penalties
-- >5 global rules → penalties (−5 per extra, cap −15)
-- Token soft cap ~500 (allowed ≤900 with justification; penalties above)
-- Transitional/time-bound content → −3..−10
-
-## Determinism & Idempotency
-- Stable anchors/slugs; deterministic ordering; minimal diffs.
-- Hidden metadata allowed per policy; avoid in docs where forbidden.
-
-## Stability Evaluation
-- Report Stability Index (1 − normalized stddev under minor perturbations).
-- Prefer higher stability on ties.
-
-## Quality Scoring Metrics (100 points total)
+## Quality Scoring (100 points total) {#id:quality-scoring}
 
 ### 1. Clarity & Actionability (25 points)
 - **Clear Instructions**: Specific, unambiguous guidance
 - **Actionable Examples**: Code snippets, patterns, concrete steps
-- **Measurable Criteria**: Quantifiable success metrics
 - **Do/Don't Format**: Clear positive and negative examples
 
 ### 2. Token Efficiency (20 points)
 - **Minimal Redundancy**: Avoid repeating information
 - **Reference Over Repetition**: Link to existing docs instead of copying
 - **Concise Language**: Essential information only
-- **Structured Format**: Easy to scan and parse
 
 ### 3. Maintainability (20 points)
-- **No Temporary Info**: Avoid time-sensitive, phase-based, or project-specific details
+- **No Temporary Info**: Avoid time-sensitive, phase-based details
 - **Self-Updating References**: Use file references that auto-update
 - **Modular Structure**: Independent, composable rules
-- **Version Control Friendly**: Clear, trackable changes
 
 ### 4. Context Relevance (15 points)
 - **File-Specific**: Appropriate globs for target files only
 - **Scope Appropriate**: Not too broad or narrow
-- **Cross-Rule References**: Link to related rules when needed
 - **Context-Aware**: Understands when to apply
 
 ### 5. Documentation Quality (10 points)
 - **Proper References**: Link to authoritative sources
-- **Clear Structure**: Logical organization and hierarchy
 - **AI-Optimized Format**: Markdown with clear sections
 - **Searchable Content**: Keywords and tags for discovery
 
@@ -60,9 +42,8 @@ alwaysApply: false
 - **Covers All Aspects**: No missing critical information
 - **Future-Proof**: Anticipates evolution and changes
 - **Edge Cases**: Handles unusual scenarios
-- **Comprehensive Scope**: Complete coverage of topic
 
-## Rule Structure Template
+## Rule Structure Template {#id:template}
 
 ```markdown
 ---
@@ -79,122 +60,56 @@ alwaysApply: false
 - **❌ Avoid**: Common mistake
 - **✅ Use**: Correct approach
 
-## <Secondary Section>
-- Concise bullet points
-- Code snippets when helpful
-- References to other rules
-
 ## References
 - [External Doc](url) - Brief description
 - [Internal Doc](mdc:docs/FILE.md#section) - Cross-reference
-- [Internal Rule](mdc:other-rule.mdc) - Cross-reference
 ```
 
-## Content Guidelines
+## Content Guidelines {#id:content-guidelines}
 
 ### Do's
 - **Use bullet points** for scannable lists
 - **Include code examples** for complex patterns
 - **Reference existing docs** instead of duplicating
 - **Use clear section headers** for organization
-- **Include both positive and negative examples**
 - **Keep examples minimal but complete**
-- **Use consistent formatting** throughout
 
 ### Don'ts
 - **Don't repeat** information from other rules
 - **Don't include** temporary, phase-based, or project-specific details
 - **Don't use** overly verbose explanations
 - **Don't duplicate** existing documentation
-- **Don't include** implementation details that change frequently
-- **Don't use** ambiguous language or unclear instructions
 - **Don't use** `alwaysApply: true` unless absolutely necessary
 
-## Token Optimization Strategies
+## Token Optimization Strategies {#id:optimization}
 
 ### 1. Reference External Sources
-Instead of:
-```markdown
-## Arcade Functions
-- draw_lrtb_rectangle_filled(left, right, top, bottom, color)
-- draw_polygon_filled(point_list, color)
-```
-
-Use:
-```markdown
-## Arcade Functions
-- [Drawing Primitives API](https://api.arcade.academy/en/latest/api/drawing_primitives.html)
-- Key functions: draw_lrbt_rectangle_filled, draw_lbwh_rectangle_filled, draw_polygon_filled
-```
+Instead of listing all functions, reference the API documentation.
 
 ### 2. Use Cross-References
-Instead of:
-```markdown
-## Performance Testing
-- Use performance test script
-- Monitor FPS targets
-- Check memory usage
-```
-
-Use:
-```markdown
-## Performance Testing
-- See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#performance-targets) for detailed patterns
-- Key: FPS ≥30, minimal allocations, deterministic behavior
-```
+Instead of repeating content, link to detailed documentation.
 
 ### 3. Focus on Patterns, Not Details
-Instead of:
-```markdown
-## IDM Controller
-- Calculate gap: s_gap = (leader.state.s_m - vehicle.state.s_m) % L
-- Calculate delta_v: delta_v = vehicle.state.v_mps - leader.state.v_mps
-- Calculate s_star: s_star = s0 + vehicle.state.v_mps * T + (vehicle.state.v_mps * delta_v) / (2.0 * (a_max ** 0.5) * (b_comf ** 0.5) + 1e-6)
-- Calculate acceleration: a = a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta - (s_star / max(0.1, s_gap)) ** 2)
-```
+Describe the pattern and link to implementation details.
 
-Use:
-```markdown
-## IDM Controller
-- **Pattern**: Calculate gap → delta_v → s_star → acceleration
-- **Key**: Use perception data when available, fallback to standard IDM
-- **Reference**: [perception-system.mdc](mdc:perception-system.mdc) for integration details
-```
-
-## Rule Targeting Guidelines
+## Rule Targeting Guidelines {#id:targeting}
 
 ### File-Specific Rules
 - **Target specific files** with precise glob patterns
 - **Avoid broad patterns** like `src/**/*.py` unless necessary
 - **Use multiple specific rules** instead of one broad rule
-- **Consider file purpose** when determining targeting
 
 ### Always-Apply Rules
 - **Use sparingly** - only for truly universal principles
-- **Prefer specific rules** over always-apply
 - **Limit to 1-2 always-apply rules** maximum
 - **Focus on core principles** that apply everywhere
 
-### Rule Scope
-- **Single responsibility** - one concept per rule
-- **Appropriate granularity** - not too broad or narrow
-- **Clear boundaries** - when rule applies vs doesn't
-- **Minimal overlap** - avoid redundant rules
-
-## Rule Maintenance
+## Rule Maintenance {#id:maintenance}
 
 ### Update Triggers
 - Code changes that affect rule applicability
 - New patterns or best practices discovered
 - Performance or quality issues identified
-- User feedback indicating confusion
-
-### Update Process
-1. **Assess Impact**: Does the change affect rule accuracy?
-2. **Update Content**: Modify only necessary sections
-3. **Validate References**: Ensure all links still work
-4. **Test Clarity**: Verify instructions are still clear
-5. **Commit Changes**: Use descriptive commit messages
 
 ### Quality Checklist
 - [ ] All examples are accurate and current
@@ -203,40 +118,11 @@ Use:
 - [ ] Clear, actionable instructions
 - [ ] Appropriate scope and file targeting
 - [ ] Future-proof content (no temporary details)
-- [ ] Consistent formatting and structure
-- [ ] No phase-based or project-specific information
-- [ ] Minimal use of alwaysApply
 
-## Rule Generation Process
-
-### 1. Analysis Phase
-- Identify the specific problem or pattern
-- Determine target files and scope
-- Research existing documentation and rules
-- Define success criteria
-
-### 2. Content Creation
-- Use the structure template
-- Focus on patterns over implementation details
-- Include both positive and negative examples
-- Reference external sources when possible
-- Avoid temporary or phase-based information
-
-### 3. Quality Review
-- Score against the 6 metrics (aim for 80+ points)
-- Check for redundancy with existing rules
-- Validate all references and examples
-- Ensure clarity and actionability
-- Verify no temporary content
-
-### 4. Integration
-- Test rule applicability with target files
-- Verify cross-references work correctly
-- Ensure no conflicts with existing rules
-- Document any dependencies
-
-### 5. Maintenance
-- Set up monitoring for rule effectiveness
-- Plan regular review cycles
-- Establish update triggers
-- Track usage and feedback
+## Quick Reference {#id:quick-reference}
+- **Token Limit**: 500 tokens per rule
+- **Reference Limit**: 5 references per rule
+- **Global Rules**: ≤5 maximum
+- **Structure**: Use semantic anchors `{#id:name}`
+- **Content**: Focus on patterns, reference details
+- **Maintenance**: Regular review and updates

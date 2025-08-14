@@ -4,54 +4,48 @@ description: Planning and implementation guidelines for AI agents
 alwaysApply: false
 ---
 
-# Planning and Implementation Guidelines
+# Planning and Implementation Guidelines {#id:planning-guidelines}
 
-## Documentation Update Decision Framework
+## Documentation Update Framework {#id:update-framework}
 
 ### When to Update Documentation
 - **Do**: Update when adding new features, changing APIs, or fixing bugs
 - **Do**: Update when configuration changes affect user workflow
-- **Do**: Update when new tools or processes are introduced
 - **Don't**: Update for performance optimizations unless they change user-facing behavior
-- **Don't**: Update for temporary changes or experimental features
 - **Don't**: Update with specific performance metrics that become outdated quickly
 
 ### Content Guidelines
 - **Pattern**: Focus on actionable guidance and configuration
 - **Avoid**: Static performance metrics, specific timing numbers, version-specific data
 - **Key**: Document how to use tools, not how fast they are
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-guidelines)
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-guidelines) for details
 
-## File Creation Rules
+## File Creation Rules {#id:file-creation}
 
 ### Temporary File Prevention
 - **Pattern**: Never create files with "SUMMARY" in the filename
 - **Examples**: ❌ `BENCHMARKING_OPTIMIZATION_SUMMARY.md`, ❌ `PERFORMANCE_OPTIMIZATION_SUMMARY.md`
 - **Alternative**: Update existing docs in `docs/` directory or create permanent documentation
-- **Enforcement**: Files with "SUMMARY" in name are temporary artifacts
 
 ### Documentation Consolidation
 - **Pattern**: Check existing documentation before creating new files
 - **Key**: Use `docs/BENCHMARKING_GUIDE.md` for benchmarking content
 - **Key**: Use `docs/PERFORMANCE_GUIDE.md` for performance optimization content
 - **Process**: Search existing docs, update relevant sections, avoid duplication
-- **Tools**: Use `codebase_search` to find existing documentation
 
-## Content Coverage Check
+## Content Coverage Check {#id:content-coverage}
 
 ### Before Creating Documentation
 - **Pattern**: Verify content is not already covered before creating documentation
 - **Validation**: Check `docs/` directory for relevant guides
 - **Process**: Check for existing content, update rather than duplicate
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#content-validation)
 
 ### Quality Standards
 - **Pattern**: Follow documentation consolidation and organization standards
 - **Key**: Use proper headings, cross-references, and file naming
-- **Process**: Check for existing content, update rather than duplicate
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards) for enforcement
 
-## Performance Documentation Guidelines
+## Performance Documentation Guidelines {#id:performance-docs}
 
 ### When Performance Documentation is Appropriate
 - **Do**: Document performance targets and requirements
@@ -59,7 +53,6 @@ alwaysApply: false
 - **Do**: Document performance monitoring and profiling tools
 - **Don't**: Document specific performance results or benchmarks
 - **Don't**: Document timing measurements that change with hardware
-- **Don't**: Document optimization results that become outdated
 
 ### Performance Content Examples
 - **✅ Good**: "Configure pre-commit hooks with `pass_filenames: false` for efficiency"
@@ -67,43 +60,21 @@ alwaysApply: false
 - **✅ Good**: "Use performance monitoring tools to track FPS targets"
 - **❌ Bad**: "Achieved 11.4x improvement at 20 vehicles"
 
-## Documentation Update Checklist
-
-### Before Updating Documentation
-- [ ] Is this change permanent and stable?
-- [ ] Does this affect user workflow or configuration?
-- [ ] Is this information that will remain relevant long-term?
-- [ ] Does this add actionable guidance for developers?
-- [ ] Is this avoiding static performance metrics?
-
-### Content Quality Check
-- [ ] Focuses on actionable guidance
-- [ ] Avoids specific performance numbers
-- [ ] Uses configuration examples, not results
-- [ ] Provides clear instructions
-- [ ] References existing documentation appropriately
-
-### File Organization
-- [ ] Updates existing documentation rather than creating new files
-- [ ] Uses appropriate file names (no "SUMMARY" in filename)
-- [ ] Consolidates related information
-- [ ] Maintains proper cross-references
-
-## Implementation Best Practices
+## Implementation Best Practices {#id:best-practices}
 
 ### Rule Application
 - **Pattern**: Apply rules based on file patterns and context
 - **Key**: Use specific globs for targeted rules
 - **Process**: Check existing rules before creating new ones
-- **Reference**: [Rule Generation Standard](mdc:rule-generation-standard.mdc)
 
 ### Content Maintenance
 - **Pattern**: Regular review and updates based on project evolution
 - **Key**: Focus on stable, long-term guidance
 - **Process**: Update when patterns change, not when metrics change
-- **Reference**: [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md#maintenance-procedures)
 
-## References
-- [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md) - Comprehensive documentation standards
-- [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md) - Code quality standards
-- [Rule Generation Standard](mdc:rule-generation-standard.mdc) - Rule creation guidelines
+## Quick Reference {#id:quick-reference}
+- **Update Triggers**: New features, API changes, configuration changes
+- **Content Focus**: Actionable guidance, not performance metrics
+- **File Organization**: Update existing docs, avoid "SUMMARY" files
+- **Quality**: Follow documentation standards and consolidation
+- **Reference**: See [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md) for comprehensive standards
