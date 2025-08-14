@@ -4,71 +4,46 @@ description: Core simulation architecture patterns
 alwaysApply: false
 ---
 
-# Simulation Patterns
+# Simulation Patterns {#id:simulation-patterns}
 
-## Core Components
-- **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
-- **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py)
-- **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
-- **Analytics**: [analytics.py](mdc:src/traffic_sim/core/analytics.py)
-- **Collision**: [collision.py](mdc:src/traffic_sim/core/collision.py)
-- **Logging**: [logging.py](mdc:src/traffic_sim/core/logging.py)
+## Core Components {#id:core-components}
+- **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py) - Main simulation engine
+- **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py) - Driver behavior and IDM controller
+- **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py) - Vehicle models and physics
+- **Analytics**: [analytics.py](mdc:src/traffic_sim/core/analytics.py) - Real-time data collection
+- **Collision**: [collision.py](mdc:src/traffic_sim/core/collision.py) - Pymunk physics integration
+- **Logging**: [logging.py](mdc:src/traffic_sim/core/logging.py) - Asynchronous CSV export
 
-## Design Patterns
-- **IDM Controller**: Per-driver parameters with Gaussian copula
+## Design Patterns {#id:design-patterns}
+- **IDM Controller**: Per-driver parameters with Gaussian copula sampling
 - **Perception System**: Occlusion-based detection with dynamic SSD
 - **Analytics System**: Real-time data collection with bounded history
 - **Collision System**: Pymunk physics with spatial partitioning
 - **Data Logging**: Asynchronous CSV export with configurable rates
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components)
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components) for detailed patterns
 
-## State Management
+## State Management {#id:state-management}
 - **Pattern**: Immutable state objects where possible
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management)
+- **Performance**: Fixed timestep, vectorized operations
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management) for implementation
 
-## Performance Considerations
-- **Pattern**: Fixed timestep, vectorized operations
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#simulation-optimization)
-
-## Headless Simulation
+## Headless Simulation {#id:headless-simulation}
 - **Use `SimulationHeadless`** for multiprocessing and benchmarking
 - **Avoid Arcade/Pymunk dependencies** in worker processes
 - **Use `ProcessPoolExecutor`** for true parallelism (not threading)
 - **Serialize only data** between processes, not objects
-- **Reference**: [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py)
+- **Reference**: See [simulation_headless.py](mdc:src/traffic_sim/core/simulation_headless.py) for setup
 
-## Testing Headless Simulation
-- **Test Configuration**: Validate headless simulation config parameters
-- **Performance Testing**: Test multiprocessing scaling and performance targets
-- **Data Serialization**: Test that only serializable data is passed between processes
-- **Error Handling**: Test process failure recovery and fault tolerance
-- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#headless-simulation-mode)
+## Performance Optimization {#id:performance-optimization}
+- **Analytics**: Bounded collections, batch processing, statistical caching
+- **Collisions**: Spatial partitioning, collision filtering, physics stepping
+- **Data Logging**: Asynchronous logging, batch writes, selective data collection
+- **Event-Driven**: Predictive TTC scheduling, O(n) instead of O(n²) collision checks
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#simulation-optimization) for detailed patterns
 
-## IDM Controller
-- **Pattern**: Calculate gap → delta_v → s_star → acceleration
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#mathematical-foundations)
-
-## Perception System
-- **Pattern**: Line-of-sight calculations, dynamic SSD
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#design-patterns)
-
-## Analytics System
-- **Pattern**: Bounded collections, batch processing, statistical caching
-- **Key**: Use deque for rolling windows, update at configurable intervals
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#analytics-performance-optimization)
-
-## Collision System
-- **Pattern**: Spatial partitioning, collision filtering, physics stepping
-- **Key**: Use pymunk spatial hash, filter unnecessary checks, reuse shapes
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#collision-system-performance)
-
-## Data Logging
-- **Pattern**: Asynchronous logging, batch writes, selective data collection
-- **Key**: Background threads for CSV writing, configurable logging rates
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#data-logging-performance)
-
-## Event-Driven Collision Detection
-- **Pattern**: Predictive TTC scheduling, adjacency tracking, version-based invalidation
-- **Key**: Only check collision pairs when time-to-collision < horizon
-- **Performance**: O(n) instead of O(n²) collision checks
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#event-driven-collision-detection)
+## Quick Reference {#id:quick-reference}
+- **Core Files**: simulation.py, driver.py, vehicle.py, analytics.py, collision.py, logging.py
+- **Key Patterns**: IDM controller, perception system, analytics, collision detection
+- **Performance**: Fixed timestep, vectorized operations, spatial partitioning
+- **Headless**: Use SimulationHeadless for multiprocessing and benchmarking
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md) for comprehensive patterns

@@ -4,103 +4,65 @@ description: Bazel build system workflow patterns and command standards
 alwaysApply: false
 ---
 
-# Bazel Workflow Patterns
+# Bazel Workflow Patterns {#id:bazel-workflow}
 
-## Core Commands
+## Core Commands {#id:core-commands}
 - **Build**: `bazel build //...` - Build all targets with quality checks
 - **Test**: `bazel test //...` - Run all tests with coverage
 - **Run**: `bazel run //target:name` - Execute specific targets
 - **Query**: `bazel query //...` - Analyze build graph and dependencies
 - **Clean**: `bazel clean` - Remove build artifacts
 
-## Target Patterns
+## Target Patterns {#id:target-patterns}
 - **Simulator**: `bazel run //src/traffic_sim:traffic_sim_bin`
 - **Scripts**: `bazel run //scripts:script_name -- --args`
 - **Tests**: `bazel test //tests:test_name`
 - **All Tests**: `bazel test //...`
-- **Specific Test**: `bazel test //tests:test_name --test_output=all`
 
-## Quality Integration
+## Quality Integration {#id:quality-integration}
 - **Quality Gates**: Integrated into `bazel build //...`
 - **Linting**: Automatic via Bazel build system
 - **Type Checking**: Automatic via Bazel build system
 - **Security Scanning**: Automatic via Bazel build system
-- **Complexity Analysis**: Automatic via Bazel build system
 
-## Performance Commands
+## Performance Commands {#id:performance-commands}
 - **Fast Build**: `bazel build //... --config=fast` (16 jobs, 8GB memory)
 - **Ultra Build**: `bazel build //... --config=ultra` (32 jobs, CI/CD optimized)
-- **Cache Build**: `bazel build //... --config=cache` (local disk cache)
-- **Precommit Build**: `bazel build //... --config=precommit` (8 jobs, fast cached builds)
-- **Remote Build**: `bazel build //... --config=remote` (BuildBuddy remote cache)
-- **Debug Build**: `bazel build //... --config=debug` (verbose output)
 - **Benchmark**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
 - **Scale Testing**: `bazel run //scripts:benchmarking_framework -- --mode=scale`
-- **Monitoring**: `bazel run //scripts:benchmarking_framework -- --mode=monitor`
-- **Profiling**: `bazel run //scripts:benchmarking_framework -- --mode=profile`
 
-## Advanced Options
-- **Parallel Jobs**: `bazel test //... --jobs=4`
-- **Verbose Output**: `bazel test //... --test_output=all`
-- **Error Output**: `bazel test //... --test_output=errors`
-- **Build Verbose**: `bazel build //... --verbose_failures`
-
-## Output Organization
+## Output Organization {#id:output-organization}
 - **Profiling Data**: `runs/profiling/` directory
 - **Benchmark Results**: `runs/benchmarks/` directory
 - **Performance Data**: `runs/performance/` directory
-- **Scaling Analysis**: `runs/scaling/` directory
 - **Quality Reports**: `runs/quality/` directory
 
-## Configuration
+## Configuration {#id:configuration}
 - **Module**: `MODULE.bazel` - Bazel module configuration
 - **Workspace**: `WORKSPACE.bazel` - Workspace-level settings
 - **Build Config**: `.bazelrc` - Build and test flags
 - **Target Rules**: `BUILD.bazel` files define targets
-- **Precommit Profile**: Optimized for development workflow with disk caching
 
-## BuildBuddy Integration
+## BuildBuddy Integration {#id:buildbuddy}
 - **Setup**: Set `BUILD_BUDDY_API_KEY` environment variable
-- **Remote Cache**: `bazel build //... --config=remote --remote_header=x-buildbuddy-api-key="$BUILD_BUDDY_API_KEY"`
-- **Dashboard**: Monitor builds at https://app.buildbuddy.io/invocation/
+- **Remote Cache**: `bazel build //... --config=remote`
 - **Performance**: 71% faster builds with cache hits
 
-## Best Practices
+## Best Practices {#id:best-practices}
 - **Always use Bazel**: Replace all `uv run` commands with Bazel equivalents
-- **Precommit Optimization**: Use `--config=precommit` for pre-commit hooks
 - **Target Specificity**: Use precise target names when possible
 - **Output Management**: All generated data goes to `runs/` directory
 - **Parallel Execution**: Use `--jobs=N` for faster builds/tests
-- **Verbose Debugging**: Use `--test_output=all` for detailed output
-- **Remote Caching**: Use BuildBuddy for team collaboration and CI/CD
 
-## Migration Notes
-- **Legacy Commands**: All `uv run` commands deprecated in favor of Bazel
-- **Pre-commit Hooks**: Deprecated in favor of Bazel quality integration
-- **Script Execution**: Use `bazel run //scripts:name` instead of `uv run python scripts/name.py`
-- **Test Execution**: Use `bazel test //...` instead of `uv run python -m pytest`
-
-## MCP Server Integration
-
-**Pattern**: MCP server enhances Bazel workflow without replacing it
+## MCP Server Integration {#id:mcp-integration}
 - **Primary**: Bazel operations (95% of workflow)
 - **Fallback**: uv operations for debugging (5% of workflow)
 - **MCP Tools**: Provide structured interfaces to both Bazel and uv operations
+- **Reference**: See [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md) for details
 
-**Git Operations:**
-- Use MCP `git_status`, `git_sync`, `git_commit_workflow` tools
-- Maintain Bazel-first approach for build/test operations
-- Leverage MCP security controls for safe Git operations
-
-**Task Execution:**
-- Use MCP `run_quality`, `run_tests`, `run_performance` tools
-- Automatic fallback from Bazel to uv when needed
-- Structured output capture to `runs/` directory
-
-**Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md)
-
-## Reference
-- **Development Guide**: [docs/DEVELOPMENT.md](mdc:docs/DEVELOPMENT.md#bazel-workflow)
-- **Quality Standards**: [docs/QUALITY_STANDARDS.md](mdc:docs/QUALITY_STANDARDS.md)
-- **Performance Guide**: [docs/PERFORMANCE_GUIDE.md](mdc:docs/PERFORMANCE_GUIDE.md)
-- **Benchmarking Guide**: [docs/BENCHMARKING_GUIDE.md](mdc:docs/BENCHMARKING_GUIDE.md)
+## Quick Reference {#id:quick-reference}
+- **Primary Command**: `bazel build //...` (includes quality checks)
+- **Testing**: `bazel test //...` (comprehensive test suite)
+- **Performance**: `bazel run //scripts:benchmarking_framework -- --mode=benchmark`
+- **Output**: All data saved to `runs/` directory
+- **Reference**: See [Development Guide](mdc:docs/DEVELOPMENT.md#bazel-workflow) for detailed patterns
