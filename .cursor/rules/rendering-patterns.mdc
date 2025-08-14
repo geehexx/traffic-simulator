@@ -4,63 +4,43 @@ description: Arcade rendering guidelines
 alwaysApply: false
 ---
 
-# Rendering Patterns
+# Rendering Patterns {#id:rendering-patterns}
 
-## Integration & Stubs
-- Window: `src/traffic_sim/render/app.py`
-- Type stubs: `stubs/arcade/`
+## Arcade Integration {#id:arcade-integration}
+- **Main Window**: [app.py](mdc:src/traffic_sim/render/app.py) - Primary rendering application
+- **Type Stubs**: [stubs/arcade/](mdc:stubs/arcade/) - Type safety for Arcade API
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture) for detailed patterns
 
-## Performance
-- Text object caching for HUD; draw-call batching; minimal allocations.
+## Rendering Performance {#id:rendering-performance}
+- **Text Object Caching**: Reuse text objects for HUD elements
+- **Draw Call Batching**: Group similar operations
+- **Minimal Allocations**: Avoid per-frame object creation
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization) for optimization
 
-## Coordinate Systems
-- Meters for simulation; pixels for rendering.
+## Coordinate Systems {#id:coordinate-systems}
+- **Simulation**: Use meters for physics calculations
+- **Rendering**: Use pixels for display
+- **Conversion**: Scale between meters and pixels as needed
 
-## HUD Design
-- Minimal vs full modes; toggle; occlusion-aware panels with cached inputs.
+## HUD Design {#id:hud-design}
+- **Minimal Mode**: Essential information only
+- **Full Mode**: Comprehensive data display
+- **Toggle**: Switch between modes as needed
+- **Occlusion-Aware**: Hide panels when not visible
 
-## Arcade Calls
-- Use valid functions (e.g., `draw_lbwh_rectangle_filled`, `draw_lrbt_rectangle_filled`).
-- See Arcade API Consistency rule.
----
-globs: src/traffic_sim/render/**
-description: Arcade rendering guidelines
-alwaysApply: false
----
+## Arcade API Calls {#id:arcade-api-calls}
+- **Valid Functions**: Use only documented Arcade functions
+- **Examples**: `draw_lbwh_rectangle_filled`, `draw_lrbt_rectangle_filled`
+- **Reference**: See [Arcade API Consistency](mdc:.cursor/rules/arcade-api-consistency.mdc) for validation
 
-# Rendering Patterns
+## Performance Target {#id:performance-target}
+- **FPS**: Honor project performance standards (see [Quality Standards](mdc:docs/QUALITY_STANDARDS.md) and [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md))
+- **Target**: Strive for ≥30 FPS with ≥20 vehicles
+- **Optimization**: Minimize allocations in the draw path
 
-## Arcade Integration
-- **Main Window**: [app.py](mdc:src/traffic_sim/render/app.py)
-- **Type Stubs**: [stubs/arcade/](mdc:stubs/arcade/) for type safety
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
-
-## Rendering Performance
-- **Pattern**: Use Text objects for HUD elements
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
-
-## Coordinate Systems
-- **Pattern**: Meters for simulation, pixels for rendering
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
-
-## HUD Design
-- **Pattern**: Minimal and full modes, toggle with H key
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture)
-
-## Drawing Functions
-- **Pattern**: Use appropriate function based on coordinate system
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
-
-## State Management
-- **Pattern**: Separate simulation state from rendering state
-- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management)
-
-### HUD Occlusion Panel {#id:hud-occlusion-panel}
-- **Key Pattern**: Render occlusion-aware HUD elements by consuming read-only data from the perception system (occlusion by sector, SSD metrics). Compute-heavy work belongs in the perception layer, not the render loop.
-- **Update Cadence**: Target ~10 Hz HUD refresh independent of the physics step when feasible; avoid per-frame recomputation of expensive metrics.
-- **Determinism**: Respect fixed-step simulation and seeded RNG requirements. Do not introduce non-deterministic sampling in the render thread.
-- **Performance Target**: Honor project performance standards (see [Quality Standards](mdc:docs/QUALITY_STANDARDS.md) and [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md)). Strive for ≥30 FPS with ≥20 vehicles; minimize allocations in the draw path.
-- **Arcade Calls**: Use valid Arcade APIs only; see [Arcade API Consistency](mdc:.cursor/rules/arcade-api-consistency.mdc). Prefer text batching and avoid per-frame object churn.
-- **Configuration Hooks**: If a configuration toggle exists for the occlusion HUD, document the key and default in the configuration rule (see [Configuration Patterns](mdc:.cursor/rules/configuration-patterns.mdc#id:hud-occlusion-config)).
-- **❌ Avoid**: Performing occlusion/SSD computations in the draw cycle; using non-existent Arcade functions; unbounded per-frame allocations.
-- **✅ Use**: Cached perception outputs; anchored HUD sections with stable IDs; references to category rules over duplicated specifics.
+## Quick Reference {#id:quick-reference}
+- **Main File**: [app.py](mdc:src/traffic_sim/render/app.py) - Primary rendering application
+- **Performance**: Text object caching, draw call batching, minimal allocations
+- **HUD**: Minimal/full modes, occlusion-aware panels
+- **API**: Use valid Arcade functions, see API consistency rule
+- **Reference**: See [Architecture Guide](mdc:docs/ARCHITECTURE.md#rendering-architecture) for comprehensive patterns

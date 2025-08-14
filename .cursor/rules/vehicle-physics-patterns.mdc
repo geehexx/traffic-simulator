@@ -4,73 +4,55 @@ description: Patterns for implementing vehicle physics attributes and constraint
 alwaysApply: false
 ---
 
-# Vehicle Physics Patterns
+# Vehicle Physics Patterns {#id:vehicle-physics-patterns}
 
-## Attributes & Catalog
-- Dataclass specs: power_kw, torque_nm, drag_area_cda, wheelbase_m, tire_friction_mu, brake_efficiency_eta.
-- Realistic values per vehicle type; catalog entries with physics attributes.
-
-## Dynamics & Constraints
-- Acceleration curves based on power/torque; aerodynamic drag; braking constraints `a ≥ -ημg`.
-
-## Performance
-- Cache expensive calculations; use vectorized operations where available.
-
-## IDM Integration
-- Apply physical constraints after IDM acceleration computation.
-
-## Testing
-- Verify acceleration limits and drag calculations with known values.
----
-globs: src/traffic_sim/core/**
-description: Patterns for implementing vehicle physics attributes and constraints
-alwaysApply: false
----
-
-# Vehicle Physics Patterns
-
-## Physics Attributes
+## Physics Attributes {#id:physics-attributes}
 - **Pattern**: Use dataclass for vehicle specifications with physics attributes
 - **Implementation**: Include power_kw, torque_nm, drag_area_cda, wheelbase_m, tire_friction_mu, brake_efficiency_eta
-- **Reference**: [VehicleSpec](mdc:src/traffic_sim/core/vehicle.py#VehicleSpec)
+- **Reference**: See [VehicleSpec](mdc:src/traffic_sim/core/vehicle.py#VehicleSpec) for implementation
 
-## Acceleration Calculations
+## Acceleration Calculations {#id:acceleration-calculations}
 - **Pattern**: Implement power/torque-based acceleration curves
 - **Formula**: a_max(v) = min(power_limit, torque_limit) / mass
-- **Reference**: [calculate_max_acceleration](mdc:src/traffic_sim/core/vehicle.py#calculate_max_acceleration)
+- **Reference**: See [calculate_max_acceleration](mdc:src/traffic_sim/core/vehicle.py#calculate_max_acceleration) for implementation
 
-## Aerodynamic Drag
-- **Pattern**: Calculate drag force using standard formula
-- **Formula**: F_d = 0.5 * ρ * C_d * A * v²
-- **Reference**: [calculate_aerodynamic_drag_force](mdc:src/traffic_sim/core/vehicle.py#calculate_aerodynamic_drag_force)
+## Aerodynamic Drag {#id:aerodynamic-drag}
+- **Pattern**: Calculate drag force based on velocity and drag area
+- **Formula**: F_drag = 0.5 * rho * C_d * A * v²
+- **Reference**: See [calculate_aerodynamic_drag_force](mdc:src/traffic_sim/core/vehicle.py#calculate_aerodynamic_drag_force) for implementation
 
-## Physical Constraints
-- **Pattern**: Apply braking constraints based on tire friction
-- **Formula**: a ≥ -ημg
-- **Reference**: [apply_physical_constraints](mdc:src/traffic_sim/core/vehicle.py#apply_physical_constraints)
+## Physical Constraints {#id:physical-constraints}
+- **Pattern**: Apply physical constraints after IDM acceleration computation
+- **Braking**: a ≥ -ημg (efficiency * friction * gravity)
+- **Acceleration**: Respect power and torque limits
+- **Reference**: See [apply_physical_constraints](mdc:src/traffic_sim/core/vehicle.py#apply_physical_constraints) for implementation
 
-## Performance Considerations
-- **Pattern**: Cache expensive calculations
-- **Implementation**: Use PerformanceOptimizer for fast approximations
-- **Reference**: [PerformanceOptimizer](mdc:src/traffic_sim/core/performance.py)
+## Performance Optimization {#id:performance-optimization}
+- **Pattern**: Cache expensive calculations, use vectorized operations
+- **Key**: Cache acceleration curves, aerodynamic drag calculations
+- **Implementation**: Use NumPy for vectorized operations when available
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance) for optimization
 
-## Vehicle Type Physics
-- **Pattern**: Define realistic physics values per vehicle type
-- **Implementation**: Use VehicleCatalogEntry with physics attributes
-- **Reference**: [DEFAULT_CATALOG](mdc:src/traffic_sim/models/vehicle_specs.py#DEFAULT_CATALOG)
+## Vehicle Catalog {#id:vehicle-catalog}
+- **Pattern**: Define realistic values per vehicle type
+- **Implementation**: Use catalog entries with physics attributes
+- **Reference**: See [DEFAULT_CATALOG](mdc:src/traffic_sim/models/vehicle_specs.py#DEFAULT_CATALOG) for examples
 
-## Integration with IDM
-- **Pattern**: Apply physics constraints to IDM acceleration
-- **Implementation**: Use apply_physical_constraints after IDM calculation
-- **Reference**: [simulation.py](mdc:src/traffic_sim/core/simulation.py#_calculate_idm_acceleration)
+## IDM Integration {#id:idm-integration}
+- **Pattern**: Apply physical constraints after IDM acceleration computation
+- **Key**: Ensure IDM acceleration respects physical limits
+- **Implementation**: Clamp acceleration to physical constraints
+- **Reference**: See [IDM Controller](mdc:src/traffic_sim/core/simulation.py#_calculate_idm_acceleration) for integration
 
-## Testing Physics
-- **Pattern**: Test physics calculations with known values
-- **Implementation**: Verify acceleration limits and drag forces
-- **Reference**: [performance_test.py](mdc:tests/performance_test.py#test_physics_constraints)
+## Testing {#id:testing}
+- **Pattern**: Verify acceleration limits and drag calculations with known values
+- **Key**: Test with realistic vehicle parameters
+- **Implementation**: Use unit tests for physics calculations
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance) for testing
 
-## NumPy Physics Engine Patterns
-- **Pattern**: Vectorized physics with Numba JIT acceleration
-- **Key**: Use @njit decorators, cache compiled functions, fallback to pure NumPy
-- **Performance**: Significant speedup for large vehicle counts
-- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance)
+## Quick Reference {#id:quick-reference}
+- **Attributes**: Use dataclass for vehicle specifications
+- **Acceleration**: Power/torque-based curves with physical constraints
+- **Drag**: Aerodynamic drag based on velocity and drag area
+- **Performance**: Cache expensive calculations, use vectorized operations
+- **Reference**: See [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#numpy-physics-engine-performance) for detailed patterns

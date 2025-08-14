@@ -4,32 +4,32 @@ description: Agent planning and time estimation standards for AI-assisted develo
 alwaysApply: true
 ---
 
-# Agent Planning and Time Estimation Standards
+# Agent Planning and Time Estimation Standards {#id:agent-planning-standards}
 
-## Planning Approach
+## Planning Approach {#id:planning-approach}
 - **Use realistic agent time estimates** rather than traditional developer time estimates
 - **Break down complex tasks** into clear phases with specific deliverables
 - **Provide accurate time estimates** for AI-assisted development
 
-## Time Estimation Guidelines
+## Time Estimation Guidelines {#id:time-estimation}
 - **Phase 1 (30 minutes)**: Major refactoring or new feature implementation
 - **Phase 2 (15 minutes)**: Integration and testing of new components
 - **Phase 3 (10 minutes)**: Bug fixes and minor improvements
 - **Phase 4 (5 minutes)**: Documentation updates and cleanup
 
-## Task Breakdown Standards
+## Task Breakdown Standards {#id:task-breakdown}
 - **Clear deliverables**: Each phase should have specific, measurable outcomes
 - **Realistic timelines**: Account for AI processing time and human review
 - **Dependency management**: Identify and plan for task dependencies
 - **Quality gates**: Include testing and validation in time estimates
 
-## Communication Standards
+## Communication Standards {#id:communication-standards}
 - **Progress updates**: Regular status updates during long tasks
 - **Risk identification**: Early warning of potential issues or delays
 - **Stakeholder communication**: Clear updates on progress and blockers
 - **Documentation**: Maintain clear records of decisions and changes
 
-## Quality Assurance
+## Quality Assurance {#id:quality-assurance}
 - **Testing integration**: Include testing time in all estimates
 - **Code review**: Account for review and feedback cycles
 - **Documentation**: Plan time for updating relevant documentation

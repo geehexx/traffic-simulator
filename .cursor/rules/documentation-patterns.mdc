@@ -4,32 +4,32 @@ description: Documentation standards, structure, maintenance, accessibility, and
 alwaysApply: false
 ---
 
-# Documentation Patterns
+# Documentation Patterns {#id:documentation-patterns}
 
-## Structure & Sources of Truth
+## Structure & Sources of Truth {#id:structure-sources}
 - **Use**: `docs/DOCUMENTATION_GUIDE.md` for detailed standards; `docs/QUALITY_STANDARDS.md#documentation-standards` for enforcement.
 - **Avoid duplication**: Reference canonical guides rather than restating content.
 - **Hierarchy**: Follow the docs tree and stable anchors; keep navigation consistent.
 
-## Writing & Organization
+## Writing & Organization {#id:writing-organization}
 - **Headings**: `##` main, `###` subsections; stable anchors when applicable.
 - **Clarity**: Simple language, active voice, context-first intros.
 - **Examples**: Realistic, tested, and minimal. Prefer configuration examples over performance results.
 - **Link policy**: Docs may reference other docs; do not link from documentation to rules.
 
-## Accessibility & Audience
+## Accessibility & Audience {#id:accessibility-audience}
 - **Audience callout**: Identify intended readers at the top when useful.
 - **Accessibility**: Ensure headings order, descriptive link text, and readable contrast in images/diagrams.
 
-## Maintenance & Review Cadence
+## Maintenance & Review Cadence {#id:maintenance-review}
 - **Update triggers**: Code/config changes, new features, bug fixes, user feedback.
 - **Review schedule**: Monthly light review; quarterly audit; per-release pass.
 - **Validation**: Link checks, example verification, cross-reference integrity.
 
-## Avoid Static/Hardware-Specific Metrics
+## Avoid Static/Hardware-Specific Metrics {#id:avoid-metrics}
 - **Do not include**: "Current status", hardware-bound FPS, exact speedups.
 - **Prefer**: Targets, procedures, and configuration impacting behavior.
 
-## References
+## References {#id:references}
 - [Documentation Guide](mdc:docs/DOCUMENTATION_GUIDE.md)
 - [Quality Standards](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
