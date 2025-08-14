@@ -4,7 +4,7 @@ description: Comprehensive performance optimization guidelines and patterns
 alwaysApply: false
 ---
 
-# Performance Optimization
+# Performance Optimization {#id:performance-optimization}
 
 ## Performance Targets {#id:performance-targets}
 - **Primary**: 30+ FPS with 20+ vehicles (baseline)

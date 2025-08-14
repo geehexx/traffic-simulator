@@ -1,32 +1,31 @@
 ---
 globs: ["mcp/**/*.py", ".cursor/mcp.json", "config/mcp.yaml"]
-description: "MCP server development patterns and security guidelines"
+description: MCP server development patterns and security guidelines
 alwaysApply: false
 ---
 
-# MCP Development Patterns
+# MCP Development Patterns {#id:mcp-development-patterns}
 
-## MCP Server Architecture
-
-**Pattern**: Isolated package with clean separation from main codebase
+## MCP Server Architecture {#id:mcp-architecture}
+- **Pattern**: Isolated package with clean separation from main codebase
 - **Location**: `mcp/` directory with independent `pyproject.toml`
 - **Dependencies**: Minimal, focused on MCP SDK and Git operations
-- **Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md)
+- **Reference**: See [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md) for setup
 
-## Tool Design Principles
+## Tool Design Principles {#id:tool-design}
 
-**Do:**
-- Model actions rather than command-line executables
-- Implement hybrid operations that handle complex workflows internally
-- Provide structured outputs with file paths and actionable next steps
-- Include safety guards and confirmation requirements for destructive operations
+### Do's
+- **Model actions** rather than command-line executables
+- **Implement hybrid operations** that handle complex workflows internally
+- **Provide structured outputs** with file paths and actionable next steps
+- **Include safety guards** and confirmation requirements for destructive operations
 
-**Don't:**
-- Expose raw command-line interfaces
-- Allow unrestricted file system access
-- Skip validation of user inputs
+### Don'ts
+- **Don't expose** raw command-line interfaces
+- **Don't allow** unrestricted file system access
+- **Don't skip** validation of user inputs
 
-**Example:**
+### Example
 ```python
 def git_commit_workflow(message: str, paths: Optional[List[str]] = None) -> Dict[str, Any]:
     """Complete commit workflow with staging, diff preview, and validation."""
@@ -34,61 +33,27 @@ def git_commit_workflow(message: str, paths: Optional[List[str]] = None) -> Dict
     # Returns structured result with commit hash and summary
 ```
 
-## Security Patterns
+## Security Patterns {#id:security-patterns}
 
-**Path Allowlists:**
-- Restrict Git operations to allowed directories (`src/`, `config/`, `docs/`, `scripts/`, `tests/`)
-- Validate all file paths before operations
-- Reject operations outside repository root
+### Path Allowlists
+- **Restrict Git operations** to allowed directories (`src/`, `config/`, `docs/`, `scripts/`, `tests/`)
+- **Validate paths** before any file system operations
+- **Prevent access** to sensitive directories (`.git/`, `venv/`, `node_modules/`)
 
-**Command Validation:**
-- Maintain allowlist of permitted commands
-- Validate command prefixes against allowlist
-- Reject commands with shell metacharacters
+### Input Validation
+- **Validate all inputs** before processing
+- **Sanitize user data** to prevent injection attacks
+- **Check permissions** before file operations
 
-**Token Redaction:**
-- Automatically redact sensitive tokens from output
-- Use regex patterns for common token formats
-- Truncate large outputs to prevent context overflow
+## Testing Patterns {#id:testing-patterns}
+- **Unit Tests**: Test individual tool functions
+- **Integration Tests**: Test tool interactions with external systems
+- **Security Tests**: Verify path restrictions and input validation
+- **Reference**: See [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md#testing) for testing setup
 
-## Logging and Monitoring
-
-**Pattern**: Structured JSON logs to `runs/mcp/` directory
-- **Format**: JSONL with timestamp, tool name, parameters, results
-- **Retention**: Daily log files with automatic rotation
-- **Security**: Redacted tokens and truncated outputs
-
-**Example:**
-```json
-{
-  "timestamp": "2025-10-01T19:57:25Z",
-  "tool_name": "git",
-  "operation": "commit_workflow",
-  "params": {"message": "feat: add feature", "paths": ["src/feature.py"]},
-  "result": {"success": true, "commit_hash": "abc123"},
-  "duration_seconds": 0.15
-}
-```
-
-## Error Handling
-
-**Pattern**: Graceful degradation with informative error messages
-- **Git Operations**: Handle repository state errors, provide recovery suggestions
-- **Task Execution**: Implement fallback strategies (Bazel → uv)
-- **Network Operations**: Timeout handling and retry logic
-
-## Performance Optimization
-
-**Pattern**: Intelligent caching and parallel execution
-- **Git State**: Cache repository state between operations
-- **Task Execution**: Parallel execution for `run_analysis()`
-- **Output Management**: Structured outputs with artifact links
-
-## Testing Strategy
-
-**Pattern**: Comprehensive unit tests with temporary repositories
-- **Git Operations**: Test with temporary repos using dulwich
-- **Task Execution**: Mock subprocess calls for deterministic testing
-- **Security**: Test allowlist enforcement and validation
-
-**Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md#testing)
+## Quick Reference {#id:quick-reference}
+- **Architecture**: Isolated package in `mcp/` directory
+- **Tool Design**: Model actions, provide structured outputs, include safety guards
+- **Security**: Path allowlists, input validation, permission checks
+- **Testing**: Unit, integration, and security tests
+- **Reference**: See [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md) for comprehensive patterns
