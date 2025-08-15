@@ -4,39 +4,39 @@ description: Essential code quality patterns
 alwaysApply: true
 ---
 
-# Code Quality Standards
+# Code Quality Standards {#id:code-quality-standards}
 
-## Type Safety
+## Type Safety {#id:type-safety}
 - **Pattern**: Use `from __future__ import annotations`
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#type-annotations)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#type-annotations) for details
 
-## Import Organization
+## Import Organization {#id:import-organization}
 - **Pattern**: Standard library, third-party, local imports
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#import-organization)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#import-organization) for details
 
-## Error Handling
+## Error Handling {#id:error-handling}
 - **Pattern**: Specific exceptions, context in messages
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling) for details
 
-## Quality Gates
+## Quality Gates {#id:quality-gates}
 - **Tools**: Pyright, Ruff, Bandit, Radon (integrated into Bazel)
-- **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
+- **Reference**: See [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
 - **Usage**: `bazel build //...` (all quality checks integrated with Bazel 7.1.1+)
 
-## Quality Analysis Modes
+## Quality Analysis Modes {#id:quality-analysis}
 - **Check**: `bazel build //...` - Quality gates enforcement (integrated)
 - **Monitor**: `bazel test //... --test_output=all` - Detailed quality monitoring
 - **Analyze**: `bazel query //...` - Comprehensive static analysis
 
-## Code Style
+## Code Style {#id:code-style}
 - **Line Length**: 100 characters
 - **Functions**: <50 lines, complexity ≤10
 - **Classes**: <200 lines
 - **Docstrings**: Google-style for public APIs
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#code-quality-standards)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#code-quality-standards) for details
 
-## IDE Integration
+## IDE Integration {#id:ide-integration}
 - **VS Code**: Python extension with Pyright integration
 - **PyCharm**: Enable type checking and external tools
 - **Configuration**: Automatic detection from pyproject.toml
-- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#ide-integration)
+- **Reference**: See [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#ide-integration) for details
