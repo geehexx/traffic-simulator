@@ -87,7 +87,7 @@ class PromptEvaluation(BaseModel):
 class PromptOptimizationResult(BaseModel):
     """Result of prompt optimization process."""
 
-    winner_candidate: PromptCandidate
+    winner_candidate: Optional[PromptCandidate] = None
     evaluation_results: List[PromptEvaluation]
     optimization_metadata: Dict[str, Any] = Field(default_factory=dict)
     improvement_metrics: Dict[str, float] = Field(default_factory=dict)
