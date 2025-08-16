@@ -20,6 +20,16 @@ The traffic simulator includes a comprehensive MCP server that provides streamli
 - **`run_performance`** - Performance benchmarking and scaling analysis
 - **`run_analysis`** - Comprehensive analysis combining multiple operations
 
+### Prompt Management Tools
+- **`execute_prompt`** - Execute prompts with structured input/output
+- **`register_prompt`** - Register new prompts in the registry
+- **`get_active_prompt`** - Get active prompt for a mode
+- **`optimize_prompts`** - Optimize prompts using meta-optimizer
+- **`list_prompts`** - List prompts in the registry
+- **`run_continuous_optimization`** - Advanced optimization with DSPy
+- **`generate_training_data`** - Generate training data for optimization
+- **`evaluate_prompt_performance`** - Evaluate prompt performance
+
 ## Installation
 
 ```bash

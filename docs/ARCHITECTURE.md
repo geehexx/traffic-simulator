@@ -784,6 +784,7 @@ The Model Context Protocol server that provides enhanced development capabilitie
 - **Security Controls**: Path allowlists, command validation, token redaction
 - **Structured Logging**: JSON logs to `runs/mcp/` directory for audit and debugging
 - **Cursor Integration**: Enhanced AI agent workflows with 7 optimized tools
+- **Prompt Management**: Advanced prompt optimization with DSPy integration
 - **Performance**: Minimal overhead with smart caching and parallel execution
 
 ```python
@@ -793,9 +794,16 @@ mcp/
 │   ├── server.py              # MCP server entrypoint
 │   ├── config.py              # Configuration management
 │   ├── security.py            # Security and allowlists
-│   ├── logging_util.py         # Structured logging
+│   ├── logging_util.py        # Structured logging
 │   ├── git/                   # Git operations with dulwich
 │   ├── tasks/                 # Task execution with Bazel/uv
+│   ├── prompts/               # Advanced prompt management
+│   │   ├── schemas.py         # Pydantic schemas for structured I/O
+│   │   ├── optimizers.py      # DSPy optimizers (joint optimization, Bayesian)
+│   │   ├── datasets.py        # Training data management
+│   │   ├── continuous_improvement.py  # Self-improvement workflows
+│   │   ├── advanced_tools.py  # MCP tools for optimization
+│   │   └── examples/          # Usage examples and demos
 │   └── tests/                 # Comprehensive test suite
 └── pyproject.toml             # Package configuration
 ```
@@ -806,6 +814,8 @@ mcp/
 - **Security-First**: All operations validated with allowlists and confirmation
 - **Context Reduction**: Batch operations and artifact management for AI agents
 - **Performance Optimization**: Intelligent caching and timeout management
+- **Prompt Optimization**: Advanced DSPy-based prompt self-improvement
+- **Continuous Learning**: Automated optimization triggers and cycles
 
 **Reference**: [MCP Integration Guide](mdc:docs/MCP_INTEGRATION.md)
 
