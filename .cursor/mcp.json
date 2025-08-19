@@ -2,7 +2,8 @@
   "mcpServers": {
     "traffic-sim": {
       "command": "/home/gxx/projects/traffic-simulator/venv/bin/python",
-      "args": ["/home/gxx/projects/traffic-simulator/mcp/mcp_traffic_sim/server.py"],
+      "args": ["-m", "mcp_traffic_sim.server"],
+      "cwd": "/home/gxx/projects/traffic-simulator/mcp",
       "env": {
         "MCP_REPO_PATH": "/home/gxx/projects/traffic-simulator",
         "MCP_LOG_DIR": "/home/gxx/projects/traffic-simulator/runs/mcp",
