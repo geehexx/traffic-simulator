@@ -11,8 +11,6 @@ from mcp.types import Tool
 from .config import MCPConfig
 from .git.tools import GitTools
 from .logging_util import MCPLogger
-from .prompts.tools import PromptTools
-from .prompts.advanced_tools import AdvancedPromptTools
 from .security import SecurityManager
 from .tasks.tools import TaskTools
 
@@ -29,8 +27,6 @@ class TrafficSimMCPServer:
         # Initialize tool handlers
         self.git_tools = GitTools(self.config, self.logger, self.security)
         self.task_tools = TaskTools(self.config, self.logger, self.security)
-        self.prompt_tools = PromptTools(self.config, self.logger, self.security)
-        self.advanced_prompt_tools = AdvancedPromptTools(self.config, self.logger, self.security)
 
         # Create MCP server
         self.server = Server("traffic-sim")
@@ -223,155 +219,6 @@ class TrafficSimMCPServer:
                         },
                     },
                 ),
-                # Prompt Management Tools
-                Tool(
-                    name="execute_prompt",
-                    description="Execute a registered prompt with given input data.",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "prompt_id": {
-                                "type": "string",
-                                "description": "ID of the prompt to execute.",
-                            },
-                            "input_data": {
-                                "type": "object",
-                                "description": "Input data for the prompt, adhering to its schema.",
-                            },
-                        },
-                        "required": ["prompt_id", "input_data"],
-                    },
-                ),
-                Tool(
-                    name="register_prompt",
-                    description="Register a new prompt configuration.",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "prompt_id": {"type": "string"},
-                            "name": {"type": "string"},
-                            "description": {"type": "string"},
-                            "template": {"type": "string"},
-                            "input_schema": {"type": "object"},
-                            "output_schema": {"type": "object"},
-                            "version": {"type": "string"},
-                            "tags": {"type": "array", "items": {"type": "string"}},
-                            "metadata": {"type": "object"},
-                        },
-                        "required": [
-                            "prompt_id",
-                            "name",
-                            "description",
-                            "template",
-                            "input_schema",
-                            "output_schema",
-                        ],
-                    },
-                ),
-                Tool(
-                    name="list_prompts",
-                    description="List all registered prompts, optionally filtered by tags.",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "tags": {
-                                "type": "array",
-                                "items": {"type": "string"},
-                                "description": "Optional list of tags to filter prompts.",
-                            },
-                        },
-                    },
-                ),
-                Tool(
-                    name="optimize_prompts",
-                    description="Trigger the meta-optimization process for specified prompts.",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "prompt_ids": {
-                                "type": "array",
-                                "items": {"type": "string"},
-                                "description": "List of prompt IDs to optimize.",
-                            },
-                            "num_bootstrapped_examples": {
-                                "type": "integer",
-                                "description": "Number of few-shot examples to bootstrap (default: 5).",
-                            },
-                            "num_optimizer_trials": {
-                                "type": "integer",
-                                "description": "Number of optimization trials (default: 10).",
-                            },
-                        },
-                        "required": ["prompt_ids"],
-                    },
-                ),
-                Tool(
-                    name="run_continuous_optimization",
-                    description="Run continuous optimization with advanced strategies (MIPROv2, Bayesian, Hybrid)",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": ["docs", "rules", "hybrid"],
-                                "description": "Prompt mode to optimize",
-                            },
-                            "optimization_strategy": {
-                                "type": "string",
-                                "enum": ["mipro", "bayesian", "hybrid"],
-                                "description": "Optimization strategy to use",
-                            },
-                            "auto_apply": {
-                                "type": "boolean",
-                                "description": "Automatically apply optimization results",
-                            },
-                        },
-                        "required": ["mode"],
-                    },
-                ),
-                Tool(
-                    name="generate_training_data",
-                    description="Generate training data for prompt optimization",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": ["docs", "rules", "hybrid"],
-                                "description": "Prompt mode for training data",
-                            },
-                            "num_examples": {
-                                "type": "integer",
-                                "description": "Number of examples to generate",
-                            },
-                            "variety_level": {
-                                "type": "string",
-                                "enum": ["low", "medium", "high"],
-                                "description": "Level of variety in generated examples",
-                            },
-                        },
-                        "required": ["mode"],
-                    },
-                ),
-                Tool(
-                    name="evaluate_prompt_performance",
-                    description="Evaluate prompt performance on test cases",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": ["docs", "rules", "hybrid"],
-                                "description": "Prompt mode to evaluate",
-                            },
-                            "num_test_cases": {
-                                "type": "integer",
-                                "description": "Number of test cases to use",
-                            },
-                        },
-                        "required": ["mode"],
-                    },
-                ),
             ]
 
         # Register tool handlers
@@ -425,38 +272,6 @@ class TrafficSimMCPServer:
                         include_performance=arguments.get("include_performance", True),
                         include_profiling=arguments.get("include_profiling", False),
                         parallel=arguments.get("parallel", True),
-                    )
-                # Prompt Management Tools
-                elif name == "execute_prompt":
-                    return self.prompt_tools.execute_prompt(
-                        prompt_id=arguments["prompt_id"], input_data=arguments["input_data"]
-                    )
-                elif name == "register_prompt":
-                    return self.prompt_tools.register_prompt(arguments)
-                elif name == "list_prompts":
-                    return self.prompt_tools.list_prompts(tags=arguments.get("tags"))
-                elif name == "optimize_prompts":
-                    return self.prompt_tools.optimize_prompts(
-                        prompt_ids=arguments["prompt_ids"],
-                        num_bootstrapped_examples=arguments.get("num_bootstrapped_examples", 5),
-                        num_optimizer_trials=arguments.get("num_optimizer_trials", 10),
-                    )
-                elif name == "run_continuous_optimization":
-                    return self.advanced_prompt_tools.run_continuous_optimization(
-                        mode=arguments["mode"],
-                        optimization_strategy=arguments.get("optimization_strategy", "hybrid"),
-                        auto_apply=arguments.get("auto_apply", False),
-                    )
-                elif name == "generate_training_data":
-                    return self.advanced_prompt_tools.generate_training_data(
-                        mode=arguments["mode"],
-                        num_examples=arguments.get("num_examples", 100),
-                        variety_level=arguments.get("variety_level", "medium"),
-                    )
-                elif name == "evaluate_prompt_performance":
-                    return self.advanced_prompt_tools.evaluate_prompt_performance(
-                        mode=arguments["mode"],
-                        num_test_cases=arguments.get("num_test_cases", 50),
                     )
                 else:
                     raise ValueError(f"Unknown tool: {name}")

@@ -1,0 +1,3 @@
+# Markdownlint ignore file
+# Ignore prompt files as they are meant to be used as-is
+docs/MCP_PROMPTS/
