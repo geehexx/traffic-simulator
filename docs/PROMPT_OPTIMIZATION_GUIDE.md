@@ -1,11 +1,11 @@
-# Cursor Prompts Directory
+# Prompt Optimization Guide
 
-This directory contains specialized prompts and a repeatable methodology for optimizing, running, scoring, and iterating prompts that maintain the project's documentation and rules.
+This guide covers the automated prompt optimization system integrated into the MCP server, providing a repeatable methodology for optimizing, running, scoring, and iterating prompts that maintain the project's documentation and rules.
 
 ## Contents
-### generate-super.md
+### MCP_PROMPTS/generate-super.md
 Unified Docs & Rules Maintainer super‑prompt with modes (docs | rules | hybrid) and shared APE workflow. Prefer this for future maintenance.
-### generate-meta-optimizer.md
+### MCP_PROMPTS/generate-meta-optimizer.md
 High‑reasoning meta‑optimizer for prompts and artifacts. Designs criteria, runs dry‑run comparisons (update/consolidate vs regenerate), scores with PDQI‑9/RGS + stability/SoT, and selects winners. Long‑running; use sparingly.
 
 ## Purpose
@@ -16,7 +16,7 @@ Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to
 - Score outputs using consistent rubrics and stability testing
 - Select, refine, and stabilize winners with human-in-the-loop feedback
 
-**For detailed methodologies, see [APE.md](mdc:docs/prompts/APE.md#ape-methodologies).**
+**For detailed methodologies, see [AUTOMATED_PROMPT_ENGINEERING.md](mdc:docs/AUTOMATED_PROMPT_ENGINEERING.md#ape-methodologies).**
 
 ## Link Policy (critical)
 - Documentation must not reference rule files. Docs may reference other docs.
@@ -39,7 +39,7 @@ Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to
 - **HITL checkpoints** at critical decision points
 - **Archive rationale** for traceability
 
-**For complete methodologies, see [APE.md](mdc:docs/prompts/APE.md#ape-methodologies).**
+**For complete methodologies, see [AUTOMATED_PROMPT_ENGINEERING.md](mdc:docs/AUTOMATED_PROMPT_ENGINEERING.md#ape-methodologies).**
 
 ## Running APE Locally
 
@@ -71,7 +71,7 @@ Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to
 ## References
 
 ### Core Documentation
-- **APE Methodologies**: `mdc:docs/prompts/APE.md#ape-methodologies` - Complete methodologies, rubrics, and academic references
+- **APE Methodologies**: `mdc:docs/AUTOMATED_PROMPT_ENGINEERING.md#ape-methodologies` - Complete methodologies, rubrics, and academic references
 - **Quality Standards**: `mdc:docs/QUALITY_STANDARDS.md`
 - **Cursor Rules**: `mdc:docs/CURSOR_RULES.md`
 - **Architecture**: `mdc:docs/ARCHITECTURE.md`

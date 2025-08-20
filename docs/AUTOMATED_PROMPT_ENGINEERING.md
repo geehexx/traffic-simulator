@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive methodologies for Automated Prompt Engineering (APE) used in maintaining documentation and rules for the traffic simulator project. APE combines systematic prompt optimization with human-in-the-loop feedback to continuously improve both prompts and their generated artifacts.
+This document provides comprehensive methodologies for Automated Prompt Engineering (APE) integrated into the MCP server for maintaining documentation and rules for the traffic simulator project. APE combines systematic prompt optimization with human-in-the-loop feedback to continuously improve both prompts and their generated artifacts through the MCP server's prompt management system.
 
 ## Theoretical Foundation
 
