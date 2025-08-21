@@ -1,16 +1,17 @@
-# Automated Prompt Engineering (APE) Methodologies {#id:ape-methodologies}
+# DSPy-Based Automated Prompt Engineering (APE) Methodologies {#id:ape-methodologies}
 
 ## Overview
 
-This document provides comprehensive methodologies for Automated Prompt Engineering (APE) integrated into the MCP server for maintaining documentation and rules for the traffic simulator project. APE combines systematic prompt optimization with human-in-the-loop feedback to continuously improve both prompts and their generated artifacts through the MCP server's prompt management system.
+This document provides comprehensive methodologies for DSPy-based Automated Prompt Engineering (APE) integrated into the MCP server for maintaining documentation and rules for the traffic simulator project. The system uses DSPy's structured approach with Signatures, Modules, and Optimizers to provide systematic prompt optimization with continuous learning capabilities.
 
 ## Theoretical Foundation
 
-### Prompt Engineering Principles
-- **Systematic Variation**: Generate 4-6 candidate prompts with meaningful structural, brevity, and targeting differences
-- **Dual-Path Evaluation**: Always compare "update/consolidate from existing" vs "full regeneration from scratch"
-- **Stability-Driven Selection**: Require Stability Index ≥0.85 under minor perturbations
-- **Human-AI Collaboration**: Integrate HITL checkpoints at critical decision points
+### DSPy-Based Prompt Engineering Principles
+- **Structured Signatures**: Define clear input/output specifications for all prompt tasks
+- **DSPy Modules**: Use ChainOfThought, ReAct, and other reasoning modules for systematic processing
+- **Automatic Optimization**: Leverage BootstrapFewShot, joint optimization, and Bayesian optimizers
+- **Performance Metrics**: Systematic evaluation with improvement scoring and tracking
+- **Continuous Learning**: Automated optimization cycles with self-improvement capabilities
 
 ### Academic References
 - **Automated Prompt Engineering**: Based on research in automated prompt optimization and few-shot learning
