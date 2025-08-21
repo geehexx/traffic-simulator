@@ -1,20 +1,37 @@
-# Prompt Optimization Guide
+# DSPy-Based Prompt Optimization Guide
 
-This guide covers the automated prompt optimization system integrated into the MCP server, providing a repeatable methodology for optimizing, running, scoring, and iterating prompts that maintain the project's documentation and rules.
+This guide covers the DSPy-based automated prompt optimization system integrated into the MCP server, providing a structured, programmatic approach to prompt engineering with systematic optimization capabilities.
 
-## Contents
-### MCP_PROMPTS/generate-super.md
-Unified Docs & Rules Maintainer super‑prompt with modes (docs | rules | hybrid) and shared APE workflow. Prefer this for future maintenance.
-### MCP_PROMPTS/generate-meta-optimizer.md
-High‑reasoning meta‑optimizer for prompts and artifacts. Designs criteria, runs dry‑run comparisons (update/consolidate vs regenerate), scores with PDQI‑9/RGS + stability/SoT, and selects winners. Long‑running; use sparingly.
+## DSPy System Architecture
+
+### DSPy Signatures
+- **DocumentationGenerationSignature** - Structured input/output for documentation generation
+- **RulesGenerationSignature** - Structured input/output for rules generation
+- **HybridMaintenanceSignature** - Combined documentation and rules maintenance
+- **PromptOptimizationSignature** - Prompt optimization with improvement scoring
+- **PerformanceEvaluationSignature** - Performance evaluation and recommendations
+
+### DSPy Modules
+- **DocumentationGenerator** - ChainOfThought-based documentation generation
+- **RulesGenerator** - ChainOfThought-based rules generation
+- **HybridMaintainer** - Combined maintenance with mode selection
+- **PromptOptimizer** - Advanced prompt optimization capabilities
+- **PerformanceEvaluator** - Systematic performance evaluation
+
+### DSPy Optimizers
+- **BootstrapFewShot** - Few-shot learning with example selection
+- **Joint Optimization** - Joint optimization of instructions and examples
+- **BayesianSignatureOptimizer** - Bayesian optimization for instruction selection
+- **Hybrid Optimizer** - Combined joint optimization and Bayesian approaches
 
 ## Purpose
 
-Provide a thorough, reproducible workflow (APE: Automated Prompt Engineering) to:
-- Generate candidate prompts with systematic variation
-- Run in-memory dry-runs on standardized inputs
-- Score outputs using consistent rubrics and stability testing
-- Select, refine, and stabilize winners with human-in-the-loop feedback
+Provide a structured, programmatic approach to prompt engineering using DSPy:
+- **Structured Signatures** - Clear input/output specifications for all tasks
+- **DSPy Modules** - ChainOfThought, ReAct, and other reasoning modules
+- **Automatic Optimization** - BootstrapFewShot, joint optimization, Bayesian optimization
+- **Performance Metrics** - Systematic evaluation and improvement tracking
+- **Continuous Learning** - Automated optimization cycles and self-improvement
 
 **For detailed methodologies, see [AUTOMATED_PROMPT_ENGINEERING.md](mdc:docs/AUTOMATED_PROMPT_ENGINEERING.md#ape-methodologies).**
 
