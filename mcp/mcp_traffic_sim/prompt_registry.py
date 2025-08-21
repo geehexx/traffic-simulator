@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Prompt registry system for generic execute_prompt approach."""
+"""DSPy-based prompt registry system."""
 
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
+
+from dspy_modules import DSPyPromptRegistry
 
 
 class PromptConfig(BaseModel):
@@ -37,12 +40,13 @@ class PromptExecutionResult(BaseModel):
 
 
 class PromptRegistry:
-    """Registry for managing prompts with generic execute_prompt approach."""
+    """DSPy-based registry for managing prompts."""
 
     def __init__(self, registry_path: Path):
-        """Initialize prompt registry."""
+        """Initialize DSPy prompt registry."""
         self.registry_path = registry_path
         self.registry_path.mkdir(parents=True, exist_ok=True)
+        self.dspy_registry = DSPyPromptRegistry()
         self.prompts: Dict[str, PromptConfig] = {}
         self._load_registry()
 
@@ -84,36 +88,38 @@ class PromptRegistry:
         return prompts
 
     def execute_prompt(self, prompt_id: str, input_data: Dict[str, Any]) -> PromptExecutionResult:
-        """Execute a prompt with given input data."""
-        import time
-
+        """Execute a DSPy prompt with given input data."""
         start_time = time.time()
 
         try:
-            prompt = self.get_prompt(prompt_id)
-            if not prompt:
+            # Map prompt_id to DSPy module
+            module_mapping = {
+                "generate_docs": "generate_docs",
+                "generate_rules": "generate_rules",
+                "hybrid_maintenance": "hybrid_maintenance",
+                "optimize_prompt": "optimize_prompt",
+                "evaluate_performance": "evaluate_performance",
+            }
+
+            dspy_module_name = module_mapping.get(prompt_id)
+            if not dspy_module_name:
                 return PromptExecutionResult(
                     prompt_id=prompt_id,
                     output=None,
                     execution_time=time.time() - start_time,
                     success=False,
-                    error_message=f"Prompt '{prompt_id}' not found",
+                    error_message=f"Prompt '{prompt_id}' not found in DSPy registry",
                 )
 
-            # For now, return a mock execution
-            # In a real implementation, this would execute the prompt template
-            output = {
-                "message": f"Executed prompt '{prompt.name}' with input: {input_data}",
-                "template": prompt.template,
-                "input_schema": prompt.input_schema,
-                "output_schema": prompt.output_schema,
-            }
+            # Execute DSPy module
+            output = self.dspy_registry.execute_module(dspy_module_name, **input_data)
 
             return PromptExecutionResult(
                 prompt_id=prompt_id,
                 output=output,
                 execution_time=time.time() - start_time,
                 success=True,
+                metadata={"dspy_module": dspy_module_name, "execution_type": "dspy_module"},
             )
 
         except Exception as e:

@@ -6,16 +6,10 @@ from __future__ import annotations
 import time
 from typing import Any, Dict, List, Optional
 
-try:
-    import dspy  # noqa: F401
-
-    DSPY_AVAILABLE = True
-except ImportError:
-    DSPY_AVAILABLE = False
-    print("Warning: DSPy not available. Using mock optimization.")
 from pydantic import BaseModel, Field
 
-from prompt_registry import PromptConfig, PromptRegistry
+from prompt_registry import PromptRegistry
+from dspy_optimizers import DSPyOptimizer
 
 
 class OptimizationResult(BaseModel):
@@ -31,68 +25,72 @@ class OptimizationResult(BaseModel):
 
 
 class MetaOptimizer:
-    """Meta-optimizer for improving prompts using DSPy."""
+    """DSPy-based meta-optimizer for improving prompts."""
 
     def __init__(self, registry: PromptRegistry):
-        """Initialize meta-optimizer."""
+        """Initialize DSPy meta-optimizer."""
         self.registry = registry
+        self.dspy_optimizer = DSPyOptimizer(registry.dspy_registry)
         self.optimization_history: List[OptimizationResult] = []
 
     def optimize_prompt(
         self, prompt_id: str, optimization_strategy: str = "hybrid"
     ) -> OptimizationResult:
-        """Optimize a prompt using the specified strategy."""
+        """Optimize a DSPy prompt using the specified strategy."""
         start_time = time.time()
 
         try:
-            # Get the original prompt
-            original_prompt = self.registry.get_prompt(prompt_id)
-            if not original_prompt:
+            # Map prompt_id to DSPy module name
+            module_mapping = {
+                "generate_docs": "generate_docs",
+                "generate_rules": "generate_rules",
+                "hybrid_maintenance": "hybrid_maintenance",
+                "optimize_prompt": "optimize_prompt",
+                "evaluate_performance": "evaluate_performance",
+            }
+
+            dspy_module_name = module_mapping.get(prompt_id)
+            if not dspy_module_name:
                 return OptimizationResult(
                     original_prompt_id=prompt_id,
                     optimized_prompt_id="",
                     improvement_score=0.0,
                     execution_time=time.time() - start_time,
                     success=False,
-                    error_message=f"Prompt '{prompt_id}' not found",
+                    error_message=f"Prompt '{prompt_id}' not found in DSPy registry",
                 )
 
-            # For now, create a mock optimization
-            # In a real implementation, this would use DSPy optimization
+            # Create mock examples for optimization
+            examples = self._create_optimization_examples(dspy_module_name)
+
+            # Run DSPy optimization based on strategy
+            if optimization_strategy == "mipro":
+                optimization_result = self.dspy_optimizer.optimize_with_mipro(
+                    dspy_module_name, examples
+                )
+            elif optimization_strategy == "bayesian":
+                optimization_result = self.dspy_optimizer.optimize_with_bayesian(
+                    dspy_module_name, examples
+                )
+            elif optimization_strategy == "bootstrap":
+                optimization_result = self.dspy_optimizer.optimize_with_bootstrap(
+                    dspy_module_name, examples
+                )
+            else:  # hybrid
+                optimization_result = self.dspy_optimizer.optimize_with_hybrid(
+                    dspy_module_name, examples
+                )
+
             optimized_prompt_id = f"{prompt_id}_optimized_v1"
-
-            # Create optimized prompt configuration
-            optimized_prompt = PromptConfig(
-                prompt_id=optimized_prompt_id,
-                name=f"{original_prompt.name} (Optimized)",
-                description=f"Optimized version of {original_prompt.description}",
-                template=self._optimize_template(original_prompt.template, optimization_strategy),
-                input_schema=original_prompt.input_schema,
-                output_schema=original_prompt.output_schema,
-                version="2.0.0",
-                tags=original_prompt.tags + ["optimized"],
-                metadata={
-                    **original_prompt.metadata,
-                    "optimization_strategy": optimization_strategy,
-                    "original_prompt_id": prompt_id,
-                    "optimization_timestamp": time.time(),
-                },
-            )
-
-            # Register the optimized prompt
-            self.registry.register_prompt(optimized_prompt)
-
-            # Calculate improvement score (mock for now)
-            improvement_score = self._calculate_improvement_score(optimization_strategy)
 
             result = OptimizationResult(
                 original_prompt_id=prompt_id,
                 optimized_prompt_id=optimized_prompt_id,
-                improvement_score=improvement_score,
+                improvement_score=optimization_result["improvement_score"],
                 optimization_metadata={
                     "strategy": optimization_strategy,
-                    "original_template_length": len(original_prompt.template),
-                    "optimized_template_length": len(optimized_prompt.template),
+                    "dspy_optimizer": optimization_result["optimizer"],
+                    "optimization_result": optimization_result,
                     "improvement_areas": self._get_improvement_areas(optimization_strategy),
                 },
                 execution_time=time.time() - start_time,
@@ -112,48 +110,45 @@ class MetaOptimizer:
                 error_message=str(e),
             )
 
-    def _optimize_template(self, template: str, strategy: str) -> str:
-        """Optimize the prompt template based on strategy."""
-        if strategy == "mipro":
-            # MIPROv2 optimization: joint optimization of instructions and examples
-            return f"""# Optimized with MIPROv2 Strategy
-{template}
-
-# Enhanced with systematic variation and joint optimization
-# - Improved instruction clarity
-# - Better example selection
-# - Enhanced prompt structure"""
-
-        elif strategy == "bayesian":
-            # Bayesian optimization for instruction selection
-            return f"""# Optimized with Bayesian Strategy
-{template}
-
-# Enhanced with Bayesian optimization
-# - Optimal instruction selection
-# - Improved prompt effectiveness
-# - Better performance metrics"""
-
-        else:  # hybrid
-            # Hybrid optimization combining multiple strategies
-            return f"""# Optimized with Hybrid Strategy
-{template}
-
-# Enhanced with hybrid optimization
-# - Combined MIPROv2 and Bayesian approaches
-# - Systematic prompt improvement
-# - Enhanced performance and clarity"""
-
-    def _calculate_improvement_score(self, strategy: str) -> float:
-        """Calculate improvement score based on strategy."""
-        base_scores = {"mipro": 0.85, "bayesian": 0.80, "hybrid": 0.90}
-        return base_scores.get(strategy, 0.75)
+    def _create_optimization_examples(self, module_name: str) -> List[Dict[str, Any]]:
+        """Create examples for DSPy optimization."""
+        # Mock examples - in reality, these would come from training data
+        examples = {
+            "generate_docs": [
+                {
+                    "code_changes": "Added new vehicle physics engine",
+                    "context": "Performance optimization",
+                    "documentation": "Generated docs for physics engine",
+                    "sections": ["Overview", "API", "Examples"],
+                }
+            ],
+            "generate_rules": [
+                {
+                    "patterns": "NumPy vectorized operations",
+                    "context": "Performance patterns",
+                    "rules": "Generated rules for NumPy usage",
+                    "categories": ["Performance", "Best Practices"],
+                }
+            ],
+            "hybrid_maintenance": [
+                {
+                    "mode": "hybrid",
+                    "task": "Update documentation and rules",
+                    "context": "Comprehensive maintenance",
+                    "content": "Generated hybrid content",
+                    "mode_used": "hybrid",
+                    "sections": ["Documentation", "Rules"],
+                }
+            ],
+        }
+        return examples.get(module_name, [])
 
     def _get_improvement_areas(self, strategy: str) -> List[str]:
         """Get areas of improvement based on strategy."""
         areas = {
             "mipro": ["instruction clarity", "example selection", "joint optimization"],
             "bayesian": ["instruction selection", "performance metrics", "efficiency"],
+            "bootstrap": ["few-shot learning", "example selection", "prompt refinement"],
             "hybrid": ["systematic improvement", "combined strategies", "overall performance"],
         }
         return areas.get(strategy, ["general optimization"])
