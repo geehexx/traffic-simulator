@@ -1,13 +1,15 @@
 {
   "mcpServers": {
-    "traffic-sim": {
-      "command": "/home/gxx/projects/traffic-simulator/venv/bin/python",
-      "args": ["-m", "mcp_traffic_sim.server"],
+    "traffic-sim-production": {
+      "command": "/home/gxx/projects/traffic-simulator/mcp/.venv/bin/python",
+      "args": ["-m", "mcp_traffic_sim.production_server"],
       "cwd": "/home/gxx/projects/traffic-simulator/mcp",
       "env": {
         "MCP_REPO_PATH": "/home/gxx/projects/traffic-simulator",
         "MCP_LOG_DIR": "/home/gxx/projects/traffic-simulator/runs/mcp",
-        "MCP_CONFIRM_REQUIRED": "true"
+        "MCP_CONFIRM_REQUIRED": "true",
+        "DSPY_OPTIMIZATION_ENABLED": "true",
+        "PRODUCTION_MODE": "true"
       }
     }
   }
