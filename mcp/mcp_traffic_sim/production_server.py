@@ -56,7 +56,7 @@ async def list_tools() -> ListToolsResult:
     tools = [
         # Core Optimization Tools
         Tool(
-            name="optimize_prompt_production",
+            name="optimize_prompt",
             description="Production-grade prompt optimization using DSPy with comprehensive monitoring",
             inputSchema={
                 "type": "object",
@@ -90,7 +90,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # Real-time Feedback Optimization
         Tool(
-            name="auto_optimize_with_feedback_production",
+            name="auto_optimize_feedback",
             description="Production-grade real-time optimization based on user feedback with monitoring",
             inputSchema={
                 "type": "object",
@@ -126,7 +126,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # Performance Evaluation
         Tool(
-            name="evaluate_prompt_performance_production",
+            name="evaluate_performance",
             description="Comprehensive performance evaluation with detailed metrics",
             inputSchema={
                 "type": "object",
@@ -154,7 +154,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # Continuous Improvement
         Tool(
-            name="run_continuous_improvement_cycle",
+            name="run_improvement_cycle",
             description="Run automated continuous improvement cycle for all prompts",
             inputSchema={
                 "type": "object",
@@ -185,7 +185,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # Monitoring and Analytics
         Tool(
-            name="get_performance_dashboard",
+            name="get_dashboard",
             description="Generate comprehensive performance dashboard with real-time metrics",
             inputSchema={
                 "type": "object",
@@ -211,7 +211,7 @@ async def list_tools() -> ListToolsResult:
             },
         ),
         Tool(
-            name="get_optimization_analytics",
+            name="get_analytics",
             description="Get detailed analytics on optimization performance and trends",
             inputSchema={
                 "type": "object",
@@ -241,7 +241,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # Alerting and Notifications
         Tool(
-            name="configure_alerting",
+            name="configure_alerts",
             description="Configure alerting rules for optimization system",
             inputSchema={
                 "type": "object",
@@ -269,7 +269,7 @@ async def list_tools() -> ListToolsResult:
         ),
         # System Management
         Tool(
-            name="get_system_status",
+            name="get_status",
             description="Get comprehensive system status and health metrics",
             inputSchema={
                 "type": "object",
@@ -288,7 +288,7 @@ async def list_tools() -> ListToolsResult:
             },
         ),
         Tool(
-            name="deploy_optimized_prompts",
+            name="deploy_prompts",
             description="Deploy optimized prompts to production with rollback capability",
             inputSchema={
                 "type": "object",
@@ -322,55 +322,55 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
     """Handle production tool calls."""
 
     try:
-        if name == "optimize_prompt_production":
+        if name == "optimize_prompt":
             result = await optimizer.optimize_prompt_production(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "auto_optimize_with_feedback_production":
+        elif name == "auto_optimize_feedback":
             result = await optimizer.auto_optimize_with_feedback_production(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "evaluate_prompt_performance_production":
+        elif name == "evaluate_performance":
             result = await optimizer.evaluate_prompt_performance_production(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "run_continuous_improvement_cycle":
+        elif name == "run_improvement_cycle":
             result = await optimizer.run_continuous_improvement_cycle(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "get_performance_dashboard":
+        elif name == "get_dashboard":
             result = await dashboard_generator.generate_dashboard(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "get_optimization_analytics":
+        elif name == "get_analytics":
             result = await monitoring.get_optimization_analytics(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "configure_alerting":
+        elif name == "configure_alerts":
             result = await alerting.configure_alerting(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "get_system_status":
+        elif name == "get_status":
             result = await monitoring.get_system_status(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
-        elif name == "deploy_optimized_prompts":
+        elif name == "deploy_prompts":
             result = await optimizer.deploy_optimized_prompts(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
