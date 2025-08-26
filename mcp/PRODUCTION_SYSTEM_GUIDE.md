@@ -54,7 +54,7 @@ This is a comprehensive, production-ready DSPy optimization system for your traf
 
 ### **Core Optimization Tools**
 
-#### `optimize_prompt_production`
+#### `optimize_prompt`
 - **Purpose**: Production-grade prompt optimization using DSPy
 - **Strategies**: MIPROv2, BootstrapFewShot, Bayesian, Hybrid
 - **Features**: Comprehensive monitoring, quality metrics, deployment ready
@@ -129,7 +129,7 @@ The system is automatically configured in `.cursor/mcp.json` with the production
 
 ```python
 # Optimize a documentation generation prompt
-result = await call_mcp_tool("optimize_prompt_production", {
+result = await call_mcp_tool("optimize_prompt", {
     "prompt_id": "generate_docs",
     "strategy": "mipro",
     "training_data": [
@@ -195,7 +195,7 @@ result = await call_mcp_tool("run_continuous_improvement_cycle", {
 
 ```python
 # Generate performance dashboard
-result = await call_mcp_tool("get_performance_dashboard", {
+result = await call_mcp_tool("get_dashboard", {
     "dashboard_type": "overview",
     "time_range": "24h",
     "include_predictions": True
@@ -206,7 +206,7 @@ result = await call_mcp_tool("get_performance_dashboard", {
 
 ```python
 # Get system status
-result = await call_mcp_tool("get_system_status", {
+result = await call_mcp_tool("get_status", {
     "include_metrics": True,
     "include_optimization_status": True
 })
@@ -323,7 +323,7 @@ The system uses configuration files in `config/production/`:
 
 ## 🚀 **Next Steps**
 
-1. **Start with Basic Optimization**: Use `optimize_prompt_production` for your existing prompts
+1. **Start with Basic Optimization**: Use `optimize_prompt` for your existing prompts
 2. **Set up Monitoring**: Configure dashboards and alerting
 3. **Collect Feedback**: Implement user feedback collection
 4. **Enable Continuous Improvement**: Set up automated optimization cycles
