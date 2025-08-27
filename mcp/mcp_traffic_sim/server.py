@@ -1,300 +1,294 @@
-"""MCP server entrypoint for traffic simulator."""
+"""MCP Server for Traffic Simulator Git and Task Operations."""
 
 from __future__ import annotations
 
 import asyncio
+import json
+import logging
+from typing import Any, Dict
 
 from mcp.server import Server
+from mcp.server.models import InitializationOptions
+from mcp.types import ServerCapabilities
 from mcp.server.stdio import stdio_server
-from mcp.types import Tool
+from mcp.types import (
+    CallToolResult,
+    ListToolsResult,
+    Tool,
+    TextContent,
+)
 
+# Import our tools
 from .config import MCPConfig
-from .git.tools import GitTools
 from .logging_util import MCPLogger
 from .security import SecurityManager
+from .git.tools import GitTools
 from .tasks.tools import TaskTools
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-class TrafficSimMCPServer:
-    """Main MCP server for traffic simulator operations."""
+# Initialize MCP server
+server = Server("traffic-sim")
 
-    def __init__(self):
-        """Initialize MCP server with configuration and tools."""
-        self.config = MCPConfig()
-        self.logger = MCPLogger(self.config.log_dir)
-        self.security = SecurityManager(self.config)
+# Global instances
+config = MCPConfig()
+logger_util = MCPLogger(config.log_dir)
+security = SecurityManager(config)
+git_tools = GitTools(config, logger_util, security)
+task_tools = TaskTools(config, logger_util, security)
 
-        # Initialize tool handlers
-        self.git_tools = GitTools(self.config, self.logger, self.security)
-        self.task_tools = TaskTools(self.config, self.logger, self.security)
 
-        # Create MCP server
-        self.server = Server("traffic-sim")
-        self._register_tools()
-
-    def _register_tools(self) -> None:
-        """Register all MCP tools with the server."""
-
-        # Git tools
-        @self.server.list_tools()
-        async def list_tools() -> list[Tool]:
-            return [
-                Tool(
-                    name="git_status",
-                    description="Get current Git repository status including branch, staged/unstaged files",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "repo_path": {
-                                "type": "string",
-                                "description": "Repository path (optional, defaults to configured repo)",
-                            }
-                        },
+@server.list_tools()
+async def list_tools() -> ListToolsResult:
+    """List available MCP tools."""
+    tools = [
+        # Git Tools
+        Tool(
+            name="git_status",
+            description="Get current repository status",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "repo_path": {
+                        "type": "string",
+                        "description": "Repository path (optional, uses default if not provided)",
+                    }
+                },
+            },
+        ),
+        Tool(
+            name="git_sync",
+            description="Sync with remote (pull/push with conflict resolution)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "repo_path": {
+                        "type": "string",
+                        "description": "Repository path (optional, uses default if not provided)",
                     },
-                ),
-                Tool(
-                    name="git_sync",
-                    description="Sync repository with remote (pull and push) with conflict resolution",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "pull_first": {
-                                "type": "boolean",
-                                "description": "Pull changes first (default: true)",
-                            },
-                            "push_after": {
-                                "type": "boolean",
-                                "description": "Push changes after pull (default: true)",
-                            },
-                            "rebase": {
-                                "type": "boolean",
-                                "description": "Use rebase instead of merge (default: false)",
-                            },
-                            "confirm": {
-                                "type": "boolean",
-                                "description": "Confirm operation (required if MCP_CONFIRM_REQUIRED=true)",
-                            },
-                        },
+                    "auto_resolve": {
+                        "type": "boolean",
+                        "default": True,
+                        "description": "Automatically resolve conflicts",
                     },
-                ),
-                Tool(
-                    name="git_commit_workflow",
-                    description="Complete commit workflow with staging, diff preview, and validation",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "message": {
-                                "type": "string",
-                                "description": "Commit message (conventional commit format)",
-                            },
-                            "paths": {
-                                "type": "array",
-                                "items": {"type": "string"},
-                                "description": "Specific paths to stage (optional, stages all if not provided)",
-                            },
-                            "signoff": {
-                                "type": "boolean",
-                                "description": "Add signoff to commit (default: false)",
-                            },
-                            "preview": {
-                                "type": "boolean",
-                                "description": "Show diff preview before commit (default: true)",
-                            },
-                        },
-                        "required": ["message"],
+                },
+            },
+        ),
+        Tool(
+            name="git_commit_workflow",
+            description="Complete commit workflow with staging and validation",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "message": {"type": "string", "description": "Commit message"},
+                    "files": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Specific files to commit (optional, commits all if not provided)",
                     },
-                ),
-                Tool(
-                    name="git_diff",
-                    description="Get diff for specified paths or all changes",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "paths": {
-                                "type": "array",
-                                "items": {"type": "string"},
-                                "description": "Specific paths to diff (optional)",
-                            },
-                            "staged": {
-                                "type": "boolean",
-                                "description": "Show staged changes (default: false)",
-                            },
-                            "against": {
-                                "type": "string",
-                                "description": "Compare against specific commit/branch (optional)",
-                            },
-                        },
+                    "repo_path": {
+                        "type": "string",
+                        "description": "Repository path (optional, uses default if not provided)",
                     },
-                ),
-                # Task tools
-                Tool(
-                    name="run_quality",
-                    description="Run quality analysis with Bazel primary, uv fallback for debugging",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": ["check", "monitor", "analyze"],
-                                "description": "Quality analysis mode (default: check)",
-                            },
-                            "fallback_to_uv": {
-                                "type": "boolean",
-                                "description": "Fall back to uv if Bazel fails (default: false)",
-                            },
-                        },
+                },
+                "required": ["message"],
+            },
+        ),
+        Tool(
+            name="git_diff",
+            description="Get diff for specified paths or all changes",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "paths": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Specific paths to diff (optional, shows all changes if not provided)",
                     },
-                ),
-                Tool(
-                    name="run_tests",
-                    description="Run tests with Bazel primary, uv fallback for specific test debugging",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "targets": {
-                                "type": "array",
-                                "items": {"type": "string"},
-                                "description": "Specific test targets (optional)",
-                            },
-                            "maxfail": {
-                                "type": "integer",
-                                "description": "Maximum number of failures before stopping (default: 0)",
-                            },
-                            "verbose": {
-                                "type": "boolean",
-                                "description": "Verbose output (default: false)",
-                            },
-                            "fallback_to_uv": {
-                                "type": "boolean",
-                                "description": "Fall back to uv if Bazel fails (default: false)",
-                            },
-                        },
+                    "repo_path": {
+                        "type": "string",
+                        "description": "Repository path (optional, uses default if not provided)",
                     },
-                ),
-                Tool(
-                    name="run_performance",
-                    description="Run performance analysis with benchmarking and scaling",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "mode": {
-                                "type": "string",
-                                "enum": ["benchmark", "scale", "monitor"],
-                                "description": "Performance analysis mode (default: benchmark)",
-                            },
-                            "duration": {
-                                "type": "integer",
-                                "description": "Test duration in seconds (optional)",
-                            },
-                            "vehicle_counts": {
-                                "type": "array",
-                                "items": {"type": "integer"},
-                                "description": "Vehicle counts for scaling tests (optional)",
-                            },
-                        },
+                },
+            },
+        ),
+        # Task Tools
+        Tool(
+            name="run_quality",
+            description="Quality analysis with Bazel primary, uv fallback",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["check", "monitor", "analyze"],
+                        "default": "check",
+                        "description": "Quality analysis mode",
                     },
-                ),
-                Tool(
-                    name="run_analysis",
-                    description="Run comprehensive analysis combining quality, performance, and profiling",
-                    inputSchema={
-                        "type": "object",
-                        "properties": {
-                            "include_quality": {
-                                "type": "boolean",
-                                "description": "Include quality analysis (default: true)",
-                            },
-                            "include_performance": {
-                                "type": "boolean",
-                                "description": "Include performance analysis (default: true)",
-                            },
-                            "include_profiling": {
-                                "type": "boolean",
-                                "description": "Include profiling analysis (default: false)",
-                            },
-                            "parallel": {
-                                "type": "boolean",
-                                "description": "Run operations in parallel (default: true)",
-                            },
-                        },
+                    "fallback_to_uv": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Fall back to uv if Bazel fails",
                     },
-                ),
-            ]
+                },
+            },
+        ),
+        Tool(
+            name="run_tests",
+            description="Test execution with Bazel primary, uv fallback",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "fallback_to_uv": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Fall back to uv if Bazel fails",
+                    },
+                    "test_pattern": {
+                        "type": "string",
+                        "description": "Specific test pattern to run (optional)",
+                    },
+                },
+            },
+        ),
+        Tool(
+            name="run_performance",
+            description="Performance benchmarking and scaling analysis",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "enum": ["benchmark", "scale", "monitor"],
+                        "default": "benchmark",
+                        "description": "Performance analysis mode",
+                    },
+                    "vehicle_count": {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of vehicles for scaling test",
+                    },
+                },
+            },
+        ),
+        Tool(
+            name="run_analysis",
+            description="Comprehensive analysis combining multiple operations",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "include_quality": {
+                        "type": "boolean",
+                        "default": True,
+                        "description": "Include quality analysis",
+                    },
+                    "include_tests": {
+                        "type": "boolean",
+                        "default": True,
+                        "description": "Include test execution",
+                    },
+                    "include_performance": {
+                        "type": "boolean",
+                        "default": False,
+                        "description": "Include performance analysis",
+                    },
+                },
+            },
+        ),
+    ]
 
-        # Register tool handlers
-        @self.server.call_tool()
-        async def call_tool(name: str, arguments: dict) -> dict:
-            """Handle tool calls."""
-            try:
-                if name == "git_status":
-                    return self.git_tools.git_status(arguments.get("repo_path"))
-                elif name == "git_sync":
-                    return self.git_tools.git_sync(
-                        pull_first=arguments.get("pull_first", True),
-                        push_after=arguments.get("push_after", True),
-                        rebase=arguments.get("rebase", False),
-                        confirm=arguments.get("confirm", False),
-                    )
-                elif name == "git_commit_workflow":
-                    return self.git_tools.git_commit_workflow(
-                        message=arguments["message"],
-                        paths=arguments.get("paths"),
-                        signoff=arguments.get("signoff", False),
-                        preview=arguments.get("preview", True),
-                    )
-                elif name == "git_diff":
-                    return self.git_tools.git_diff(
-                        paths=arguments.get("paths"),
-                        staged=arguments.get("staged", False),
-                        against=arguments.get("against"),
-                    )
-                elif name == "run_quality":
-                    return self.task_tools.run_quality(
-                        mode=arguments.get("mode", "check"),
-                        fallback_to_uv=arguments.get("fallback_to_uv", False),
-                    )
-                elif name == "run_tests":
-                    return self.task_tools.run_tests(
-                        targets=arguments.get("targets"),
-                        maxfail=arguments.get("maxfail", 0),
-                        verbose=arguments.get("verbose", False),
-                        fallback_to_uv=arguments.get("fallback_to_uv", False),
-                    )
-                elif name == "run_performance":
-                    return self.task_tools.run_performance(
-                        mode=arguments.get("mode", "benchmark"),
-                        duration=arguments.get("duration"),
-                        vehicle_counts=arguments.get("vehicle_counts"),
-                    )
-                elif name == "run_analysis":
-                    return self.task_tools.run_analysis(
-                        include_quality=arguments.get("include_quality", True),
-                        include_performance=arguments.get("include_performance", True),
-                        include_profiling=arguments.get("include_profiling", False),
-                        parallel=arguments.get("parallel", True),
-                    )
-                else:
-                    raise ValueError(f"Unknown tool: {name}")
+    return ListToolsResult(tools=tools)
 
-            except Exception as e:
-                # Log error and re-raise
-                self.logger.log_operation(
-                    "error", "tool_call", {"tool": name, "arguments": arguments}, error=str(e)
-                )
-                raise
 
-    async def run(self) -> None:
-        """Run the MCP server."""
-        async with stdio_server() as (read_stream, write_stream):
-            await self.server.run(
-                read_stream, write_stream, self.server.create_initialization_options()
+@server.call_tool()
+async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
+    """Handle tool calls."""
+
+    try:
+        if name == "git_status":
+            result = git_tools.git_status(arguments.get("repo_path"))
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
+        elif name == "git_sync":
+            result = git_tools.git_sync(
+                arguments.get("repo_path"), arguments.get("auto_resolve", True)
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
 
-async def main() -> None:
-    """Main entrypoint for MCP server."""
-    server = TrafficSimMCPServer()
-    await server.run()
+        elif name == "git_commit_workflow":
+            result = git_tools.git_commit_workflow(
+                arguments["message"], arguments.get("files"), arguments.get("repo_path")
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        elif name == "git_diff":
+            result = git_tools.git_diff(arguments.get("paths"), arguments.get("repo_path"))
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        elif name == "run_quality":
+            result = task_tools.run_quality(
+                arguments.get("mode", "check"), arguments.get("fallback_to_uv", False)
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        elif name == "run_tests":
+            result = task_tools.run_tests(
+                arguments.get("fallback_to_uv", False), arguments.get("test_pattern")
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        elif name == "run_performance":
+            result = task_tools.run_performance(
+                arguments.get("mode", "benchmark"), arguments.get("vehicle_count", 20)
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        elif name == "run_analysis":
+            result = task_tools.run_analysis(
+                arguments.get("include_quality", True),
+                arguments.get("include_tests", True),
+                arguments.get("include_performance", False),
+            )
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+
+        else:
+            return CallToolResult(content=[TextContent(type="text", text=f"Unknown tool: {name}")])
+
+    except Exception as e:
+        logger.error(f"Error in tool {name}: {str(e)}")
+        return CallToolResult(content=[TextContent(type="text", text=f"Error: {str(e)}")])
+
+
+async def main():
+    """Main server function."""
+    async with stdio_server() as (read_stream, write_stream):
+        await server.run(
+            read_stream,
+            write_stream,
+            InitializationOptions(
+                server_name="traffic-sim",
+                server_version="1.0.0",
+                capabilities=ServerCapabilities(tools={}),
+            ),
+        )
 
 
 if __name__ == "__main__":
