@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """DSPy Signatures for prompt management tasks."""
 
 from __future__ import annotations

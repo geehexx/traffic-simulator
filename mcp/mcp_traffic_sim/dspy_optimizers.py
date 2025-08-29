@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """DSPy optimizers for prompt management."""
 
 from __future__ import annotations

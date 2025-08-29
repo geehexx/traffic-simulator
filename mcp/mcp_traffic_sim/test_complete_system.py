@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Test the complete prompt management system."""
 
 from pathlib import Path

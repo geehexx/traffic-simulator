@@ -1,0 +1,309 @@
+{
+  "prompts": [
+    {
+      "prompt_id": "generate_docs",
+      "name": "Generate Documentation",
+      "description": "Generate comprehensive documentation for code changes",
+      "template": "# Optimized with Hybrid Strategy\nGenerate documentation for the following code changes:\n\nCode Changes:\n{code_changes}\n\nContext:\n{context}\n\nRequirements:\n- Follow the project's documentation standards\n- Include clear explanations and examples\n- Maintain consistency with existing documentation\n- Use proper markdown formatting\n- Include relevant code snippets and diagrams where appropriate\n\nOutput should be well-structured documentation that enhances understanding and maintainability.\n\n# Enhanced with hybrid optimization\n# - Combined MIPROv2 and Bayesian approaches\n# - Systematic prompt improvement\n# - Enhanced performance and clarity",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "code_changes": {
+            "type": "string",
+            "description": "Description of the code changes made"
+          },
+          "context": {
+            "type": "string",
+            "description": "Additional context about the changes"
+          }
+        },
+        "required": [
+          "code_changes"
+        ]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "documentation": {
+            "type": "string",
+            "description": "Generated documentation content"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of documentation sections created"
+          }
+        },
+        "required": [
+          "documentation"
+        ]
+      },
+      "version": "2.0.0",
+      "tags": [
+        "docs",
+        "documentation",
+        "maintenance"
+      ],
+      "metadata": {
+        "category": "documentation",
+        "priority": "high",
+        "version_history": [
+          "1.0.0",
+          "2.0.0"
+        ],
+        "optimization_strategy": "hybrid",
+        "optimization_timestamp": 1759330732.8365664
+      },
+      "active": true
+    },
+    {
+      "prompt_id": "generate_rules",
+      "name": "Generate Rules",
+      "description": "Generate Cursor rules for code patterns and guidelines",
+      "template": "# Optimized with Hybrid Strategy\nGenerate Cursor rules for the following patterns:\n\nPatterns:\n{patterns}\n\nContext:\n{context}\n\nRequirements:\n- Follow the project's rule generation standards\n- Include clear, actionable guidelines\n- Maintain consistency with existing rules\n- Use proper rule formatting\n- Include examples and counter-examples where appropriate\n\nOutput should be well-structured rules that guide development practices.\n\n# Enhanced with hybrid optimization\n# - Combined MIPROv2 and Bayesian approaches\n# - Systematic prompt improvement\n# - Enhanced performance and clarity",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "patterns": {
+            "type": "string",
+            "description": "Description of the patterns to create rules for"
+          },
+          "context": {
+            "type": "string",
+            "description": "Additional context about the patterns"
+          }
+        },
+        "required": [
+          "patterns"
+        ]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "type": "string",
+            "description": "Generated rules content"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of rule categories created"
+          }
+        },
+        "required": [
+          "rules"
+        ]
+      },
+      "version": "2.0.0",
+      "tags": [
+        "rules",
+        "guidelines",
+        "maintenance"
+      ],
+      "metadata": {
+        "category": "rules",
+        "priority": "high",
+        "version_history": [
+          "1.0.0",
+          "2.0.0"
+        ],
+        "optimization_strategy": "hybrid",
+        "optimization_timestamp": 1759330732.8375328
+      },
+      "active": true
+    },
+    {
+      "prompt_id": "hybrid_maintenance",
+      "name": "Hybrid Maintenance",
+      "description": "Combined documentation and rules maintenance with mode selection",
+      "template": "Perform maintenance task in {mode} mode:\n\nTask: {task}\nContext: {context}\n\nMode Options:\n- docs: Focus on documentation generation\n- rules: Focus on rules generation  \n- hybrid: Balance both documentation and rules\n\nRequirements:\n- Follow the project's standards for the selected mode\n- Maintain consistency with existing content\n- Use proper formatting and structure\n- Include relevant examples and explanations\n\nOutput should be well-structured content that enhances the project's maintainability.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "docs",
+              "rules",
+              "hybrid"
+            ],
+            "description": "Maintenance mode to use"
+          },
+          "task": {
+            "type": "string",
+            "description": "Description of the maintenance task"
+          },
+          "context": {
+            "type": "string",
+            "description": "Additional context for the task"
+          }
+        },
+        "required": [
+          "mode",
+          "task"
+        ]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Generated content"
+          },
+          "mode_used": {
+            "type": "string",
+            "description": "The mode that was used for generation"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of content sections created"
+          }
+        },
+        "required": [
+          "content",
+          "mode_used"
+        ]
+      },
+      "version": "1.0.0",
+      "tags": [
+        "hybrid",
+        "maintenance",
+        "docs",
+        "rules"
+      ],
+      "metadata": {
+        "category": "hybrid",
+        "priority": "high",
+        "version_history": [
+          "1.0.0"
+        ]
+      },
+      "active": true
+    },
+    {
+      "prompt_id": "generate_docs_optimized_v1",
+      "name": "Generate Documentation (Optimized)",
+      "description": "Optimized version of Generate comprehensive documentation for code changes",
+      "template": "# Optimized with Hybrid Strategy\nGenerate documentation for the following code changes:\n\nCode Changes:\n{code_changes}\n\nContext:\n{context}\n\nRequirements:\n- Follow the project's documentation standards\n- Include clear explanations and examples\n- Maintain consistency with existing documentation\n- Use proper markdown formatting\n- Include relevant code snippets and diagrams where appropriate\n\nOutput should be well-structured documentation that enhances understanding and maintainability.\n\n# Enhanced with hybrid optimization\n# - Combined MIPROv2 and Bayesian approaches\n# - Systematic prompt improvement\n# - Enhanced performance and clarity",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "code_changes": {
+            "type": "string",
+            "description": "Description of the code changes made"
+          },
+          "context": {
+            "type": "string",
+            "description": "Additional context about the changes"
+          }
+        },
+        "required": [
+          "code_changes"
+        ]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "documentation": {
+            "type": "string",
+            "description": "Generated documentation content"
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of documentation sections created"
+          }
+        },
+        "required": [
+          "documentation"
+        ]
+      },
+      "version": "2.0.0",
+      "tags": [
+        "docs",
+        "documentation",
+        "maintenance",
+        "optimized"
+      ],
+      "metadata": {
+        "category": "documentation",
+        "priority": "high",
+        "version_history": [
+          "1.0.0"
+        ],
+        "optimization_strategy": "hybrid",
+        "original_prompt_id": "generate_docs",
+        "optimization_timestamp": 1759330732.8365664
+      },
+      "active": true
+    },
+    {
+      "prompt_id": "generate_rules_optimized_v1",
+      "name": "Generate Rules (Optimized)",
+      "description": "Optimized version of Generate Cursor rules for code patterns and guidelines",
+      "template": "# Optimized with Hybrid Strategy\nGenerate Cursor rules for the following patterns:\n\nPatterns:\n{patterns}\n\nContext:\n{context}\n\nRequirements:\n- Follow the project's rule generation standards\n- Include clear, actionable guidelines\n- Maintain consistency with existing rules\n- Use proper rule formatting\n- Include examples and counter-examples where appropriate\n\nOutput should be well-structured rules that guide development practices.\n\n# Enhanced with hybrid optimization\n# - Combined MIPROv2 and Bayesian approaches\n# - Systematic prompt improvement\n# - Enhanced performance and clarity",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "patterns": {
+            "type": "string",
+            "description": "Description of the patterns to create rules for"
+          },
+          "context": {
+            "type": "string",
+            "description": "Additional context about the patterns"
+          }
+        },
+        "required": [
+          "patterns"
+        ]
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "type": "string",
+            "description": "Generated rules content"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of rule categories created"
+          }
+        },
+        "required": [
+          "rules"
+        ]
+      },
+      "version": "2.0.0",
+      "tags": [
+        "rules",
+        "guidelines",
+        "maintenance",
+        "optimized"
+      ],
+      "metadata": {
+        "category": "rules",
+        "priority": "high",
+        "version_history": [
+          "1.0.0"
+        ],
+        "optimization_strategy": "hybrid",
+        "original_prompt_id": "generate_rules",
+        "optimization_timestamp": 1759330732.8375328
+      },
+      "active": true
+    }
+  ]
+}

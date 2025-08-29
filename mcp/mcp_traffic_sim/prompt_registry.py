@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """DSPy-based prompt registry system."""
 
 from __future__ import annotations
