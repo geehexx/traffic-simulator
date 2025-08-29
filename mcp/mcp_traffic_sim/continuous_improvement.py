@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Continuous improvement workflow for prompt optimization."""
 
 from __future__ import annotations

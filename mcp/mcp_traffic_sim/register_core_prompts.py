@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Register core prompts for the traffic simulator project."""
 
 from pathlib import Path

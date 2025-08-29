@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Test prompt execution functionality."""
 
 from pathlib import Path

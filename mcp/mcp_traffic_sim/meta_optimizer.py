@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Meta-optimizer for prompt improvement using DSPy."""
 
 from __future__ import annotations
