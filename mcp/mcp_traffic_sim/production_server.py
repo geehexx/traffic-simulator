@@ -323,65 +323,298 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
 
     try:
         if name == "optimize_prompt":
-            result = await optimizer.optimize_prompt_production(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await optimizer.optimize_prompt_production(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Optimization error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "auto_optimize_feedback":
-            result = await optimizer.auto_optimize_with_feedback_production(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await optimizer.auto_optimize_with_feedback_production(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Auto-optimization error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "evaluate_performance":
-            result = await optimizer.evaluate_prompt_performance_production(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await optimizer.evaluate_prompt_performance_production(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Performance evaluation error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "run_improvement_cycle":
-            result = await optimizer.run_continuous_improvement_cycle(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await optimizer.run_continuous_improvement_cycle(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Improvement cycle error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "get_dashboard":
-            result = await dashboard_generator.generate_dashboard(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await dashboard_generator.generate_dashboard(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Dashboard error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "get_analytics":
-            result = await monitoring.get_optimization_analytics(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await monitoring.get_optimization_analytics(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Analytics error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "configure_alerts":
-            result = await alerting.configure_alerting(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await alerting.configure_alerting(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Alert configuration error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "get_status":
-            result = await monitoring.get_system_status(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await monitoring.get_system_status(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Status error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         elif name == "deploy_prompts":
-            result = await optimizer.deploy_optimized_prompts(arguments)
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            try:
+                result = await optimizer.deploy_optimized_prompts(arguments)
+                # Ensure result is properly formatted
+                if not isinstance(result, dict):
+                    result = {"success": False, "error_message": "Invalid result format"}
+
+                # Ensure JSON serialization works
+                json_result = json.dumps(result, indent=2, default=str)
+                # Use direct construction with proper parameters
+                content = TextContent(type="text", text=json_result, annotations=None, meta=None)
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
+            except Exception as e:
+                error_result = {
+                    "success": False,
+                    "error_message": f"Deployment error: {str(e)}",
+                    "error_type": type(e).__name__,
+                }
+                # Use direct construction with proper parameters
+                content = TextContent(
+                    type="text",
+                    text=json.dumps(error_result, indent=2),
+                    annotations=None,
+                    meta=None,
+                )
+                return CallToolResult(
+                    content=[content], structuredContent=None, isError=False, meta=None
+                )
 
         else:
-            return CallToolResult(content=[TextContent(type="text", text=f"Unknown tool: {name}")])
+            # Use direct construction with proper parameters
+            content = TextContent(
+                type="text", text=f"Unknown tool: {name}", annotations=None, meta=None
+            )
+            return CallToolResult(
+                content=[content], structuredContent=None, isError=False, meta=None
+            )
 
     except Exception as e:
         logger.error(f"Error in production tool {name}: {str(e)}")
-        return CallToolResult(content=[TextContent(type="text", text=f"Error: {str(e)}")])
+        # Use direct construction with proper parameters
+        content = TextContent(type="text", text=f"Error: {str(e)}", annotations=None, meta=None)
+        return CallToolResult(content=[content], structuredContent=None, isError=False, meta=None)
 
 
 async def main():
