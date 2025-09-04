@@ -1,26 +1,21 @@
-# FastMCP Traffic Simulator Optimization Platform
+# Traffic Simulator MCP Servers
 
-A production-ready AI prompt optimization platform built with FastMCP, providing comprehensive tools for prompt optimization, performance monitoring, and production deployment.
+A comprehensive MCP (Model Context Protocol) server suite for the Traffic Simulator project, providing both Git/Task operations and AI prompt optimization tools.
 
 ## 🚀 Features
 
-### Core Optimization Tools
+### Two MCP Servers
+
+#### 1. Traffic Sim Server (`traffic-sim`)
+- **Git Operations** - Repository management and version control
+- **Task Management** - Project task automation and execution
+- **Development Tools** - Code quality, testing, and deployment
+
+#### 2. Traffic Sim Optimization Server (`traffic-sim-optimization`)
 - **Prompt Optimization** - DSPy-based AI prompt improvement
 - **Performance Evaluation** - Comprehensive testing and validation
-- **Automated Cycles** - Multi-iteration optimization processes
-- **User Feedback Integration** - Continuous optimization based on feedback
-
-### Production Management
-- **System Monitoring** - Real-time health and performance tracking
-- **Analytics Dashboard** - Comprehensive optimization insights
-- **Alert Configuration** - Customizable monitoring and thresholds
+- **Analytics Dashboard** - Real-time optimization insights
 - **Production Deployment** - Safe deployment with rollback capability
-
-### Advanced Features
-- **Auto-Optimization** - Feedback-driven automatic improvements
-- **Performance Monitoring** - Real-time metrics and alerting
-- **Deployment Management** - Production-ready deployment workflows
-- **Analytics & Reporting** - Detailed performance analytics
 
 ## 🛠️ Installation
 
@@ -47,21 +42,23 @@ pip install fastmcp
 
 ## 🚀 Quick Start
 
-### 1. Start the FastMCP Server
-```bash
-cd /home/gxx/projects/traffic-simulator/mcp
-source .venv/bin/activate
-python3 fastmcp_test_server.py
-```
-
-### 2. Configure Cursor
+### 1. Configure Cursor
 Update `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "fastmcp-test": {
+    "traffic-sim": {
+      "command": "/home/gxx/projects/traffic-simulator/venv/bin/python",
+      "args": ["-m", "mcp_traffic_sim.server"],
+      "cwd": "/home/gxx/projects/traffic-simulator/mcp",
+      "env": {
+        "MCP_REPO_PATH": "/home/gxx/projects/traffic-simulator",
+        "MCP_LOG_DIR": "/home/gxx/projects/traffic-simulator/runs/mcp"
+      }
+    },
+    "traffic-sim-optimization": {
       "command": "/home/gxx/projects/traffic-simulator/mcp/.venv/bin/python",
-      "args": ["/home/gxx/projects/traffic-simulator/mcp/fastmcp_test_server.py"],
+      "args": ["/home/gxx/projects/traffic-simulator/mcp/fastmcp_production_server.py"],
       "cwd": "/home/gxx/projects/traffic-simulator/mcp",
       "env": {
         "MCP_REPO_PATH": "/home/gxx/projects/traffic-simulator",
@@ -72,25 +69,21 @@ Update `.cursor/mcp.json`:
 }
 ```
 
-### 3. Restart Cursor
-Restart Cursor to pick up the FastMCP server configuration.
+### 2. Restart Cursor
+Restart Cursor to pick up both MCP server configurations.
 
 ## 📋 Available Tools
 
-### Basic Operations
-- **`get_status`** - System health and metrics monitoring
-- **`get_analytics`** - Performance analytics and trends
-- **`get_dashboard`** - Comprehensive optimization overview
+### Traffic Sim Server (`traffic-sim`)
+- **Git Operations** - `git_status`, `git_commit`, `git_push`, `git_pull`
+- **Task Management** - `task_run`, `task_list`, `task_validate`
+- **Development Tools** - Code quality, testing, and deployment tools
 
-### Optimization Tools
-- **`optimize_prompt`** - DSPy-based AI prompt optimization
-- **`auto_optimize_feedback`** - User feedback-driven optimization
-- **`evaluate_performance`** - Performance testing and evaluation
-- **`run_improvement_cycle`** - Automated multi-iteration optimization
-
-### Production Management
-- **`configure_alerts`** - Monitoring and alert configuration
-- **`deploy_prompts`** - Production deployment with rollback
+### Traffic Sim Optimization Server (`traffic-sim-optimization`)
+- **System Monitoring** - `get_status`, `get_analytics`, `get_dashboard`
+- **Optimization Tools** - `optimize_prompt`, `auto_optimize_feedback`
+- **Performance** - `evaluate_performance`, `run_improvement_cycle`
+- **Production** - `configure_alerts`, `deploy_prompts`
 
 ## 🔧 Usage Examples
 
