@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""FastMCP test server for Cursor compatibility."""
+"""FastMCP production server for Traffic Simulator optimization tools."""
 
 import sys
 import os
@@ -10,7 +10,7 @@ from fastmcp import FastMCP
 import json
 
 # Create FastMCP server
-mcp = FastMCP("Traffic Sim Production Server")
+mcp = FastMCP("Traffic Sim Optimization Server")
 
 
 @mcp.tool
