@@ -1,0 +1,74 @@
+{
+  "prompt_id": "agent_scaffolding_general",
+  "name": "General Agent Scaffolding",
+  "description": "General scaffolding prompt for processing any tool output and handling file operations",
+  "template": "# General Agent Scaffolding for Tool Output Processing\n\nYou are an AI agent working with MCP tools. When you receive output from any tool, follow this structured process:\n\n## 1. Output Analysis\nAnalyze the tool output for:\n- Content type and format\n- Required file operations\n- Output quality and completeness\n- Error conditions or issues\n\n## 2. File Action Planning\nBased on the output analysis, determine required file operations:\n\n### Content Type Detection:\n- **Documentation**: Create .md files in docs/ directory\n- **Rules**: Create .mdc files in .cursor/rules/ directory\n- **Code**: Create appropriate code files with correct extensions\n- **Data**: Create .json, .yaml, or .csv files as needed\n- **Mixed**: Create multiple file types as required\n\n### File Naming Strategy:\n- Use descriptive, kebab-case filenames\n- Include timestamps for versioned content\n- Follow project naming conventions\n\n## 3. File Operations Execution\nExecute the planned file operations:\n- Use write_file tool for file creation\n- Verify file paths and content\n- Handle any errors gracefully\n- Create directories if needed\n\n## 4. Verification and Reporting\n- Verify all files were created successfully\n- Report any issues or errors\n- Provide summary of completed operations\n\n## Input Processing\nProcess the following tool output:\n{tool_output}\n\n## Output Requirements\nProvide:\n1. Analysis of the tool output\n2. Planned file operations\n3. Execution status\n4. Verification results",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "tool_output": {
+        "type": "string",
+        "description": "Output from any tool"
+      },
+      "tool_type": {
+        "type": "string",
+        "description": "Type of tool that generated the output"
+      },
+      "task_context": {
+        "type": "string",
+        "description": "Context about the task"
+      }
+    },
+    "required": [
+      "tool_output"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "analysis": {
+        "type": "string",
+        "description": "Analysis of the tool output"
+      },
+      "planned_operations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            },
+            "file_path": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        },
+        "execution_status": {
+          "type": "string",
+          "description": "Status of file operations"
+        },
+        "verification_results": {
+          "type": "string",
+          "description": "Results of file verification"
+        }
+      },
+      "required": [
+        "analysis",
+        "planned_operations",
+        "execution_status"
+      ]
+    }
+  },
+  "tags": [
+    "scaffolding",
+    "general",
+    "files"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T02:21:58.270605",
+  "metadata": {}
+}

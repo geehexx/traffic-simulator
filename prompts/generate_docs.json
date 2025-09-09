@@ -1,0 +1,50 @@
+{
+  "prompt_id": "generate_docs",
+  "name": "Generate Documentation",
+  "description": "Generate comprehensive documentation for code changes",
+  "template": "Generate documentation for the following code changes:\n\nCode Changes:\n{code_changes}\n\nContext:\n{context}\n\nRequirements:\n- Follow the project's documentation standards\n- Include clear explanations and examples\n- Maintain consistency with existing documentation\n- Use proper markdown formatting\n- Include relevant code snippets and diagrams where appropriate\n\nOutput should be well-structured documentation that enhances understanding and maintainability.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "code_changes": {
+        "type": "string",
+        "description": "Description of the code changes made"
+      },
+      "context": {
+        "type": "string",
+        "description": "Additional context about the changes"
+      }
+    },
+    "required": [
+      "code_changes"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "documentation": {
+        "type": "string",
+        "description": "Generated documentation content"
+      },
+      "sections": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of documentation sections created"
+      }
+    },
+    "required": [
+      "documentation"
+    ]
+  },
+  "tags": [
+    "docs",
+    "documentation",
+    "maintenance"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T01:50:06.090148",
+  "metadata": {}
+}

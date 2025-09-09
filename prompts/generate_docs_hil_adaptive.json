@@ -1,0 +1,149 @@
+{
+  "prompt_id": "generate_docs_hil_adaptive",
+  "name": "HIL-Enhanced Adaptive Documentation Generator",
+  "description": "Adaptive documentation prompt that learns from feedback and continuously improves",
+  "template": "# HIL-Enhanced Adaptive Documentation Generator\n\n## Input Analysis & Context\nCode Changes: {code_changes}\nContext: {context}\nUser Feedback: {user_feedback}\nPrevious Performance: {performance_data}\nQuality Requirements: {quality_requirements}\nTarget Audience: {target_audience}\nTechnical Depth: {technical_depth}\n\n## HIL Integration & Learning\n### Feedback Learning\n- Incorporate previous feedback: {user_feedback}\n- Apply learned improvements: {learned_improvements}\n- Adapt to user preferences: {user_preferences}\n- Quality standards: {quality_standards}\n\n### Adaptive Intelligence\n- Expertise Level: {user_expertise_level} (beginner/intermediate/advanced)\n- Documentation Style: {doc_style} (technical/overview/comprehensive)\n- Performance Focus: {performance_focus} (yes/no)\n- Example Complexity: {example_complexity} (simple/moderate/complex)\n\n## Documentation Generation Strategy\nGenerate comprehensive documentation that:\n\n### 1. **Adaptive Content Structure**\n- **Overview**: High-level summary appropriate for {target_audience}\n- **Technical Details**: Depth based on {user_expertise_level}\n- **Examples**: Complexity matching {example_complexity}\n- **Performance**: Include if {performance_focus} is enabled\n- **Troubleshooting**: For complex systems\n- **Next Steps**: Actionable recommendations\n\n### 2. **Learning Integration**\n- Apply feedback: {user_feedback}\n- Use learned patterns: {learned_improvements}\n- Match user style: {user_preferences}\n- Meet quality standards: {quality_standards}\n\n### 3. **Context-Aware Generation**\n- **For Beginners**: Include basic concepts, simple examples, step-by-step guidance\n- **For Intermediate**: Balanced technical detail, practical examples, common patterns\n- **For Advanced**: Deep technical details, complex examples, architectural considerations\n\n## Quality Assurance & Standards\n- Follow project documentation standards\n- Maintain consistency with existing documentation\n- Use proper markdown formatting with appropriate headers\n- Include relevant code snippets with syntax highlighting\n- Add diagrams for complex systems (Mermaid/PlantUML when appropriate)\n- Ensure clarity for {target_audience}\n- Include performance considerations if {performance_focus}\n- Provide troubleshooting guidance for complex implementations\n\n## Output Structure\n1. **Title & Overview**: Clear, descriptive title and summary\n2. **Technical Implementation**: Detailed technical information\n3. **Code Examples**: Relevant, well-commented examples\n4. **Performance Notes**: If applicable, include performance considerations\n5. **Usage Guidelines**: How to use the new functionality\n6. **Troubleshooting**: Common issues and solutions\n7. **References**: Links to related documentation\n\n## Continuous Learning Integration\n- Store feedback patterns for future improvements\n- Adapt documentation style based on user preferences\n- Learn from performance metrics and user satisfaction\n- Continuously refine based on quality feedback\n\nOutput: Well-structured, adaptive documentation that learns from feedback and improves over time.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "code_changes": {
+        "type": "string",
+        "description": "Description of the code changes made"
+      },
+      "context": {
+        "type": "string",
+        "description": "Additional context about the changes"
+      },
+      "user_feedback": {
+        "type": "string",
+        "description": "Previous user feedback and preferences"
+      },
+      "performance_data": {
+        "type": "string",
+        "description": "Performance metrics and data"
+      },
+      "quality_requirements": {
+        "type": "string",
+        "description": "Specific quality requirements"
+      },
+      "target_audience": {
+        "type": "string",
+        "description": "Target audience for the documentation"
+      },
+      "technical_depth": {
+        "type": "string",
+        "enum": [
+          "overview",
+          "detailed",
+          "comprehensive"
+        ],
+        "description": "Level of technical detail required"
+      },
+      "user_expertise_level": {
+        "type": "string",
+        "enum": [
+          "beginner",
+          "intermediate",
+          "advanced"
+        ],
+        "description": "User expertise level"
+      },
+      "doc_style": {
+        "type": "string",
+        "enum": [
+          "technical",
+          "overview",
+          "comprehensive"
+        ],
+        "description": "Documentation style preference"
+      },
+      "performance_focus": {
+        "type": "string",
+        "enum": [
+          "yes",
+          "no"
+        ],
+        "description": "Whether to include performance considerations"
+      },
+      "example_complexity": {
+        "type": "string",
+        "enum": [
+          "simple",
+          "moderate",
+          "complex"
+        ],
+        "description": "Complexity level for examples"
+      },
+      "learned_improvements": {
+        "type": "string",
+        "description": "Improvements learned from previous feedback"
+      },
+      "user_preferences": {
+        "type": "string",
+        "description": "User-specific preferences and style"
+      },
+      "quality_standards": {
+        "type": "string",
+        "description": "Quality standards to meet"
+      }
+    },
+    "required": [
+      "code_changes"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "documentation": {
+        "type": "string",
+        "description": "Generated adaptive documentation content"
+      },
+      "sections": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of documentation sections created"
+      },
+      "adaptation_notes": {
+        "type": "string",
+        "description": "Notes about how the documentation was adapted"
+      },
+      "learning_insights": {
+        "type": "string",
+        "description": "Insights gained for future improvements"
+      },
+      "quality_metrics": {
+        "type": "object",
+        "properties": {
+          "complexity_score": {
+            "type": "number"
+          },
+          "clarity_score": {
+            "type": "number"
+          },
+          "completeness_score": {
+            "type": "number"
+          }
+        },
+        "description": "Quality metrics for the generated documentation"
+      }
+    },
+    "required": [
+      "documentation",
+      "adaptation_notes"
+    ]
+  },
+  "tags": [
+    "docs",
+    "documentation",
+    "hil",
+    "adaptive",
+    "learning",
+    "feedback"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T02:01:40.996311",
+  "metadata": {}
+}
