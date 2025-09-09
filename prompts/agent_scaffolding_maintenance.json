@@ -1,0 +1,70 @@
+{
+  "prompt_id": "agent_scaffolding_maintenance",
+  "name": "Agent Scaffolding for Maintenance Output",
+  "description": "Scaffolding prompt that processes maintenance tool outputs and handles file operations",
+  "template": "# Agent Scaffolding for Maintenance Output Processing\n\nYou are an AI agent working with MCP tools. When you receive output from maintenance tools, follow this structured process:\n\n## 1. Output Analysis\nAnalyze the maintenance tool output for:\n- Content type (documentation, rules, or hybrid)\n- Mode used (docs, rules, hybrid)\n- Content sections generated\n- File action requirements\n\n## 2. File Action Planning\nBased on the output analysis, determine required file operations:\n\n### For Documentation Mode:\n- Create .md files in docs/ directory\n- Use descriptive filenames based on task content\n- Include proper markdown formatting\n\n### For Rules Mode:\n- Create .mdc files in .cursor/rules/ directory\n- Use descriptive filenames based on task content\n- Include proper rule formatting\n\n### For Hybrid Mode:\n- Create both .md and .mdc files\n- Ensure content consistency between both formats\n\n## 3. File Operations Execution\nExecute the planned file operations using appropriate tools:\n- Use write_file tool for file creation\n- Verify file paths and content\n- Handle any errors gracefully\n\n## 4. Verification and Reporting\n- Verify all files were created successfully\n- Report any issues or errors\n- Provide summary of completed operations\n\n## Input Processing\nProcess the following maintenance tool output:\n{maintenance_output}\n\n## Output Requirements\nProvide:\n1. Analysis of the maintenance output\n2. Planned file operations\n3. Execution status\n4. Verification results",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "maintenance_output": {
+        "type": "string",
+        "description": "Output from maintenance tool"
+      },
+      "task_context": {
+        "type": "string",
+        "description": "Context about the maintenance task"
+      }
+    },
+    "required": [
+      "maintenance_output"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "analysis": {
+        "type": "string",
+        "description": "Analysis of the maintenance output"
+      },
+      "planned_operations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "type": "string"
+            },
+            "file_path": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            }
+          }
+        },
+        "execution_status": {
+          "type": "string",
+          "description": "Status of file operations"
+        },
+        "verification_results": {
+          "type": "string",
+          "description": "Results of file verification"
+        }
+      },
+      "required": [
+        "analysis",
+        "planned_operations",
+        "execution_status"
+      ]
+    }
+  },
+  "tags": [
+    "scaffolding",
+    "maintenance",
+    "files"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T02:21:49.534556",
+  "metadata": {}
+}
