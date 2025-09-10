@@ -6,7 +6,6 @@ import os
 from datetime import datetime
 from typing import Any, Dict, List
 
-import dspy
 from dataclasses import dataclass, field
 
 from .config import MCPConfig
@@ -304,12 +303,14 @@ class AdvancedFileManager:
         self.logger = logger
         self.quality_standards = QualityStandards()
         self.consolidation_strategies = ConsolidationStrategies()
-        self.security = SecurityManager(config, logger)
+        self.security = SecurityManager(config)
 
         # Initialize DSPy components for optimization
-        self.dspy_optimizer = dspy.MIPROv2()
-        self.bootstrap_optimizer = dspy.BootstrapFewShot()
-        self.bayesian_optimizer = dspy.BootstrapFewShot()  # Bayesian fallback
+        # Note: DSPy optimizers require proper initialization with metrics
+        # These will be initialized when actually used
+        self.dspy_optimizer = None
+        self.bootstrap_optimizer = None
+        self.bayesian_optimizer = None
 
     async def update_documentation(self, changes: Dict[str, Any]) -> UpdateResult:
         """Update existing documentation with intelligent merging."""
