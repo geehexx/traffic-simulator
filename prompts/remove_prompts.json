@@ -1,0 +1,66 @@
+{
+  "prompt_id": "remove_prompts",
+  "name": "Remove Multiple Prompts",
+  "description": "Remove one or more prompts from the system by their IDs",
+  "template": "Remove the following prompts from the system:\n\nPrompt IDs to remove: {prompt_ids}\nReason: {reason}\n\nInstructions:\n- Remove each specified prompt ID from the system\n- Confirm successful removal of each prompt\n- Provide a summary of removed prompts\n- Handle errors gracefully if any prompt doesn't exist\n\nOutput should include:\n- List of successfully removed prompts\n- List of any prompts that couldn't be removed (with reasons)\n- Total count of removed prompts",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "prompt_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of prompt IDs to remove"
+      },
+      "reason": {
+        "type": "string",
+        "description": "Reason for removing the prompts"
+      }
+    },
+    "required": [
+      "prompt_ids"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "removed_prompts": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "failed_removals": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "prompt_id": {
+              "type": "string"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "total_removed": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "removed_prompts",
+      "total_removed"
+    ]
+  },
+  "tags": [
+    "admin",
+    "management",
+    "cleanup"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T03:09:35.046640",
+  "metadata": {}
+}
