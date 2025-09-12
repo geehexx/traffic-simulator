@@ -52,6 +52,52 @@ alerting = AlertingSystem(config, logger_util, security)
 file_manager = AdvancedFileManager(config, logger_util)
 
 
+async def remove_prompts_from_system(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    """Remove one or more prompts from the system by their IDs."""
+    from pathlib import Path
+
+    prompt_ids = arguments.get("prompt_ids", [])
+    reason = arguments.get("reason", "No reason provided")
+
+    removed_prompts = []
+    failed_removals = []
+
+    # Get the prompts directory
+    prompts_dir = Path("prompts")
+    if not prompts_dir.exists():
+        return {
+            "success": False,
+            "error": "Prompts directory not found",
+            "removed_prompts": [],
+            "failed_removals": [],
+            "total_removed": 0,
+        }
+
+    for prompt_id in prompt_ids:
+        prompt_file = prompts_dir / f"{prompt_id}.json"
+
+        if prompt_file.exists():
+            try:
+                # Remove the prompt file
+                prompt_file.unlink()
+                removed_prompts.append(prompt_id)
+                logger_util.info(f"Removed prompt: {prompt_id} (Reason: {reason})")
+            except Exception as e:
+                failed_removals.append({"prompt_id": prompt_id, "error": str(e)})
+                logger_util.error(f"Failed to remove prompt {prompt_id}: {str(e)}")
+        else:
+            failed_removals.append({"prompt_id": prompt_id, "error": "Prompt file not found"})
+            logger_util.warning(f"Prompt file not found: {prompt_id}")
+
+    return {
+        "success": len(failed_removals) == 0,
+        "removed_prompts": removed_prompts,
+        "failed_removals": failed_removals,
+        "total_removed": len(removed_prompts),
+        "reason": reason,
+    }
+
+
 @server.list_tools()
 async def list_tools() -> ListToolsResult:
     """List available production DSPy optimization tools."""
@@ -397,6 +443,26 @@ async def list_tools() -> ListToolsResult:
                 },
             },
         ),
+        # Prompt Management Tools
+        Tool(
+            name="remove_prompts",
+            description="Remove one or more prompts from the system by their IDs",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "prompt_ids": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of prompt IDs to remove",
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "Reason for removing the prompts",
+                    },
+                },
+                "required": ["prompt_ids"],
+            },
+        ),
     ]
 
     return ListToolsResult(tools=tools)
@@ -478,6 +544,12 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await file_manager.manage_versions(arguments.get("files", []))
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result.__dict__, indent=2))]
+            )
+
+        elif name == "remove_prompts":
+            result = await remove_prompts_from_system(arguments)
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )
 
         else:
