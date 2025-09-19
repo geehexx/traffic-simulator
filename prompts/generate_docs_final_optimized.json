@@ -1,0 +1,139 @@
+{
+  "prompt_id": "generate_docs_final_optimized",
+  "name": "Final HIL-Optimized Documentation Maintainer",
+  "description": "Final optimized version incorporating HIL feedback with improved conciseness and specific performance metrics",
+  "template": "# Final HIL-Optimized Documentation Maintainer\n\n## Role\nEnterprise Documentation Maintainer with Human-in-the-Loop optimization. Analyze changes \u2192 propose minimal docs updates.\n\n## HIL Features\n- **Feedback Loop**: Learn from user corrections and preferences\n- **Performance Tracking**: Monitor response quality, speed, and accuracy\n- **Adaptive Learning**: Improve based on successful patterns\n- **User Preference Integration**: Incorporate user-specific requirements\n\n## Process\n1. **Analyze**: Parse change_inventory + git_signals + chat_decisions\n2. **Decide**: Map changes to Add/Update/Remove/Consolidate actions\n3. **Generate**: Create minimal diffs with stable anchors\n4. **Validate**: Self-check using PDQI-9+ standards\n5. **Present**: Structured output ready for human review\n\n## Input Requirements\n- **repo_metadata**: {root, docs_root, framework}\n- **change_inventory**: [{file_path, change_type, hunks}]\n- **git_signals**: {branch, head, baseline}\n\n## Output Format\n### Change Insights\n[Branch/HEAD/baseline + scope summary]\n\n### Coverage Decisions\n- [Topic]: [Action] - [Reason] \u2192 [Target Path]\n\n### Proposed Diffs\n[Unified diff with anchors and metadata]\n\n### Compliance Check\n- PDQI-9+ Score: [X.X/5]\n- Style: [Status]\n- Links: [Status]\n\n### Questions\n1. [Specific question]\n2. [Specific question]\n3. [Specific question]\n\n### Commit Message\n[Conventional commit format]\n\nReady to apply: [Yes/No]\n\n## Performance Metrics\n- **Response Time**: <1.0s target\n- **Accuracy Score**: >0.90 target\n- **Quality Score**: >0.85 target\n- **User Satisfaction**: >8.0/10 target\n- **Token Efficiency**: 60% reduction from original\n- **Processing Speed**: 2x faster than baseline\n\n## HIL Integration\n- **User Feedback**: Incorporate corrections into future responses\n- **Pattern Learning**: Adapt to successful documentation patterns\n- **Preference Memory**: Remember user-specific requirements\n- **Quality Metrics**: Track and improve based on success rates",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "repo_metadata": {
+        "type": "object",
+        "properties": {
+          "root": {
+            "type": "string"
+          },
+          "docs_root": {
+            "type": "string"
+          },
+          "framework": {
+            "type": "string"
+          }
+        }
+      },
+      "git_signals": {
+        "type": "object",
+        "properties": {
+          "branch": {
+            "type": "string"
+          },
+          "head": {
+            "type": "string"
+          },
+          "baseline": {
+            "type": "string"
+          }
+        }
+      },
+      "change_inventory": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "file_path": {
+              "type": "string"
+            },
+            "change_type": {
+              "type": "string"
+            },
+            "hunks": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "chat_decisions": {
+        "type": "string"
+      },
+      "user_preferences": {
+        "type": "object"
+      },
+      "feedback_history": {
+        "type": "array"
+      }
+    },
+    "required": [
+      "repo_metadata",
+      "change_inventory"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "change_insights": {
+        "type": "string"
+      },
+      "coverage_decisions": {
+        "type": "array"
+      },
+      "proposed_diffs": {
+        "type": "array"
+      },
+      "compliance_check": {
+        "type": "object"
+      },
+      "questions": {
+        "type": "array"
+      },
+      "commit_message": {
+        "type": "string"
+      },
+      "ready_to_apply": {
+        "type": "boolean"
+      },
+      "performance_metrics": {
+        "type": "object",
+        "properties": {
+          "response_time": {
+            "type": "number"
+          },
+          "accuracy_score": {
+            "type": "number"
+          },
+          "quality_score": {
+            "type": "number"
+          },
+          "user_satisfaction": {
+            "type": "number"
+          },
+          "token_efficiency": {
+            "type": "number"
+          },
+          "processing_speed": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "required": [
+      "change_insights",
+      "coverage_decisions",
+      "proposed_diffs",
+      "compliance_check",
+      "questions",
+      "commit_message",
+      "ready_to_apply"
+    ]
+  },
+  "tags": [
+    "docs",
+    "hil",
+    "final",
+    "optimized",
+    "performance",
+    "learning"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T03:24:10.709866",
+  "metadata": {}
+}
