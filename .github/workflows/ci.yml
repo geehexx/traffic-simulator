@@ -21,7 +21,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Sync env
-        run: uv sync --dev
+        run: uv sync --extra dev
+      - name: Run quality gates
+        run: |
+          uv run python scripts/quality_gates.py
       - name: Run tests with coverage
         run: uv run pytest --cov=traffic_sim --cov-report=term-missing -q
 
