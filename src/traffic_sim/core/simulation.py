@@ -74,48 +74,81 @@ class Simulation:
                 rng_color.randint(40, 230),
                 rng_color.randint(40, 230),
             )
-            self.vehicles.append(Vehicle(spec, state, color_rgb=color))
-            # Driver sampling (placeholder parameters)
+            # Driver sampling with enhanced parameters
             dparams = sample_driver_params(self.cfg, rng_driver)
-            self.drivers.append(Driver(dparams))
+            driver = Driver(dparams, rng_driver)
+            self.drivers.append(driver)
+            self.vehicles.append(Vehicle(spec, state, driver, color_rgb=color))
 
     def step(self, dt_s: float) -> None:
-        # Simple IDM-like single-lane behavior
+        """Enhanced IDM controller with per-driver parameters, jerk limiting, and drivetrain lag."""
         n = len(self.vehicles)
         if n == 0:
             return
-        if n == 1:
-            # Uniform motion for single vehicle to keep baseline and tests stable
-            v0 = self.vehicles[0]
-            eff_dt = dt_s * max(0.0, float(self.speed_factor))
-            v0.state.s_m = (v0.state.s_m + v0.state.v_mps * eff_dt) % self.track.total_length_m
-            v0.state.a_mps2 = 0.0
-            return
+        
+        # Sort vehicles by position for proper following behavior
         self.vehicles.sort(key=lambda vv: vv.state.s_m)
         L = self.track.total_length_m
         sf = max(0.0, float(self.speed_factor))
         eff_dt = dt_s * sf
-        leaders = [(i + 1) % n for i in range(n)]
-        new_states: List[Tuple[float, float, float]] = []
-        for i, v in enumerate(self.vehicles):
-            leader = self.vehicles[leaders[i]]
-            s_gap = (leader.state.s_m - v.state.s_m) % L
-            T = 1.5
-            s0 = 2.0
-            b_comf = 2.5
-            v0 = 27.0
-            s_star = s0 + v.state.v_mps * T + (v.state.v_mps * (v.state.v_mps - leader.state.v_mps)) / (
-                2.0 * (self.a_max ** 0.5) * (b_comf ** 0.5) + 1e-6
-            )
-            a = self.a_max * (
-                1.0
-                - (v.state.v_mps / max(0.1, v0)) ** self.idm_delta
-                - (s_star / max(0.1, s_gap)) ** 2
-            )
-            v_new = max(0.0, v.state.v_mps + a * eff_dt)
-            s_new = (v.state.s_m + v_new * eff_dt) % L
-            new_states.append((s_new, v_new, a))
-        for v, (s_new, v_new, a) in zip(self.vehicles, new_states):
-            v.state.s_m, v.state.v_mps, v.state.a_mps2 = s_new, v_new, a
+        
+        # Get speed limit from config
+        speed_limit_kmh = float(get_nested(self.cfg, "track.speed_limit_kmh", 100.0))
+        speed_limit_mps = speed_limit_kmh / 3.6
+        
+        # Update each vehicle
+        for i, vehicle in enumerate(self.vehicles):
+            # Update speeding state
+            vehicle.driver.update_speeding_state(eff_dt, speed_limit_mps)
+            
+            # Get effective speed limit (considering speeding)
+            effective_speed_limit = vehicle.driver.get_effective_speed_limit(speed_limit_mps)
+            
+            # IDM controller with per-driver parameters
+            if n == 1:
+                # Single vehicle: maintain desired speed
+                v0 = vehicle.driver.params.desired_speed_mps
+                a_max = self.a_max
+                a = a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta)
+            else:
+                # Multi-vehicle: IDM following behavior
+                leader_idx = (i + 1) % n
+                leader = self.vehicles[leader_idx]
+                
+                # Calculate gap
+                s_gap = (leader.state.s_m - vehicle.state.s_m) % L
+                
+                # Per-driver parameters
+                T = vehicle.driver.params.headway_T_s
+                s0 = 2.0  # Standstill buffer (could be per-vehicle)
+                b_comf = vehicle.driver.params.comfort_brake_mps2
+                v0 = min(vehicle.driver.params.desired_speed_mps, effective_speed_limit)
+                a_max = self.a_max
+                
+                # IDM desired gap
+                delta_v = vehicle.state.v_mps - leader.state.v_mps
+                s_star = s0 + vehicle.state.v_mps * T + (vehicle.state.v_mps * delta_v) / (
+                    2.0 * (a_max ** 0.5) * (b_comf ** 0.5) + 1e-6
+                )
+                
+                # IDM acceleration
+                a = a_max * (
+                    1.0
+                    - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta
+                    - (s_star / max(0.1, s_gap)) ** 2
+                )
+            
+            # Set commanded acceleration
+            vehicle.set_commanded_acceleration(a)
+            
+            # Update internal state (jerk limiting, drivetrain lag)
+            vehicle.update_internal_state(eff_dt)
+            
+            # Update position and velocity
+            v_new = max(0.0, vehicle.state.v_mps + vehicle.state.a_mps2 * eff_dt)
+            s_new = (vehicle.state.s_m + v_new * eff_dt) % L
+            
+            vehicle.state.s_m = s_new
+            vehicle.state.v_mps = v_new
 
 
