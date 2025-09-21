@@ -31,3 +31,20 @@ def test_length_needed_formula_inverts_radius():
     assert pytest.approx(recon_R, rel=1e-12) == target_R
 
 
+def test_position_heading_continuity():
+    track = StadiumTrack(total_length_m=1000.0, straight_fraction=0.30)
+    eps = 1e-4
+    L = track.total_length
+    # Check that small steps along s produce small spatial changes (no NaNs; finite)
+    s_vals = [i * (L / 200.0) for i in range(201)]
+    prev = None
+    for s in s_vals:
+        x, y, th = track.position_heading(s)
+        assert math.isfinite(x) and math.isfinite(y) and math.isfinite(th)
+        if prev is not None:
+            dx = x - prev[0]
+            dy = y - prev[1]
+            assert dx * dx + dy * dy < 1e8  # arbitrary large cap to catch explosions
+        prev = (x, y, th)
+
+

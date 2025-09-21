@@ -25,6 +25,21 @@ def test_vehicle_spawn_count_and_colors(tmp_path):
     assert colors == expected
 
 
+def test_safety_flag_toggles_with_length():
+    cfg = load_config()
+    cfg["track"]["safety_design_speed_kmh"] = 120
+    cfg["track"]["superelevation_e"] = 0.08
+    cfg["track"]["side_friction_f"] = 0.10
+    # Very short length should be unsafe at 120 km/h
+    cfg["track"]["length_m"] = 600.0
+    sim_short = Simulation(cfg)
+    assert sim_short.compute_safety_panel()["unsafe"] is True
+    # Longer length should move toward safe
+    cfg["track"]["length_m"] = 4000.0
+    sim_long = Simulation(cfg)
+    assert sim_long.compute_safety_panel()["unsafe"] is False
+
+
 def test_vehicle_colors_bounds_with_seed():
     cfg = load_config()
     cfg["vehicles"]["count"] = 20
