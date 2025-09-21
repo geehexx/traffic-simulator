@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-09-21T16:52:27.107772",
+  "overall_score": 76.92307692307693,
+  "summary": {
+    "total_metrics": 13,
+    "passed_metrics": 10,
+    "failed_metrics": 3,
+    "overall_score": 76.92307692307693,
+    "tools_analyzed": 7
+  },
+  "metrics": [
+    {
+      "timestamp": "2025-09-21T16:52:17.207638",
+      "tool": "Ruff",
+      "metric_name": "linting_issues",
+      "value": 4.0,
+      "threshold": 5.0,
+      "passed": true,
+      "details": "Linting issues: 4"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:17.207653",
+      "tool": "Ruff",
+      "metric_name": "formatting_issues",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Formatting issues: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:17.409338",
+      "tool": "MyPy",
+      "metric_name": "type_errors",
+      "value": 1.0,
+      "threshold": 3.0,
+      "passed": true,
+      "details": "Type errors: 1"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:22.464707",
+      "tool": "Pyright",
+      "metric_name": "type_errors",
+      "value": 17.0,
+      "threshold": 5.0,
+      "passed": false,
+      "details": "Type errors: 17"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:25.833497",
+      "tool": "Pylint",
+      "metric_name": "quality_score",
+      "value": 9.28,
+      "threshold": 8.0,
+      "passed": true,
+      "details": "Quality score: 9.3/10"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:25.833512",
+      "tool": "Pylint",
+      "metric_name": "code_issues",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Code issues: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.007499",
+      "tool": "Bandit",
+      "metric_name": "security_issues",
+      "value": 0.0,
+      "threshold": 3.0,
+      "passed": true,
+      "details": "Security issues: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.082604",
+      "tool": "Radon",
+      "metric_name": "complexity_c",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Complexity C functions: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.082617",
+      "tool": "Radon",
+      "metric_name": "complexity_d",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Complexity D functions: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.082618",
+      "tool": "Radon",
+      "metric_name": "complexity_e",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Complexity E functions: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.082620",
+      "tool": "Radon",
+      "metric_name": "complexity_f",
+      "value": 0.0,
+      "threshold": 0.0,
+      "passed": true,
+      "details": "Complexity F functions: 0"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:26.082621",
+      "tool": "Radon",
+      "metric_name": "average_complexity",
+      "value": 7.625,
+      "threshold": 3.0,
+      "passed": false,
+      "details": "Average complexity: 7.62"
+    },
+    {
+      "timestamp": "2025-09-21T16:52:27.107755",
+      "tool": "Coverage",
+      "metric_name": "line_coverage",
+      "value": 67.0,
+      "threshold": 80,
+      "passed": false,
+      "details": "Line coverage: 67.0%"
+    }
+  ],
+  "recommendations": [
+    "Address 3 failed quality metrics",
+    "Increase test coverage to meet quality gates"
+  ]
+}

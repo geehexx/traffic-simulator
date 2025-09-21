@@ -1,0 +1,32 @@
+---
+globs: docs/**,*.md
+description: Documentation standards
+---
+
+# Documentation Patterns
+
+## Documentation Structure
+- **Development**: [DEVELOPMENT.md](mdc:docs/DEVELOPMENT.md)
+- **Quality Standards**: [QUALITY_STANDARDS.md](mdc:docs/QUALITY_STANDARDS.md)
+- **Architecture**: [ARCHITECTURE.md](mdc:docs/ARCHITECTURE.md)
+- **Performance**: [PERFORMANCE_GUIDE.md](mdc:docs/PERFORMANCE_GUIDE.md)
+
+## Markdown Standards
+- **Pattern**: Clear headings, code examples, cross-references
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
+
+## Docstring Format
+- **Pattern**: Google-style docstrings
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
+
+## Code Examples
+- **Pattern**: Realistic examples from codebase
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
+
+## API Documentation
+- **Pattern**: Document all public functions and classes
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)
+
+## Maintenance
+- **Pattern**: Keep documentation in sync with code
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#documentation-standards)

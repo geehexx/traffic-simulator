@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import arcade
 from typing import Optional, Tuple
+from typing_extensions import override
 
 from traffic_sim.config.loader import load_config, get_nested
 from traffic_sim.core.simulation import Simulation
@@ -25,6 +26,7 @@ class TrafficSimWindow(arcade.Window):
         self.fixed_dt = float(get_nested(cfg, "physics.delta_t_s", 0.02))
         self.accumulator = 0.0
 
+    @override
     def on_draw(self) -> None:
         self.clear()
         # HUD toggle hint and safety panel
@@ -74,15 +76,18 @@ class TrafficSimWindow(arcade.Window):
                 for i, perception in enumerate(self.sim.perception_data[:10]):
                     draw_vehicle_perception_overlay(margin, overlay_y, i, perception)
 
+    @override
     def on_key_press(self, symbol: int, modifiers: int) -> None:
         # Normalize to uppercase letter key
         desired = get_nested(self.cfg, "render.hud_toggle_key", "H").upper()
         if symbol == getattr(arcade.key, desired, arcade.key.H):
             self.hud_minimal = not self.hud_minimal
 
+    @override
     def on_resize(self, width: int, height: int) -> None:
         super().on_resize(width, height)
 
+    @override
     def on_update(self, delta_time: float) -> None:
         # Fixed-step stepping for determinism
         self.accumulator += delta_time

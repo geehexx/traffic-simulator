@@ -1,0 +1,30 @@
+---
+description: Essential code quality patterns
+alwaysApply: true
+---
+
+# Code Quality Standards
+
+## Type Safety
+- **Pattern**: Use `from __future__ import annotations`
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#type-annotations)
+
+## Import Organization
+- **Pattern**: Standard library, third-party, local imports
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#import-organization)
+
+## Error Handling
+- **Pattern**: Specific exceptions, context in messages
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)
+
+## Quality Gates
+- **Tools**: MyPy, Pyright, Ruff, Pylint, Bandit, Radon
+- **Reference**: [quality_gates.yaml](mdc:quality_gates.yaml) for thresholds
+- **Usage**: `uv run python scripts/quality_gates.py`
+
+## Code Style
+- **Line Length**: 100 characters
+- **Functions**: <50 lines, complexity ≤10
+- **Classes**: <200 lines
+- **Docstrings**: Google-style for public APIs
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#code-quality-standards)

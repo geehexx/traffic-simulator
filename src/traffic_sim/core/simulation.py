@@ -54,6 +54,7 @@ class Simulation:
 
         self.vehicles: List[Vehicle] = []
         self.drivers: List[Driver] = []
+        self.perception_data: List[PerceptionData] = []
         self._spawn_initial_vehicles()
         self.idm_delta = 4.0
         self.a_max = 1.5  # m/s^2 (scaffold)

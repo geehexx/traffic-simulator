@@ -22,7 +22,7 @@ class StadiumTrack:
 
     def safe_radius_min_m(self, design_speed_kmh: float, e: float, f: float) -> float:
         # R_min = V^2 / (127 (e + f)) with V in km/h
-        return (design_speed_kmh ** 2) / (127.0 * (e + f))
+        return (design_speed_kmh**2) / (127.0 * (e + f))
 
     def safe_speed_kmh(self, e: float, f: float) -> float:
         # V_safe = sqrt(127 R (e + f))
@@ -97,5 +97,3 @@ class StadiumTrack:
         # Tangent for decreasing angle direction
         theta = angle - math.pi * 0.5
         return x, y, theta
-
-

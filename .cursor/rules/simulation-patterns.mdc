@@ -1,0 +1,32 @@
+---
+globs: src/traffic_sim/core/**
+description: Core simulation architecture patterns
+---
+
+# Simulation Patterns
+
+## Core Components
+- **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
+- **Driver**: [driver.py](mdc:src/traffic_sim/core/driver.py)
+- **Vehicle**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
+
+## Design Patterns
+- **IDM Controller**: Per-driver parameters with Gaussian copula
+- **Perception System**: Occlusion-based detection with dynamic SSD
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components)
+
+## State Management
+- **Pattern**: Immutable state objects where possible
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management)
+
+## Performance Considerations
+- **Pattern**: Fixed timestep, vectorized operations
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#simulation-optimization)
+
+## IDM Controller
+- **Pattern**: Calculate gap → delta_v → s_star → acceleration
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#mathematical-foundations)
+
+## Perception System
+- **Pattern**: Line-of-sight calculations, dynamic SSD
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#design-patterns)

@@ -1,0 +1,31 @@
+---
+globs: src/traffic_sim/config/**,config/**
+description: Configuration management patterns
+---
+
+# Configuration Patterns
+
+## Configuration Structure
+- **Main Config**: [config.yaml](mdc:config/config.yaml)
+- **Loader**: [loader.py](mdc:src/traffic_sim/config/loader.py)
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
+
+## Configuration Patterns
+- **Pattern**: YAML for human-readable configuration
+- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management)
+
+## Environment Variables
+- **Pattern**: `TRAFFIC_SIM_CONFIG` for custom config path
+- **Reference**: [Development Guide](mdc:docs/DEVELOPMENT.md#configuration-management)
+
+## Validation
+- **Pattern**: Validate configuration on load
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#configuration-architecture)
+
+## Driver Parameters
+- **Pattern**: Gaussian distributions with correlations
+- **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#core-components)
+
+## Error Handling
+- **Pattern**: Clear error messages for invalid config
+- **Reference**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md#error-handling)

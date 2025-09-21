@@ -1,0 +1,38 @@
+---
+description: Project context and core principles
+alwaysApply: true
+---
+
+# Project Context
+
+## Core Principles
+- **Deterministic Simulation**: Fixed-step physics with seeded RNGs
+- **Performance Target**: 30+ FPS with 20+ vehicles
+- **Quality Standards**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
+
+## Key Components
+- **Simulation**: [simulation.py](mdc:src/traffic_sim/core/simulation.py)
+- **Drivers**: [driver.py](mdc:src/traffic_sim/core/driver.py)
+- **Vehicles**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
+- **Rendering**: [app.py](mdc:src/traffic_sim/render/app.py)
+
+## Development Workflow
+- **Setup**: `uv sync --extra dev && uv run pre-commit install`
+- **Testing**: `uv run python -m pytest tests/ -v`
+- **Quality**: [Quality Standards Guide](mdc:docs/QUALITY_STANDARDS.md)
+- **Architecture**: [Architecture Guide](mdc:docs/ARCHITECTURE.md)
+
+## Project Structure
+- **Core Logic**: [src/traffic_sim/core/](mdc:src/traffic_sim/core/) - Simulation engine, vehicles, drivers
+- **Rendering**: [src/traffic_sim/render/](mdc:src/traffic_sim/render/) - Arcade-based visualization
+- **Configuration**: [config/](mdc:config/) - YAML configuration files
+- **Tests**: [tests/](mdc:tests/) - Comprehensive test suite
+- **Documentation**: [docs/](mdc:docs/) - Consolidated guides
+
+## Key Features
+- **2D Traffic Simulation**: Stadium track with realistic vehicle behavior
+- **Statistical Drivers**: Gaussian copula sampling with correlations
+- **IDM Controller**: Intelligent Driver Model with jerk limiting
+- **Perception System**: Occlusion-based visibility and dynamic SSD
+- **Safety Analytics**: AASHTO/TxDOT-style curve speed calculations
+- **Live HUD**: Real-time safety panels and perception data

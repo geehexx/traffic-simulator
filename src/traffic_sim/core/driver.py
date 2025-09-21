@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Any, Tuple
+from typing import Dict, Any
 import random
 import math
 
@@ -40,6 +40,9 @@ class Driver:
         self.speeding = SpeedingState(
             is_speeding=False, time_in_state_s=0.0, overspeed_magnitude_kmh=0.0
         )
+        # Initialize transition rates
+        self.lambda_off = 0.0
+        self.lambda_on = 0.0
         self._update_speeding_rates()
 
     def _update_speeding_rates(self) -> None:
@@ -136,9 +139,9 @@ def _gaussian_copula_sample(
     # In practice, you might want to use a more robust method
     try:
         # Convert correlation matrix to covariance matrix
-        cov_matrix = [
-            [correlation_matrix[i][j] * stds[i] * stds[j] for j in range(n)] for i in range(n)
-        ]
+        # cov_matrix = [
+        #     [correlation_matrix[i][j] * stds[i] * stds[j] for j in range(n)] for i in range(n)
+        # ]
 
         # Simple approach: use the correlation matrix directly
         # This is a simplified version - for production use, implement proper Cholesky

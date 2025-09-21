@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import arcade
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from traffic_sim.core.simulation import PerceptionData
 
 
@@ -106,13 +106,8 @@ def draw_perception_heatmap(
         # Color based on occlusion status
         color = arcade.color.RED if perception.is_occluded else arcade.color.GREEN
 
-        # OPTION 1: Using left, right, top, bottom coordinates (current)
-        arcade.draw_lrtb_rectangle_filled(bar_x, bar_x + bar_width * 0.8, y + bar_height, y, color)
-
-        # OPTION 2: Alternative - center-based rectangle (more intuitive)
-        # center_x = bar_x + (bar_width * 0.8) / 2
-        # center_y = y + bar_height / 2
-        # arcade.draw_rectangle_filled(center_x, center_y, bar_width * 0.8, bar_height, color)
+        # Draw rectangle using left, right, bottom, top coordinates
+        arcade.draw_lrbt_rectangle_filled(bar_x, bar_x + bar_width * 0.8, y, y + bar_height, color)
 
         # OPTION 3: Using polygon for complex shapes (if needed)
         # corners = [

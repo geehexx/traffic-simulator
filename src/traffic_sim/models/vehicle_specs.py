@@ -32,5 +32,3 @@ DEFAULT_CATALOG = [
     VehicleCatalogEntry("van", "Mercedes-Benz Sprinter", 3200, 5.93, 2.02),
     VehicleCatalogEntry("van", "Ram ProMaster", 3100, 5.94, 2.01),
 ]
-
-
