@@ -1,0 +1,135 @@
+track:
+  length_m: 1000
+  straight_fraction: 0.30
+  superelevation_e: 0.08
+  side_friction_f: 0.10
+  safety_design_speed_kmh: 120
+  speed_limit_kmh: 100
+
+vehicles:
+  count: 20
+  mix:
+    sedan: 0.55
+    suv: 0.25
+    truck_van: 0.10
+    bus: 0.05
+    motorbike: 0.05
+  # Optional: set to a number for reproducible colors; null → random each run
+  color_random_seed:
+
+drivers:
+  distributions:
+    reaction_time_s:
+      mean: 2.5
+      std: 0.6
+      min: 0.8
+      max: 4.0
+    headway_T_s:
+      mean: 1.6
+      std: 0.5
+      min: 0.6
+      max: 3.0
+    comfort_brake_mps2:
+      mean: 2.5
+      std: 0.7
+      min: 1.0
+      max: 4.0
+    max_brake_mps2:
+      mean: 7.0
+      std: 1.0
+      min: 4.0
+      max: 9.0
+    jerk_limit_mps3:
+      mean: 4.0
+      std: 1.0
+      min: 1.0
+      max: 7.0
+    throttle_lag_s:
+      mean: 0.25
+      std: 0.10
+      min: 0.05
+      max: 1.0
+    brake_lag_s:
+      mean: 0.15
+      std: 0.07
+      min: 0.05
+      max: 1.0
+    aggression_z:
+      mean: 0.0
+      std: 1.0
+      min: -3.0
+      max: 3.0
+    rule_adherence_z:
+      mean: 0.0
+      std: 1.0
+      min: -3.0
+      max: 3.0
+
+  correlations:
+    # Example pairwise correlations used by the Gaussian copula sampler
+    A_T: -0.5               # Aggression vs Headway
+    A_b_comf: 0.3           # Aggression vs Comfortable braking
+    R_A: -0.4               # Rule adherence vs Aggression
+    distraction_t_reaction: 0.5
+
+  overspeed_model:
+    percent_time_speeding:
+      cautious: 0.02
+      baseline: 0.15
+      aggressive: 0.45
+    episode_duration_s:
+      cautious: 4.0
+      baseline: 8.0
+      aggressive: 15.0
+    overspeed_magnitude_kmh:
+      mean_base: 5.0
+      mean_per_aggression_sigma: 4.0
+      std: 3.0
+      min: 0.0
+      max: 25.0
+
+physics:
+  delta_t_s: 0.02
+  speed_factor: 1.0
+  gravity_mps2: 9.81
+  tire_friction_mu: 0.7
+  brake_efficiency_eta: 0.9
+
+render:
+  target_fps: 60
+  hud_mode: minimal   # minimal | full
+  hud_toggle_key: H
+  effects:
+    collisions: true
+    particles: true
+
+hud_panels:
+  minimal:
+    speed_histogram: true
+    headway_summary: true
+    ttc_nearmiss_counter: true
+    safe_curve_panel: true
+  full:
+    ttc_histogram: true
+    braking_heatmap: true
+    per_vehicle_overlays: true
+    incident_log: true
+
+collisions:
+  use_pymunk_impulse: true
+  disable_time_s: 5.0
+  lateral_push: true
+
+random:
+  # Set to a number for reproducibility; null → random each run
+  master_seed:
+
+logging:
+  aggregate_rate_hz: 10
+  per_vehicle_trace_rate_hz: 2
+  rolling_window_minutes: 5
+  debug_high_rate_csv: false
+  debug_rate_hz: 50
+  output_path: runs/run_001.csv
+
+
