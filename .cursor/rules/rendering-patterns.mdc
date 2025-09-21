@@ -1,0 +1,42 @@
+---
+description: Rendering and visualization patterns for Arcade-based graphics
+globs: src/traffic_sim/render/**
+alwaysApply: false
+---
+
+# Rendering and Visualization Patterns
+
+## Arcade Integration
+- Use [app.py](mdc:src/traffic_sim/render/app.py) as main window class
+- Inherit from `arcade.Window` for main application
+- Use type stubs in [stubs/arcade/](mdc:stubs/arcade/) for type safety
+
+## Rendering Performance
+- Use Text objects for HUD elements (see [hud.py](mdc:src/traffic_sim/core/hud.py))
+- Minimize draw calls in hot paths
+- Cache expensive rendering calculations
+- Target 30+ FPS with 20+ vehicles
+
+## Coordinate Systems
+- Use meters for simulation coordinates
+- Convert to pixels for rendering
+- Implement proper scaling and transformation
+- Handle window resizing gracefully
+
+## HUD Design
+- Support minimal and full HUD modes
+- Use consistent color scheme and typography
+- Display safety panels and perception data
+- Implement toggle functionality (H key)
+
+## Drawing Functions
+- Use arcade drawing functions consistently
+- Handle missing functions with type stubs
+- Implement fallbacks for unsupported features
+- Use proper color constants
+
+## State Management
+- Separate simulation state from rendering state
+- Use proper update loops with fixed timesteps
+- Handle user input appropriately
+- Maintain frame rate independence

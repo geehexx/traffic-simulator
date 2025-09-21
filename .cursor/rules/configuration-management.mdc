@@ -1,0 +1,49 @@
+---
+description: Configuration management patterns and best practices
+globs: src/traffic_sim/config/**,config/**
+alwaysApply: false
+---
+
+# Configuration Management
+
+## Configuration Structure
+- Main config in [config.yaml](mdc:config/config.yaml)
+- Loader in [loader.py](mdc:src/traffic_sim/config/loader.py)
+- Use `get_nested()` for safe configuration access
+- Support environment variable overrides
+
+## Configuration Patterns
+- Use YAML for human-readable configuration
+- Validate configuration on load
+- Provide sensible defaults
+- Document all configuration options
+
+## Driver Parameters
+- Use Gaussian distributions with correlations
+- Implement proper parameter validation
+- Support parameter ranges and constraints
+- Use copula sampling for realistic correlations
+
+## Track Configuration
+- Parameterize track geometry (length, straight fraction)
+- Support different speed limits and safety margins
+- Validate geometric constraints
+- Calculate derived properties (radius, safety speeds)
+
+## Vehicle Configuration
+- Support multiple vehicle types and mixes
+- Use realistic vehicle specifications
+- Implement proper color generation
+- Support custom vehicle parameters
+
+## Error Handling
+- Validate configuration on startup
+- Provide clear error messages for invalid config
+- Support configuration file fallbacks
+- Log configuration loading issues
+
+## Environment Variables
+- Support `TRAFFIC_SIM_CONFIG` for custom config path
+- Support `TRAFFIC_SIM_LOG_LEVEL` for logging
+- Use environment-specific overrides
+- Document all environment variables

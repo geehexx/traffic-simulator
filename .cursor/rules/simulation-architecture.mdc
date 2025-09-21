@@ -1,0 +1,43 @@
+---
+description: Traffic simulator architecture patterns and design principles
+globs: src/traffic_sim/core/**
+alwaysApply: false
+---
+
+# Traffic Simulator Architecture
+
+## Core Components
+- **Simulation**: Main simulation loop in [simulation.py](mdc:src/traffic_sim/core/simulation.py)
+- **Driver**: Behavior models in [driver.py](mdc:src/traffic_sim/core/driver.py)
+- **Vehicle**: Dynamics in [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
+- **Track**: Geometry in [track.py](mdc:src/traffic_sim/core/track.py)
+
+## Design Patterns
+- Use dataclasses for data structures (VehicleSpec, DriverParams, etc.)
+- Implement deterministic fixed-step simulation
+- Use composition over inheritance
+- Separate concerns: physics, behavior, rendering
+
+## IDM Controller Implementation
+- Per-driver parameters with Gaussian copula correlation
+- Jerk limiting and drivetrain lag modeling
+- Occlusion-based perception system
+- Dynamic SSD calculation with relative speed
+
+## State Management
+- Immutable state objects where possible
+- Clear separation between internal and external state
+- Use type hints for all state properties
+- Implement proper state updates in simulation loop
+
+## Performance Considerations
+- Minimize allocations in simulation loop
+- Use numpy for vectorized operations
+- Cache expensive calculations (SSD, perception)
+- Profile hot paths regularly
+
+## Testing Strategy
+- Unit tests for individual components
+- Integration tests for simulation flow
+- Property-based tests for driver behavior
+- Deterministic tests with fixed seeds
