@@ -36,3 +36,6 @@ alwaysApply: true
 - **Perception System**: Occlusion-based visibility and dynamic SSD
 - **Safety Analytics**: AASHTO/TxDOT-style curve speed calculations
 - **Live HUD**: Real-time safety panels and perception data
+- **Live Analytics**: Real-time speed histogram, headway distribution, near-miss counter
+- **Collision System**: Pymunk physics integration with lateral push effects and vehicle disable
+- **Data Logging**: Comprehensive incident tracking, performance metrics, and CSV export

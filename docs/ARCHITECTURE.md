@@ -23,6 +23,9 @@ The traffic simulator is a 2D Python application that simulates multi-vehicle tr
 - **Perception System**: Occlusion-based visibility and dynamic SSD
 - **Safety Analytics**: AASHTO/TxDOT-style curve speed calculations
 - **Live HUD**: Real-time safety panels and perception data
+- **Live Analytics**: Real-time speed histogram, headway distribution, near-miss counter
+- **Collision System**: Pymunk physics integration with lateral push effects and vehicle disable
+- **Data Logging**: Comprehensive incident tracking, performance metrics, and CSV export
 
 ### Technology Stack
 - **Rendering**: Arcade 3.3.x for 2D graphics
@@ -136,6 +139,82 @@ def _find_first_unobstructed_leader(self, vehicle_idx: int) -> Tuple[Optional[Ve
     """Find first unobstructed leader with occlusion detection."""
     # Line-of-sight calculations
     # Dynamic SSD: g_req = max(s0, d_r + v_f²/(2b_f) - v_ℓ²/(2b_ℓ))
+```
+
+### 6. Live Analytics System
+**File**: [analytics.py](mdc:src/traffic_sim/core/analytics.py)
+
+Real-time analytics collection and processing:
+- Speed histogram with statistical measures (mean, median, percentiles)
+- Headway distribution analysis with dangerous/critical thresholds
+- Near-miss detection and counting based on TTC
+- Performance metrics tracking (FPS, memory usage)
+- Incident logging and categorization
+
+```python
+class LiveAnalytics:
+    def __init__(self, config: Dict[str, Any]):
+        self.speed_history = collections.deque(maxlen=1000)
+        self.headway_history = collections.deque(maxlen=1000)
+        self.near_miss_events: List[NearMissEvent] = []
+        self.incident_log: List[IncidentLog] = []
+        self.ttc_threshold = 1.5  # seconds
+
+    def update_analytics(self, vehicles: List[Vehicle],
+                        perception_data: List[Optional[PerceptionData]],
+                        dt_s: float) -> None:
+        """Update all analytics with current simulation state."""
+        self._update_speed_data(vehicles)
+        self._update_headway_data(vehicles, perception_data)
+        self._check_near_misses(vehicles, perception_data, time.time())
+```
+
+### 7. Collision System
+**File**: [collision.py](mdc:src/traffic_sim/core/collision.py)
+
+Pymunk-based collision detection and physics simulation:
+- Vehicle-vehicle collision detection with AABB overlap
+- Physics-based impulse response with lateral push effects
+- Vehicle disable system with configurable duration
+- Collision event logging with delta-v and TTC data
+
+```python
+class CollisionSystem:
+    def __init__(self, config: Dict[str, Any], track: StadiumTrack):
+        self.space = pymunk.Space()
+        self.vehicle_physics: Dict[int, VehiclePhysicsState] = {}
+        self.collision_events: List[CollisionEvent] = []
+        self.use_pymunk_impulse = config.get("collisions", {}).get("use_pymunk_impulse", True)
+        self.disable_time_s = config.get("collisions", {}).get("disable_time_s", 5.0)
+
+    def add_vehicle(self, vehicle: Vehicle, vehicle_id: int) -> None:
+        """Add vehicle to physics simulation with collision shapes."""
+        # Create pymunk body and collision shape
+        # Set up collision handlers
+        # Store physics state for disable/recovery
+```
+
+### 8. Data Logging System
+**File**: [logging.py](mdc:src/traffic_sim/core/logging.py)
+
+Comprehensive data logging with CSV export:
+- Vehicle state snapshots with driver parameters
+- Simulation aggregate data and performance metrics
+- Incident and near-miss event logging
+- Configurable logging rates for different data types
+- CSV export with structured data format
+
+```python
+class DataLogger:
+    def __init__(self, config: Dict[str, Any]):
+        self.output_path = Path(config.get("logging", {}).get("output_path", "runs/run_001.csv"))
+        self.aggregate_rate_hz = config.get("logging", {}).get("aggregate_rate_hz", 10)
+        self.per_vehicle_rate_hz = config.get("logging", {}).get("per_vehicle_trace_rate_hz", 2)
+
+    def log_simulation_step(self, vehicles: List[Vehicle],
+                           perception_data: List[Optional[PerceptionData]],
+                           analytics: LiveAnalytics, dt_s: float) -> None:
+        """Log simulation step data with configurable rates."""
 ```
 
 ## Design Patterns

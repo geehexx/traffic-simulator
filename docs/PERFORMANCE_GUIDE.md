@@ -170,6 +170,88 @@ class SpatialGrid:
         return nearby
 ```
 
+### 5. Analytics Performance Optimization
+- **Efficient Data Structures**: Use deque for rolling windows
+- **Batch Processing**: Update analytics in batches, not every frame
+- **Memory Bounds**: Limit history size to prevent memory growth
+- **Statistical Caching**: Cache expensive statistical calculations
+
+```python
+class LiveAnalytics:
+    def __init__(self, config: Dict[str, Any]):
+        # Use bounded collections for memory efficiency
+        self.speed_history = collections.deque(maxlen=1000)
+        self.headway_history = collections.deque(maxlen=1000)
+
+        # Batch processing configuration
+        self.update_interval = 0.1  # Update every 100ms
+        self.last_update = 0.0
+
+    def update_analytics(self, vehicles: List[Vehicle],
+                        perception_data: List[Optional[PerceptionData]],
+                        dt_s: float) -> None:
+        """Update analytics with configurable frequency."""
+        current_time = time.time()
+        if current_time - self.last_update >= self.update_interval:
+            self._batch_update_analytics(vehicles, perception_data)
+            self.last_update = current_time
+```
+
+### 6. Collision System Performance
+- **Spatial Partitioning**: Use pymunk's built-in spatial indexing
+- **Collision Filtering**: Skip unnecessary collision checks
+- **Physics Stepping**: Use appropriate physics timestep
+- **Memory Management**: Reuse collision shapes when possible
+
+```python
+class CollisionSystem:
+    def __init__(self, config: Dict[str, Any], track: StadiumTrack):
+        self.space = pymunk.Space()
+        # Use spatial partitioning for efficient collision detection
+        self.space.use_spatial_hash(10.0)  # 10m grid size
+
+        # Collision filtering to reduce checks
+        self.collision_filter = pymunk.ShapeFilter()
+        self.collision_filter.group = 1  # Same group = no collision
+
+    def add_vehicle(self, vehicle: Vehicle, vehicle_id: int) -> None:
+        """Add vehicle with optimized collision setup."""
+        # Reuse collision shapes for similar vehicles
+        shape = self._get_or_create_shape(vehicle.spec)
+        shape.filter = self.collision_filter
+        self.space.add(body, shape)
+```
+
+### 7. Data Logging Performance
+- **Asynchronous Logging**: Use background threads for CSV writing
+- **Batch Writes**: Write multiple records at once
+- **Compression**: Use compressed formats for large datasets
+- **Selective Logging**: Log only necessary data at high rates
+
+```python
+class DataLogger:
+    def __init__(self, config: Dict[str, Any]):
+        self.logging_config = config.get("logging", {})
+
+        # Asynchronous logging setup
+        self.log_queue = queue.Queue(maxsize=1000)
+        self.log_thread = threading.Thread(target=self._log_worker, daemon=True)
+        self.log_thread.start()
+
+        # Batch writing configuration
+        self.batch_size = self.logging_config.get("batch_size", 100)
+        self.batch_buffer = []
+
+    def _log_worker(self) -> None:
+        """Background thread for CSV writing."""
+        while True:
+            try:
+                data = self.log_queue.get(timeout=1.0)
+                self._write_batch(data)
+            except queue.Empty:
+                continue
+```
+
 #### Cached Calculations
 ```python
 class CachedCalculations:
