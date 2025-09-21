@@ -203,7 +203,7 @@ class Simulation:
         g_req *= self.ssd_safety_margin
 
         # Ensure minimum SSD
-        return max(g_req, self.min_ssd_m)
+        return float(max(g_req, self.min_ssd_m))
 
     def step(self, dt_s: float) -> None:
         """Enhanced IDM controller with per-driver parameters, jerk limiting, drivetrain lag, and occlusion-based perception."""

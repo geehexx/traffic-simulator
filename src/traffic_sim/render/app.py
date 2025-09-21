@@ -25,7 +25,7 @@ class TrafficSimWindow(arcade.Window):
         self.fixed_dt = float(get_nested(cfg, "physics.delta_t_s", 0.02))
         self.accumulator = 0.0
 
-    def on_draw(self):
+    def on_draw(self) -> None:
         self.clear()
         # HUD toggle hint and safety panel
         margin = 10
@@ -74,16 +74,16 @@ class TrafficSimWindow(arcade.Window):
                 for i, perception in enumerate(self.sim.perception_data[:10]):
                     draw_vehicle_perception_overlay(margin, overlay_y, i, perception)
 
-    def on_key_press(self, symbol: int, modifiers: int):
+    def on_key_press(self, symbol: int, modifiers: int) -> None:
         # Normalize to uppercase letter key
         desired = get_nested(self.cfg, "render.hud_toggle_key", "H").upper()
         if symbol == getattr(arcade.key, desired, arcade.key.H):
             self.hud_minimal = not self.hud_minimal
 
-    def on_resize(self, width: float, height: float):
+    def on_resize(self, width: int, height: int) -> None:
         super().on_resize(width, height)
 
-    def on_update(self, delta_time: float):
+    def on_update(self, delta_time: float) -> None:
         # Fixed-step stepping for determinism
         self.accumulator += delta_time
         max_steps = int(1.0 / max(1e-6, self.fixed_dt))

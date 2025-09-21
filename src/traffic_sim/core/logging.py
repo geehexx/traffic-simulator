@@ -13,10 +13,8 @@ class Event:
 
 
 class EventLogger:
-    def __init__(self):
+    def __init__(self) -> None:
         self.events: List[Event] = []
 
     def log(self, event: Event) -> None:
         self.events.append(event)
-
-

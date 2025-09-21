@@ -7,13 +7,61 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-xml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+      - id: check-yaml
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.6.8
     hooks:
       - id: ruff
         args: ["--fix"]
+      - id: ruff-format
   - repo: https://github.com/psf/black
     rev: 24.8.0
     hooks:
       - id: black
         language_version: python3
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-PyYAML, types-requests]
+        args: [--config-file=mypy.ini]
+  - repo: local
+    hooks:
+      - id: pyright
+        name: pyright
+        entry: uv run pyright
+        language: system
+        types: [python]
+        args: [src/]
+      - id: pylint
+        name: pylint
+        entry: uv run pylint
+        language: system
+        types: [python]
+        args: [src/, --rcfile=pylintrc]
+      - id: bandit
+        name: bandit
+        entry: uv run bandit
+        language: system
+        types: [python]
+        args: [-r, src/, -f, json, -c, bandit.yaml]
+      - id: radon
+        name: radon
+        entry: uv run radon
+        language: system
+        types: [python]
+        args: [cc, src/, -a, --min, B]
