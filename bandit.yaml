@@ -1,0 +1,20 @@
+exclude_dirs:
+  - tests
+  - .venv
+  - venv
+  - build
+  - dist
+  - stubs
+
+skips:
+  - B101  # assert_used
+  - B601  # shell_injection_subprocess
+  - B311  # random_generator_used
+
+confidence:
+  - HIGH
+  - MEDIUM
+
+severity:
+  - HIGH
+  - MEDIUM
