@@ -264,6 +264,225 @@ def test_correlation_sampling():
         assert correlation < 0, f"Expected negative correlation, got {correlation}"
 
 
+def test_occlusion_detection():
+    """Test occlusion detection system."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 3
+    sim = Simulation(cfg)
+    
+    # Position vehicles in a line with one occluded
+    sim.vehicles[0].state.s_m = 0.0    # Follower
+    sim.vehicles[1].state.s_m = 50.0   # Middle vehicle (occluder)
+    sim.vehicles[2].state.s_m = 100.0  # Leader
+    
+    # Test occlusion detection
+    leader, distance, is_occluded = sim._find_first_unobstructed_leader(0)
+    
+    # Should find the middle vehicle as leader (not the far one)
+    assert leader is not None, "Should find a leader"
+    assert leader == sim.vehicles[1], "Should find the middle vehicle as leader"
+    assert distance == 50.0, f"Distance should be 50m, got {distance}"
+    assert not is_occluded, "Should not be occluded for close vehicle"
+
+
+def test_ssd_calculation():
+    """Test dynamic SSD calculation."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 2
+    sim = Simulation(cfg)
+    
+    # Setup follower and leader
+    follower = sim.vehicles[0]
+    leader = sim.vehicles[1]
+    
+    # Set speeds and parameters
+    follower.state.v_mps = 20.0  # 20 m/s
+    leader.state.v_mps = 15.0    # 15 m/s
+    follower.driver.params.reaction_time_s = 2.0
+    follower.driver.params.comfort_brake_mps2 = 3.0
+    leader.driver.params.comfort_brake_mps2 = 3.0
+    
+    # Calculate SSD
+    ssd = sim._calculate_dynamic_ssd(follower, leader, 100.0)
+    
+    # Should be positive and reasonable
+    assert ssd > 0, "SSD should be positive"
+    assert ssd > sim.min_ssd_m, f"SSD should be at least min_ssd ({sim.min_ssd_m})"
+    
+    # Test with no leader
+    ssd_no_leader = sim._calculate_dynamic_ssd(follower, None, 0.0)
+    assert ssd_no_leader == sim.min_ssd_m, "SSD with no leader should be min_ssd"
+
+
+def test_perception_integration():
+    """Test that perception data is properly integrated into simulation."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 3
+    sim = Simulation(cfg)
+    
+    # Position vehicles
+    sim.vehicles[0].state.s_m = 0.0
+    sim.vehicles[1].state.s_m = 50.0
+    sim.vehicles[2].state.s_m = 100.0
+    
+    # Step simulation to update perception data
+    sim.step(0.02)
+    
+    # Check that perception data is populated
+    assert len(sim.perception_data) == 3, "Should have perception data for all vehicles"
+    
+    # Check first vehicle's perception
+    perception = sim.perception_data[0]
+    assert perception.leader_vehicle is not None, "Should have a leader"
+    assert perception.leader_distance_m > 0, "Should have positive distance"
+    assert perception.ssd_required_m > 0, "Should have positive SSD"
+    assert not perception.is_occluded, "Should not be occluded"
+
+
+def test_ssd_integration_with_idm():
+    """Test that SSD is properly integrated into IDM controller."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 2
+    sim = Simulation(cfg)
+    
+    # Setup vehicles with different speeds
+    sim.vehicles[0].state.s_m = 0.0
+    sim.vehicles[0].state.v_mps = 25.0  # Fast follower
+    sim.vehicles[1].state.s_m = 30.0
+    sim.vehicles[1].state.v_mps = 15.0  # Slower leader
+    
+    # Set up driver parameters for strong braking
+    sim.vehicles[0].driver.params.comfort_brake_mps2 = 4.0
+    sim.vehicles[0].driver.params.reaction_time_s = 2.0
+    
+    # Step simulation
+    sim.step(0.02)
+    
+    # Check that follower is braking due to SSD requirements
+    follower_accel = sim.vehicles[0].state.a_mps2
+    assert follower_accel < 0, f"Follower should be braking, got acceleration {follower_accel}"
+
+
+def test_perception_deterministic():
+    """Test that perception system is deterministic."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 5
+    cfg["random"]["master_seed"] = 12345
+    sim1 = Simulation(cfg)
+    sim2 = Simulation(cfg)
+    
+    # Step both simulations
+    for _ in range(10):
+        sim1.step(0.02)
+        sim2.step(0.02)
+    
+    # Check that perception data is identical
+    for i, (p1, p2) in enumerate(zip(sim1.perception_data, sim2.perception_data)):
+        assert p1.leader_distance_m == p2.leader_distance_m, f"Distance mismatch for vehicle {i}"
+        assert p1.is_occluded == p2.is_occluded, f"Occlusion mismatch for vehicle {i}"
+        assert abs(p1.ssd_required_m - p2.ssd_required_m) < 1e-6, f"SSD mismatch for vehicle {i}"
+
+
+def test_visual_range_limits():
+    """Test that visual range limits are respected."""
+    cfg = load_config()
+    cfg["perception"]["visual_range_m"] = 50.0  # Short range
+    cfg["vehicles"]["count"] = 3
+    sim = Simulation(cfg)
+    
+    # Position vehicles far apart
+    sim.vehicles[0].state.s_m = 0.0
+    sim.vehicles[1].state.s_m = 30.0   # Within range
+    sim.vehicles[2].state.s_m = 80.0   # Outside range
+    
+    # Test perception
+    leader, distance, is_occluded = sim._find_first_unobstructed_leader(0)
+    
+    # Should find the closer vehicle, not the far one
+    assert leader is not None, "Should find a leader"
+    assert distance <= 50.0, f"Distance should be within visual range, got {distance}"
+    assert leader == sim.vehicles[1], "Should find the closer vehicle"
+
+
+def test_ssd_safety_margin():
+    """Test that SSD safety margin is applied correctly."""
+    cfg = load_config()
+    cfg["perception"]["ssd_safety_margin"] = 1.5
+    cfg["vehicles"]["count"] = 2
+    sim = Simulation(cfg)
+    
+    # Setup vehicles
+    follower = sim.vehicles[0]
+    leader = sim.vehicles[1]
+    follower.state.v_mps = 20.0
+    leader.state.v_mps = 15.0
+    
+    # Calculate SSD
+    ssd = sim._calculate_dynamic_ssd(follower, leader, 100.0)
+    
+    # Calculate expected SSD without safety margin
+    reaction_time = follower.driver.params.reaction_time_s
+    reaction_distance = follower.state.v_mps * reaction_time
+    b_f = follower.driver.params.comfort_brake_mps2
+    b_l = leader.driver.params.comfort_brake_mps2
+    v_f = follower.state.v_mps
+    v_l = leader.state.v_mps
+    
+    expected_ssd = max(2.0, reaction_distance + (v_f**2) / (2.0 * b_f) - (v_l**2) / (2.0 * b_l))
+    expected_ssd *= 1.5  # Apply safety margin
+    
+    # Check that safety margin is applied
+    assert abs(ssd - expected_ssd) < 1e-6, f"SSD should include safety margin: {ssd} vs {expected_ssd}"
+
+
+def test_hud_data_preparation():
+    """Test that HUD data preparation works correctly."""
+    from traffic_sim.core.simulation import PerceptionData
+    
+    # Create test perception data
+    perception_data = [
+        PerceptionData(None, 0.0, False, 5.0, 200.0),
+        PerceptionData(None, 50.0, True, 10.0, 200.0),
+        PerceptionData(None, 100.0, False, 15.0, 200.0)
+    ]
+    
+    # Test data calculations that would be used in HUD
+    total_vehicles = len(perception_data)
+    occluded_count = sum(1 for p in perception_data if p.is_occluded)
+    avg_ssd = sum(p.ssd_required_m for p in perception_data) / total_vehicles
+    max_ssd = max(p.ssd_required_m for p in perception_data)
+    min_ssd = min(p.ssd_required_m for p in perception_data)
+    
+    # Verify calculations
+    assert total_vehicles == 3
+    assert occluded_count == 1
+    assert avg_ssd == 10.0
+    assert max_ssd == 15.0
+    assert min_ssd == 5.0
+
+
+def test_hud_toggle_integration():
+    """Test that HUD toggle works without crashing in simulation."""
+    cfg = load_config()
+    cfg["vehicles"]["count"] = 3
+    sim = Simulation(cfg)
+    
+    # Step simulation to populate perception data
+    sim.step(0.02)
+    
+    # Test that perception data is available for HUD
+    assert len(sim.perception_data) == 3, "Should have perception data for all vehicles"
+    
+    # Test that perception data has expected structure
+    for i, perception in enumerate(sim.perception_data):
+        assert hasattr(perception, 'leader_vehicle')
+        assert hasattr(perception, 'leader_distance_m')
+        assert hasattr(perception, 'is_occluded')
+        assert hasattr(perception, 'ssd_required_m')
+        assert hasattr(perception, 'visual_range_m')
+        assert perception.visual_range_m == sim.visual_range_m
+
+
 if __name__ == "__main__":
     pytest.main([__file__])
 
