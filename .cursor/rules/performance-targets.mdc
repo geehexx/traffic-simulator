@@ -5,7 +5,7 @@ description: Performance targets and optimization guidelines
 
 # Performance Targets and Optimization
 
-## Core Performance Requirements
+## Core Requirements
 
 ### FPS Target
 - **Minimum**: 30+ FPS with 20 vehicles

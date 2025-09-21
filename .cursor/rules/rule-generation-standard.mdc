@@ -1,0 +1,197 @@
+---
+alwaysApply: true
+description: Rule generation standards and quality metrics for Cursor rules
+---
+
+# Rule Generation Standard
+
+## Quality Scoring Metrics (100 points total)
+
+### 1. Clarity & Actionability (25 points)
+- **Clear Instructions**: Specific, unambiguous guidance
+- **Actionable Examples**: Code snippets, patterns, concrete steps
+- **Measurable Criteria**: Quantifiable success metrics
+- **Do/Don't Format**: Clear positive and negative examples
+
+### 2. Token Efficiency (20 points)
+- **Minimal Redundancy**: Avoid repeating information
+- **Reference Over Repetition**: Link to existing docs instead of copying
+- **Concise Language**: Essential information only
+- **Structured Format**: Easy to scan and parse
+
+### 3. Maintainability (20 points)
+- **No Temporary Info**: Avoid time-sensitive or project-specific details
+- **Self-Updating References**: Use file references that auto-update
+- **Modular Structure**: Independent, composable rules
+- **Version Control Friendly**: Clear, trackable changes
+
+### 4. Context Relevance (15 points)
+- **File-Specific**: Appropriate globs for target files
+- **Scope Appropriate**: Not too broad or narrow
+- **Cross-Rule References**: Link to related rules when needed
+- **Context-Aware**: Understands when to apply
+
+### 5. Documentation Quality (10 points)
+- **Proper References**: Link to authoritative sources
+- **Clear Structure**: Logical organization and hierarchy
+- **AI-Optimized Format**: Markdown with clear sections
+- **Searchable Content**: Keywords and tags for discovery
+
+### 6. Completeness (10 points)
+- **Covers All Aspects**: No missing critical information
+- **Future-Proof**: Anticipates evolution and changes
+- **Edge Cases**: Handles unusual scenarios
+- **Comprehensive Scope**: Complete coverage of topic
+
+## Rule Structure Template
+
+```markdown
+---
+globs: <file-patterns> OR alwaysApply: true
+description: <brief-description-for-fetching>
+---
+
+# <Rule Title>
+
+## <Primary Section>
+- **Key Point**: Specific guidance
+- **Pattern**: Code example or pattern
+- **❌ Avoid**: Common mistake
+- **✅ Use**: Correct approach
+
+## <Secondary Section>
+- Concise bullet points
+- Code snippets when helpful
+- References to other rules
+
+## References
+- [External Doc](url) - Brief description
+- [Internal Rule](mdc:other-rule.mdc) - Cross-reference
+```
+
+## Content Guidelines
+
+### Do's
+- **Use bullet points** for scannable lists
+- **Include code examples** for complex patterns
+- **Reference existing docs** instead of duplicating
+- **Use clear section headers** for organization
+- **Include both positive and negative examples**
+- **Keep examples minimal but complete**
+- **Use consistent formatting** throughout
+
+### Don'ts
+- **Don't repeat** information from other rules
+- **Don't include** temporary or project-specific details
+- **Don't use** overly verbose explanations
+- **Don't duplicate** existing documentation
+- **Don't include** implementation details that change frequently
+- **Don't use** ambiguous language or unclear instructions
+
+## Token Optimization Strategies
+
+### 1. Reference External Sources
+Instead of:
+```markdown
+## Arcade Functions
+- draw_rectangle_filled(center_x, center_y, width, height, color)
+- draw_lrtb_rectangle_filled(left, right, top, bottom, color)
+- draw_polygon_filled(point_list, color)
+```
+
+Use:
+```markdown
+## Arcade Functions
+- [Drawing Primitives API](https://api.arcade.academy/en/latest/api/drawing_primitives.html)
+- Key functions: draw_rectangle_filled, draw_lrtb_rectangle_filled, draw_polygon_filled
+```
+
+### 2. Use Cross-References
+Instead of:
+```markdown
+## Performance Testing
+- Use performance test script
+- Monitor FPS targets
+- Check memory usage
+```
+
+Use:
+```markdown
+## Performance Testing
+- See [performance-targets.mdc](mdc:performance-targets.mdc) for detailed patterns
+- Key: FPS ≥30, minimal allocations, deterministic behavior
+```
+
+### 3. Focus on Patterns, Not Details
+Instead of:
+```markdown
+## IDM Controller
+- Calculate gap: s_gap = (leader.state.s_m - vehicle.state.s_m) % L
+- Calculate delta_v: delta_v = vehicle.state.v_mps - leader.state.v_mps
+- Calculate s_star: s_star = s0 + vehicle.state.v_mps * T + (vehicle.state.v_mps * delta_v) / (2.0 * (a_max ** 0.5) * (b_comf ** 0.5) + 1e-6)
+- Calculate acceleration: a = a_max * (1.0 - (vehicle.state.v_mps / max(0.1, v0)) ** self.idm_delta - (s_star / max(0.1, s_gap)) ** 2)
+```
+
+Use:
+```markdown
+## IDM Controller
+- **Pattern**: Calculate gap → delta_v → s_star → acceleration
+- **Key**: Use perception data when available, fallback to standard IDM
+- **Reference**: [phase2-perception.mdc](mdc:phase2-perception.mdc) for integration details
+```
+
+## Rule Maintenance
+
+### Update Triggers
+- Code changes that affect rule applicability
+- New patterns or best practices discovered
+- Performance or quality issues identified
+- User feedback indicating confusion
+
+### Update Process
+1. **Assess Impact**: Does the change affect rule accuracy?
+2. **Update Content**: Modify only necessary sections
+3. **Validate References**: Ensure all links still work
+4. **Test Clarity**: Verify instructions are still clear
+5. **Commit Changes**: Use descriptive commit messages
+
+### Quality Checklist
+- [ ] All examples are accurate and current
+- [ ] References point to correct locations
+- [ ] No redundant information with other rules
+- [ ] Clear, actionable instructions
+- [ ] Appropriate scope and file targeting
+- [ ] Future-proof content (no temporary details)
+- [ ] Consistent formatting and structure
+
+## Rule Generation Process
+
+### 1. Analysis Phase
+- Identify the specific problem or pattern
+- Determine target files and scope
+- Research existing documentation and rules
+- Define success criteria
+
+### 2. Content Creation
+- Use the structure template
+- Focus on patterns over implementation details
+- Include both positive and negative examples
+- Reference external sources when possible
+
+### 3. Quality Review
+- Score against the 6 metrics (aim for 80+ points)
+- Check for redundancy with existing rules
+- Validate all references and examples
+- Ensure clarity and actionability
+
+### 4. Integration
+- Test rule applicability with target files
+- Verify cross-references work correctly
+- Ensure no conflicts with existing rules
+- Document any dependencies
+
+### 5. Maintenance
+- Set up monitoring for rule effectiveness
+- Plan regular review cycles
+- Establish update triggers
+- Track usage and feedback
