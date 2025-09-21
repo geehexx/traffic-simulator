@@ -1,13 +1,11 @@
 ---
 globs: src/traffic_sim/core/simulation.py,src/traffic_sim/core/hud.py
-description: Phase 2 perception system implementation patterns
+description: Occlusion-based perception and dynamic SSD implementation patterns
 ---
 
-# Phase 2: Occlusion-Based Perception + Dynamic SSD
+# Perception System Architecture
 
-## Core Architecture
-
-### PerceptionData
+## Core Data Structure
 ```python
 @dataclass
 class PerceptionData:
@@ -18,32 +16,32 @@ class PerceptionData:
     visual_range_m: float
 ```
 
-### Key Methods
+## Key Implementation Methods
 - `_find_first_unobstructed_leader(follower_idx)` - Find visible leader in range
-- `_is_line_of_sight_clear(follower, leader, distance)` - Occlusion check
-- `_calculate_dynamic_ssd(follower, leader, distance)` - SSD calculation
+- `_is_line_of_sight_clear(follower, leader, distance)` - Occlusion detection
+- `_calculate_dynamic_ssd(follower, leader, distance)` - Safe stopping distance
 
-### SSD Formula
+## SSD Calculation
 `g_req = max(s0, d_r + v_f²/(2b_f) - v_ℓ²/(2b_ℓ))` where `d_r = v_f * t_r`
 
-## Integration
+## Integration Patterns
 
-### Simulation.step()
-1. Update perception data for all vehicles
-2. Use perception data in IDM controller
-3. Fallback to simple following when no leader
+### Simulation Integration
+1. Update perception data for all vehicles each step
+2. Use perception data in IDM controller decisions
+3. Fallback to simple following when no leader detected
 
-### IDM Enhancement
+### IDM Controller Enhancement
 - Use SSD-based desired gap when perception available
 - Fallback to standard IDM when occluded/no leader
 - Maintain deterministic behavior
 
-### HUD Functions
+### HUD Display Functions
 - `draw_perception_summary()` - Statistics overview
 - `draw_vehicle_perception_overlay()` - Per-vehicle details  
 - `draw_perception_heatmap()` - Visual SSD representation
 
-## Configuration
+## Configuration Parameters
 ```yaml
 perception:
   visual_range_m: 200.0
@@ -52,14 +50,14 @@ perception:
   min_ssd_m: 2.0
 ```
 
-## Testing
-- Occlusion detection accuracy
-- SSD calculation validation
+## Testing Requirements
+- Occlusion detection accuracy validation
+- SSD calculation correctness
 - IDM behavior with SSD integration
 - Deterministic behavior maintenance
 - HUD rendering without crashes
 
-## Performance
+## Performance Considerations
 - Visual range limits prevent excessive computation
 - Line-of-sight checks optimized for stadium geometry
 - SSD calculations cached per vehicle per frame

@@ -1,5 +1,5 @@
 ---
-globs: src/**/*.py
+globs: src/traffic_sim/render/*.py,src/traffic_sim/core/hud.py
 description: Arcade library optimization and function usage guidelines
 ---
 
