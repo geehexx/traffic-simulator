@@ -43,7 +43,7 @@ class AnalyticsHUD:
 
         # Performance metrics
         perf = self.analytics.get_performance_metrics()
-        perf_text = f"FPS: {perf['fps']:.1f} | Sim: {perf['avg_sim_time']*1000:.1f}ms"
+        perf_text = f"FPS: {perf['fps']:.1f} | Sim: {perf['avg_sim_time'] * 1000:.1f}ms"
         arcade.draw_text(perf_text, x, y - 60, arcade.color.GRAY, 10)
 
     def draw_speed_histogram(
@@ -175,11 +175,11 @@ class AnalyticsHUD:
         arcade.draw_text(fps_text, x, y, fps_color, 12)
 
         # Frame time
-        frame_time_text = f"Frame: {perf['avg_frame_time']*1000:.1f}ms"
+        frame_time_text = f"Frame: {perf['avg_frame_time'] * 1000:.1f}ms"
         arcade.draw_text(frame_time_text, x, y - 15, arcade.color.GRAY, 10)
 
         # Simulation time
-        sim_time_text = f"Sim: {perf['avg_sim_time']*1000:.1f}ms"
+        sim_time_text = f"Sim: {perf['avg_sim_time'] * 1000:.1f}ms"
         arcade.draw_text(sim_time_text, x, y - 30, arcade.color.GRAY, 10)
 
     def draw_incident_log(self, x: float, y: float, max_events: int = 10) -> None:
