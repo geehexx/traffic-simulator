@@ -29,3 +29,13 @@ description: Arcade rendering guidelines
 ## State Management
 - **Pattern**: Separate simulation state from rendering state
 - **Reference**: [Architecture Guide](mdc:docs/ARCHITECTURE.md#state-management)
+
+### HUD Occlusion Panel {#id:hud-occlusion-panel}
+- **Key Pattern**: Render occlusion-aware HUD elements by consuming read-only data from the perception system (occlusion by sector, SSD metrics). Compute-heavy work belongs in the perception layer, not the render loop.
+- **Update Cadence**: Target ~10 Hz HUD refresh independent of the physics step when feasible; avoid per-frame recomputation of expensive metrics.
+- **Determinism**: Respect fixed-step simulation and seeded RNG requirements. Do not introduce non-deterministic sampling in the render thread.
+- **Performance Target**: Honor project performance standards (see [Quality Standards](mdc:docs/QUALITY_STANDARDS.md) and [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md)). Strive for ≥30 FPS with ≥20 vehicles; minimize allocations in the draw path.
+- **Arcade Calls**: Use valid Arcade APIs only; see [Arcade API Consistency](mdc:.cursor/rules/arcade-api-consistency.mdc). Prefer text batching and avoid per-frame object churn.
+- **Configuration Hooks**: If a configuration toggle exists for the occlusion HUD, document the key and default in the configuration rule (see [Configuration Patterns](mdc:.cursor/rules/configuration-patterns.mdc#id:hud-occlusion-config)).
+- **❌ Avoid**: Performing occlusion/SSD computations in the draw cycle; using non-existent Arcade functions; unbounded per-frame allocations.
+- **✅ Use**: Cached perception outputs; anchored HUD sections with stable IDs; references to category rules over duplicated specifics.
