@@ -95,7 +95,6 @@ description: <brief-description-for-fetching>
 Instead of:
 ```markdown
 ## Arcade Functions
-- draw_rectangle_filled(center_x, center_y, width, height, color)
 - draw_lrtb_rectangle_filled(left, right, top, bottom, color)
 - draw_polygon_filled(point_list, color)
 ```

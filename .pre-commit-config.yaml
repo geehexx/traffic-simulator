@@ -33,12 +33,13 @@ repos:
     hooks:
       - id: black
         language_version: python3
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
+  - repo: local
     hooks:
       - id: mypy
-        additional_dependencies: [types-PyYAML, types-requests]
-        args: [--config-file=mypy.ini]
+        name: mypy
+        entry: bash -c 'cd src && uv run mypy traffic_sim/ --explicit-package-bases --show-error-codes'
+        language: system
+        types: [python]
   - repo: local
     hooks:
       - id: pyright
@@ -58,7 +59,7 @@ repos:
         entry: uv run bandit
         language: system
         types: [python]
-        args: [-r, src/, -f, json, -c, bandit.yaml]
+        args: [-r, src/, -c, bandit.yaml]
       - id: radon
         name: radon
         entry: uv run radon

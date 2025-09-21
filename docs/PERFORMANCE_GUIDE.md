@@ -93,9 +93,9 @@ def draw_vehicle_optimized(vehicle: Vehicle, scale: float) -> None:
     """Optimized vehicle drawing with cached calculations."""
     # Use appropriate drawing function based on coordinate system
     if vehicle.orientation == 0:
-        # Horizontal vehicle - use draw_rectangle_filled
-        arcade.draw_rectangle_filled(
-            vehicle.screen_x, vehicle.screen_y,
+        # Horizontal vehicle - use draw_lbwh_rectangle_filled
+        arcade.draw_lbwh_rectangle_filled(
+            vehicle.screen_x - vehicle.length_px/2, vehicle.screen_y - vehicle.width_px/2,
             vehicle.length_px, vehicle.width_px,
             vehicle.color
         )
@@ -331,7 +331,7 @@ class DrawCallBatcher:
         """Flush all batched draw calls."""
         # Draw all rectangles at once
         for x, y, width, height, color in self.rectangles:
-            arcade.draw_rectangle_filled(x, y, width, height, color)
+            arcade.draw_lbwh_rectangle_filled(x, y, width, height, color)
 
         # Clear batches
         self.rectangles.clear()

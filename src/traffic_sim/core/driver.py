@@ -188,7 +188,8 @@ def sample_driver_params(cfg: Dict[str, Any], rng: random.Random) -> DriverParam
     correlations = cfg.get("drivers", {}).get("correlations", {})
 
     def g(key: str, default: Dict[str, Any]) -> Dict[str, Any]:
-        return dist.get(key, default)
+        result = dist.get(key, default)
+        return result if isinstance(result, dict) else default
 
     # Parameter definitions
     param_names = [
