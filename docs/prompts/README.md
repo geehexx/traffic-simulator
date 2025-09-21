@@ -7,6 +7,9 @@ This directory contains specialized prompts and templates for AI-assisted develo
 ### generate-docs.md
 The Enterprise Documentation Maintainer prompt for keeping documentation accurate, consistent, and up-to-date.
 
+### generate-rules.md
+The Enterprise Cursor Rules Maintainer prompt for keeping `.cursor/rules/*.mdc` accurate, concise, taxonomy-aligned, and AI-optimized.
+
 ## Usage
 
 ### Documentation Maintenance
