@@ -8,5 +8,3 @@ def pytest_sessionstart(session):
     src = os.path.join(root, "src")
     if src not in sys.path:
         sys.path.insert(0, src)
-
-

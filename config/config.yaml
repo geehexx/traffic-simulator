@@ -115,11 +115,22 @@ hud_panels:
     headway_summary: true
     ttc_nearmiss_counter: true
     safe_curve_panel: true
+    live_analytics: true
   full:
     ttc_histogram: true
     braking_heatmap: true
     per_vehicle_overlays: true
     incident_log: true
+    live_analytics: true
+    performance_panel: true
+
+analytics:
+  speed_histogram_bins: 20
+  headway_dangerous_threshold: 1.0
+  headway_critical_threshold: 0.5
+  ttc_nearmiss_threshold: 1.5
+  data_retention_seconds: 300
+  performance_tracking: true
 
 collisions:
   use_pymunk_impulse: true
