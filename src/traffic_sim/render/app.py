@@ -5,7 +5,12 @@ from typing import Optional, Tuple
 
 from traffic_sim.config.loader import load_config, get_nested
 from traffic_sim.core.simulation import Simulation
-from traffic_sim.core.hud import draw_safety_panel
+from traffic_sim.core.hud import (
+    draw_safety_panel,
+    draw_perception_summary,
+    draw_vehicle_perception_overlay,
+    draw_perception_heatmap,
+)
 from traffic_sim.core.track import StadiumTrack
 
 
@@ -41,6 +46,10 @@ class TrafficSimWindow(arcade.Window):
         panel = self.sim.compute_safety_panel()
         draw_safety_panel(margin, self.height - 85, panel)
 
+        # Draw perception summary
+        if hasattr(self.sim, "perception_data") and self.sim.perception_data:
+            draw_perception_summary(margin, self.height - 115, self.sim.perception_data)
+
         # Draw track and vehicles
         self._draw_track()
         self._draw_vehicles()
@@ -50,10 +59,20 @@ class TrafficSimWindow(arcade.Window):
             arcade.draw_text(
                 f"HUD: full | vehicles={len(self.sim.vehicles)}",
                 margin,
-                self.height - 125,
+                self.height - 145,
                 arcade.color.DARK_SLATE_GRAY,
                 12,
             )
+
+            # Draw detailed perception information
+            if hasattr(self.sim, "perception_data") and self.sim.perception_data:
+                # Draw perception heatmap
+                draw_perception_heatmap(margin, self.height - 200, self.sim.perception_data)
+
+                # Draw per-vehicle overlays (first 10 vehicles to avoid clutter)
+                overlay_y = self.height - 320
+                for i, perception in enumerate(self.sim.perception_data[:10]):
+                    draw_vehicle_perception_overlay(margin, overlay_y, i, perception)
 
     def on_key_press(self, symbol: int, modifiers: int):
         # Normalize to uppercase letter key
@@ -105,10 +124,14 @@ class TrafficSimWindow(arcade.Window):
         scale = self._scale_px()
         cx_r, cy_r = self._world_to_screen(S * 0.5, 0.0)
         # Right semicircle: angles -90 to 90
-        arcade.draw_arc_outline(cx_r, cy_r, 2 * R * scale, 2 * R * scale, arcade.color.BLACK, -90, 90, 2)
+        arcade.draw_arc_outline(
+            cx_r, cy_r, 2 * R * scale, 2 * R * scale, arcade.color.BLACK, -90, 90, 2
+        )
         # Left arc
         cx_l, cy_l = self._world_to_screen(-S * 0.5, 0.0)
-        arcade.draw_arc_outline(cx_l, cy_l, 2 * R * scale, 2 * R * scale, arcade.color.BLACK, 90, 270, 2)
+        arcade.draw_arc_outline(
+            cx_l, cy_l, 2 * R * scale, 2 * R * scale, arcade.color.BLACK, 90, 270, 2
+        )
 
     def _draw_vehicles(self) -> None:
         track: StadiumTrack = self.sim.track
@@ -121,6 +144,7 @@ class TrafficSimWindow(arcade.Window):
             h = v.spec.length_m * scale
             w = v.spec.width_m * scale
             import math
+
             ang = theta
             ca = math.cos(ang)
             sa = math.sin(ang)
@@ -129,21 +153,19 @@ class TrafficSimWindow(arcade.Window):
             dy = w / 2.0
             # Rectangle corners around center (±dx, ±dy), rotated by ang
             corners = [
-                ( x + (-dx)*ca - (-dy)*sa, y + (-dx)*sa + (-dy)*ca ),
-                ( x + ( dx)*ca - (-dy)*sa, y + ( dx)*sa + (-dy)*ca ),
-                ( x + ( dx)*ca - ( dy)*sa, y + ( dx)*sa + ( dy)*ca ),
-                ( x + (-dx)*ca - ( dy)*sa, y + (-dx)*sa + ( dy)*ca ),
+                (x + (-dx) * ca - (-dy) * sa, y + (-dx) * sa + (-dy) * ca),
+                (x + (dx) * ca - (-dy) * sa, y + (dx) * sa + (-dy) * ca),
+                (x + (dx) * ca - (dy) * sa, y + (dx) * sa + (dy) * ca),
+                (x + (-dx) * ca - (dy) * sa, y + (-dx) * sa + (dy) * ca),
             ]
             arcade.draw_polygon_filled(corners, v.color_rgb)
 
 
 def main(cfg_path: Optional[str] = None) -> None:
     cfg = load_config(cfg_path)
-    window = TrafficSimWindow(1280, 720, "Traffic Simulator", cfg)
+    _window = TrafficSimWindow(1280, 720, "Traffic Simulator", cfg)
     arcade.run()
 
 
 if __name__ == "__main__":
     main()
-
-

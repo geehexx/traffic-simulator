@@ -1,0 +1,19 @@
+{
+    "python.analysis.extraPaths": ["./src"],
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyEnabled": true,
+    "python.analysis.stubPath": "./stubs",
+    "python.analysis.include": ["src/**/*.py"],
+    "python.analysis.exclude": ["**/node_modules", "**/__pycache__"],
+    "files.associations": {
+        "*.yaml": "yaml",
+        "*.yml": "yaml"
+    },
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+    }
+}
