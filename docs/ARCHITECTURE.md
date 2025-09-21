@@ -365,6 +365,9 @@ def world_to_screen(self, world_pos: Tuple[float, float]) -> Tuple[float, float]
 ### 3. HUD System
 Optimized HUD with pre-created text objects:
 
+See HUD occlusion UI guidance in project docs:
+[Performance Guide – Rendering Optimization](mdc:docs/PERFORMANCE_GUIDE.md#rendering-optimization)
+
 ```python
 class OptimizedHUD:
     def __init__(self) -> None:
