@@ -209,7 +209,7 @@ For detailed information, see [Quality Standards Guide](docs/QUALITY_STANDARDS.m
 uv run python -m pytest tests/ -v
 
 # Specific test file
-uv run python -m pytest tests/test_idm.py -v
+uv run python -m pytest tests/idm_test.py -v
 
 # With coverage
 uv run python -m pytest tests/ --cov=traffic_sim --cov-report=html
