@@ -1,0 +1,22 @@
+---
+globs: src/traffic_sim/render/*.py, src/traffic_sim/core/track.py
+description: Rendering geometry, orientation, and Arcade 3.3.x compatibility notes
+---
+# Rendering and Arcade Compatibility
+
+- Coordinate system: `StadiumTrack.position_heading(s)` returns `(x, y, theta)` in meters/radians.
+  - Top straight: heading `theta = 0` (east). Bottom straight: `theta = π` (west).
+  - Right arc (clockwise, top→bottom): tangent `theta = angle − π/2`.
+  - Left arc (clockwise, bottom→top): parameterization uses `angle = −π/2 − t/R`; tangent `theta = angle − π/2`.
+- Window mapping: convert world meters to pixels only in the renderer using a single scale factor based on the stadium bounding box.
+- Vehicle orientation: draw length along the heading and width lateral to it.
+  - Use `dx = (length_px)/2` along heading and `dy = (width_px)/2` lateral.
+  - Rotate corners by `theta` with `cos(theta)`/`sin(theta)`. Do not negate `theta`.
+
+Arcade 3.3.x specifics:
+- Do not use `draw_rectangle_filled`; instead draw rotated rectangles with `draw_polygon_filled` using pre-rotated corners.
+- Prefer `Text` objects over `draw_text` for frequently updated HUD elements (planned upgrade).
+
+HUD layout:
+- Keep safety panel at the top-left; place any extra HUD lines below to avoid overlap.
+
