@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional, Tuple
 
 
 @dataclass
@@ -19,8 +20,14 @@ class VehicleState:
 
 
 class Vehicle:
-    def __init__(self, spec: VehicleSpec, state: VehicleState):
+    def __init__(
+        self,
+        spec: VehicleSpec,
+        state: VehicleState,
+        color_rgb: Optional[Tuple[int, int, int]] = None,
+    ):
         self.spec = spec
         self.state = state
+        self.color_rgb: Tuple[int, int, int] = color_rgb or (100, 180, 255)
 
 
