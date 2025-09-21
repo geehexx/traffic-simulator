@@ -1,0 +1,79 @@
+---
+globs: src/traffic_sim/core/simulation.py,src/traffic_sim/core/hud.py
+description: Phase 2 perception system implementation patterns
+---
+
+# Phase 2: Occlusion-Based Perception + Dynamic SSD
+
+## Architecture Overview
+
+### PerceptionData Structure
+```python
+@dataclass
+class PerceptionData:
+    leader_vehicle: Optional[Vehicle]
+    leader_distance_m: float
+    is_occluded: bool
+    ssd_required_m: float
+    visual_range_m: float
+```
+
+### Key Methods in Simulation
+
+#### Occlusion Detection
+- `_find_first_unobstructed_leader(follower_idx)` - Find first visible leader within visual range
+- `_is_line_of_sight_clear(follower, leader, distance)` - Check for occlusion
+- `_is_between_positions(start, end, check, track_length)` - Position checking utility
+
+#### Dynamic SSD Calculation
+- `_calculate_dynamic_ssd(follower, leader, distance)` - Calculate safe stopping distance
+- Formula: `g_req = max(s0, d_r + v_f²/(2b_f) - v_ℓ²/(2b_ℓ))`
+- Includes reaction distance: `d_r = v_f * t_r`
+
+### Integration Points
+
+#### Simulation.step()
+1. Update perception data for all vehicles
+2. Use perception data in IDM controller
+3. Fallback to simple following when no leader detected
+
+#### IDM Controller Enhancement
+- Use SSD-based desired gap when perception available
+- Fallback to standard IDM when occluded or no leader
+- Maintain deterministic behavior
+
+### HUD Integration
+
+#### Perception Display Functions
+- `draw_perception_summary()` - Statistics overview
+- `draw_vehicle_perception_overlay()` - Per-vehicle details
+- `draw_perception_heatmap()` - Visual SSD representation
+
+#### HUD Modes
+- **Minimal**: Safety panel + perception summary
+- **Full**: Detailed overlays + heatmap + per-vehicle info
+
+## Configuration Parameters
+
+```yaml
+perception:
+  visual_range_m: 200.0
+  occlusion_check_resolution: 0.5
+  ssd_safety_margin: 1.2
+  min_ssd_m: 2.0
+```
+
+## Testing Patterns
+
+- Test occlusion detection accuracy
+- Validate SSD calculation with various speeds/gaps
+- Verify IDM behavior with SSD integration
+- Ensure deterministic behavior maintained
+- Test HUD rendering without crashes
+
+## Performance Considerations
+
+- Visual range limits prevent excessive computation
+- Line-of-sight checks optimized for stadium geometry
+- SSD calculations cached per vehicle per frame
+- HUD rendering optimized for 30+ FPS target

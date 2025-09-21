@@ -1,0 +1,44 @@
+---
+globs: src/**/*.py
+description: Arcade library optimization and function usage guidelines
+---
+
+# Arcade Library Optimization
+
+## Correct Function Usage
+
+### Rectangle Drawing
+- **Use**: `arcade.draw_rectangle_filled(center_x, center_y, width, height, color)` for center-based rectangles
+- **Use**: `arcade.draw_lrtb_rectangle_filled(left, right, top, bottom, color)` for boundary-based rectangles
+- **Avoid**: `arcade.draw_lbwh_rectangle_filled` (does not exist)
+
+### Text Rendering
+- **Performance Warning**: `arcade.draw_text()` is extremely slow for frequent updates
+- **Optimized**: Use `arcade.Text` objects for high-frequency text rendering
+- **Pattern**: Pre-create Text objects in `__init__` methods, call `.draw()` in render loops
+
+### Polygon Drawing
+- **Use**: `arcade.draw_polygon_filled(point_list, color)` for complex shapes
+- **Use**: `arcade.draw_polygon_outline(point_list, color, line_width)` for outlines
+
+## Performance Best Practices
+
+1. **Text Objects**: Create once, reuse many times
+2. **Rectangle Choice**: Choose function based on coordinate system (center vs boundary)
+3. **Batch Operations**: Group similar drawing operations when possible
+4. **Pre-creation**: Cache commonly used drawing objects
+
+## Common Mistakes to Avoid
+
+- ❌ `arcade.draw_lbwh_rectangle_filled` - Function doesn't exist
+- ❌ `arcade.draw_rectangle_filled_center` - Wrong function name
+- ❌ Using `draw_text` in tight loops - Use Text objects instead
+
+## Validation
+
+Use the validation script: `python scripts/validate_arcade_functions.py <files>`
+
+## Documentation References
+
+- Primary: https://api.arcade.academy/en/latest/api/drawing_primitives.html
+- Tutorials: https://arcade3.readthedocs.io/en/stable/index.html
