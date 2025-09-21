@@ -62,7 +62,7 @@ All code must pass quality gates before merging. See [quality_gates.yaml](mdc:qu
 - **Code Quality**: Pylint score ≥8.0/10
 - **Security**: No high/medium severity issues
 - **Complexity**: No high complexity functions
-- **Coverage**: ≥80% line coverage
+- **Coverage**: ≥70% line coverage
 
 ### 2. Development Commands
 
@@ -198,6 +198,13 @@ For detailed quality standards, see [Quality Standards Guide](mdc:docs/QUALITY_S
 - **Integration Tests**: End-to-end simulation testing
 - **Property Tests**: Hypothesis-based testing
 - **Performance Tests**: Timing and memory usage
+
+### Test Categories
+- **Unit Tests**: Individual component testing
+- **Integration Tests**: End-to-end simulation testing
+- **Deterministic Tests**: Reproducible behavior validation
+- **Performance Tests**: 30+ FPS target verification
+- **Regression Tests**: HUD functionality and crash prevention
 
 ### Test Organization
 ```python
