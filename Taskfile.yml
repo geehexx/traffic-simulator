@@ -35,3 +35,20 @@ tasks:
     desc: Run pre-commit on all files
     cmds:
       - uv run pre-commit run --all-files
+
+  clean:
+    desc: Clean all temporary files and caches from the project
+    cmds:
+      - find . -name "*.pyc" -delete
+      - find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".pytest_cache" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".hypothesis" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".mypy_cache" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".ruff_cache" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name "*.log" -delete
+      - find . -name ".coverage*" -delete
+      - find . -name "htmlcov" -type d -exec rm -rf {} + 2>/dev/null || true
+      - find . -name ".DS_Store" -delete
+      - find . -name "*.tmp" -delete
+      - find . -name "*.temp" -delete
+      - echo "Cleaned all temporary files and caches"
