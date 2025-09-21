@@ -1,0 +1,69 @@
+---
+globs: src/traffic_sim/core/driver.py,src/traffic_sim/core/vehicle.py,src/traffic_sim/core/simulation.py
+description: Driver and vehicle dynamics implementation patterns
+---
+
+# Driver and Vehicle Dynamics
+
+## Driver Parameter System
+
+The driver system uses **Gaussian copula correlation** for realistic parameter sampling:
+
+- **Core Parameters**: `reaction_time_s`, `headway_T_s`, `comfort_brake_mps2`, `max_brake_mps2`, `jerk_limit_mps3`, `throttle_lag_s`, `brake_lag_s`
+- **Behavioral Parameters**: `aggression_z` (latent), `rule_adherence` (0-1), `desired_speed_mps`
+- **Correlations**: A-T (-0.5), A-b_comf (+0.3), R-A (-0.4), distraction-t_reaction (+0.5)
+
+### Driver Class Usage
+```python
+# Create driver with parameters
+params = sample_driver_params(cfg, rng)
+driver = Driver(params, rng)
+
+# Update speeding state (call each simulation step)
+driver.update_speeding_state(dt_s, speed_limit_mps)
+
+# Get effective speed limit (considers speeding)
+effective_limit = driver.get_effective_speed_limit(speed_limit_mps)
+```
+
+## Vehicle Dynamics System
+
+Vehicles have **internal state** for realistic dynamics:
+
+- **Commanded vs Actual**: `commanded_accel_mps2` (what controller wants) vs `actual_accel_mps2` (what happens)
+- **Jerk Limiting**: Prevents unrealistic acceleration changes using `jerk_limit_mps3`
+- **Drivetrain Lag**: First-order filters for throttle/brake response delays
+
+### Vehicle Class Usage
+```python
+# Create vehicle with driver
+vehicle = Vehicle(spec, state, driver, color_rgb)
+
+# Set commanded acceleration (from IDM controller)
+vehicle.set_commanded_acceleration(accel_mps2)
+
+# Update internal state (call each simulation step)
+vehicle.update_internal_state(dt_s)
+
+# Access final acceleration
+final_accel = vehicle.state.a_mps2
+```
+
+## Key Implementation Notes
+
+- **Deterministic**: All random sampling uses seeded RNGs for reproducibility
+- **Per-Driver**: Each vehicle has unique driver parameters and behavior
+- **Realistic Constraints**: Jerk limiting and drivetrain lag prevent unrealistic dynamics
+- **Speeding Behavior**: Two-state Markov chain with configurable transition rates
+- **Correlation Sampling**: Parameters are correlated using Gaussian copula for realism
+
+## Configuration Integration
+
+Driver parameters are configured in [config/config.yaml](mdc:config/config.yaml):
+- `drivers.distributions.*` - Parameter distributions (mean, std, min, max)
+- `drivers.correlations.*` - Parameter correlations
+- `drivers.overspeed_model.*` - Speeding behavior configuration
+
+## Testing
+
+See [testing-patterns.mdc](mdc:.cursor/rules/testing-patterns.mdc) for comprehensive test examples and [test_idm.py](mdc:tests/test_idm.py) for implementation.
