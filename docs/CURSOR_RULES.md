@@ -11,55 +11,30 @@ This document provides comprehensive guidance on the Cursor rules system used in
 
 ## Overview
 
-The project uses 20+ specialized Cursor rules to provide AI-assisted development guidance. These rules are stored in `.cursor/rules/` and cover various aspects of development including code quality, architecture patterns, and project-specific guidelines.
+The project uses 9 specialized Cursor rules to provide AI-assisted development guidance. These rules are stored in `.cursor/rules/` and cover various aspects of development including code quality, architecture patterns, and project-specific guidelines.
 
 ## Rule Categories
 
 ### 1. Code Quality Standards
 - **arcade-api-consistency.mdc**: Arcade API compatibility and validation
 - **code-quality-standards.mdc**: Core code quality guidelines
-- **coding-standards.mdc**: General coding standards and patterns
-- **static-analysis-standards.mdc**: Static analysis tool configuration
+- **rule-generation-standard.mdc**: Rule generation standards and quality metrics
 
 ### 2. Architecture & Patterns
 - **simulation-patterns.mdc**: Core simulation architecture patterns
 - **rendering-patterns.mdc**: Arcade rendering guidelines
-- **driver-vehicle-dynamics.mdc**: Driver and vehicle behavior patterns
-- **perception-system.mdc**: Perception and SSD calculation patterns
 
 ### 3. Performance & Optimization
 - **performance-standards.mdc**: Performance optimization guidelines
-- **performance-optimization.mdc**: Performance tuning strategies
-- **performance-targets.mdc**: Performance target definitions
 
 ### 4. Configuration & Management
 - **configuration-patterns.mdc**: Configuration management patterns
-- **configuration-management.mdc**: Configuration handling guidelines
 
-### 5. Testing & Quality
-- **testing-patterns.mdc**: Testing strategy and patterns
-- **testing-standards.mdc**: Testing quality standards
-- **quality-gates-enforcement.mdc**: Quality gates implementation
-
-### 6. Documentation
+### 5. Documentation
 - **documentation-patterns.mdc**: Documentation standards
-- **documentation-standards.mdc**: Documentation quality guidelines
 
-### 7. Development Workflow
-- **development-workflow.mdc**: Development process guidelines
-- **workflow.mdc**: Workflow optimization
-- **handoff-guide.mdc**: Project handoff procedures
-
-### 8. Project Context
+### 6. Project Context
 - **project-context.mdc**: Project overview and context
-- **project-structure.mdc**: Project organization guidelines
-- **project-overview.mdc**: High-level project understanding
-
-### 9. Specialized Rules
-- **determinism-contracts.mdc**: Deterministic behavior requirements
-- **rendering-arcade-compat.mdc**: Arcade compatibility guidelines
-- **idm-controller.mdc**: IDM controller implementation
-- **hud-development.mdc**: HUD development guidelines
 
 ## Rule Usage
 
