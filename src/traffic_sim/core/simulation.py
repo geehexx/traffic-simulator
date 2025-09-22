@@ -7,12 +7,13 @@ import random
 from traffic_sim.core.track import StadiumTrack
 from traffic_sim.config.loader import get_nested
 from traffic_sim.core.vehicle import Vehicle, VehicleSpec, VehicleState
-from traffic_sim.models.vehicle_specs import DEFAULT_CATALOG
+from traffic_sim.models.vehicle_specs import DEFAULT_CATALOG, VehicleCatalogEntry
 from traffic_sim.core.driver import sample_driver_params, Driver
 from traffic_sim.core.perception import PerceptionData
 from traffic_sim.core.analytics import LiveAnalytics
 from traffic_sim.core.collision import CollisionSystem
 from traffic_sim.core.logging import DataLogger
+from traffic_sim.core.performance import get_performance_optimizer, pre_sort_vehicles
 
 
 @dataclass
@@ -51,8 +52,10 @@ class Simulation:
         self.analytics = LiveAnalytics(cfg)
         self.collision_system = CollisionSystem(cfg, self.track)
         self.data_logger = DataLogger(cfg)
+        self.performance_optimizer = get_performance_optimizer()
         self._spawn_initial_vehicles()
         self.idm_delta = 4.0
+        self.simulation_time = 0.0
         self.a_max = 1.5  # m/s^2 (scaffold)
 
     def compute_safety_panel(self) -> Dict[str, float | bool]:
@@ -66,6 +69,32 @@ class Simulation:
             "unsafe": unsafe,
         }
 
+    def _sample_vehicle_by_mix(self, rng: random.Random) -> VehicleCatalogEntry:
+        """Sample a vehicle from the catalog based on configured mix percentages."""
+        mix_config = get_nested(self.cfg, "vehicles.mix", {})
+
+        # Create weighted list of vehicle types
+        vehicle_types = []
+        for vehicle_type, percentage in mix_config.items():
+            count = int(percentage * 100)  # Convert to integer for sampling
+            vehicle_types.extend([vehicle_type] * count)
+
+        # Sample vehicle type
+        if not vehicle_types:
+            # Fallback to equal distribution if no mix configured
+            vehicle_types = ["sedan", "suv", "truck_van", "bus", "motorbike"]
+
+        selected_type = rng.choice(vehicle_types)
+
+        # Find vehicles of the selected type
+        available_vehicles = [v for v in DEFAULT_CATALOG if v.type == selected_type]
+
+        if not available_vehicles:
+            # Fallback to any vehicle if type not found
+            available_vehicles = list(DEFAULT_CATALOG)
+
+        return rng.choice(available_vehicles)
+
     def _spawn_initial_vehicles(self) -> None:
         count = int(get_nested(self.cfg, "vehicles.count", 20))
         color_seed = get_nested(self.cfg, "vehicles.color_random_seed", None)
@@ -75,12 +104,18 @@ class Simulation:
         L = self.track.total_length_m
         spacing = L / max(1, count)
         for i in range(count):
-            entry = DEFAULT_CATALOG[i % len(DEFAULT_CATALOG)]
+            entry = self._sample_vehicle_by_mix(rng_driver)
             spec = VehicleSpec(
                 name=entry.name,
                 length_m=entry.length_m,
                 width_m=entry.width_m,
                 mass_kg=entry.mass_kg,
+                power_kw=entry.power_kw,
+                torque_nm=entry.torque_nm,
+                drag_area_cda=entry.drag_area_cda,
+                wheelbase_m=entry.wheelbase_m,
+                tire_friction_mu=entry.tire_friction_mu,
+                brake_efficiency_eta=entry.brake_efficiency_eta,
             )
             state = VehicleState(s_m=i * spacing, v_mps=20.0, a_mps2=0.0)
             color = (
@@ -98,7 +133,7 @@ class Simulation:
             # Add vehicle to collision system
             self.collision_system.add_vehicle(vehicle, i)
 
-        # Initialize perception data
+        # Initialize perception data to match actual vehicle count
         self.perception_data = [
             PerceptionData(None, 0.0, False, 0.0, self.visual_range_m)
             for _ in range(len(self.vehicles))
@@ -292,7 +327,7 @@ class Simulation:
             )
 
         # IDM acceleration
-        return float(
+        idm_accel = float(
             a_max
             * (
                 1.0
@@ -301,10 +336,21 @@ class Simulation:
             )
         )
 
+        # Apply physical constraints
+        gravity_mps2 = float(get_nested(self.cfg, "physics.gravity_mps2", 9.81))
+        return vehicle.apply_physical_constraints(idm_accel, gravity_mps2)
+
     def _update_vehicle_physics(self, vehicle: Vehicle, eff_dt: float, L: float) -> None:
         """Update vehicle physics (position, velocity, collision system)."""
+        # Calculate aerodynamic drag force
+        drag_force = vehicle.calculate_aerodynamic_drag_force(vehicle.state.v_mps)
+        drag_accel = -drag_force / vehicle.spec.mass_kg  # Negative because it opposes motion
+
+        # Apply drag to acceleration
+        total_accel = vehicle.state.a_mps2 + drag_accel
+
         # Update position and velocity
-        v_new = max(0.0, vehicle.state.v_mps + vehicle.state.a_mps2 * eff_dt)
+        v_new = max(0.0, vehicle.state.v_mps + total_accel * eff_dt)
         s_new = (vehicle.state.s_m + v_new * eff_dt) % L
 
         vehicle.state.s_m = s_new
@@ -320,8 +366,11 @@ class Simulation:
         if n == 0:
             return
 
-        # Sort vehicles by position for proper following behavior
-        self.vehicles.sort(key=lambda vv: vv.state.s_m)
+        # Update simulation time
+        self.simulation_time += dt_s
+
+        # Pre-sort vehicles by position for proper following behavior (with caching)
+        self.vehicles = pre_sort_vehicles(self.vehicles, self.simulation_time)
         L = self.track.total_length_m
         sf = max(0.0, float(self.speed_factor))
         eff_dt = dt_s * sf

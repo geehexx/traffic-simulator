@@ -12,6 +12,13 @@ class VehicleSpec:
     length_m: float
     width_m: float
     mass_kg: float
+    # Physics attributes
+    power_kw: float  # Engine power in kilowatts
+    torque_nm: float  # Maximum torque in Newton-meters
+    drag_area_cda: float  # Drag coefficient × frontal area (m²)
+    wheelbase_m: float  # Distance between front and rear axles
+    tire_friction_mu: float  # Tire friction coefficient μ
+    brake_efficiency_eta: float  # Brake efficiency η
 
 
 @dataclass
@@ -99,3 +106,84 @@ class Vehicle:
     def set_commanded_acceleration(self, accel_mps2: float) -> None:
         """Set the commanded acceleration (what the controller wants)."""
         self.internal.commanded_accel_mps2 = accel_mps2
+
+    def calculate_max_acceleration(self, velocity_mps: float) -> float:
+        """
+        Calculate maximum acceleration based on power and torque limits.
+
+        Args:
+            velocity_mps: Current velocity in m/s
+
+        Returns:
+            Maximum achievable acceleration in m/s²
+        """
+        # Convert power to torque at current velocity
+        # P = F * v = m * a * v, so a = P / (m * v)
+        power_watts = self.spec.power_kw * 1000.0
+
+        if velocity_mps > 0.1:  # Avoid division by zero
+            power_limited_accel = power_watts / (self.spec.mass_kg * velocity_mps)
+        else:
+            power_limited_accel = float("inf")
+
+        # Torque-limited acceleration (simplified model)
+        # Assuming torque is applied at wheel radius ~0.3m
+        wheel_radius = 0.3  # meters
+        torque_limited_accel = (self.spec.torque_nm / wheel_radius) / self.spec.mass_kg
+
+        # Return the more limiting factor
+        return min(power_limited_accel, torque_limited_accel)
+
+    def calculate_aerodynamic_drag_force(
+        self, velocity_mps: float, air_density: float = 1.225
+    ) -> float:
+        """
+        Calculate aerodynamic drag force.
+
+        Args:
+            velocity_mps: Vehicle velocity in m/s
+            air_density: Air density in kg/m³ (default: 1.225 at sea level)
+
+        Returns:
+            Drag force in Newtons
+        """
+        # F_d = 0.5 * ρ * C_d * A * v²
+        return 0.5 * air_density * self.spec.drag_area_cda * velocity_mps * velocity_mps
+
+    def calculate_physical_constraint_limit(self, gravity_mps2: float = 9.81) -> float:
+        """
+        Calculate maximum deceleration based on physical constraints.
+
+        Physical constraint: a ≥ -ημg
+
+        Args:
+            gravity_mps2: Gravitational acceleration in m/s²
+
+        Returns:
+            Maximum deceleration (most negative acceleration) in m/s²
+        """
+        return -self.spec.brake_efficiency_eta * self.spec.tire_friction_mu * gravity_mps2
+
+    def apply_physical_constraints(
+        self, commanded_accel_mps2: float, gravity_mps2: float = 9.81
+    ) -> float:
+        """
+        Apply physical constraints to commanded acceleration.
+
+        Args:
+            commanded_accel_mps2: Desired acceleration in m/s²
+            gravity_mps2: Gravitational acceleration in m/s²
+
+        Returns:
+            Constrained acceleration in m/s²
+        """
+        # Apply deceleration constraint: a ≥ -ημg
+        min_decel = self.calculate_physical_constraint_limit(gravity_mps2)
+
+        # Apply power/torque limits for positive acceleration
+        if commanded_accel_mps2 > 0:
+            max_accel = self.calculate_max_acceleration(self.state.v_mps)
+            commanded_accel_mps2 = min(commanded_accel_mps2, max_accel)
+
+        # Apply deceleration constraint
+        return max(commanded_accel_mps2, min_decel)

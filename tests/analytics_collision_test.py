@@ -21,7 +21,7 @@ def test_analytics_speed_histogram():
     # Create mock vehicles with different speeds
     vehicles = []
     for i in range(5):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(0.0, 10.0 + i * 5.0, 0.0)  # Speeds 10, 15, 20, 25, 30 m/s
         driver = Driver(
             DriverParams(
@@ -65,7 +65,7 @@ def test_analytics_headway_distribution():
     # Create mock vehicles
     vehicles = []
     for i in range(3):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(i * 50.0, 20.0, 0.0)  # 50m spacing
         driver = Driver(
             DriverParams(
@@ -112,7 +112,7 @@ def test_analytics_near_miss_detection():
     # Create vehicles in close proximity
     vehicles = []
     for i in range(2):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(i * 5.0, 20.0, 0.0)  # Very close spacing
         driver = Driver(
             DriverParams(
@@ -156,7 +156,7 @@ def test_collision_system():
     # Create vehicles
     vehicles = []
     for i in range(2):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(i * 10.0, 20.0, 0.0)  # Close spacing
         driver = Driver(
             DriverParams(
@@ -202,7 +202,7 @@ def test_data_logger():
     # Create mock vehicles
     vehicles = []
     for i in range(3):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(i * 50.0, 20.0, 0.0)
         driver = Driver(
             DriverParams(
@@ -287,7 +287,7 @@ def test_performance_metrics():
     # Create mock vehicles
     vehicles = []
     for i in range(10):
-        spec = VehicleSpec("test", 4.0, 2.0, 1500.0)
+        spec = VehicleSpec("test", 4.0, 2.0, 1500.0, 100.0, 200.0, 0.5, 2.5, 0.8, 0.9)
         state = VehicleState(i * 50.0, 20.0, 0.0)
         driver = Driver(
             DriverParams(
