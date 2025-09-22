@@ -538,6 +538,12 @@ uv run python scripts/quality_gates.py
 
 # Run performance-specific quality checks
 uv run python scripts/quality_gates.py --performance-only
+
+# Run profiling session and dump CSV of timing blocks (feature-flagged)
+uv run python scripts/profile_simulation.py --steps 1000 --dt 0.02 --csv profiling_stats.csv --cprofile
+
+# Run high-performance benchmark (vectorized paths enabled via flags)
+uv run python scripts/benchmark_highperf.py --vehicles 100 --steps 2000 --dt 0.02 --speed-factor 10.0
 ```
 
 ### 3. Advanced Performance Optimizations
@@ -595,6 +601,15 @@ def fast_inverse_sqrt(self, x: float) -> float:
 ```
 
 **Benefits**:
+- **Vectorized Physics and IDM (Phase 3/4 groundwork)**
+
+  - Files: `src/traffic_sim/core/physics_vectorized.py`, `src/traffic_sim/core/idm_vectorized.py`
+  - Flags:
+    - `data_manager.enabled`: enable pre-allocated arrays for state experiments
+    - `high_performance.enabled`: enable vectorized arc-length kinematics path
+    - `high_performance.idm_vectorized`: use vectorized fallback IDM (leader = next vehicle) when perception is occluded/unavailable
+  - Integration: feature-flagged in `src/traffic_sim/core/simulation.py`
+  - Benchmarks: `scripts/benchmark_highperf.py`
 - **Inverse Square Root**: Quake III algorithm with caching for distance calculations
 - **Vectorization**: NumPy-based operations when available
 - **Cache Management**: Intelligent cache cleanup to prevent memory bloat

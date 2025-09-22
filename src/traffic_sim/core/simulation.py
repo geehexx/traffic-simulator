@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple, Optional
 import random
+import numpy as np
 
 from traffic_sim.core.track import StadiumTrack
 from traffic_sim.config.loader import get_nested
@@ -14,6 +15,10 @@ from traffic_sim.core.analytics import LiveAnalytics
 from traffic_sim.core.collision import CollisionSystem
 from traffic_sim.core.logging import DataLogger
 from traffic_sim.core.performance import get_performance_optimizer, pre_sort_vehicles
+from traffic_sim.core.profiling import get_profiler
+from traffic_sim.core.data_manager import VehicleDataManager
+from traffic_sim.core.physics_vectorized import step_arc_kinematics
+from traffic_sim.core.idm_vectorized import idm_accel_fallback_next_vehicle
 
 
 @dataclass
@@ -53,6 +58,16 @@ class Simulation:
         self.collision_system = CollisionSystem(cfg, self.track)
         self.data_logger = DataLogger(cfg)
         self.performance_optimizer = get_performance_optimizer()
+        # Profiling
+        self._profiling_enabled = bool(get_nested(cfg, "profiling.enabled", False))
+        self._profiler = get_profiler() if self._profiling_enabled else None
+        # Phase 2 data manager flag
+        self._use_data_manager = bool(get_nested(cfg, "data_manager.enabled", False))
+        self.data_manager = (
+            VehicleDataManager(int(get_nested(cfg, "data_manager.max_vehicles", 10000)))
+            if self._use_data_manager
+            else None
+        )
         self._spawn_initial_vehicles()
         self.idm_delta = 4.0
         self.simulation_time = 0.0
@@ -370,7 +385,13 @@ class Simulation:
         self.simulation_time += dt_s
 
         # Pre-sort vehicles by position for proper following behavior (with caching)
-        self.vehicles = pre_sort_vehicles(self.vehicles, self.simulation_time)
+        # Use the global profiler dynamically in case tests reset it
+        profiler = get_profiler() if self._profiling_enabled else None
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("pre_sort_vehicles"):
+                self.vehicles = pre_sort_vehicles(self.vehicles, self.simulation_time)
+        else:
+            self.vehicles = pre_sort_vehicles(self.vehicles, self.simulation_time)
         L = self.track.total_length_m
         sf = max(0.0, float(self.speed_factor))
         eff_dt = dt_s * sf
@@ -380,24 +401,111 @@ class Simulation:
         speed_limit_mps = speed_limit_kmh / 3.6
 
         # Update perception data for all vehicles
-        self._update_perception_data(eff_dt)
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("update_perception"):
+                self._update_perception_data(eff_dt)
+        else:
+            self._update_perception_data(eff_dt)
 
         # Update analytics
-        self.analytics.update_analytics(self.vehicles, self.perception_data, eff_dt)
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("update_analytics"):
+                self.analytics.update_analytics(self.vehicles, self.perception_data, eff_dt)
+        else:
+            self.analytics.update_analytics(self.vehicles, self.perception_data, eff_dt)
 
         # Check for collisions
-        collision_events = self.collision_system.check_collisions(self.vehicles)
-        self._handle_collision_events(collision_events)
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("check_collisions"):
+                collision_events = self.collision_system.check_collisions(self.vehicles)
+        else:
+            collision_events = self.collision_system.check_collisions(self.vehicles)
+
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("handle_collision_events"):
+                self._handle_collision_events(collision_events)
+        else:
+            self._handle_collision_events(collision_events)
 
         # Log simulation step data
-        self.data_logger.log_simulation_step(
-            self.vehicles, self.perception_data, self.analytics, eff_dt
-        )
+        if self._profiling_enabled and profiler is not None:
+            with profiler.time_block("log_step"):
+                self.data_logger.log_simulation_step(
+                    self.vehicles, self.perception_data, self.analytics, eff_dt
+                )
+        else:
+            self.data_logger.log_simulation_step(
+                self.vehicles, self.perception_data, self.analytics, eff_dt
+            )
 
         # Update each vehicle
+        # Optional vectorized IDM (fallback leader = next vehicle)
+        use_vec_idm = bool(get_nested(self.cfg, "high_performance.idm_vectorized", False))
+        vec_accels = None
+        if use_vec_idm:
+            if self._profiling_enabled and self._profiler is not None:
+                with self._profiler.time_block("idm_acceleration_vectorized"):
+                    n_arr = len(self.vehicles)
+                    s_arr = np.fromiter(
+                        (v.state.s_m for v in self.vehicles), dtype=float, count=n_arr
+                    )
+                    v_arr = np.fromiter(
+                        (v.state.v_mps for v in self.vehicles), dtype=float, count=n_arr
+                    )
+                    v0_arr = np.fromiter(
+                        (
+                            min(v.driver.params.desired_speed_mps, speed_limit_mps)
+                            for v in self.vehicles
+                        ),
+                        dtype=float,
+                        count=n_arr,
+                    )
+                    T_arr = np.fromiter(
+                        (v.driver.params.headway_T_s for v in self.vehicles),
+                        dtype=float,
+                        count=n_arr,
+                    )
+                    b_arr = np.fromiter(
+                        (v.driver.params.comfort_brake_mps2 for v in self.vehicles),
+                        dtype=float,
+                        count=n_arr,
+                    )
+                    vec_accels = idm_accel_fallback_next_vehicle(
+                        s_arr, v_arr, v0_arr, T_arr, b_arr, self.a_max, self.idm_delta, L
+                    )
+            else:
+                n_arr = len(self.vehicles)
+                s_arr = np.fromiter((v.state.s_m for v in self.vehicles), dtype=float, count=n_arr)
+                v_arr = np.fromiter(
+                    (v.state.v_mps for v in self.vehicles), dtype=float, count=n_arr
+                )
+                v0_arr = np.fromiter(
+                    (
+                        min(v.driver.params.desired_speed_mps, speed_limit_mps)
+                        for v in self.vehicles
+                    ),
+                    dtype=float,
+                    count=n_arr,
+                )
+                T_arr = np.fromiter(
+                    (v.driver.params.headway_T_s for v in self.vehicles), dtype=float, count=n_arr
+                )
+                b_arr = np.fromiter(
+                    (v.driver.params.comfort_brake_mps2 for v in self.vehicles),
+                    dtype=float,
+                    count=n_arr,
+                )
+                vec_accels = idm_accel_fallback_next_vehicle(
+                    s_arr, v_arr, v0_arr, T_arr, b_arr, self.a_max, self.idm_delta, L
+                )
+
         for i, vehicle in enumerate(self.vehicles):
             # Update speeding state
-            vehicle.driver.update_speeding_state(eff_dt, speed_limit_mps)
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("driver_update_speeding_state"):
+                    vehicle.driver.update_speeding_state(eff_dt, speed_limit_mps)
+            else:
+                vehicle.driver.update_speeding_state(eff_dt, speed_limit_mps)
 
             # Get effective speed limit (considering speeding)
             effective_speed_limit = vehicle.driver.get_effective_speed_limit(speed_limit_mps)
@@ -405,20 +513,74 @@ class Simulation:
             # Get perception data for this vehicle
             perception = self.perception_data[i]
 
-            # Calculate IDM acceleration
-            a = self._calculate_idm_acceleration(vehicle, perception, effective_speed_limit, n, L)
+            # Calculate IDM acceleration (vectorized fallback if enabled and perception occluded/absent)
+            if use_vec_idm and (
+                perception is None or perception.leader_vehicle is None or perception.is_occluded
+            ):
+                a = float(vec_accels[i]) if vec_accels is not None else 0.0
+            else:
+                if self._profiling_enabled and self._profiler is not None:
+                    with self._profiler.time_block("idm_acceleration"):
+                        a = self._calculate_idm_acceleration(
+                            vehicle, perception, effective_speed_limit, n, L
+                        )
+                else:
+                    a = self._calculate_idm_acceleration(
+                        vehicle, perception, effective_speed_limit, n, L
+                    )
 
             # Set commanded acceleration
             vehicle.set_commanded_acceleration(a)
 
             # Update internal state (jerk limiting, drivetrain lag)
-            vehicle.update_internal_state(eff_dt)
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("vehicle_update_internal_state"):
+                    vehicle.update_internal_state(eff_dt)
+            else:
+                vehicle.update_internal_state(eff_dt)
 
             # Update physics
-            self._update_vehicle_physics(vehicle, eff_dt, L)
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("update_vehicle_physics"):
+                    self._update_vehicle_physics(vehicle, eff_dt, L)
+            else:
+                self._update_vehicle_physics(vehicle, eff_dt, L)
 
         # Step physics simulation
-        self.collision_system.step_physics(eff_dt)
+        high_perf = bool(get_nested(self.cfg, "high_performance.enabled", False))
+        if high_perf and self._use_data_manager and self.data_manager is not None:
+            # Vectorized arc-length kinematics as Phase 3 groundwork
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("step_physics_vectorized"):
+                    # Map current vehicle states into temporary arrays
+                    n = len(self.vehicles)
+                    s = np.fromiter((v.state.s_m for v in self.vehicles), dtype=float, count=n)
+                    v_arr = np.fromiter(
+                        (v.state.v_mps for v in self.vehicles), dtype=float, count=n
+                    )
+                    a_arr = np.fromiter(
+                        (v.state.a_mps2 for v in self.vehicles), dtype=float, count=n
+                    )
+                    step_arc_kinematics(s, v_arr, a_arr, eff_dt, self.track.total_length_m)
+                    # Write back
+                    for i, veh in enumerate(self.vehicles):
+                        veh.state.s_m = float(s[i])
+                        veh.state.v_mps = float(v_arr[i])
+            else:
+                n = len(self.vehicles)
+                s = np.fromiter((v.state.s_m for v in self.vehicles), dtype=float, count=n)
+                v_arr = np.fromiter((v.state.v_mps for v in self.vehicles), dtype=float, count=n)
+                a_arr = np.fromiter((v.state.a_mps2 for v in self.vehicles), dtype=float, count=n)
+                step_arc_kinematics(s, v_arr, a_arr, eff_dt, self.track.total_length_m)
+                for i, veh in enumerate(self.vehicles):
+                    veh.state.s_m = float(s[i])
+                    veh.state.v_mps = float(v_arr[i])
+        else:
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("step_physics"):
+                    self.collision_system.step_physics(eff_dt)
+            else:
+                self.collision_system.step_physics(eff_dt)
 
     def export_data(self, filename: Optional[str] = None) -> None:
         """Export all simulation data to CSV files."""
