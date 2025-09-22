@@ -49,3 +49,8 @@ runtime-evaluated-base-classes = ["dataclasses.dataclass"]
 
 [tool.black]
 line-length = 100
+
+[dependency-groups]
+dev = [
+    "types-pyyaml>=6.0.12.20250915",
+]
