@@ -106,7 +106,98 @@ class Vehicle:
         # First-order filters for throttle/brake lag
 ```
 
-### 4. Track Geometry
+### 4. Vehicle Physics System {#id:vehicle-physics}
+**File**: [vehicle.py](mdc:src/traffic_sim/core/vehicle.py)
+
+The traffic simulator implements a comprehensive vehicle physics system that models realistic vehicle behavior through power, torque, aerodynamic drag, and friction constraints.
+
+#### Core Physics Attributes
+
+- **Power (kW)**: Engine power output affecting acceleration capabilities
+- **Torque (Nm)**: Maximum torque affecting low-speed acceleration
+- **Drag Area (CdA)**: Aerodynamic drag coefficient × frontal area (m²)
+- **Wheelbase (m)**: Distance between front and rear axles
+- **Tire Friction (μ)**: Coefficient of friction between tires and road
+- **Brake Efficiency (η)**: Efficiency of braking system
+
+#### Physics Calculations
+
+The system implements several key physics calculations:
+
+- **Acceleration Curves**: `a_max(v)` based on power and torque limits
+- **Aerodynamic Drag**: `F_d = 0.5 * ρ * C_d * A * v²`
+- **Physical Constraints**: `a ≥ -ημg` (braking limit)
+- **Power/Torque Limits**: Realistic acceleration based on engine characteristics
+
+```python
+class Vehicle:
+    def calculate_max_acceleration(self, velocity_mps: float) -> float:
+        """Calculate max acceleration based on power and torque limits."""
+        # Power limit: a_power = P / (m * v)
+        # Torque limit: a_torque = T / (m * r_wheel)
+        return min(power_limit, torque_limit)
+
+    def calculate_aerodynamic_drag_force(self, velocity_mps: float) -> float:
+        """Calculate aerodynamic drag force."""
+        # F_d = 0.5 * ρ * C_d * A * v²
+        return 0.5 * air_density * self.spec.drag_area_cda * velocity_mps**2
+
+    def apply_physical_constraints(self, commanded_accel_mps2: float) -> float:
+        """Apply physical braking constraint: a ≥ -ημg"""
+        max_decel = -self.spec.tire_friction_mu * self.spec.brake_efficiency_eta * gravity
+        return max(commanded_accel_mps2, max_decel)
+```
+
+#### Vehicle Types and Physics
+
+Different vehicle types have distinct physics characteristics:
+
+- **Sedans**: Balanced power/torque (100-200 kW), moderate drag (0.3-0.4 CdA)
+- **SUVs**: Higher mass, increased drag area (0.4-0.5 CdA), higher torque
+- **Trucks/Vans**: High torque (300-500 Nm), significant drag (0.6-0.8 CdA)
+- **Buses**: Very high mass (15,000+ kg), large drag area (1.0+ CdA)
+- **Motorbikes**: Low mass (200-300 kg), minimal drag (0.2-0.3 CdA), high power-to-weight ratio
+
+#### Performance Benchmarks
+
+The physics system is designed to maintain:
+- **≥30 FPS** with 20+ vehicles
+- **10× speed factor** stability without instability
+- **Deterministic replay** with fixed seeds
+
+### 5. Visual Effects System {#id:visual-effects}
+**File**: [collision.py](mdc:src/traffic_sim/core/collision.py)
+
+The simulator includes visual effects for enhanced user experience and feedback.
+
+#### Vehicle Disable Effects
+
+- **Blinking Animation**: Disabled vehicles blink with configurable timing
+- **Alpha Transparency**: Semi-transparent rendering during disable period
+- **State Tracking**: Visual state management for rendering pipeline
+
+```python
+class CollisionSystem:
+    def get_vehicle_visual_state(self, vehicle_id: int) -> Dict[str, Any]:
+        """Get visual state for rendering a vehicle."""
+        physics_state = self.vehicle_physics[vehicle_id]
+        alpha = 128 if physics_state.is_disabled else 255
+        if physics_state.is_disabled and not physics_state.blink_state:
+            alpha = 64
+        return {
+            "is_disabled": physics_state.is_disabled,
+            "blink_state": physics_state.blink_state,
+            "alpha": alpha
+        }
+```
+
+#### Collision Effects
+
+- **Particle Effects**: Visual feedback for collision events
+- **State Transitions**: Smooth visual state changes
+- **Performance Optimized**: Efficient rendering with minimal impact
+
+### 6. Track Geometry
 **File**: [track.py](mdc:src/traffic_sim/core/track.py)
 
 Stadium track geometry and safety calculations:

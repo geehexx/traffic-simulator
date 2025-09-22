@@ -44,3 +44,13 @@ description: Performance optimization guidelines
 - **Pattern**: Asynchronous logging, batch writes, selective data collection
 - **Key**: Background threads for CSV writing, configurable logging rates
 - **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#data-logging-performance)
+
+## Advanced Performance Optimizations
+- **Pattern**: Vehicle pre-sorting, fast approximations, occlusion caching
+- **Key**: Use PerformanceOptimizer for caching, Quake III algorithm for inverse sqrt
+- **Reference**: [Performance Guide](mdc:docs/PERFORMANCE_GUIDE.md#advanced-performance-optimizations)
+
+## Physics Performance
+- **Pattern**: Cache expensive physics calculations, vectorized operations
+- **Key**: Use cached acceleration curves, aerodynamic drag calculations
+- **Reference**: [Vehicle Physics Patterns](mdc:.cursor/rules/vehicle-physics-patterns.mdc)
