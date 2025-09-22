@@ -203,6 +203,21 @@ Quality gates run automatically in GitHub Actions on every push and pull request
 - **Deterministic**: Fixed-step simulation
 - **Scalability**: Support 50+ vehicles
 
+### Acceptance Criteria (v0.4)
+The simulation must meet the following acceptance criteria:
+- **Window Scaling**: Window resizes maintain scaling
+- **Performance**: ≥30 FPS on target hardware
+- **Vehicle Behavior**: 20 vehicles circulate stably with realistic spacing
+- **Driver Differences**: Statistical drivers produce measurable differences in headway, braking onset, overspeeding percent-time and episode durations
+- **Perception**: Occlusion-based perception with dynamic SSD active
+- **Safety Panel**: Displays R, V_safe, and L_needed; warning appears when unsafe
+- **Determinism**: Deterministic replay under fixed seed; up to 10× speed factor stable
+- **Collisions**: Create visual effect and disable vehicle for 5s
+- **Analytics**: Live analytics display real-time speed histogram, headway distribution, and near-miss counter
+- **Physics**: Collision system uses pymunk physics with lateral push effects and vehicle disable
+- **Data Logging**: Exports comprehensive CSV data with configurable rates
+- **Performance Metrics**: Tracking shows FPS, memory usage, and simulation timing
+
 ### Optimization Guidelines
 - Minimize allocations in hot paths
 - Use numpy for numerical computations
