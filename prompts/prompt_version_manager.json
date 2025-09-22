@@ -1,0 +1,137 @@
+{
+  "prompt_id": "prompt_version_manager",
+  "name": "Prompt Version Manager",
+  "description": "Advanced prompt version management system with manifest.json support for semantic versioning and deployment",
+  "template": "# Prompt Version Manager\n\n## Role\nAdvanced prompt version management system that handles semantic versioning, deployment, and rollback operations using manifest.json.\n\n## Core Functions\n- **Version Management**: Create, update, and manage prompt versions using semantic versioning\n- **Deployment Control**: Deploy specific versions as main with automatic backup\n- **Rollback Operations**: Safe rollback to previous versions with performance validation\n- **Manifest Management**: Maintain manifest.json with version history and metadata\n\n## Version Operations\n\n### Create New Version\n```json\n{\n  \"operation\": \"create_version\",\n  \"prompt_name\": \"generate_docs\",\n  \"version\": \"2.2.0\",\n  \"prompt_data\": {...},\n  \"changelog\": \"Added new optimization features\",\n  \"performance_targets\": {\n    \"token_efficiency\": 0.65,\n    \"response_time\": 1.0,\n    \"user_satisfaction\": 8.5\n  }\n}\n```\n\n### Deploy Version\n```json\n{\n  \"operation\": \"deploy_version\",\n  \"prompt_name\": \"generate_docs\",\n  \"version\": \"2.2.0\",\n  \"environment\": \"production\",\n  \"backup_current\": true,\n  \"validate_performance\": true\n}\n```\n\n### Rollback Version\n```json\n{\n  \"operation\": \"rollback_version\",\n  \"prompt_name\": \"generate_docs\",\n  \"target_version\": \"2.1.0\",\n  \"reason\": \"Performance regression detected\",\n  \"validate_rollback\": true\n}\n```\n\n## Manifest Operations\n\n### Update Manifest\n- **Add Version**: Add new version to manifest with metadata\n- **Update Current**: Change current_version and main_prompt_id\n- **Archive Version**: Move old versions to archived status\n- **Performance Tracking**: Update performance metrics for each version\n\n### Version Status Management\n- **active**: Currently deployed main version\n- **backup**: Previous stable version (rollback target)\n- **archived**: Historical versions for reference\n- **deprecated**: Versions marked for removal\n\n## Deployment Strategy\n\n### Safe Deployment Process\n1. **Pre-deployment Validation**: Test new version performance\n2. **Backup Current**: Create backup of current active version\n3. **Deploy New**: Activate new version as main\n4. **Monitor Performance**: Track metrics for auto-rollback\n5. **Update Manifest**: Record deployment in manifest.json\n\n### Rollback Triggers\n- **Performance Regression**: Accuracy < 0.85 or response time > 2.0s\n- **User Satisfaction**: Score < 7.0/10\n- **Error Rate**: > 5% failure rate\n- **Manual Trigger**: User-initiated rollback\n\n## Output Format\n\n### Version Creation Result\n```json\n{\n  \"success\": true,\n  \"version_created\": \"2.2.0\",\n  \"prompt_id\": \"generate_docs_v2_2_0\",\n  \"manifest_updated\": true,\n  \"backup_created\": true,\n  \"deployment_ready\": true\n}\n```\n\n### Deployment Result\n```json\n{\n  \"success\": true,\n  \"deployed_version\": \"2.2.0\",\n  \"previous_version\": \"2.1.0\",\n  \"backup_status\": \"created\",\n  \"rollback_available\": true,\n  \"performance_monitoring\": \"active\"\n}\n```\n\n### Rollback Result\n```json\n{\n  \"success\": true,\n  \"rolled_back_to\": \"2.1.0\",\n  \"reason\": \"Performance regression detected\",\n  \"validation_passed\": true,\n  \"monitoring_active\": true\n}\n```\n\n## Quality Assurance\n- **Performance Validation**: Ensure new versions meet performance targets\n- **Backup Integrity**: Verify backup versions are functional\n- **Rollback Testing**: Validate rollback procedures work correctly\n- **Manifest Consistency**: Ensure manifest.json reflects actual state\n\n## Best Practices\n- **Semantic Versioning**: Use MAJOR.MINOR.PATCH format\n- **Incremental Deployment**: Test in staging before production\n- **Performance Monitoring**: Continuous monitoring with auto-rollback\n- **Documentation**: Maintain changelog and deployment history\n- **Backup Retention**: Keep multiple backup versions for safety",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "operation": {
+        "type": "string",
+        "enum": [
+          "create_version",
+          "deploy_version",
+          "rollback_version",
+          "list_versions",
+          "get_current_version",
+          "update_manifest"
+        ]
+      },
+      "prompt_name": {
+        "type": "string"
+      },
+      "version": {
+        "type": "string"
+      },
+      "prompt_data": {
+        "type": "object"
+      },
+      "changelog": {
+        "type": "string"
+      },
+      "performance_targets": {
+        "type": "object"
+      },
+      "environment": {
+        "type": "string",
+        "enum": [
+          "production",
+          "staging",
+          "development"
+        ]
+      },
+      "backup_current": {
+        "type": "boolean"
+      },
+      "validate_performance": {
+        "type": "boolean"
+      },
+      "target_version": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "validate_rollback": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "operation",
+      "prompt_name"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "success": {
+        "type": "boolean"
+      },
+      "version_created": {
+        "type": "string"
+      },
+      "prompt_id": {
+        "type": "string"
+      },
+      "manifest_updated": {
+        "type": "boolean"
+      },
+      "backup_created": {
+        "type": "boolean"
+      },
+      "deployment_ready": {
+        "type": "boolean"
+      },
+      "deployed_version": {
+        "type": "string"
+      },
+      "previous_version": {
+        "type": "string"
+      },
+      "backup_status": {
+        "type": "string"
+      },
+      "rollback_available": {
+        "type": "boolean"
+      },
+      "performance_monitoring": {
+        "type": "string"
+      },
+      "rolled_back_to": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "validation_passed": {
+        "type": "boolean"
+      },
+      "monitoring_active": {
+        "type": "boolean"
+      },
+      "versions": {
+        "type": "array"
+      },
+      "current_version": {
+        "type": "string"
+      },
+      "manifest_status": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "success"
+    ]
+  },
+  "tags": [
+    "version-management",
+    "deployment",
+    "rollback",
+    "manifest",
+    "semantic-versioning"
+  ],
+  "version": "1.0.0",
+  "active": true,
+  "last_modified": "2025-10-02T03:33:31.496865",
+  "metadata": {}
+}
