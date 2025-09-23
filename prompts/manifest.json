@@ -1,19 +1,13 @@
 {
-  "manifest_version": "1.0.0",
-  "created_at": "2025-10-02T03:30:00Z",
-  "updated_at": "2025-10-02T03:30:00Z",
+  "manifest_version": "2.0.0",
+  "updated_at": "2025-10-02T03:35:00Z",
   "prompts": {
     "generate_docs": {
       "name": "Enterprise Documentation Maintainer",
       "description": "Enterprise Documentation Maintainer that keeps documentation accurate, consistent, and up-to-date by analyzing codebase changes",
       "current_version": "2.2.0",
-      "main_prompt_id": "generate_docs_v2_2_0",
       "versions": {
         "1.0.0": {
-          "prompt_id": "generate_docs_super",
-          "name": "Enterprise Documentation Maintainer (Original)",
-          "description": "Original enterprise version with full functionality",
-          "created_at": "2025-10-02T03:10:18.294590Z",
           "status": "backup",
           "performance": {
             "token_count": 2847,
@@ -24,10 +18,6 @@
           "tags": ["docs", "documentation", "maintenance", "enterprise", "super"]
         },
         "2.0.0": {
-          "prompt_id": "generate_docs_optimized_v2",
-          "name": "Optimized Documentation Maintainer",
-          "description": "Streamlined version with 60% token reduction",
-          "created_at": "2025-10-02T03:23:16.826507Z",
           "status": "archived",
           "performance": {
             "token_count": 1139,
@@ -38,10 +28,6 @@
           "tags": ["docs", "optimized", "performance", "streamlined"]
         },
         "2.1.0": {
-          "prompt_id": "generate_docs_final_optimized",
-          "name": "Final HIL-Optimized Documentation Maintainer",
-          "description": "Final optimized version incorporating HIL feedback with improved conciseness and specific performance metrics",
-          "created_at": "2025-10-02T03:24:10.709866Z",
           "status": "backup",
           "performance": {
             "token_count": 1089,
@@ -61,10 +47,6 @@
           }
         },
         "2.2.0": {
-          "prompt_id": "generate_docs_v2_2_0",
-          "name": "Ultra-Optimized Documentation Maintainer",
-          "description": "Ultra-optimized version with advanced HIL features, performance monitoring, and adaptive learning capabilities",
-          "created_at": "2025-10-02T03:34:16.098950Z",
           "status": "active",
           "performance": {
             "token_count": 1200,
@@ -87,41 +69,15 @@
         }
       },
       "deployment_history": [
-        {
-          "version": "1.0.0",
-          "deployed_at": "2025-10-02T03:10:18.294590Z",
-          "deployed_by": "system",
-          "status": "successful"
-        },
-        {
-          "version": "2.1.0",
-          "deployed_at": "2025-10-02T03:27:51.701674Z",
-          "deployed_by": "user",
-          "status": "successful",
-          "rollback_available": true
-        },
-        {
-          "version": "2.2.0",
-          "deployed_at": "2025-10-02T03:34:16.098950Z",
-          "deployed_by": "system",
-          "status": "successful",
-          "rollback_available": true,
-          "backup_created": true
-        }
+        {"version": "1.0.0", "deployed_at": "2025-10-02T03:10:18.294590Z"},
+        {"version": "2.1.0", "deployed_at": "2025-10-02T03:27:51.701674Z"},
+        {"version": "2.2.0", "deployed_at": "2025-10-02T03:34:16.098950Z"}
       ]
     }
   },
   "deployment_policy": {
     "auto_rollback_threshold": 0.8,
     "performance_monitoring": true,
-    "backup_retention_days": 30,
-    "version_naming": "semantic"
-  },
-  "system_metrics": {
-    "total_prompts": 1,
-    "active_versions": 1,
-    "backup_versions": 1,
-    "archived_versions": 1,
-    "last_optimization": "2025-10-02T03:34:16.098950Z"
+    "backup_retention_days": 30
   }
 }

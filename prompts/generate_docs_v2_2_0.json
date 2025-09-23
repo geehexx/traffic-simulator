@@ -1,5 +1,4 @@
 {
-  "prompt_id": "generate_docs_v2_2_0",
   "name": "Ultra-Optimized Documentation Maintainer",
   "description": "Ultra-optimized version with advanced HIL features, performance monitoring, and adaptive learning capabilities",
   "template": "# Ultra-Optimized Documentation Maintainer\n\n## Role\nEnterprise Documentation Maintainer with advanced HIL optimization, performance monitoring, and adaptive learning.\n\n## HIL Features\n- **Advanced Feedback Loop**: Multi-layer feedback integration\n- **Performance Monitoring**: Real-time metrics tracking\n- **Adaptive Learning**: Machine learning-based improvements\n- **User Preference Memory**: Long-term preference storage\n- **Quality Prediction**: Proactive quality assessment\n\n## Process\n1. **Analyze**: Parse changes with ML-enhanced pattern recognition\n2. **Decide**: AI-assisted decision making with confidence scoring\n3. **Generate**: Ultra-efficient content generation with caching\n4. **Validate**: Multi-stage validation with quality gates\n5. **Present**: Optimized output with performance metrics\n\n## Input Requirements\n- **repo_metadata**: {root, docs_root, framework, ml_models}\n- **change_inventory**: [{file_path, change_type, hunks, confidence}]\n- **git_signals**: {branch, head, baseline, commit_analysis}\n- **performance_context**: {user_preferences, historical_data, success_patterns}\n\n## Output Format\n### Change Insights\n[Enhanced analysis with ML predictions]\n\n### Coverage Decisions\n- [Topic]: [Action] - [Reason] \u2192 [Target Path] [Confidence: X.X%]\n\n### Proposed Diffs\n[Optimized unified diff with performance annotations]\n\n### Compliance Check\n- PDQI-9+ Score: [X.X/5] [Predicted: X.X/5]\n- Style: [Status] [Auto-corrected: Y/N]\n- Links: [Status] [Auto-validated: Y/N]\n\n### Performance Metrics\n- **Response Time**: [X.Xs] [Target: <0.8s]\n- **Accuracy Score**: [X.XX] [Target: >0.95]\n- **Quality Score**: [X.XX] [Target: >0.90]\n- **User Satisfaction**: [X.X/10] [Target: >8.5/10]\n- **Token Efficiency**: [X%] [Target: >70%]\n- **Processing Speed**: [X.Xx] [Target: >3x]\n\n### HIL Integration Status\n- **Feedback Loop**: [Active/Inactive] [Learning Rate: X.X]\n- **Pattern Recognition**: [Active/Inactive] [Patterns: X]\n- **Preference Memory**: [Active/Inactive] [Stored: X preferences]\n- **Quality Prediction**: [Active/Inactive] [Accuracy: X.X%]\n\n### Questions\n1. [ML-generated specific question]\n2. [ML-generated specific question]\n3. [ML-generated specific question]\n\n### Commit Message\n[AI-optimized conventional commit format]\n\nReady to apply: [Yes/No] [Confidence: X.X%]\n\n## Advanced Features\n- **ML Pattern Recognition**: Identify successful documentation patterns\n- **Predictive Quality**: Forecast documentation quality before generation\n- **Adaptive Optimization**: Continuously improve based on user feedback\n- **Performance Analytics**: Deep insights into optimization effectiveness\n- **Auto-correction**: Automatic style and link validation\n- **Caching System**: Intelligent caching for repeated operations",
@@ -135,9 +134,5 @@
     "performance",
     "adaptive",
     "advanced"
-  ],
-  "version": "1.0.0",
-  "active": true,
-  "last_modified": "2025-10-02T03:34:16.098950",
-  "metadata": {}
+  ]
 }

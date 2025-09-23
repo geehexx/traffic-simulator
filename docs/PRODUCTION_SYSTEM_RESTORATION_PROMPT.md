@@ -10,7 +10,7 @@
 **CRITICAL REQUIREMENTS**:
 - Restore 7 core components from commit `8af6877`
 - Implement advanced file management with updates and consolidation
-- Integrate DSPy optimization (MIPROOv2, BootstrapFewShot, Bayesian)
+- Integrate DSPy optimization (MIPROv2Ov2, BootstrapFewShot, Bayesian)
 - Apply hybrid, joint, and Bayesian optimization techniques
 - Maintain quality standards (PDQI-9, RGS) and performance thresholds (<1.0s response, <500MB memory, >0.85 quality score)
 
@@ -22,7 +22,7 @@
 ```python
 mcp/mcp_traffic_sim/
 ├── production_server.py          # 9 MCP tools with DSPy integration
-├── production_optimizer.py       # MIPROOv2, BootstrapFewShot, Bayesian
+├── production_optimizer.py       # MIPROv2Ov2, BootstrapFewShot, Bayesian
 ├── monitoring_system.py          # Real-time performance tracking
 ├── feedback_collector.py         # User feedback analysis
 ├── dashboard_generator.py        # Performance visualization
@@ -80,10 +80,10 @@ class ProductionOptimizer:
 
         # Initialize DSPy components with optimization strategies
         self.optimizers = {
-            "MIPRO": DSPy.MIPROOv2,                    # Advanced joint optimization
+            "MIPROv2": DSPy.MIPROv2Ov2,                    # Advanced joint optimization
             "bootstrap": DSPy.BootstrapFewShot,        # Few-shot learning
             "bayesian": DSPy.BootstrapFewShot,          # Bayesian fallback
-            "hybrid": DSPy.MIPROOv2,                    # Hybrid approach
+            "hybrid": DSPy.MIPROv2Ov2,                    # Hybrid approach
         }
 
         # Optimization techniques integration
@@ -91,7 +91,7 @@ class ProductionOptimizer:
             "hybrid": self._hybrid_optimization,
             "bayesian": self._bayesian_optimization,
             "joint": self._joint_optimization,
-            "MIPRO": self._MIPRO_optimization,
+            "MIPROv2": self._MIPROv2_optimization,
             "bootstrap": self._bootstrap_optimization,
         }
 
@@ -118,7 +118,7 @@ class ProductionOptimizer:
         # 2. Measure performance metrics using Bayesian analysis
         # 3. Evaluate quality scores with joint optimization
         # 4. Generate detailed performance report
-        # 5. Provide improvement recommendations with MIPROOv2 insights
+        # 5. Provide improvement recommendations with MIPROv2Ov2 insights
 ```
 
 ---
@@ -129,7 +129,7 @@ class ProductionOptimizer:
 ```python
 async def _hybrid_optimization(self, prompt: str, context: Dict) -> str:
     """Hybrid optimization combining multiple approaches."""
-    # 1. Apply systematic prompt improvement with MIPROOv2
+    # 1. Apply systematic prompt improvement with MIPROv2Ov2
     # 2. Enhance performance and clarity using BootstrapFewShot
     # 3. Integrate Bayesian optimization for statistical enhancement
     # 4. Apply joint optimization for comprehensive improvement
@@ -152,7 +152,7 @@ async def _bayesian_optimization(self, prompt: str, context: Dict) -> str:
 ```python
 async def _joint_optimization(self, prompt: str, context: Dict) -> str:
     """Joint optimization with systematic improvement."""
-    # 1. Apply joint optimization techniques using MIPROOv2
+    # 1. Apply joint optimization techniques using MIPROv2Ov2
     # 2. Integrate Bayesian and hybrid approaches for comprehensive optimization
     # 3. Enhance with systematic improvements using BootstrapFewShot
     # 4. Validate with comprehensive metrics and quality standards
@@ -227,7 +227,7 @@ async def list_tools() -> ListToolsResult:
              description="Production-grade prompt optimization using DSPy with hybrid strategies",
              inputSchema={
                  "prompt_id": {"type": "string"},
-                 "strategy": {"type": "string", "enum": ["MIPRO", "bootstrap", "bayesian", "hybrid"]},
+                 "strategy": {"type": "string", "enum": ["MIPROv2", "bootstrap", "bayesian", "hybrid"]},
                  "training_data": {"type": "array"},
                  "auto_mode": {"type": "string", "enum": ["light", "medium", "heavy"]},
                  "monitoring_enabled": {"type": "boolean", "default": True}
@@ -280,7 +280,7 @@ async def list_tools() -> ListToolsResult:
              inputSchema={
                  "prompt_id": {"type": "string"},
                  "iterations": {"type": "integer", "default": 3},
-                 "strategies": {"type": "array", "default": ["MIPRO", "bayesian", "hybrid"]}
+                 "strategies": {"type": "array", "default": ["MIPROv2", "bayesian", "hybrid"]}
              }),
 
         Tool(name="configure_alerts",
@@ -346,7 +346,7 @@ async def list_tools() -> ListToolsResult:
 ### **Advanced Features**
 - [ ] Implement advanced file management with updates and consolidation
 - [ ] Add hybrid, Bayesian, and joint optimization strategies
-- [ ] Integrate DSPy optimization with MIPROOv2 and BootstrapFewShot
+- [ ] Integrate DSPy optimization with MIPROv2Ov2 and BootstrapFewShot
 - [ ] Setup comprehensive performance monitoring and analytics
 
 ### **Testing and Validation**
