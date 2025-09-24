@@ -5,7 +5,10 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from typing import Any, Dict
+import re
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, Optional, Tuple
 
 import dspy
 from mcp.server import Server
@@ -48,6 +51,172 @@ optimizer = ProductionOptimizer(config, logger_util, security)
 monitoring = MonitoringSystem(config, logger_util, security)
 feedback_collector = FeedbackCollector(config, logger_util, security)
 dashboard_generator = DashboardGenerator(config, logger_util, security)
+
+
+class SemanticVersion:
+    """Semantic versioning helper class."""
+
+    def __init__(self, version: str):
+        """Initialize with version string (e.g., '1.2.3')."""
+        self.version = version
+        self.major, self.minor, self.patch = self._parse_version(version)
+
+    def _parse_version(self, version: str) -> Tuple[int, int, int]:
+        """Parse version string into major, minor, patch."""
+        match = re.match(r"^(\d+)\.(\d+)\.(\d+)$", version)
+        if not match:
+            raise ValueError(f"Invalid semantic version: {version}")
+        return int(match.group(1)), int(match.group(2)), int(match.group(3))
+
+    def increment_major(self) -> str:
+        """Increment major version (breaking changes)."""
+        return f"{self.major + 1}.0.0"
+
+    def increment_minor(self) -> str:
+        """Increment minor version (new features, backward compatible)."""
+        return f"{self.major}.{self.minor + 1}.0"
+
+    def increment_patch(self) -> str:
+        """Increment patch version (bug fixes, backward compatible)."""
+        return f"{self.major}.{self.minor}.{self.patch + 1}"
+
+    def __str__(self) -> str:
+        return self.version
+
+
+class PromptVersionManager:
+    """Prompt version management with semantic versioning."""
+
+    def __init__(self, prompts_dir: str = "prompts"):
+        self.prompts_dir = Path(prompts_dir)
+        self.manifest_path = self.prompts_dir / "manifest.json"
+
+    def get_prompt_id(self, main_prompt_id: str, version: str) -> str:
+        """Generate deterministic prompt ID: {main_prompt_id}_v{version}"""
+        return f"{main_prompt_id}_v{version.replace('.', '_')}"
+
+    def get_filename(self, main_prompt_id: str, version: str) -> str:
+        """Generate deterministic filename: {main_prompt_id}_v{version}.json"""
+        return f"{main_prompt_id}_v{version.replace('.', '_')}.json"
+
+    def load_manifest(self) -> Dict[str, Any]:
+        """Load manifest.json"""
+        if not self.manifest_path.exists():
+            return {"manifest_version": "2.0.0", "prompts": {}}
+
+        with open(self.manifest_path, "r") as f:
+            return json.load(f)
+
+    def save_manifest(self, manifest: Dict[str, Any]) -> None:
+        """Save manifest.json"""
+        with open(self.manifest_path, "w") as f:
+            json.dump(manifest, f, indent=2)
+
+    def get_latest_version(self, main_prompt_id: str) -> Optional[str]:
+        """Get the latest version for a prompt."""
+        manifest = self.load_manifest()
+        if main_prompt_id not in manifest.get("prompts", {}):
+            return None
+
+        versions = list(manifest["prompts"][main_prompt_id]["versions"].keys())
+        if not versions:
+            return None
+
+        # Sort versions semantically
+        semantic_versions = [SemanticVersion(v) for v in versions]
+        semantic_versions.sort(key=lambda x: (x.major, x.minor, x.patch))
+        return str(semantic_versions[-1])
+
+    def get_next_version(self, main_prompt_id: str, increment_type: str = "minor") -> str:
+        """Get the next version for a prompt based on increment type."""
+        latest_version = self.get_latest_version(main_prompt_id)
+        if not latest_version:
+            return "1.0.0"
+
+        current = SemanticVersion(latest_version)
+
+        if increment_type == "major":
+            return current.increment_major()
+        elif increment_type == "minor":
+            return current.increment_minor()
+        elif increment_type == "patch":
+            return current.increment_patch()
+        else:
+            raise ValueError(f"Invalid increment type: {increment_type}")
+
+    def create_version(
+        self,
+        main_prompt_id: str,
+        prompt_data: Dict[str, Any],
+        version: Optional[str] = None,
+        increment_type: str = "minor",
+    ) -> str:
+        """Create a new version of a prompt with semantic versioning."""
+        if version is None:
+            version = self.get_next_version(main_prompt_id, increment_type)
+
+        # Generate deterministic filename
+        filename = self.get_filename(main_prompt_id, version)
+        file_path = self.prompts_dir / filename
+
+        # Save prompt file (without prompt_id - derived from filename)
+        prompt_content = {k: v for k, v in prompt_data.items() if k != "prompt_id"}
+        with open(file_path, "w") as f:
+            json.dump(prompt_content, f, indent=2)
+
+        # Update manifest
+        manifest = self.load_manifest()
+        if main_prompt_id not in manifest["prompts"]:
+            manifest["prompts"][main_prompt_id] = {
+                "name": prompt_data.get("name", ""),
+                "description": prompt_data.get("description", ""),
+                "current_version": version,
+                "versions": {},
+            }
+
+        # Add version to manifest
+        manifest["prompts"][main_prompt_id]["versions"][version] = {
+            "status": "draft",
+            "performance": prompt_data.get("performance", {}),
+            "tags": prompt_data.get("tags", []),
+            "created_at": datetime.now().isoformat(),
+        }
+
+        self.save_manifest(manifest)
+        return version
+
+    def deploy_version(self, main_prompt_id: str, version: str) -> bool:
+        """Deploy a specific version as the main version."""
+        manifest = self.load_manifest()
+        if main_prompt_id not in manifest["prompts"]:
+            return False
+
+        if version not in manifest["prompts"][main_prompt_id]["versions"]:
+            return False
+
+        # Set previous version as backup
+        current_version = manifest["prompts"][main_prompt_id]["current_version"]
+        if current_version and current_version != version:
+            manifest["prompts"][main_prompt_id]["versions"][current_version]["status"] = "backup"
+
+        # Deploy new version
+        manifest["prompts"][main_prompt_id]["current_version"] = version
+        manifest["prompts"][main_prompt_id]["versions"][version]["status"] = "active"
+
+        # Add to deployment history
+        if "deployment_history" not in manifest["prompts"][main_prompt_id]:
+            manifest["prompts"][main_prompt_id]["deployment_history"] = []
+
+        manifest["prompts"][main_prompt_id]["deployment_history"].append(
+            {"version": version, "deployed_at": datetime.now().isoformat(), "deployed_by": "system"}
+        )
+
+        self.save_manifest(manifest)
+        return True
+
+
+# Initialize prompt version manager
+prompt_version_manager = PromptVersionManager()
 alerting = AlertingSystem(config, logger_util, security)
 file_manager = AdvancedFileManager(config, logger_util)
 
@@ -96,6 +265,170 @@ async def remove_prompts_from_system(arguments: Dict[str, Any]) -> Dict[str, Any
         "total_removed": len(removed_prompts),
         "reason": reason,
     }
+
+
+async def create_prompt_version(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    """Create a new version of a prompt with semantic versioning."""
+    try:
+        main_prompt_id = arguments.get("main_prompt_id")
+        prompt_data = arguments.get("prompt_data", {})
+        increment_type = arguments.get("increment_type", "minor")
+        version = arguments.get("version")
+
+        if not main_prompt_id:
+            return {"success": False, "error": "main_prompt_id is required"}
+
+        # Create the version
+        created_version = prompt_version_manager.create_version(
+            main_prompt_id=main_prompt_id,
+            prompt_data=prompt_data,
+            version=version,
+            increment_type=increment_type,
+        )
+
+        # Get the generated prompt ID and filename
+        prompt_id = prompt_version_manager.get_prompt_id(main_prompt_id, created_version)
+        filename = prompt_version_manager.get_filename(main_prompt_id, created_version)
+
+        logger_util.info(f"Created prompt version: {prompt_id} (v{created_version})")
+
+        return {
+            "success": True,
+            "version": created_version,
+            "prompt_id": prompt_id,
+            "filename": filename,
+            "increment_type": increment_type,
+            "status": "draft",
+        }
+
+    except Exception as e:
+        logger_util.error(f"Failed to create prompt version: {str(e)}")
+        return {"success": False, "error": str(e)}
+
+
+async def deploy_prompt_version(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    """Deploy a specific version as the main version."""
+    try:
+        main_prompt_id = arguments.get("main_prompt_id")
+        version = arguments.get("version")
+
+        if not main_prompt_id or not version:
+            return {"success": False, "error": "main_prompt_id and version are required"}
+
+        # Check if this is a major version increment
+        current_version = prompt_version_manager.get_latest_version(main_prompt_id)
+        if current_version:
+            current = SemanticVersion(current_version)
+            new = SemanticVersion(version)
+
+            # If major version increment, this is a breaking change
+            if new.major > current.major:
+                logger_util.warning(
+                    f"Major version increment detected: {current_version} → {version}"
+                )
+
+        # Deploy the version
+        success = prompt_version_manager.deploy_version(main_prompt_id, version)
+
+        if success:
+            prompt_id = prompt_version_manager.get_prompt_id(main_prompt_id, version)
+            logger_util.info(f"Deployed prompt version: {prompt_id} (v{version})")
+
+            return {
+                "success": True,
+                "version": version,
+                "prompt_id": prompt_id,
+                "status": "active",
+                "breaking_change": new.major > current.major if current_version else False,
+            }
+        else:
+            return {"success": False, "error": "Failed to deploy version"}
+
+    except Exception as e:
+        logger_util.error(f"Failed to deploy prompt version: {str(e)}")
+        return {"success": False, "error": str(e)}
+
+
+async def list_prompt_versions(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    """List all versions for a prompt with semantic versioning."""
+    try:
+        main_prompt_id = arguments.get("main_prompt_id")
+
+        if not main_prompt_id:
+            return {"success": False, "error": "main_prompt_id is required"}
+
+        # Get versions from manifest
+        manifest = prompt_version_manager.load_manifest()
+        if main_prompt_id not in manifest.get("prompts", {}):
+            return {"success": True, "versions": [], "total": 0}
+
+        prompt_data = manifest["prompts"][main_prompt_id]
+        versions = []
+
+        for version, data in prompt_data.get("versions", {}).items():
+            prompt_id = prompt_version_manager.get_prompt_id(main_prompt_id, version)
+            filename = prompt_version_manager.get_filename(main_prompt_id, version)
+            file_path = prompt_version_manager.prompts_dir / filename
+
+            versions.append(
+                {
+                    "version": version,
+                    "prompt_id": prompt_id,
+                    "filename": filename,
+                    "status": data.get("status", "unknown"),
+                    "exists": file_path.exists(),
+                    "performance": data.get("performance", {}),
+                    "tags": data.get("tags", []),
+                    "created_at": data.get("created_at", "unknown"),
+                }
+            )
+
+        # Sort by semantic version
+        versions.sort(
+            key=lambda x: SemanticVersion(x["version"]).major * 10000
+            + SemanticVersion(x["version"]).minor * 100
+            + SemanticVersion(x["version"]).patch
+        )
+
+        return {
+            "success": True,
+            "versions": versions,
+            "total": len(versions),
+            "current_version": prompt_data.get("current_version"),
+        }
+
+    except Exception as e:
+        logger_util.error(f"Failed to list prompt versions: {str(e)}")
+        return {"success": False, "error": str(e)}
+
+
+async def get_next_version(arguments: Dict[str, Any]) -> Dict[str, Any]:
+    """Get the next version for a prompt based on increment type."""
+    try:
+        main_prompt_id = arguments.get("main_prompt_id")
+        increment_type = arguments.get("increment_type", "minor")
+
+        if not main_prompt_id:
+            return {"success": False, "error": "main_prompt_id is required"}
+
+        # Get current version
+        current_version = prompt_version_manager.get_latest_version(main_prompt_id)
+
+        # Get next version
+        next_version = prompt_version_manager.get_next_version(main_prompt_id, increment_type)
+
+        return {
+            "success": True,
+            "current_version": current_version,
+            "next_version": next_version,
+            "increment_type": increment_type,
+            "prompt_id": prompt_version_manager.get_prompt_id(main_prompt_id, next_version),
+            "filename": prompt_version_manager.get_filename(main_prompt_id, next_version),
+        }
+
+    except Exception as e:
+        logger_util.error(f"Failed to get next version: {str(e)}")
+        return {"success": False, "error": str(e)}
 
 
 @server.list_tools()
@@ -463,6 +796,84 @@ async def list_tools() -> ListToolsResult:
                 "required": ["prompt_ids"],
             },
         ),
+        Tool(
+            name="create_prompt_version",
+            description="Create a new version of a prompt with semantic versioning",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "main_prompt_id": {
+                        "type": "string",
+                        "description": "Main prompt ID (e.g., 'generate_docs')",
+                    },
+                    "prompt_data": {
+                        "type": "object",
+                        "description": "Prompt data (name, description, template, etc.)",
+                    },
+                    "increment_type": {
+                        "type": "string",
+                        "enum": ["major", "minor", "patch"],
+                        "description": "Version increment type (default: minor)",
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Specific version to create (optional)",
+                    },
+                },
+                "required": ["main_prompt_id", "prompt_data"],
+            },
+        ),
+        Tool(
+            name="deploy_prompt_version",
+            description="Deploy a specific version as the main version",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "main_prompt_id": {
+                        "type": "string",
+                        "description": "Main prompt ID",
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "Version to deploy",
+                    },
+                },
+                "required": ["main_prompt_id", "version"],
+            },
+        ),
+        Tool(
+            name="list_prompt_versions",
+            description="List all versions for a prompt with semantic versioning",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "main_prompt_id": {
+                        "type": "string",
+                        "description": "Main prompt ID",
+                    },
+                },
+                "required": ["main_prompt_id"],
+            },
+        ),
+        Tool(
+            name="get_next_version",
+            description="Get the next version for a prompt based on increment type",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "main_prompt_id": {
+                        "type": "string",
+                        "description": "Main prompt ID",
+                    },
+                    "increment_type": {
+                        "type": "string",
+                        "enum": ["major", "minor", "patch"],
+                        "description": "Version increment type",
+                    },
+                },
+                "required": ["main_prompt_id", "increment_type"],
+            },
+        ),
     ]
 
     return ListToolsResult(tools=tools)
@@ -548,6 +959,26 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
 
         elif name == "remove_prompts":
             result = await remove_prompts_from_system(arguments)
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+        elif name == "create_prompt_version":
+            result = await create_prompt_version(arguments)
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+        elif name == "deploy_prompt_version":
+            result = await deploy_prompt_version(arguments)
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+        elif name == "list_prompt_versions":
+            result = await list_prompt_versions(arguments)
+            return CallToolResult(
+                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
+            )
+        elif name == "get_next_version":
+            result = await get_next_version(arguments)
             return CallToolResult(
                 content=[TextContent(type="text", text=json.dumps(result, indent=2))]
             )

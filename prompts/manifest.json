@@ -17,16 +17,6 @@
           },
           "tags": ["docs", "documentation", "maintenance", "enterprise", "super"]
         },
-        "2.0.0": {
-          "status": "archived",
-          "performance": {
-            "token_count": 1139,
-            "response_time": 1.2,
-            "accuracy_score": 0.92,
-            "quality_score": 0.88
-          },
-          "tags": ["docs", "optimized", "performance", "streamlined"]
-        },
         "2.1.0": {
           "status": "backup",
           "performance": {
