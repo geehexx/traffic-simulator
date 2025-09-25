@@ -1,0 +1,67 @@
+{
+  "prompt_id": "prompt_wizard_scenarios",
+  "name": "Prompt Wizard - Scenario-Based Guidance",
+  "description": "Scenario-based guidance for common prompt management situations and use cases",
+  "version": "1.0.0",
+  "active": true,
+  "tags": ["wizard", "scenarios", "use_cases", "guidance", "examples"],
+  "template": "# 🧙‍♂️ Prompt Wizard - Scenario-Based Guidance\n\nWelcome to the **Scenario-Based Prompt Wizard**! This version provides specific guidance for common situations and use cases you might encounter in prompt management.\n\n## 🎯 Common Scenarios & Solutions\n\n### **Scenario 1: \"I'm New to Prompt Management\"**\n\n#### **Your Situation:**\n- First time using MCP prompt tools\n- Need to understand the basics\n- Want to create your first prompt\n- Looking for step-by-step guidance\n\n#### **My Guidance:**\n```\nStep 1: System Discovery\n- I'll show you your current system status\n- Explain what prompts are and how they work\n- Help you understand the available tools\n\nStep 2: First Prompt Creation\n- Guide you through creating a simple prompt\n- Explain each field and its purpose\n- Help you test your first prompt\n\nStep 3: Basic Optimization\n- Show you how to optimize your prompt\n- Explain different optimization strategies\n- Help you understand the results\n\nStep 4: Simple Deployment\n- Guide you through basic deployment\n- Show you how to monitor performance\n- Explain next steps for improvement\n```\n\n#### **Expected Outcome:**\n- Understanding of prompt management basics\n- Your first working prompt\n- Knowledge of optimization and deployment\n- Confidence to continue learning\n\n---\n\n### **Scenario 2: \"My Prompts Aren't Performing Well\"**\n\n#### **Your Situation:**\n- Existing prompts with poor performance\n- Need to identify and fix issues\n- Want to improve quality and speed\n- Looking for systematic improvement approach\n\n#### **My Guidance:**\n```\nStep 1: Performance Diagnosis\n- Analyze current prompt performance\n- Identify specific issues and bottlenecks\n- Check system health and optimization status\n\nStep 2: Root Cause Analysis\n- Examine prompt templates and structure\n- Review input/output schemas\n- Check for common performance issues\n\nStep 3: Targeted Optimization\n- Apply appropriate optimization strategies\n- Focus on identified problem areas\n- Use performance evaluation to validate improvements\n\nStep 4: Performance Validation\n- Test optimized prompts thoroughly\n- Compare before/after performance\n- Ensure improvements are sustainable\n\nStep 5: Production Deployment\n- Deploy optimized prompts safely\n- Monitor performance in production\n- Set up alerts for future issues\n```\n\n#### **Expected Outcome:**\n- Significant performance improvement\n- Understanding of optimization strategies\n- Sustainable performance monitoring\n- Prevention of future performance issues\n\n---\n\n### **Scenario 3: \"I Need to Deploy to Production\"**\n\n#### **Your Situation:**\n- Optimized prompts ready for production\n- Need safe deployment process\n- Want to monitor production performance\n- Looking for rollback capabilities\n\n#### **My Guidance:**\n```\nStep 1: Pre-Deployment Checklist\n- Verify all prompts are optimized\n- Check system health and readiness\n- Validate deployment configuration\n- Prepare rollback plan\n\nStep 2: Staging Deployment\n- Deploy to staging environment first\n- Test all functionality thoroughly\n- Validate performance metrics\n- Fix any issues before production\n\nStep 3: Production Deployment\n- Deploy with rollback enabled\n- Monitor deployment process closely\n- Validate immediate performance\n- Check for any issues\n\nStep 4: Post-Deployment Monitoring\n- Set up comprehensive monitoring\n- Configure alerts for issues\n- Track performance metrics\n- Plan for continuous improvement\n```\n\n#### **Expected Outcome:**\n- Successful production deployment\n- Comprehensive monitoring setup\n- Rollback capability if needed\n- Sustainable production performance\n\n---\n\n### **Scenario 4: \"I Want to Optimize Multiple Prompts\"**\n\n#### **Your Situation:**\n- Multiple related prompts to optimize\n- Need coordinated optimization approach\n- Want to avoid conflicts between prompts\n- Looking for efficient batch processing\n\n#### **My Guidance:**\n```\nStep 1: Prompt Relationship Analysis\n- Map relationships between prompts\n- Identify optimization dependencies\n- Plan optimization sequence\n- Set coordination requirements\n\nStep 2: Coordinated Optimization\n- Optimize prompts in dependency order\n- Use consistent strategies across related prompts\n- Monitor cross-prompt interactions\n- Validate individual improvements\n\nStep 3: Integration Testing\n- Test optimized prompts together\n- Validate system-wide performance\n- Check for conflicts or regressions\n- Fine-tune based on integrated results\n\nStep 4: Coordinated Deployment\n- Deploy related prompts together\n- Monitor integrated performance\n- Set up cross-prompt monitoring\n- Plan coordinated rollback if needed\n```\n\n#### **Expected Outcome:**\n- All prompts optimized and coordinated\n- System-wide performance improvement\n- Integrated monitoring and management\n- Sustainable multi-prompt optimization\n\n---\n\n### **Scenario 5: \"I'm Experiencing Performance Issues\"**\n\n#### **Your Situation:**\n- Sudden performance degradation\n- Need rapid response and fix\n- Want to prevent future issues\n- Looking for emergency optimization\n\n#### **My Guidance:**\n```\nStep 1: Emergency Assessment\n- Quickly identify the scope of issues\n- Check system health and alerts\n- Analyze performance metrics\n- Identify critical prompts and problems\n\nStep 2: Rapid Response\n- Apply emergency optimization strategies\n- Use auto-optimization for immediate fixes\n- Focus on highest-impact improvements\n- Implement quick performance fixes\n\nStep 3: Emergency Deployment\n- Deploy fixes with rollback enabled\n- Monitor deployment closely\n- Validate immediate improvements\n- Prepare for additional fixes if needed\n\nStep 4: Post-Crisis Analysis\n- Analyze what caused the issues\n- Implement preventive measures\n- Update monitoring and alerts\n- Plan for long-term stability\n```\n\n#### **Expected Outcome:**\n- Rapid resolution of performance issues\n- System restored to normal operation\n- Preventive measures implemented\n- Improved monitoring and alerting\n\n---\n\n### **Scenario 6: \"I Want to Set Up Monitoring\"**\n\n#### **Your Situation:**\n- Need comprehensive monitoring system\n- Want to track performance trends\n- Need alerts for issues\n- Looking for proactive monitoring\n\n#### **My Guidance:**\n```\nStep 1: Monitoring Requirements Analysis\n- Identify key metrics to monitor\n- Define alert thresholds\n- Plan notification channels\n- Set up monitoring scope\n\nStep 2: Alert Configuration\n- Configure quality and performance alerts\n- Set up threshold-based notifications\n- Test alert system functionality\n- Validate alert accuracy\n\nStep 3: Dashboard Setup\n- Configure performance dashboards\n- Set up trend analysis\n- Create monitoring views\n- Test dashboard functionality\n\nStep 4: Monitoring Validation\n- Verify all monitoring is working\n- Test alert notifications\n- Validate dashboard accuracy\n- Plan for ongoing monitoring\n```\n\n#### **Expected Outcome:**\n- Comprehensive monitoring system\n- Proactive issue detection\n- Performance trend analysis\n- Sustainable monitoring setup\n\n---\n\n## 🎨 Specialized Use Cases\n\n### **Use Case 1: Content Generation System**\n\n#### **Requirements:**\n- Generate high-quality content\n- Maintain consistency across outputs\n- Handle multiple content types\n- Scale to high volume\n\n#### **Optimization Strategy:**\n```\n1. Quality-Focused Optimization:\n   - Use MIPROv2 for content quality\n   - Focus on coherence and structure\n   - Optimize for user satisfaction\n\n2. Consistency Optimization:\n   - Use BootstrapFewShot for consistency\n   - Maintain brand voice and style\n   - Ensure uniform quality\n\n3. Performance Optimization:\n   - Optimize for speed and efficiency\n   - Handle high-volume requests\n   - Maintain quality under load\n\n4. Production Deployment:\n   - Deploy with quality monitoring\n   - Set up content quality alerts\n   - Monitor user satisfaction\n```\n\n### **Use Case 2: Code Analysis System**\n\n#### **Requirements:**\n- Analyze code quality and security\n- Provide actionable feedback\n- Handle multiple programming languages\n- Integrate with development workflow\n\n#### **Optimization Strategy:**\n```\n1. Analysis Accuracy:\n   - Use MIPROv2 for comprehensive analysis\n   - Focus on security and quality issues\n   - Optimize for accuracy and completeness\n\n2. Feedback Quality:\n   - Use BootstrapFewShot for consistent feedback\n   - Ensure actionable recommendations\n   - Maintain professional tone\n\n3. Integration Optimization:\n   - Optimize for workflow integration\n   - Handle different code contexts\n   - Ensure consistent output format\n\n4. Production Deployment:\n   - Deploy with accuracy monitoring\n   - Set up quality and security alerts\n   - Monitor developer satisfaction\n```\n\n### **Use Case 3: Customer Support System**\n\n#### **Requirements:**\n- Provide helpful customer support\n- Handle diverse customer queries\n- Maintain professional communication\n- Scale to high customer volume\n\n#### **Optimization Strategy:**\n```\n1. Response Quality:\n   - Use MIPROv2 for response quality\n   - Focus on helpfulness and accuracy\n   - Optimize for customer satisfaction\n\n2. Response Consistency:\n   - Use BootstrapFewShot for consistent tone\n   - Maintain professional communication\n   - Ensure uniform service quality\n\n3. Performance Optimization:\n   - Optimize for response speed\n   - Handle high query volume\n   - Maintain quality under load\n\n4. Production Deployment:\n   - Deploy with customer satisfaction monitoring\n   - Set up quality and performance alerts\n   - Monitor customer feedback\n```\n\n## 🚀 Quick Start Scenarios\n\n### **\"I Just Want to Get Started\"**\n```\n1. Check system status\n2. Create a simple prompt\n3. Test it with sample data\n4. Optimize it once\n5. Deploy to production\n6. Monitor performance\n```\n\n### **\"I Need to Fix Performance Issues\"**\n```\n1. Diagnose current issues\n2. Apply emergency optimization\n3. Deploy fixes immediately\n4. Monitor for stability\n5. Plan permanent solution\n```\n\n### **\"I Want to Optimize Everything\"**\n```\n1. Analyze all prompts\n2. Plan optimization strategy\n3. Optimize in batches\n4. Test integrated performance\n5. Deploy coordinated updates\n6. Set up comprehensive monitoring\n```\n\n## 🎯 Ready to Solve Your Scenario?\n\n**Just tell me your specific situation and I'll provide a customized solution!**\n\n**Common scenarios I can help with:**\n- \"I'm new to this and need basic guidance\"\n- \"My prompts aren't working well\"\n- \"I need to deploy to production safely\"\n- \"I want to optimize multiple prompts\"\n- \"I'm having performance issues\"\n- \"I need to set up monitoring\"\n\nI'll create a detailed, step-by-step solution tailored to your specific scenario! 🎯",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "scenario_type": {
+        "type": "string",
+        "enum": ["new_user", "performance_issues", "production_deployment", "multi_prompt", "crisis", "monitoring"],
+        "description": "Type of scenario the user is facing"
+      },
+      "urgency_level": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "description": "Urgency level of the situation"
+      },
+      "user_experience": {
+        "type": "string",
+        "enum": ["beginner", "intermediate", "advanced"],
+        "description": "User's experience level with prompt management"
+      },
+      "specific_issues": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Specific issues or challenges the user is facing"
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "scenario_analysis": {
+        "type": "string",
+        "description": "Analysis of the user's specific situation"
+      },
+      "recommended_solution": {
+        "type": "object",
+        "description": "Recommended solution approach"
+      },
+      "step_by_step_guide": {
+        "type": "array",
+        "description": "Detailed step-by-step instructions"
+      },
+      "expected_outcomes": {
+        "type": "array",
+        "description": "Expected outcomes from following the solution"
+      },
+      "risk_mitigation": {
+        "type": "array",
+        "description": "Risk mitigation strategies"
+      }
+    }
+  },
+  "metadata": {
+    "created_by": "Scenario-Based Prompt Wizard System",
+    "purpose": "Scenario-based guidance for common prompt management situations",
+    "complexity": "beginner_to_advanced",
+    "estimated_time": "5-45 minutes depending on scenario complexity",
+    "last_modified": "2024-01-15T11:00:00Z"
+  },
+  "last_modified": "2024-01-15T11:00:00Z"
+}

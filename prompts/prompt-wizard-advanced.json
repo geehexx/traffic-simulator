@@ -1,0 +1,66 @@
+{
+  "prompt_id": "prompt_wizard_advanced",
+  "name": "Prompt Wizard - Advanced Workflow Templates",
+  "description": "Advanced workflow templates and examples for complex prompt management scenarios",
+  "version": "1.0.0",
+  "active": true,
+  "tags": ["wizard", "advanced", "templates", "workflows", "examples"],
+  "template": "# 🧙‍♂️ Advanced Prompt Wizard - Workflow Templates & Examples\n\nWelcome to the **Advanced Prompt Wizard**! This version provides detailed workflow templates, real-world examples, and sophisticated guidance for complex prompt management scenarios.\n\n## 🎯 Advanced Workflow Templates\n\n### **Template 1: Complete Prompt Lifecycle Management**\n\n#### **Phase 1: Discovery & Assessment**\n```\n1. System Status Check:\n   - Use: get_status(include_metrics=True, include_optimization_status=True)\n   - Purpose: Understand current system state and health\n   - Output: System health, active optimizations, performance metrics\n\n2. Prompt Inventory Analysis:\n   - Use: list_prompts(tags=None, active_only=True)\n   - Purpose: Get comprehensive view of existing prompts\n   - Output: All active prompts with metadata\n\n3. Performance Baseline:\n   - Use: get_analytics(prompt_id=None, include_trends=True)\n   - Purpose: Establish current performance baseline\n   - Output: Quality metrics, performance trends, optimization history\n```\n\n#### **Phase 2: Strategic Optimization**\n```\n1. Individual Prompt Analysis:\n   - Use: get_prompt(prompt_id) for each prompt\n   - Purpose: Deep dive into specific prompt details\n   - Output: Template, schema, version, metadata\n\n2. Performance Evaluation:\n   - Use: evaluate_performance(prompt_id, test_cases)\n   - Purpose: Test current performance with real scenarios\n   - Output: Accuracy scores, response times, quality metrics\n\n3. Optimization Strategy Selection:\n   - Use: optimize_prompt(prompt_id, strategy, auto_mode)\n   - Strategies: 'mipro', 'bootstrap', 'bayesian', 'hybrid'\n   - Purpose: Apply appropriate optimization strategy\n   - Output: Optimized prompt with improvement metrics\n```\n\n#### **Phase 3: Continuous Improvement**\n```\n1. Feedback Integration:\n   - Use: auto_optimize_feedback(prompt_id, feedback_data)\n   - Purpose: Incorporate user feedback for real-time improvement\n   - Output: Auto-optimized prompt based on feedback\n\n2. Iterative Enhancement:\n   - Use: run_improvement_cycle(prompt_id, iterations)\n   - Purpose: Run multiple optimization cycles\n   - Output: Best version after multiple iterations\n\n3. Performance Validation:\n   - Use: evaluate_performance(optimized_prompt_id, test_cases)\n   - Purpose: Validate improvements\n   - Output: Performance comparison and recommendations\n```\n\n#### **Phase 4: Production Deployment**\n```\n1. Deployment Readiness Check:\n   - Use: get_dashboard(include_metrics=True, include_alerts=True)\n   - Purpose: Ensure system is ready for deployment\n   - Output: Dashboard with deployment readiness indicators\n\n2. Alert Configuration:\n   - Use: configure_alerts(alert_types, thresholds)\n   - Purpose: Set up monitoring for production\n   - Output: Configured alert system\n\n3. Production Deployment:\n   - Use: deploy_prompts(prompt_ids, environment)\n   - Purpose: Deploy optimized prompts to production\n   - Output: Deployment status with rollback options\n```\n\n### **Template 2: Multi-Prompt Optimization Campaign**\n\n#### **Scenario: Optimizing Multiple Related Prompts**\n```\nStep 1: Campaign Planning\n- Analyze all related prompts\n- Identify optimization priorities\n- Plan optimization sequence\n- Set success criteria\n\nStep 2: Batch Optimization\n- Optimize prompts in dependency order\n- Use consistent strategies across related prompts\n- Monitor cross-prompt interactions\n- Validate individual improvements\n\nStep 3: Integration Testing\n- Test optimized prompts together\n- Validate system-wide performance\n- Check for conflicts or regressions\n- Fine-tune based on integrated results\n\nStep 4: Coordinated Deployment\n- Deploy related prompts together\n- Monitor integrated performance\n- Set up cross-prompt monitoring\n- Plan coordinated rollback if needed\n```\n\n### **Template 3: Performance Crisis Management**\n\n#### **Scenario: Rapid Response to Performance Issues**\n```\nStep 1: Emergency Assessment\n- Use: get_status() to check system health\n- Use: get_dashboard() to identify issues\n- Use: get_analytics() to understand scope\n- Identify critical prompts and issues\n\nStep 2: Rapid Optimization\n- Use: optimize_prompt() with 'hybrid' strategy\n- Use: auto_optimize_feedback() for immediate fixes\n- Use: run_improvement_cycle() for quick iterations\n- Focus on highest-impact improvements\n\nStep 3: Emergency Deployment\n- Use: deploy_prompts() with rollback enabled\n- Use: configure_alerts() for immediate monitoring\n- Monitor deployment closely\n- Prepare rollback plan\n\nStep 4: Post-Crisis Analysis\n- Analyze what went wrong\n- Implement preventive measures\n- Update monitoring thresholds\n- Document lessons learned\n```\n\n## 🎨 Real-World Examples\n\n### **Example 1: Documentation Generation System**\n\n#### **Initial Setup:**\n```\nUser Goal: \"I need a system that generates comprehensive documentation for my codebase\"\n\nWizard Response:\n\"I'll help you create and optimize a documentation generation system. Let me start by assessing your current setup...\"\n\n1. Check existing prompts: list_prompts(tags=['documentation'])\n2. Create base prompt: create_prompt(\n     prompt_id='generate_docs',\n     name='Documentation Generator',\n     template='Generate comprehensive documentation for: {codebase_context}',\n     input_schema={'codebase_context': 'string'}\n   )\n3. Test initial performance: execute_prompt('generate_docs', {'codebase_context': 'sample'})\n4. Optimize for quality: optimize_prompt('generate_docs', 'mipro')\n5. Deploy to production: deploy_prompts(['generate_docs_optimized_v1'])\n```\n\n#### **Optimization Journey:**\n```\nWeek 1: Initial Optimization\n- Strategy: MIPROv2 for quality focus\n- Result: 15% improvement in documentation quality\n- Metrics: Better structure, more comprehensive coverage\n\nWeek 2: Performance Tuning\n- Strategy: BootstrapFewShot for speed\n- Result: 30% faster generation\n- Metrics: Reduced response time, maintained quality\n\nWeek 3: User Feedback Integration\n- Strategy: Auto-optimize based on user feedback\n- Result: 25% improvement in user satisfaction\n- Metrics: Better alignment with user needs\n\nWeek 4: Production Deployment\n- Strategy: Coordinated deployment with monitoring\n- Result: Successful production rollout\n- Metrics: 99.9% uptime, improved user adoption\n```\n\n### **Example 2: Code Review Assistant**\n\n#### **Complex Multi-Stage Optimization:**\n```\nStage 1: Code Analysis Optimization\n- Prompt: 'analyze_code_quality'\n- Strategy: MIPROv2 for comprehensive analysis\n- Focus: Code quality, security, performance\n- Result: 40% improvement in analysis accuracy\n\nStage 2: Review Generation Optimization\n- Prompt: 'generate_code_review'\n- Strategy: BootstrapFewShot for consistency\n- Focus: Structured, actionable feedback\n- Result: 35% improvement in review quality\n\nStage 3: Integration Optimization\n- Strategy: Hybrid approach for both prompts\n- Focus: Coordinated analysis and review\n- Result: 50% improvement in overall system performance\n\nStage 4: Production Deployment\n- Deploy both optimized prompts together\n- Monitor integrated performance\n- Set up alerts for quality degradation\n- Result: Successful production system\n```\n\n## 🔧 Advanced Configuration Examples\n\n### **Alert Configuration for Production:**\n```\nconfigure_alerts(\n  alert_types=[\n    'quality_drop',\n    'performance_issue',\n    'optimization_failure',\n    'deployment_issue'\n  ],\n  thresholds={\n    'quality': 0.85,\n    'performance': 0.80,\n    'success_rate': 0.95,\n    'response_time': 2.0\n  }\n)\n```\n\n### **Multi-Environment Deployment:**\n```\n# Staging deployment\ndeploy_prompts(\n  prompt_ids=['generate_docs_optimized_v1'],\n  environment='staging'\n)\n\n# Production deployment with rollback\ndeploy_prompts(\n  prompt_ids=['generate_docs_optimized_v1'],\n  environment='production'\n)\n```\n\n### **Performance Monitoring Setup:**\n```\n# Comprehensive monitoring\nget_dashboard(\n  include_metrics=True,\n  include_alerts=True\n)\n\n# Specific analytics\nget_analytics(\n  prompt_id='generate_docs',\n  metric_types=['quality', 'performance', 'user_satisfaction'],\n  include_trends=True\n)\n```\n\n## 🎯 Specialized Workflow Patterns\n\n### **Pattern 1: A/B Testing Workflow**\n```\n1. Create variant prompts\n2. Deploy both versions\n3. Monitor performance differences\n4. Select winning variant\n5. Roll out winning version\n6. Archive losing variant\n```\n\n### **Pattern 2: Gradual Rollout Workflow**\n```\n1. Deploy to small user group\n2. Monitor performance closely\n3. Gradually increase user percentage\n4. Full rollout if successful\n5. Rollback if issues detected\n```\n\n### **Pattern 3: Emergency Response Workflow**\n```\n1. Detect performance issue\n2. Identify root cause\n3. Apply emergency optimization\n4. Deploy fix immediately\n5. Monitor for stability\n6. Plan permanent solution\n```\n\n## 🚀 Advanced Tips & Best Practices\n\n### **Optimization Strategy Selection:**\n- **MIPROv2**: Best for quality-focused optimization\n- **BootstrapFewShot**: Best for consistency and speed\n- **Bayesian**: Best for complex, multi-parameter optimization\n- **Hybrid**: Best for balanced quality and performance\n\n### **Deployment Safety:**\n- Always enable rollback options\n- Test in staging environment first\n- Monitor closely after deployment\n- Have rollback plan ready\n\n### **Performance Monitoring:**\n- Set up comprehensive alerts\n- Monitor multiple metrics\n- Track trends over time\n- Respond quickly to issues\n\n### **Continuous Improvement:**\n- Regular optimization cycles\n- User feedback integration\n- Performance trend analysis\n- Proactive issue prevention\n\n## 🎯 Ready for Advanced Workflows?\n\n**Tell me your specific scenario and I'll provide a customized workflow template!**\n\n**Advanced scenarios I can help with:**\n- \"I need to optimize 10+ related prompts\"\n- \"I'm experiencing performance issues in production\"\n- \"I want to implement A/B testing for my prompts\"\n- \"I need to set up comprehensive monitoring\"\n- \"I want to implement a gradual rollout strategy\"\n\nI'll create a detailed, step-by-step workflow tailored to your specific needs! 🎯",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "workflow_type": {
+        "type": "string",
+        "enum": ["lifecycle", "multi_prompt", "crisis", "ab_testing", "gradual_rollout", "emergency"],
+        "description": "Type of advanced workflow needed"
+      },
+      "complexity_level": {
+        "type": "string",
+        "enum": ["beginner", "intermediate", "advanced", "expert"],
+        "description": "User's experience level with prompt management"
+      },
+      "specific_requirements": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Specific requirements or constraints"
+      },
+      "timeline": {
+        "type": "string",
+        "description": "Expected timeline for completion"
+      }
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "workflow_template": {
+        "type": "object",
+        "description": "Detailed workflow template for the specific scenario"
+      },
+      "mcp_tool_sequence": {
+        "type": "array",
+        "description": "Sequence of MCP tools to use"
+      },
+      "estimated_timeline": {
+        "type": "string",
+        "description": "Estimated time to complete the workflow"
+      },
+      "success_metrics": {
+        "type": "array",
+        "description": "Metrics to track for success"
+      },
+      "risk_mitigation": {
+        "type": "array",
+        "description": "Risk mitigation strategies"
+      }
+    }
+  },
+  "metadata": {
+    "created_by": "Advanced Prompt Wizard System",
+    "purpose": "Advanced workflow templates and examples for complex scenarios",
+    "complexity": "intermediate_to_expert",
+    "estimated_time": "15-60 minutes depending on workflow complexity",
+    "last_modified": "2024-01-15T10:30:00Z"
+  },
+  "last_modified": "2024-01-15T10:30:00Z"
+}
