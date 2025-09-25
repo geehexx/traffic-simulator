@@ -16,7 +16,7 @@ from datetime import datetime
 mcp = FastMCP("Traffic Sim Optimization Server")
 
 # Initialize prompt management
-PROMPTS_DIR = Path("prompts")
+PROMPTS_DIR = Path("../prompts")  # Use the main prompts directory at project root
 PROMPTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
