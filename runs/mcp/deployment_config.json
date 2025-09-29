@@ -1,0 +1,13 @@
+{
+  "server": {
+    "name": "traffic-sim-production",
+    "script": "/home/gxx/projects/traffic-simulator/mcp/fastmcp_test_server.py",
+    "venv": "/home/gxx/projects/traffic-simulator/mcp/.venv",
+    "log_dir": "/home/gxx/projects/traffic-simulator/runs/mcp"
+  },
+  "deployment": {
+    "timestamp": 1759338953.9414945,
+    "status": "ready",
+    "version": "1.0.0"
+  }
+}

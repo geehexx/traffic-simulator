@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-
-import pytest
-
 import numpy as np
 from traffic_sim.core.physics_numpy import PhysicsEngineNumpy
 
@@ -34,7 +29,3 @@ def test_physics_engine_numpy_physics():
     # Acceleration should not exceed physical limits
     assert updated[0, 2] <= 5.0 and updated[1, 2] <= 5.0
     print("PhysicsEngineNumpy physics test passed.")
-
-
-if __name__ == "__main__":
-    pytest.main([__file__])

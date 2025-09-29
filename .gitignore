@@ -1,8 +1,6 @@
 # Ignore profiling and benchmark output
 profiling_stats_*.csv
 profiling_stats_*.cs
-# Ignore all profiling/benchmark data in runs directory
-runs/
 # Combined .gitignore
 # (remote template + local additions)
 
@@ -57,8 +55,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-# Coverage files in runs directory
-runs/coverage/
 
 # Translations
 *.mo
@@ -96,7 +92,7 @@ ipython_config.py
 .pdm-build/
 .pixi
 #Pipfile.lock
-uv.lock
+#uv.lock
 #poetry.lock
 #poetry.toml
 #pdm.lock
@@ -114,17 +110,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# API Keys and Secrets
-*.key
-*.pem
-*.p12
-*.pfx
-secrets/
-.secrets/
-api_keys.txt
-.env.local
-.env.production
 
 # mypy/pyre/pytype
 .mypy_cache/
@@ -147,6 +132,7 @@ cython_debug/
 .pypirc
 
 # Cursor
+.cursorignore
 .cursorindexingignore
 
 # Marimo
@@ -157,10 +143,4 @@ __marimo__/
 # Local additions
 *.pyc
 .DS_Store
-AGENTS.md
-
-# Bazel build artifacts
-/bazel-*
-
-# Node.js dependencies
-node_modules/
+runs/*.csv

@@ -1,0 +1,181 @@
+{
+  "total_tests": 17,
+  "passed_tests": 16,
+  "failed_tests": 1,
+  "success_rate": 94.11764705882352,
+  "execution_time": 0.13819289207458496,
+  "test_categories": {
+    "System Health": {
+      "server_availability": {
+        "status": "PASS",
+        "message": "FastMCP server is available",
+        "timestamp": 1759339278.751836
+      },
+      "configuration": {
+        "status": "FAIL",
+        "message": "Configuration files missing",
+        "timestamp": 1759339278.751863
+      },
+      "log_directory": {
+        "status": "PASS",
+        "message": "Log directory accessible",
+        "timestamp": 1759339278.7518663
+      }
+    },
+    "Basic Tools": {
+      "get_status": {
+        "status": "PASS",
+        "message": "get_status tool working correctly",
+        "result": {
+          "success": true,
+          "status": {
+            "system_health": "healthy",
+            "timestamp": 1759339278.751874
+          }
+        },
+        "timestamp": 1759339278.7518752
+      },
+      "get_analytics": {
+        "status": "PASS",
+        "message": "get_analytics tool working correctly",
+        "result": {
+          "success": true,
+          "analytics": {
+            "quality_metrics": {
+              "average_score": 0.85
+            },
+            "performance_metrics": {
+              "response_time": 0.5
+            }
+          }
+        },
+        "timestamp": 1759339278.7518773
+      },
+      "get_dashboard": {
+        "status": "PASS",
+        "message": "get_dashboard tool working correctly",
+        "result": {
+          "success": true,
+          "dashboard": {
+            "overview": {
+              "total_optimizations": 0
+            },
+            "metrics": {
+              "quality_score": 0.85
+            }
+          }
+        },
+        "timestamp": 1759339278.7518785
+      }
+    },
+    "Optimization Tools": {
+      "optimize_prompt": {
+        "status": "PASS",
+        "message": "optimize_prompt tool working correctly",
+        "result": {
+          "success": true,
+          "optimization": {
+            "prompt_id": "test_prompt",
+            "improvement_score": 0.15,
+            "execution_time": 2.5
+          }
+        },
+        "timestamp": 1759339278.7518823
+      },
+      "evaluate_performance": {
+        "status": "PASS",
+        "message": "evaluate_performance tool working correctly",
+        "result": {
+          "success": true,
+          "performance_evaluation": {
+            "accuracy_score": 0.92,
+            "response_time": 1.2
+          }
+        },
+        "timestamp": 1759339278.751883
+      },
+      "run_improvement_cycle": {
+        "status": "PASS",
+        "message": "run_improvement_cycle tool working correctly",
+        "result": {
+          "success": true,
+          "improvement_cycle": {
+            "iterations_completed": 3,
+            "total_improvement": 0.25
+          }
+        },
+        "timestamp": 1759339278.7518833
+      }
+    },
+    "Advanced Features": {
+      "ml_optimization": {
+        "status": "PASS",
+        "message": "ML optimization working correctly",
+        "result": {
+          "success": true,
+          "ml_optimization": {
+            "strategy": "ml_hybrid",
+            "confidence_score": 0.92,
+            "improvement_score": 0.25
+          }
+        },
+        "timestamp": 1759339278.7518864
+      },
+      "batch_processing": {
+        "status": "PASS",
+        "message": "Batch processing working correctly",
+        "result": {
+          "success": true,
+          "batch_optimization": {
+            "total_prompts": 3,
+            "average_improvement": 0.22
+          }
+        },
+        "timestamp": 1759339278.7518866
+      },
+      "adaptive_optimization": {
+        "status": "PASS",
+        "message": "Adaptive optimization working correctly",
+        "result": {
+          "success": true,
+          "adaptive_optimization": {
+            "strategy": "adaptive",
+            "feedback_integration": true
+          }
+        },
+        "timestamp": 1759339278.751887
+      }
+    },
+    "Performance": {
+      "response_time": {
+        "status": "PASS",
+        "message": "Response time acceptable: 0.100s",
+        "response_time": 0.1001121997833252,
+        "timestamp": 1759339278.8520172
+      },
+      "memory_usage": {
+        "status": "PASS",
+        "message": "Memory usage acceptable: 26.0MB",
+        "memory_usage": 26.00390625,
+        "timestamp": 1759339278.8899481
+      }
+    },
+    "Production Readiness": {
+      "deployment_config": {
+        "status": "PASS",
+        "message": "Deployment configuration present",
+        "timestamp": 1759339278.8899887
+      },
+      "monitoring_setup": {
+        "status": "PASS",
+        "message": "Monitoring setup present",
+        "timestamp": 1759339278.8900003
+      },
+      "documentation": {
+        "status": "PASS",
+        "message": "Documentation present",
+        "timestamp": 1759339278.8900151
+      }
+    }
+  }
+}

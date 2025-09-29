@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 from datetime import datetime
+from yaml_prompt_loader import YAMLPromptLoader
 
 # Create FastMCP server
 mcp = FastMCP("Traffic Sim Optimization Server")
@@ -18,6 +19,9 @@ mcp = FastMCP("Traffic Sim Optimization Server")
 # Initialize prompt management
 PROMPTS_DIR = Path("../prompts")  # Use the main prompts directory at project root
 PROMPTS_DIR.mkdir(parents=True, exist_ok=True)
+
+# Initialize YAML prompt loader
+prompt_loader = YAMLPromptLoader(PROMPTS_DIR)
 
 
 @mcp.tool
@@ -213,14 +217,10 @@ def deploy_prompts(prompt_ids: list, environment: str = "production") -> str:
 def list_prompts(tags: list = None, active_only: bool = True) -> str:
     """List available prompts with optional filtering."""
     try:
+        all_prompts = prompt_loader.list_prompts()
         prompts = []
-        for prompt_file in PROMPTS_DIR.glob("*.json"):
-            if prompt_file.name == "index.json":
-                continue
 
-            with open(prompt_file, "r") as f:
-                prompt_data = json.load(f)
-
+        for prompt_data in all_prompts:
             # Filter by active status
             if active_only and not prompt_data.get("active", True):
                 continue
@@ -231,17 +231,7 @@ def list_prompts(tags: list = None, active_only: bool = True) -> str:
                 if not any(tag in prompt_tags for tag in tags):
                     continue
 
-            prompts.append(
-                {
-                    "prompt_id": prompt_data["prompt_id"],
-                    "name": prompt_data["name"],
-                    "description": prompt_data["description"],
-                    "version": prompt_data.get("version", "1.0.0"),
-                    "tags": prompt_data.get("tags", []),
-                    "active": prompt_data.get("active", True),
-                    "last_modified": prompt_data.get("last_modified", "unknown"),
-                }
-            )
+            prompts.append(prompt_data)
 
         result = {
             "success": True,
@@ -262,14 +252,7 @@ def list_prompts(tags: list = None, active_only: bool = True) -> str:
 def execute_prompt(prompt_id: str, input_data: dict) -> str:
     """Execute a prompt with input data."""
     try:
-        prompt_file = PROMPTS_DIR / f"{prompt_id}.json"
-        if not prompt_file.exists():
-            return json.dumps(
-                {"success": False, "error": f"Prompt not found: {prompt_id}"}, indent=2
-            )
-
-        with open(prompt_file, "r") as f:
-            prompt_data = json.load(f)
+        prompt_data = prompt_loader.load_prompt(prompt_id)
 
         if not prompt_data.get("active", True):
             return json.dumps(
@@ -298,6 +281,8 @@ def execute_prompt(prompt_id: str, input_data: dict) -> str:
 
         return json.dumps(result, indent=2)
 
+    except FileNotFoundError:
+        return json.dumps({"success": False, "error": f"Prompt not found: {prompt_id}"}, indent=2)
     except Exception as e:
         return json.dumps(
             {"success": False, "error": f"Failed to execute prompt: {str(e)}"}, indent=2
@@ -308,19 +293,12 @@ def execute_prompt(prompt_id: str, input_data: dict) -> str:
 def get_prompt(prompt_id: str) -> str:
     """Get detailed information about a specific prompt."""
     try:
-        prompt_file = PROMPTS_DIR / f"{prompt_id}.json"
-        if not prompt_file.exists():
-            return json.dumps(
-                {"success": False, "error": f"Prompt not found: {prompt_id}"}, indent=2
-            )
-
-        with open(prompt_file, "r") as f:
-            prompt_data = json.load(f)
-
+        prompt_data = prompt_loader.load_prompt(prompt_id)
         result = {"success": True, "prompt": prompt_data}
-
         return json.dumps(result, indent=2)
 
+    except FileNotFoundError:
+        return json.dumps({"success": False, "error": f"Prompt not found: {prompt_id}"}, indent=2)
     except Exception as e:
         return json.dumps({"success": False, "error": f"Failed to get prompt: {str(e)}"}, indent=2)
 
@@ -357,9 +335,8 @@ def create_prompt(
             "metadata": metadata or {},
         }
 
-        prompt_file = PROMPTS_DIR / f"{prompt_id}.json"
-        with open(prompt_file, "w") as f:
-            json.dump(prompt_data, f, indent=2)
+        # Save as YAML using the prompt loader
+        prompt_loader.save_prompt_as_yaml(prompt_id, prompt_data)
 
         result = {
             "success": True,
