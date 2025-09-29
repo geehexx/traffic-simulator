@@ -1,0 +1,14 @@
+[Unit]
+Description=Traffic Sim FastMCP Server
+After=network.target
+
+[Service]
+Type=simple
+User=gxx
+WorkingDirectory=/home/gxx/projects/traffic-simulator/mcp
+ExecStart=/home/gxx/projects/traffic-simulator/mcp/.venv/bin/python /home/gxx/projects/traffic-simulator/mcp/fastmcp_test_server.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

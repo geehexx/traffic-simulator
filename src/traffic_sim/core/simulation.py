@@ -400,19 +400,8 @@ class Simulation:
         if n == 0:
             return
 
-        # Adaptive time stepping for high speed factors
-        adaptive_enabled = bool(get_nested(self.cfg, "physics.adaptive_timestep_enabled", False))
-        if adaptive_enabled and self.speed_factor > 10.0:
-            # Use larger timesteps for high speed factors to improve performance
-            # while maintaining stability
-            adaptive_dt = min(dt_s * (self.speed_factor / 10.0), dt_s * 10.0)
-            dt_s = adaptive_dt
-
         # Update simulation time
         self.simulation_time += dt_s
-        # Inform collision system of current time (for scheduler)
-        if hasattr(self.collision_system, "update_time"):
-            self.collision_system.update_time(self.simulation_time)
 
         # Pre-sort vehicles by position for proper following behavior (with caching)
         # Use the global profiler dynamically in case tests reset it
@@ -569,17 +558,12 @@ class Simulation:
             else:
                 vehicle.update_internal_state(eff_dt)
 
-            # Update physics immediately unless we will defer to a vectorized engine
-            will_defer_physics = self._use_numpy_physics or (
-                bool(get_nested(self.cfg, "high_performance.enabled", False))
-                and self._use_data_manager
-            )
-            if not will_defer_physics:
-                if self._profiling_enabled and profiler is not None:
-                    with profiler.time_block("update_vehicle_physics"):
-                        self._update_vehicle_physics(vehicle, eff_dt, L)
-                else:
+            # Update physics
+            if self._profiling_enabled and profiler is not None:
+                with profiler.time_block("update_vehicle_physics"):
                     self._update_vehicle_physics(vehicle, eff_dt, L)
+            else:
+                self._update_vehicle_physics(vehicle, eff_dt, L)
 
         # Step physics simulation
         high_perf = bool(get_nested(self.cfg, "high_performance.enabled", False))

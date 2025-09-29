@@ -1,0 +1,201 @@
+{
+  "total_benchmarks": 5,
+  "passed_benchmarks": 4,
+  "failed_benchmarks": 1,
+  "success_rate": 80.0,
+  "benchmark_categories": {
+    "Tool Response Times": {
+      "tools": {
+        "get_status": {
+          "response_time": 0.4525906936734183,
+          "status": "PASS"
+        },
+        "get_analytics": {
+          "response_time": 0.596316732191161,
+          "status": "PASS"
+        },
+        "get_dashboard": {
+          "response_time": 0.3382122059564424,
+          "status": "PASS"
+        },
+        "optimize_prompt": {
+          "response_time": 0.5219545617144097,
+          "status": "PASS"
+        },
+        "evaluate_performance": {
+          "response_time": 0.13511652540639585,
+          "status": "PASS"
+        },
+        "run_improvement_cycle": {
+          "response_time": 0.2217898980160788,
+          "status": "PASS"
+        },
+        "configure_alerts": {
+          "response_time": 0.5561785563757191,
+          "status": "PASS"
+        },
+        "deploy_prompts": {
+          "response_time": 0.5746641479733973,
+          "status": "PASS"
+        }
+      },
+      "statistics": {
+        "average_response_time": 0.4246029151633778,
+        "max_response_time": 0.596316732191161,
+        "min_response_time": 0.13511652540639585,
+        "total_tools": 8
+      },
+      "threshold": 1.0,
+      "passed": true
+    },
+    "Optimization Performance": {
+      "strategies": {
+        "hybrid": {
+          "execution_time": 2.5134666471368967,
+          "improvement_score": 0.17071348580742046,
+          "efficiency": 0.0679195349585725,
+          "status": "PASS"
+        },
+        "ml_hybrid": {
+          "execution_time": 4.411226161855925,
+          "improvement_score": 0.1609934328863999,
+          "efficiency": 0.03649629989015696,
+          "status": "PASS"
+        },
+        "adaptive": {
+          "execution_time": 4.045340741024798,
+          "improvement_score": 0.194103548436938,
+          "efficiency": 0.047982002225050176,
+          "status": "PASS"
+        },
+        "batch": {
+          "execution_time": 2.853545664910283,
+          "improvement_score": 0.25642591892182326,
+          "efficiency": 0.08986220969759229,
+          "status": "PASS"
+        }
+      },
+      "overall_performance": {
+        "average_execution_time": 3.455894803731976,
+        "average_improvement": 0.1955590965131454,
+        "average_efficiency": 0.06056501169284298
+      },
+      "threshold": 10.0,
+      "passed": true
+    },
+    "Batch Processing": {
+      "batch_sizes": {
+        "1": {
+          "total_time": 1.1855865370819336,
+          "time_per_item": 1.1855865370819336,
+          "efficiency": 0.8434643686670776,
+          "status": "FAIL"
+        },
+        "5": {
+          "total_time": 1.9662919097111904,
+          "time_per_item": 0.39325838194223806,
+          "efficiency": 2.542857433988223,
+          "status": "PASS"
+        },
+        "10": {
+          "total_time": 2.5113620437847803,
+          "time_per_item": 0.25113620437847806,
+          "efficiency": 3.9819029776086654,
+          "status": "PASS"
+        },
+        "20": {
+          "total_time": 4.386832456162526,
+          "time_per_item": 0.21934162280812627,
+          "efficiency": 4.5590982103509425,
+          "status": "PASS"
+        },
+        "50": {
+          "total_time": 14.000925904321658,
+          "time_per_item": 0.2800185180864332,
+          "efficiency": 3.5711923869668167,
+          "status": "PASS"
+        }
+      },
+      "scaling_analysis": {
+        "average_scaling_factor": 1.627240003733522,
+        "scaling_efficiency": "good"
+      },
+      "threshold": 0.5,
+      "passed": false
+    },
+    "Memory Usage": {
+      "operations": {
+        "single_optimization": {
+          "memory_usage": 71.4916325754184,
+          "status": "PASS"
+        },
+        "batch_optimization_5": {
+          "memory_usage": 137.29465509609162,
+          "status": "PASS"
+        },
+        "batch_optimization_10": {
+          "memory_usage": 176.27372269398774,
+          "status": "PASS"
+        },
+        "ml_optimization": {
+          "memory_usage": 140.23036614338602,
+          "status": "PASS"
+        },
+        "concurrent_operations": {
+          "memory_usage": 260.01275165220824,
+          "status": "PASS"
+        }
+      },
+      "memory_statistics": {
+        "average_memory": 157.0606256322184,
+        "max_memory": 260.01275165220824,
+        "memory_efficiency": "good"
+      },
+      "threshold": 500,
+      "passed": true
+    },
+    "Concurrent Operations": {
+      "concurrent_levels": {
+        "1": {
+          "total_time": 1.6979808354403327,
+          "throughput": 0.5889347978068744,
+          "efficiency": 0.5889347978068744,
+          "status": "PASS"
+        },
+        "2": {
+          "total_time": 2.316363541088583,
+          "throughput": 0.8634223275074056,
+          "efficiency": 0.4317111637537028,
+          "status": "PASS"
+        },
+        "5": {
+          "total_time": 2.2118146730231496,
+          "throughput": 2.260587227756251,
+          "efficiency": 0.45211744555125016,
+          "status": "PASS"
+        },
+        "10": {
+          "total_time": 3.0888746993135827,
+          "throughput": 3.237424943854869,
+          "efficiency": 0.32374249438548686,
+          "status": "PASS"
+        }
+      },
+      "scaling_analysis": {
+        "average_scaling_factor": 1.8387874272124254,
+        "concurrency_efficiency": "good"
+      },
+      "threshold": 2.0,
+      "passed": true
+    }
+  },
+  "performance_summary": {
+    "overall_performance": "excellent",
+    "recommendations": [],
+    "performance_metrics": {
+      "response_time": "excellent",
+      "optimization": "good",
+      "memory": "good"
+    }
+  }
+}

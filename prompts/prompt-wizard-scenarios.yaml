@@ -1,0 +1,474 @@
+---
+name: Prompt Wizard - Scenario-Based Guidance
+description: Scenario-based guidance for common prompt management situations and use
+  cases
+version: 1.0.0
+active: true
+tags:
+- wizard
+- scenarios
+- use_cases
+- guidance
+- examples
+prompt_id: prompt_wizard_scenarios
+input_schema:
+  type: object
+  properties:
+    scenario_type:
+      type: string
+      enum:
+      - new_user
+      - performance_issues
+      - production_deployment
+      - multi_prompt
+      - crisis
+      - monitoring
+      description: Type of scenario the user is facing
+    urgency_level:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      description: Urgency level of the situation
+    user_experience:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      description: User's experience level with prompt management
+    specific_issues:
+      type: array
+      items:
+        type: string
+      description: Specific issues or challenges the user is facing
+output_schema:
+  type: object
+  properties:
+    scenario_analysis:
+      type: string
+      description: Analysis of the user's specific situation
+    recommended_solution:
+      type: object
+      description: Recommended solution approach
+    step_by_step_guide:
+      type: array
+      description: Detailed step-by-step instructions
+    expected_outcomes:
+      type: array
+      description: Expected outcomes from following the solution
+    risk_mitigation:
+      type: array
+      description: Risk mitigation strategies
+metadata:
+  created_by: Scenario-Based Prompt Wizard System
+  purpose: Scenario-based guidance for common prompt management situations
+  complexity: beginner_to_advanced
+  estimated_time: 5-45 minutes depending on scenario complexity
+  last_modified: '2024-01-15T11:00:00Z'
+last_modified: '2024-01-15T11:00:00Z'
+
+---
+
+# 🧙‍♂️ Prompt Wizard - Scenario-Based Guidance
+
+Welcome to the **Scenario-Based Prompt Wizard**! This version provides specific guidance for common situations and use cases you might encounter in prompt management.
+
+## 🎯 Common Scenarios & Solutions
+
+### **Scenario 1: "I'm New to Prompt Management"**
+
+#### **Your Situation:**
+- First time using MCP prompt tools
+- Need to understand the basics
+- Want to create your first prompt
+- Looking for step-by-step guidance
+
+#### **My Guidance:**
+```
+Step 1: System Discovery
+- I'll show you your current system status
+- Explain what prompts are and how they work
+- Help you understand the available tools
+
+Step 2: First Prompt Creation
+- Guide you through creating a simple prompt
+- Explain each field and its purpose
+- Help you test your first prompt
+
+Step 3: Basic Optimization
+- Show you how to optimize your prompt
+- Explain different optimization strategies
+- Help you understand the results
+
+Step 4: Simple Deployment
+- Guide you through basic deployment
+- Show you how to monitor performance
+- Explain next steps for improvement
+```
+
+#### **Expected Outcome:**
+- Understanding of prompt management basics
+- Your first working prompt
+- Knowledge of optimization and deployment
+- Confidence to continue learning
+
+---
+
+### **Scenario 2: "My Prompts Aren't Performing Well"**
+
+#### **Your Situation:**
+- Existing prompts with poor performance
+- Need to identify and fix issues
+- Want to improve quality and speed
+- Looking for systematic improvement approach
+
+#### **My Guidance:**
+```
+Step 1: Performance Diagnosis
+- Analyze current prompt performance
+- Identify specific issues and bottlenecks
+- Check system health and optimization status
+
+Step 2: Root Cause Analysis
+- Examine prompt templates and structure
+- Review input/output schemas
+- Check for common performance issues
+
+Step 3: Targeted Optimization
+- Apply appropriate optimization strategies
+- Focus on identified problem areas
+- Use performance evaluation to validate improvements
+
+Step 4: Performance Validation
+- Test optimized prompts thoroughly
+- Compare before/after performance
+- Ensure improvements are sustainable
+
+Step 5: Production Deployment
+- Deploy optimized prompts safely
+- Monitor performance in production
+- Set up alerts for future issues
+```
+
+#### **Expected Outcome:**
+- Significant performance improvement
+- Understanding of optimization strategies
+- Sustainable performance monitoring
+- Prevention of future performance issues
+
+---
+
+### **Scenario 3: "I Need to Deploy to Production"**
+
+#### **Your Situation:**
+- Optimized prompts ready for production
+- Need safe deployment process
+- Want to monitor production performance
+- Looking for rollback capabilities
+
+#### **My Guidance:**
+```
+Step 1: Pre-Deployment Checklist
+- Verify all prompts are optimized
+- Check system health and readiness
+- Validate deployment configuration
+- Prepare rollback plan
+
+Step 2: Staging Deployment
+- Deploy to staging environment first
+- Test all functionality thoroughly
+- Validate performance metrics
+- Fix any issues before production
+
+Step 3: Production Deployment
+- Deploy with rollback enabled
+- Monitor deployment process closely
+- Validate immediate performance
+- Check for any issues
+
+Step 4: Post-Deployment Monitoring
+- Set up comprehensive monitoring
+- Configure alerts for issues
+- Track performance metrics
+- Plan for continuous improvement
+```
+
+#### **Expected Outcome:**
+- Successful production deployment
+- Comprehensive monitoring setup
+- Rollback capability if needed
+- Sustainable production performance
+
+---
+
+### **Scenario 4: "I Want to Optimize Multiple Prompts"**
+
+#### **Your Situation:**
+- Multiple related prompts to optimize
+- Need coordinated optimization approach
+- Want to avoid conflicts between prompts
+- Looking for efficient batch processing
+
+#### **My Guidance:**
+```
+Step 1: Prompt Relationship Analysis
+- Map relationships between prompts
+- Identify optimization dependencies
+- Plan optimization sequence
+- Set coordination requirements
+
+Step 2: Coordinated Optimization
+- Optimize prompts in dependency order
+- Use consistent strategies across related prompts
+- Monitor cross-prompt interactions
+- Validate individual improvements
+
+Step 3: Integration Testing
+- Test optimized prompts together
+- Validate system-wide performance
+- Check for conflicts or regressions
+- Fine-tune based on integrated results
+
+Step 4: Coordinated Deployment
+- Deploy related prompts together
+- Monitor integrated performance
+- Set up cross-prompt monitoring
+- Plan coordinated rollback if needed
+```
+
+#### **Expected Outcome:**
+- All prompts optimized and coordinated
+- System-wide performance improvement
+- Integrated monitoring and management
+- Sustainable multi-prompt optimization
+
+---
+
+### **Scenario 5: "I'm Experiencing Performance Issues"**
+
+#### **Your Situation:**
+- Sudden performance degradation
+- Need rapid response and fix
+- Want to prevent future issues
+- Looking for emergency optimization
+
+#### **My Guidance:**
+```
+Step 1: Emergency Assessment
+- Quickly identify the scope of issues
+- Check system health and alerts
+- Analyze performance metrics
+- Identify critical prompts and problems
+
+Step 2: Rapid Response
+- Apply emergency optimization strategies
+- Use auto-optimization for immediate fixes
+- Focus on highest-impact improvements
+- Implement quick performance fixes
+
+Step 3: Emergency Deployment
+- Deploy fixes with rollback enabled
+- Monitor deployment closely
+- Validate immediate improvements
+- Prepare for additional fixes if needed
+
+Step 4: Post-Crisis Analysis
+- Analyze what caused the issues
+- Implement preventive measures
+- Update monitoring and alerts
+- Plan for long-term stability
+```
+
+#### **Expected Outcome:**
+- Rapid resolution of performance issues
+- System restored to normal operation
+- Preventive measures implemented
+- Improved monitoring and alerting
+
+---
+
+### **Scenario 6: "I Want to Set Up Monitoring"**
+
+#### **Your Situation:**
+- Need comprehensive monitoring system
+- Want to track performance trends
+- Need alerts for issues
+- Looking for proactive monitoring
+
+#### **My Guidance:**
+```
+Step 1: Monitoring Requirements Analysis
+- Identify key metrics to monitor
+- Define alert thresholds
+- Plan notification channels
+- Set up monitoring scope
+
+Step 2: Alert Configuration
+- Configure quality and performance alerts
+- Set up threshold-based notifications
+- Test alert system functionality
+- Validate alert accuracy
+
+Step 3: Dashboard Setup
+- Configure performance dashboards
+- Set up trend analysis
+- Create monitoring views
+- Test dashboard functionality
+
+Step 4: Monitoring Validation
+- Verify all monitoring is working
+- Test alert notifications
+- Validate dashboard accuracy
+- Plan for ongoing monitoring
+```
+
+#### **Expected Outcome:**
+- Comprehensive monitoring system
+- Proactive issue detection
+- Performance trend analysis
+- Sustainable monitoring setup
+
+---
+
+## 🎨 Specialized Use Cases
+
+### **Use Case 1: Content Generation System**
+
+#### **Requirements:**
+- Generate high-quality content
+- Maintain consistency across outputs
+- Handle multiple content types
+- Scale to high volume
+
+#### **Optimization Strategy:**
+```
+1. Quality-Focused Optimization:
+   - Use MIPROv2 for content quality
+   - Focus on coherence and structure
+   - Optimize for user satisfaction
+
+2. Consistency Optimization:
+   - Use BootstrapFewShot for consistency
+   - Maintain brand voice and style
+   - Ensure uniform quality
+
+3. Performance Optimization:
+   - Optimize for speed and efficiency
+   - Handle high-volume requests
+   - Maintain quality under load
+
+4. Production Deployment:
+   - Deploy with quality monitoring
+   - Set up content quality alerts
+   - Monitor user satisfaction
+```
+
+### **Use Case 2: Code Analysis System**
+
+#### **Requirements:**
+- Analyze code quality and security
+- Provide actionable feedback
+- Handle multiple programming languages
+- Integrate with development workflow
+
+#### **Optimization Strategy:**
+```
+1. Analysis Accuracy:
+   - Use MIPROv2 for comprehensive analysis
+   - Focus on security and quality issues
+   - Optimize for accuracy and completeness
+
+2. Feedback Quality:
+   - Use BootstrapFewShot for consistent feedback
+   - Ensure actionable recommendations
+   - Maintain professional tone
+
+3. Integration Optimization:
+   - Optimize for workflow integration
+   - Handle different code contexts
+   - Ensure consistent output format
+
+4. Production Deployment:
+   - Deploy with accuracy monitoring
+   - Set up quality and security alerts
+   - Monitor developer satisfaction
+```
+
+### **Use Case 3: Customer Support System**
+
+#### **Requirements:**
+- Provide helpful customer support
+- Handle diverse customer queries
+- Maintain professional communication
+- Scale to high customer volume
+
+#### **Optimization Strategy:**
+```
+1. Response Quality:
+   - Use MIPROv2 for response quality
+   - Focus on helpfulness and accuracy
+   - Optimize for customer satisfaction
+
+2. Response Consistency:
+   - Use BootstrapFewShot for consistent tone
+   - Maintain professional communication
+   - Ensure uniform service quality
+
+3. Performance Optimization:
+   - Optimize for response speed
+   - Handle high query volume
+   - Maintain quality under load
+
+4. Production Deployment:
+   - Deploy with customer satisfaction monitoring
+   - Set up quality and performance alerts
+   - Monitor customer feedback
+```
+
+## 🚀 Quick Start Scenarios
+
+### **"I Just Want to Get Started"**
+```
+1. Check system status
+2. Create a simple prompt
+3. Test it with sample data
+4. Optimize it once
+5. Deploy to production
+6. Monitor performance
+```
+
+### **"I Need to Fix Performance Issues"**
+```
+1. Diagnose current issues
+2. Apply emergency optimization
+3. Deploy fixes immediately
+4. Monitor for stability
+5. Plan permanent solution
+```
+
+### **"I Want to Optimize Everything"**
+```
+1. Analyze all prompts
+2. Plan optimization strategy
+3. Optimize in batches
+4. Test integrated performance
+5. Deploy coordinated updates
+6. Set up comprehensive monitoring
+```
+
+## 🎯 Ready to Solve Your Scenario?
+
+**Just tell me your specific situation and I'll provide a customized solution!**
+
+**Common scenarios I can help with:**
+- "I'm new to this and need basic guidance"
+- "My prompts aren't working well"
+- "I need to deploy to production safely"
+- "I want to optimize multiple prompts"
+- "I'm having performance issues"
+- "I need to set up monitoring"
+
+I'll create a detailed, step-by-step solution tailored to your specific scenario! 🎯

@@ -1,0 +1,9 @@
+name,total_s,count,avg_ms
+pre_sort_vehicles,0.005506149,500,0.011
+update_perception,0.426254029,500,0.853
+update_analytics,0.064308480,500,0.129
+check_collisions,0.337864086,500,0.676
+handle_collision_events,0.004022282,500,0.008
+log_step,0.016650273,500,0.033
+driver_update_speeding_state,0.133734968,10000,0.013
+vehicle_update_internal_state,0.162744282,10000,0.016

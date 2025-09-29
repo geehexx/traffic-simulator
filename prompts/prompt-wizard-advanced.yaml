@@ -1,0 +1,403 @@
+---
+name: Prompt Wizard - Advanced Workflow Templates
+description: Advanced workflow templates and examples for complex prompt management
+  scenarios
+version: 1.0.0
+active: true
+tags:
+- wizard
+- advanced
+- templates
+- workflows
+- examples
+prompt_id: prompt_wizard_advanced
+input_schema:
+  type: object
+  properties:
+    workflow_type:
+      type: string
+      enum:
+      - lifecycle
+      - multi_prompt
+      - crisis
+      - ab_testing
+      - gradual_rollout
+      - emergency
+      description: Type of advanced workflow needed
+    complexity_level:
+      type: string
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      - expert
+      description: User's experience level with prompt management
+    specific_requirements:
+      type: array
+      items:
+        type: string
+      description: Specific requirements or constraints
+    timeline:
+      type: string
+      description: Expected timeline for completion
+output_schema:
+  type: object
+  properties:
+    workflow_template:
+      type: object
+      description: Detailed workflow template for the specific scenario
+    mcp_tool_sequence:
+      type: array
+      description: Sequence of MCP tools to use
+    estimated_timeline:
+      type: string
+      description: Estimated time to complete the workflow
+    success_metrics:
+      type: array
+      description: Metrics to track for success
+    risk_mitigation:
+      type: array
+      description: Risk mitigation strategies
+metadata:
+  created_by: Advanced Prompt Wizard System
+  purpose: Advanced workflow templates and examples for complex scenarios
+  complexity: intermediate_to_expert
+  estimated_time: 15-60 minutes depending on workflow complexity
+  last_modified: '2024-01-15T10:30:00Z'
+last_modified: '2024-01-15T10:30:00Z'
+
+---
+
+# 🧙‍♂️ Advanced Prompt Wizard - Workflow Templates & Examples
+
+Welcome to the **Advanced Prompt Wizard**! This version provides detailed workflow templates, real-world examples, and sophisticated guidance for complex prompt management scenarios.
+
+## 🎯 Advanced Workflow Templates
+
+### **Template 1: Complete Prompt Lifecycle Management**
+
+#### **Phase 1: Discovery & Assessment**
+```
+1. System Status Check:
+   - Use: get_status(include_metrics=True, include_optimization_status=True)
+   - Purpose: Understand current system state and health
+   - Output: System health, active optimizations, performance metrics
+
+2. Prompt Inventory Analysis:
+   - Use: list_prompts(tags=None, active_only=True)
+   - Purpose: Get comprehensive view of existing prompts
+   - Output: All active prompts with metadata
+
+3. Performance Baseline:
+   - Use: get_analytics(prompt_id=None, include_trends=True)
+   - Purpose: Establish current performance baseline
+   - Output: Quality metrics, performance trends, optimization history
+```
+
+#### **Phase 2: Strategic Optimization**
+```
+1. Individual Prompt Analysis:
+   - Use: get_prompt(prompt_id) for each prompt
+   - Purpose: Deep dive into specific prompt details
+   - Output: Template, schema, version, metadata
+
+2. Performance Evaluation:
+   - Use: evaluate_performance(prompt_id, test_cases)
+   - Purpose: Test current performance with real scenarios
+   - Output: Accuracy scores, response times, quality metrics
+
+3. Optimization Strategy Selection:
+   - Use: optimize_prompt(prompt_id, strategy, auto_mode)
+   - Strategies: 'mipro', 'bootstrap', 'bayesian', 'hybrid'
+   - Purpose: Apply appropriate optimization strategy
+   - Output: Optimized prompt with improvement metrics
+```
+
+#### **Phase 3: Continuous Improvement**
+```
+1. Feedback Integration:
+   - Use: auto_optimize_feedback(prompt_id, feedback_data)
+   - Purpose: Incorporate user feedback for real-time improvement
+   - Output: Auto-optimized prompt based on feedback
+
+2. Iterative Enhancement:
+   - Use: run_improvement_cycle(prompt_id, iterations)
+   - Purpose: Run multiple optimization cycles
+   - Output: Best version after multiple iterations
+
+3. Performance Validation:
+   - Use: evaluate_performance(optimized_prompt_id, test_cases)
+   - Purpose: Validate improvements
+   - Output: Performance comparison and recommendations
+```
+
+#### **Phase 4: Production Deployment**
+```
+1. Deployment Readiness Check:
+   - Use: get_dashboard(include_metrics=True, include_alerts=True)
+   - Purpose: Ensure system is ready for deployment
+   - Output: Dashboard with deployment readiness indicators
+
+2. Alert Configuration:
+   - Use: configure_alerts(alert_types, thresholds)
+   - Purpose: Set up monitoring for production
+   - Output: Configured alert system
+
+3. Production Deployment:
+   - Use: deploy_prompts(prompt_ids, environment)
+   - Purpose: Deploy optimized prompts to production
+   - Output: Deployment status with rollback options
+```
+
+### **Template 2: Multi-Prompt Optimization Campaign**
+
+#### **Scenario: Optimizing Multiple Related Prompts**
+```
+Step 1: Campaign Planning
+- Analyze all related prompts
+- Identify optimization priorities
+- Plan optimization sequence
+- Set success criteria
+
+Step 2: Batch Optimization
+- Optimize prompts in dependency order
+- Use consistent strategies across related prompts
+- Monitor cross-prompt interactions
+- Validate individual improvements
+
+Step 3: Integration Testing
+- Test optimized prompts together
+- Validate system-wide performance
+- Check for conflicts or regressions
+- Fine-tune based on integrated results
+
+Step 4: Coordinated Deployment
+- Deploy related prompts together
+- Monitor integrated performance
+- Set up cross-prompt monitoring
+- Plan coordinated rollback if needed
+```
+
+### **Template 3: Performance Crisis Management**
+
+#### **Scenario: Rapid Response to Performance Issues**
+```
+Step 1: Emergency Assessment
+- Use: get_status() to check system health
+- Use: get_dashboard() to identify issues
+- Use: get_analytics() to understand scope
+- Identify critical prompts and issues
+
+Step 2: Rapid Optimization
+- Use: optimize_prompt() with 'hybrid' strategy
+- Use: auto_optimize_feedback() for immediate fixes
+- Use: run_improvement_cycle() for quick iterations
+- Focus on highest-impact improvements
+
+Step 3: Emergency Deployment
+- Use: deploy_prompts() with rollback enabled
+- Use: configure_alerts() for immediate monitoring
+- Monitor deployment closely
+- Prepare rollback plan
+
+Step 4: Post-Crisis Analysis
+- Analyze what went wrong
+- Implement preventive measures
+- Update monitoring thresholds
+- Document lessons learned
+```
+
+## 🎨 Real-World Examples
+
+### **Example 1: Documentation Generation System**
+
+#### **Initial Setup:**
+```
+User Goal: "I need a system that generates comprehensive documentation for my codebase"
+
+Wizard Response:
+"I'll help you create and optimize a documentation generation system. Let me start by assessing your current setup..."
+
+1. Check existing prompts: list_prompts(tags=['documentation'])
+2. Create base prompt: create_prompt(
+     prompt_id='generate_docs',
+     name='Documentation Generator',
+     template='Generate comprehensive documentation for: {codebase_context}',
+     input_schema={'codebase_context': 'string'}
+   )
+3. Test initial performance: execute_prompt('generate_docs', {'codebase_context': 'sample'})
+4. Optimize for quality: optimize_prompt('generate_docs', 'mipro')
+5. Deploy to production: deploy_prompts(['generate_docs_optimized_v1'])
+```
+
+#### **Optimization Journey:**
+```
+Week 1: Initial Optimization
+- Strategy: MIPROv2 for quality focus
+- Result: 15% improvement in documentation quality
+- Metrics: Better structure, more comprehensive coverage
+
+Week 2: Performance Tuning
+- Strategy: BootstrapFewShot for speed
+- Result: 30% faster generation
+- Metrics: Reduced response time, maintained quality
+
+Week 3: User Feedback Integration
+- Strategy: Auto-optimize based on user feedback
+- Result: 25% improvement in user satisfaction
+- Metrics: Better alignment with user needs
+
+Week 4: Production Deployment
+- Strategy: Coordinated deployment with monitoring
+- Result: Successful production rollout
+- Metrics: 99.9% uptime, improved user adoption
+```
+
+### **Example 2: Code Review Assistant**
+
+#### **Complex Multi-Stage Optimization:**
+```
+Stage 1: Code Analysis Optimization
+- Prompt: 'analyze_code_quality'
+- Strategy: MIPROv2 for comprehensive analysis
+- Focus: Code quality, security, performance
+- Result: 40% improvement in analysis accuracy
+
+Stage 2: Review Generation Optimization
+- Prompt: 'generate_code_review'
+- Strategy: BootstrapFewShot for consistency
+- Focus: Structured, actionable feedback
+- Result: 35% improvement in review quality
+
+Stage 3: Integration Optimization
+- Strategy: Hybrid approach for both prompts
+- Focus: Coordinated analysis and review
+- Result: 50% improvement in overall system performance
+
+Stage 4: Production Deployment
+- Deploy both optimized prompts together
+- Monitor integrated performance
+- Set up alerts for quality degradation
+- Result: Successful production system
+```
+
+## 🔧 Advanced Configuration Examples
+
+### **Alert Configuration for Production:**
+```
+configure_alerts(
+  alert_types=[
+    'quality_drop',
+    'performance_issue',
+    'optimization_failure',
+    'deployment_issue'
+  ],
+  thresholds={
+    'quality': 0.85,
+    'performance': 0.80,
+    'success_rate': 0.95,
+    'response_time': 2.0
+  }
+)
+```
+
+### **Multi-Environment Deployment:**
+```
+# Staging deployment
+deploy_prompts(
+  prompt_ids=['generate_docs_optimized_v1'],
+  environment='staging'
+)
+
+# Production deployment with rollback
+deploy_prompts(
+  prompt_ids=['generate_docs_optimized_v1'],
+  environment='production'
+)
+```
+
+### **Performance Monitoring Setup:**
+```
+# Comprehensive monitoring
+get_dashboard(
+  include_metrics=True,
+  include_alerts=True
+)
+
+# Specific analytics
+get_analytics(
+  prompt_id='generate_docs',
+  metric_types=['quality', 'performance', 'user_satisfaction'],
+  include_trends=True
+)
+```
+
+## 🎯 Specialized Workflow Patterns
+
+### **Pattern 1: A/B Testing Workflow**
+```
+1. Create variant prompts
+2. Deploy both versions
+3. Monitor performance differences
+4. Select winning variant
+5. Roll out winning version
+6. Archive losing variant
+```
+
+### **Pattern 2: Gradual Rollout Workflow**
+```
+1. Deploy to small user group
+2. Monitor performance closely
+3. Gradually increase user percentage
+4. Full rollout if successful
+5. Rollback if issues detected
+```
+
+### **Pattern 3: Emergency Response Workflow**
+```
+1. Detect performance issue
+2. Identify root cause
+3. Apply emergency optimization
+4. Deploy fix immediately
+5. Monitor for stability
+6. Plan permanent solution
+```
+
+## 🚀 Advanced Tips & Best Practices
+
+### **Optimization Strategy Selection:**
+- **MIPROv2**: Best for quality-focused optimization
+- **BootstrapFewShot**: Best for consistency and speed
+- **Bayesian**: Best for complex, multi-parameter optimization
+- **Hybrid**: Best for balanced quality and performance
+
+### **Deployment Safety:**
+- Always enable rollback options
+- Test in staging environment first
+- Monitor closely after deployment
+- Have rollback plan ready
+
+### **Performance Monitoring:**
+- Set up comprehensive alerts
+- Monitor multiple metrics
+- Track trends over time
+- Respond quickly to issues
+
+### **Continuous Improvement:**
+- Regular optimization cycles
+- User feedback integration
+- Performance trend analysis
+- Proactive issue prevention
+
+## 🎯 Ready for Advanced Workflows?
+
+**Tell me your specific scenario and I'll provide a customized workflow template!**
+
+**Advanced scenarios I can help with:**
+- "I need to optimize 10+ related prompts"
+- "I'm experiencing performance issues in production"
+- "I want to implement A/B testing for my prompts"
+- "I need to set up comprehensive monitoring"
+- "I want to implement a gradual rollout strategy"
+
+I'll create a detailed, step-by-step workflow tailored to your specific needs! 🎯
